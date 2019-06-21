@@ -1,0 +1,44 @@
+{
+  "name": "taskbarter.com",
+  "version": "1.0.0",
+  "description": "A platform where solving tasks give you points and you can use those points to hire people.",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "keywords": [
+    "task",
+    "taskbarter",
+    "barter",
+    "swap",
+    "gig",
+    "work",
+    "kaam",
+    "workswap",
+    "gigswap",
+    "workbarter",
+    "tasker"
+  ],
+  "author": "Mohsin Hayat",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.0",
+    "express": "^4.17.1",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^11.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
