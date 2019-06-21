@@ -4,9 +4,6 @@ import jwt_decode from 'jwt-decode';
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from './types';
 
-const CURRENT_URL = 'localhost';
-const CURRENT_PORT = 5000;
-
 const url = ''; //'http://' + CURRENT_URL + ':' + CURRENT_PORT;
 // Register User
 export const registerUser = (userData, history) => dispatch => {

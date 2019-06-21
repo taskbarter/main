@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
-import classnames from 'classnames';
 import validate from '../../config/rules';
 
 class Register extends Component {
@@ -83,7 +82,7 @@ class Register extends Component {
       });
       return;
     }
-    if (this.state.password.localeCompare(this.state.password2) != 0) {
+    if (this.state.password.localeCompare(this.state.password2) !== 0) {
       this.setState({
         errMsg: 'Your both passwords must match.'
       });

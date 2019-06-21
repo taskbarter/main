@@ -28,6 +28,12 @@ class Forgot extends Component {
   };
   render() {
     const { errors } = this.state;
+    const errMsg =
+      this.state.errMsg ||
+      errors.name ||
+      errors.email ||
+      errors.password ||
+      errors.password2;
     return (
       <div>
         <form className='form-signin'>
@@ -40,6 +46,12 @@ class Forgot extends Component {
               />
             </Link>
           </div>
+
+          {errMsg ? (
+            <div className='alert alert-danger text-center'>
+              <strong>Error: </strong> {errMsg}
+            </div>
+          ) : null}
 
           <div className='form-label-group'>
             <input
