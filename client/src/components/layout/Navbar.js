@@ -5,13 +5,13 @@ class Navbar extends Component {
     return (
       <span>
         <nav className='navbar navbar-expand-lg fixed-top tb-navbar'>
-          <a href='/'>
+          <Link to='/'>
             {' '}
             <img
               src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
               className='logo navbar-brand mr-auto mr-lg-0'
             />{' '}
-          </a>
+          </Link>
           <button
             className='navbar-toggler p-0 border-0'
             type='button'

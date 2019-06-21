@@ -32,13 +32,13 @@ class Forgot extends Component {
       <div>
         <form className='form-signin'>
           <div className='text-center mb-4'>
-            <a href='/'>
+            <Link to='/'>
               <img
                 className='mb-4 login-logo'
                 src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
                 alt=''
               />
-            </a>
+            </Link>
           </div>
 
           <div className='form-label-group'>
@@ -69,7 +69,8 @@ class Forgot extends Component {
           </p>
           <p className='mt-0 mb-3 text-muted text-center'>
             Your information is ensured to be kept in the most secure way
-            possible. For more, visit our <a href='#'>Privacy Policy</a> page.
+            possible. For more, visit our <Link to='#'>Privacy Policy</Link>{' '}
+            page.
           </p>
         </form>
       </div>

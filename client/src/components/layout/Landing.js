@@ -12,24 +12,24 @@ class Landing extends Component {
       <div>
         <header className='fixed-top '>
           <nav className='navbar py-3' data-track-group='Global Header'>
-            <a className='float-left' href='/landing'>
+            <Link className='float-left' to='/landing'>
               <img
                 className='landing-logo'
                 src='inc/TaskbarterLogo/TaskbarterLogo_Transparent_White.png'
                 alt=''
               />
-            </a>
+            </Link>
             <div className='d-none d-md-block recommend' />
             <div className='float-right buttons'>
-              <a href='/login' className='btn btn-sm btn-link text-white'>
+              <Link to='/login' className='btn btn-sm btn-link text-white'>
                 Log In
-              </a>
-              <a
-                href='/register'
+              </Link>
+              <Link
+                to='/register'
                 className='btn btn-sm bg-white font-weight-bold'
               >
                 Sign Up
-              </a>
+              </Link>
             </div>
           </nav>
         </header>
@@ -45,9 +45,9 @@ class Landing extends Component {
                 </p>
                 <p>
                   {' '}
-                  <a href='/register' class='btn btn-success btn-lg px-4'>
+                  <Link to='/register' class='btn btn-success btn-lg px-4'>
                     Sign Up – It’s Free!
-                  </a>{' '}
+                  </Link>{' '}
                 </p>
               </div>
               <div claclassNamess='col-lg-6 offset-lg-1'>
