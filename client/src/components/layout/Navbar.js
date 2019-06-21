@@ -10,6 +10,7 @@ class Navbar extends Component {
             <img
               src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
               className='logo navbar-brand mr-auto mr-lg-0'
+              alt='logo'
             />{' '}
           </Link>
           <button
