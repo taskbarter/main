@@ -42,6 +42,18 @@ class Login extends Component {
   };
   onSubmit = e => {
     e.preventDefault();
+    if (this.state.email.length < 1) {
+      this.setState({
+        errMsg: 'You must enter Username or Email'
+      });
+      return;
+    }
+    if (this.state.password.length < 6) {
+      this.setState({
+        errMsg: 'Your password seems invalid'
+      });
+      return;
+    }
     const userData = {
       email: this.state.email,
       password: this.state.password
