@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
 import validate from '../../config/rules';
+import logo from '../../TaskBarterLogo_Transparent.png';
 
 class Register extends Component {
   constructor() {
@@ -120,11 +121,7 @@ class Register extends Component {
         <form className='form-signin' noValidate onSubmit={this.onSubmit}>
           <div className='text-center mb-4'>
             <Link to='/'>
-              <img
-                className='mb-4 login-logo'
-                src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
-                alt=''
-              />
+              <img className='mb-4 login-logo' src={logo} alt='' />
             </Link>
           </div>
           {errMsg ? (

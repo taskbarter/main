@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../TaskBarterLogo_Transparent.png';
 
 class Forgot extends Component {
   constructor() {
@@ -34,11 +35,7 @@ class Forgot extends Component {
         <form className='form-signin'>
           <div className='text-center mb-4'>
             <Link to='/'>
-              <img
-                className='mb-4 login-logo'
-                src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
-                alt=''
-              />
+              <img className='mb-4 login-logo' src={logo} alt='' />
             </Link>
           </div>
 

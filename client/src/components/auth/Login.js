@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
+import logo from '../../TaskBarterLogo_Transparent.png';
 
 class Login extends Component {
   constructor() {
@@ -56,11 +57,7 @@ class Login extends Component {
         <form className='form-signin' noValidate onSubmit={this.onSubmit}>
           <div className='text-center mb-4'>
             <Link to='/'>
-              <img
-                className='mb-4 login-logo'
-                src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
-                alt=''
-              />
+              <img className='mb-4 login-logo' src={logo} alt='' />
             </Link>
           </div>
           {errMsg ? (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import logo from '../../TaskBarterLogo_Transparent_White.png';
 
 class Landing extends Component {
   componentDidMount() {
@@ -15,11 +16,7 @@ class Landing extends Component {
         <header className='fixed-top '>
           <nav className='navbar py-3' data-track-group='Global Header'>
             <Link to='/landing' className='float-left'>
-              <img
-                className='landing-logo'
-                src='inc/TaskbarterLogo/TaskbarterLogo_Transparent_White.png'
-                alt='Taskbarter'
-              />
+              <img className='landing-logo' src={logo} alt='Taskbarter' />
             </Link>
             <div className='d-none d-md-block recommend' />
             <div className='float-right buttons'>
