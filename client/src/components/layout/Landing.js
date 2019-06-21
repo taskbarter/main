@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 class Landing extends Component {
   componentDidMount() {
     document.getElementById('body').className = 'landing-body';
@@ -21,14 +23,13 @@ class Landing extends Component {
             </Link>
             <div className='d-none d-md-block recommend' />
             <div className='float-right buttons'>
-              <Link to='/login' className='btn btn-sm btn-link text-white'>
-                Log In
+              <Link to='/login'>
+                <div className='btn btn-sm btn-link text-white'>Log In</div>
               </Link>
-              <Link
-                to='/register'
-                className='btn btn-sm bg-white font-weight-bold'
-              >
-                Sign Up
+              <Link to='/register'>
+                <div className='btn btn-sm bg-white font-weight-bold'>
+                  Sign Up
+                </div>
               </Link>
             </div>
           </nav>
@@ -45,8 +46,10 @@ class Landing extends Component {
                 </p>
                 <p>
                   {' '}
-                  <Link to='/register' className='btn btn-success btn-lg px-4'>
-                    Sign Up – It’s Free!
+                  <Link to='/register'>
+                    <div className='btn btn-success btn-lg px-4'>
+                      Sign Up – It’s Free!
+                    </div>
                   </Link>{' '}
                 </p>
               </div>

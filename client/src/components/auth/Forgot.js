@@ -5,7 +5,8 @@ class Forgot extends Component {
   constructor() {
     super();
     this.state = {
-      email: ''
+      email: '',
+      errMsg: ''
     };
   }
   componentDidMount() {
@@ -27,13 +28,7 @@ class Forgot extends Component {
     console.log(userData);
   };
   render() {
-    const { errors } = this.state;
-    const errMsg =
-      this.state.errMsg ||
-      errors.name ||
-      errors.email ||
-      errors.password ||
-      errors.password2;
+    const errMsg = this.state.errMsg;
     return (
       <div>
         <form className='form-signin'>
