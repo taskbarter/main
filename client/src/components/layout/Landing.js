@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import logo from '../../TaskBarterLogo_Transparent_White.png';
 
 class Landing extends Component {

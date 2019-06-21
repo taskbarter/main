@@ -69,7 +69,6 @@ class Login extends Component {
             <input
               onChange={this.onChange}
               value={this.state.email}
-              error={errors.email}
               type='email'
               id='email'
               className='form-control'
@@ -77,7 +76,7 @@ class Login extends Component {
               required
               autoFocus={true}
             />
-            <label htmlFor='inputEmail'>Email or Username</label>
+            <label htmlFor='email'>Email or Username</label>
           </div>
 
           <div className='form-label-group'>
@@ -91,7 +90,7 @@ class Login extends Component {
               placeholder='Password'
               required
             />
-            <label htmlFor='inputPassword'>Password</label>
+            <label htmlFor='password'>Password</label>
           </div>
 
           <div className='checkbox mb-3'>
