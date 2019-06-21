@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A platform where solving tasks give you points and you can use those points to hire people.",
   "main": "server.js",
+  "engines": {
+    "node": "10.3.0"
+  },
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node server.js",
