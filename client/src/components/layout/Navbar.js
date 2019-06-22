@@ -182,7 +182,7 @@ class Navbar extends Component {
                 aria-labelledby='dropdown01'
               >
                 <a className='dropdown-item' href='#'>
-                  See Points{' '}
+                  See Points
                   <span className='badge badge-pill bg-light align-text-bottom points-badge-dd'>
                     124
                   </span>
@@ -261,7 +261,7 @@ class Navbar extends Component {
             </a>
 
             <a className='nav-link' href='#'>
-              Pending Tasks
+              Pending Tasks &nbsp;
               <span className='badge badge-pill bg-light align-text-bottom'>
                 27
               </span>
