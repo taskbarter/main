@@ -23,22 +23,27 @@ router.post('/register', (req, res) => {
     if (user) {
       return res.status(400).json({ email: 'Email already exists' });
     } else {
-      const newUser = new User({
-        sname: req.body.sname,
-        fname: req.body.fname,
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-      });
-      // Hash password before saving in database
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser
-            .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
+      User.findOne({ name: req.body.name }).then(user => {
+        if (user) {
+          return res.status(400).json({ email: 'Username already exists' });
+        }
+        const newUser = new User({
+          sname: req.body.sname,
+          fname: req.body.fname,
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password
+        });
+        // Hash password before saving in database
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+              .save()
+              .then(user => res.json(user))
+              .catch(err => console.log(err));
+          });
         });
       });
     }
@@ -55,44 +60,91 @@ router.post('/login', (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  const email = req.body.email;
+
   const password = req.body.password;
-  // Find user by email
-  User.findOne({ email }).then(user => {
-    // Check if user exists
-    if (!user) {
-      return res.status(404).json({ emailnotfound: 'Email not found' });
-    }
-    // Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
-        // User matched
-        // Create JWT Payload
-        const payload = {
-          id: user.id,
-          name: user.name
-        };
-        // Sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926 // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: 'Bearer ' + token
-            });
-          }
-        );
-      } else {
-        return res
-          .status(400)
-          .json({ passwordincorrect: 'Password incorrect' });
+  const name = req.body.email;
+
+  //find user using username
+  if (!name.includes('@')) {
+    User.findOne({ name }).then(user => {
+      // Check if user exists
+      if (!user) {
+        return res.status(404).json({ emailnotfound: 'Username not found' });
       }
+      // Check password
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {
+          // User matched
+          // Create JWT Payload
+          const payload = {
+            id: user.id,
+            name: user.name
+          };
+          // Sign token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            {
+              expiresIn: 31556926 // 1 year in seconds
+            },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: 'Bearer ' + token
+              });
+            }
+          );
+        } else {
+          return res
+            .status(400)
+            .json({ passwordincorrect: 'Password incorrect' });
+        }
+      });
     });
-  });
+  }
+
+  const email = req.body.email;
+
+  // Find user by email
+  if (email.includes('@')) {
+    User.findOne({ email }).then(user => {
+      // Check if user exists
+      if (!user) {
+        return res
+          .status(404)
+          .json({ emailnotfound: 'Email address not found' });
+      }
+      // Check password
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {
+          // User matched
+          // Create JWT Payload
+          const payload = {
+            id: user.id,
+            name: user.name
+          };
+          // Sign token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            {
+              expiresIn: 31556926 // 1 year in seconds
+            },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: 'Bearer ' + token
+              });
+            }
+          );
+        } else {
+          return res
+            .status(400)
+            .json({ passwordincorrect: 'Password incorrect' });
+        }
+      });
+    });
+  }
 });
 
 module.exports = router;

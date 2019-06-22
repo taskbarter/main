@@ -34,6 +34,11 @@ class Register extends Component {
     }
     document.getElementById('body').className = 'login-body';
     document.getElementById('html').className = 'login-html';
+    this.setState({
+      errors: {
+        empty: 'The fields are empty'
+      }
+    });
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
@@ -93,7 +98,6 @@ class Register extends Component {
     document.getElementById('password2').classList.remove('is-invalid');
     document.getElementById('password2').classList.add('is-valid');
     //ON SUCCESS:
-    console.log(this.state.errors);
     this.setState({
       errMsg: ''
     });
@@ -105,11 +109,28 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
+    this.setState({
+      errors: {}
+    });
     this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
     const { errors } = this.state;
+    var isLoading = false;
+    if (Object.entries(errors).length !== 0) {
+      isLoading = false;
+    } else {
+      isLoading = true;
+    }
+    const loader = (
+      <div className='lds-ring'>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
     const errMsg =
       this.state.errMsg ||
       errors.name ||
@@ -223,7 +244,7 @@ class Register extends Component {
             className='btn btn-lg btn-primary btn-block login-btn'
             type='submit'
           >
-            Register
+            {isLoading ? loader : 'Register'}
           </button>
           <br />
           <div className='mt-2 text-center login-links'>

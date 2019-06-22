@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loginUser, setUserLoading } from '../../actions/authActions';
+import { loginUser } from '../../actions/authActions';
 import logo from '../../TaskBarterLogo_Transparent.png';
-import { isNull } from 'util';
 
 class Login extends Component {
   constructor() {
@@ -16,7 +15,6 @@ class Login extends Component {
       errMsg: '',
       isLoading: false
     };
-    this.showLoader = this.showLoader.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
@@ -71,9 +69,6 @@ class Login extends Component {
     });
     this.props.loginUser(userData);
   };
-  showLoader() {
-    return '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>';
-  }
   render() {
     const { errors } = this.state;
     var isLoading = false;
