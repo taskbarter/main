@@ -224,7 +224,10 @@ class Navbar extends Component {
                 </div>
               </a>
 
-              <div className='dropdown-menu' aria-labelledby='dropdown02'>
+              <div
+                className='dropdown-menu mobile-dropdown'
+                aria-labelledby='dropdown02'
+              >
                 <a className='dropdown-item' href='#'>
                   See Points{' '}
                   <span className='badge badge-pill bg-light align-text-bottom points-badge-dd'>

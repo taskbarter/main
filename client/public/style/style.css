@@ -161,6 +161,11 @@ body {
   width: 250px;
 }
 
+.mobile-dropdown {
+  margin-left: 2.5% !important;
+  margin-top: 2.5% !important;
+}
+
 .points-badge-dd {
   background: #e8e8e8;
   font-size: 15px;

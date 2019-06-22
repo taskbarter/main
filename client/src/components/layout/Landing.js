@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../TaskBarterLogo_Transparent_White.png';
+import { connect } from 'react-redux';
 
 class Landing extends Component {
   componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
     document.getElementById('body').className = 'landing-body';
   }
   componentWillUnmount() {
@@ -65,4 +69,9 @@ class Landing extends Component {
     );
   }
 }
-export default Landing;
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(mapStateToProps)(Landing);
