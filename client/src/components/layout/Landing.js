@@ -43,9 +43,9 @@ class Landing extends Component {
                 <p>
                   {' '}
                   <Link to='/register'>
-                    <div className='btn btn-success btn-lg px-4'>
+                    <span className='btn btn-success btn-lg px-4'>
                       Sign Up – It’s Free!
-                    </div>
+                    </span>
                   </Link>{' '}
                 </p>
               </div>
@@ -54,7 +54,7 @@ class Landing extends Component {
                 <img
                   src='https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/308998dcb3ed5ab3d01217a4d24ffa03/hero-a.svg'
                   width='582'
-                  class='img-fluid'
+                  className='img-fluid'
                   alt='Cover'
                 />{' '}
               </div>

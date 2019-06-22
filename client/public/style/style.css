@@ -887,3 +887,8 @@ header nav.navbar {
 .nav-link-last {
   margin-right: auto;
 }
+
+#fname,
+#sname {
+  padding-left: 7px;
+}
