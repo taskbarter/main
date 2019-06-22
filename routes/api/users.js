@@ -3,6 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
+const deafult=require("../../config/default");
+// To send Email
+const nodemailer = require('nodemailer');
 // Load input validation
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
@@ -36,9 +39,55 @@ router.post('/register', (req, res) => {
           if (err) throw err;
           newUser.password = hash;
           newUser
-            .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
+                .save()
+                .then(user => res.json(user))
+                .catch(err => console.log(err));
+            
+          //Generate Token For email verification
+          const tokenG={
+            user:{
+              id:newUser.id
+            }
+          };
+          jwt.sign(
+            tokenG,
+            keys.jwtSecret,
+            {
+              expiresIn: 3600 // 1 hour
+            },
+            (err, token) => {
+              if(err) throw err;
+              var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                tls:{
+                  rejectUnauthorized: false
+              },
+                auth: {
+                  user: keys.taskBarterGmail,
+                  pass: keys.taskBarterPassword
+                }
+              });
+              
+              var mailOptions = {
+                from: keys.taskBarterGmail,
+                to: newUser.email,
+                
+                subject: 'Task Barter Email Verification',
+                text: 'http://localhost:3000/confirmation/'+token
+              };
+              
+              transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' );
+                }
+              });
+            }
+          );
+
+          
+
         });
       });
     }
@@ -59,9 +108,15 @@ router.post('/login', (req, res) => {
   const password = req.body.password;
   // Find user by email
   User.findOne({ email }).then(user => {
+     
     // Check if user exists
     if (!user) {
       return res.status(404).json({ emailnotfound: 'Email not found' });
+    }
+    // Check if email is confirmed 
+    if(user.isEmailVerified==false)
+    {
+      return res.status(405).json({emailnotVerified: 'Please confirm your email to login' });
     }
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
