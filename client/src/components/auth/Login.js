@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loginUser } from '../../actions/authActions';
+import { loginUser, setUserLoading } from '../../actions/authActions';
 import logo from '../../TaskBarterLogo_Transparent.png';
+import { isNull } from 'util';
 
 class Login extends Component {
   constructor() {
@@ -12,8 +13,10 @@ class Login extends Component {
       email: '',
       password: '',
       errors: {},
-      errMsg: ''
+      errMsg: '',
+      isLoading: false
     };
+    this.showLoader = this.showLoader.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
@@ -32,6 +35,11 @@ class Login extends Component {
     }
     document.getElementById('body').className = 'login-body';
     document.getElementById('html').className = 'login-html';
+    this.setState({
+      errors: {
+        empty: 'The fields are empty'
+      }
+    });
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
@@ -58,12 +66,34 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
+    this.setState({
+      errors: {}
+    });
     this.props.loginUser(userData);
   };
+  showLoader() {
+    return '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>';
+  }
   render() {
     const { errors } = this.state;
+    var isLoading = false;
+    if (Object.entries(errors).length !== 0) {
+      isLoading = false;
+    } else {
+      isLoading = true;
+    }
+    const loader = (
+      <div className='lds-ring'>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
+
     const errMsg =
       this.state.errMsg || errors.passwordincorrect || errors.emailnotfound;
+
     return (
       <div>
         <form className='form-signin' noValidate onSubmit={this.onSubmit}>
@@ -114,7 +144,7 @@ class Login extends Component {
             className='btn btn-lg btn-primary btn-block login-btn'
             type='submit'
           >
-            Login
+            {isLoading ? loader : 'Login'}
           </button>
           <br />
           <div className='mt-2 text-center login-links'>
