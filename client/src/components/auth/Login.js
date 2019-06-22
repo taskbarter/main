@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
-import classnames from 'classnames';
+import logo from '../../TaskBarterLogo_Transparent.png';
 
 class Login extends Component {
   constructor() {
@@ -12,7 +12,8 @@ class Login extends Component {
       email: '',
       password: '',
       errors: {},
-      errMsg: ''
+      errMsg: '',
+      isLoading: false
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -32,6 +33,11 @@ class Login extends Component {
     }
     document.getElementById('body').className = 'login-body';
     document.getElementById('html').className = 'login-html';
+    this.setState({
+      errors: {
+        empty: 'The fields are empty'
+      }
+    });
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
@@ -42,27 +48,54 @@ class Login extends Component {
   };
   onSubmit = e => {
     e.preventDefault();
+    if (this.state.email.length < 1) {
+      this.setState({
+        errMsg: 'You must enter Username or Email'
+      });
+      return;
+    }
+    if (this.state.password.length < 6) {
+      this.setState({
+        errMsg: 'Your password seems invalid'
+      });
+      return;
+    }
     const userData = {
       email: this.state.email,
       password: this.state.password
     };
+    this.setState({
+      errors: {}
+    });
     this.props.loginUser(userData);
   };
   render() {
     const { errors } = this.state;
+    var isLoading = false;
+    if (Object.entries(errors).length !== 0) {
+      isLoading = false;
+    } else {
+      isLoading = true;
+    }
+    const loader = (
+      <div className='lds-ring'>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
+
     const errMsg =
       this.state.errMsg || errors.passwordincorrect || errors.emailnotfound;
+
     return (
       <div>
         <form className='form-signin' noValidate onSubmit={this.onSubmit}>
           <div className='text-center mb-4'>
-            <a href='/'>
-              <img
-                className='mb-4 login-logo'
-                src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
-                alt=''
-              />
-            </a>
+            <Link to='/'>
+              <img className='mb-4 login-logo' src={logo} alt='' />
+            </Link>
           </div>
           {errMsg ? (
             <div className='alert alert-danger text-center'>
@@ -73,7 +106,6 @@ class Login extends Component {
             <input
               onChange={this.onChange}
               value={this.state.email}
-              error={errors.email}
               type='email'
               id='email'
               className='form-control'
@@ -81,7 +113,7 @@ class Login extends Component {
               required
               autoFocus={true}
             />
-            <label htmlFor='inputEmail'>Email or Username</label>
+            <label htmlFor='email'>Email or Username</label>
           </div>
 
           <div className='form-label-group'>
@@ -95,7 +127,7 @@ class Login extends Component {
               placeholder='Password'
               required
             />
-            <label htmlFor='inputPassword'>Password</label>
+            <label htmlFor='password'>Password</label>
           </div>
 
           <div className='checkbox mb-3'>
@@ -107,7 +139,7 @@ class Login extends Component {
             className='btn btn-lg btn-primary btn-block login-btn'
             type='submit'
           >
-            Login
+            {isLoading ? loader : 'Login'}
           </button>
           <br />
           <div className='mt-2 text-center login-links'>
@@ -119,7 +151,8 @@ class Login extends Component {
           </p>
           <p className='mt-0 mb-3 text-muted text-center'>
             Your information is ensured to be kept in the most secure way
-            possible. For more, visit our <a href='#'>Privacy Policy</a> page.
+            possible. For more, visit our <Link to='/'>Privacy Policy</Link>{' '}
+            page.
           </p>
         </form>
       </div>

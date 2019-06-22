@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../TaskBarterLogo_Transparent.png';
 
 class Forgot extends Component {
   constructor() {
     super();
     this.state = {
-      email: ''
+      email: '',
+      errMsg: ''
     };
   }
   componentDidMount() {
@@ -27,19 +29,21 @@ class Forgot extends Component {
     console.log(userData);
   };
   render() {
-    const { errors } = this.state;
+    const errMsg = this.state.errMsg;
     return (
       <div>
         <form className='form-signin'>
           <div className='text-center mb-4'>
-            <a href='/'>
-              <img
-                className='mb-4 login-logo'
-                src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
-                alt=''
-              />
-            </a>
+            <Link to='/'>
+              <img className='mb-4 login-logo' src={logo} alt='' />
+            </Link>
           </div>
+
+          {errMsg ? (
+            <div className='alert alert-danger text-center'>
+              <strong>Error: </strong> {errMsg}
+            </div>
+          ) : null}
 
           <div className='form-label-group'>
             <input
@@ -69,7 +73,8 @@ class Forgot extends Component {
           </p>
           <p className='mt-0 mb-3 text-muted text-center'>
             Your information is ensured to be kept in the most secure way
-            possible. For more, visit our <a href='#'>Privacy Policy</a> page.
+            possible. For more, visit our <Link to='#'>Privacy Policy</Link>{' '}
+            page.
           </p>
         </form>
       </div>

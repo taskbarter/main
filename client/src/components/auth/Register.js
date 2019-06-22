@@ -3,8 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
-import classnames from 'classnames';
 import validate from '../../config/rules';
+import logo from '../../TaskBarterLogo_Transparent.png';
 
 class Register extends Component {
   constructor() {
@@ -34,6 +34,11 @@ class Register extends Component {
     }
     document.getElementById('body').className = 'login-body';
     document.getElementById('html').className = 'login-html';
+    this.setState({
+      errors: {
+        empty: 'The fields are empty'
+      }
+    });
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
@@ -83,7 +88,7 @@ class Register extends Component {
       });
       return;
     }
-    if (this.state.password.localeCompare(this.state.password2) != 0) {
+    if (this.state.password.localeCompare(this.state.password2) !== 0) {
       this.setState({
         errMsg: 'Your both passwords must match.'
       });
@@ -93,7 +98,6 @@ class Register extends Component {
     document.getElementById('password2').classList.remove('is-invalid');
     document.getElementById('password2').classList.add('is-valid');
     //ON SUCCESS:
-    console.log(this.state.errors);
     this.setState({
       errMsg: ''
     });
@@ -105,11 +109,28 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
+    this.setState({
+      errors: {}
+    });
     this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
     const { errors } = this.state;
+    var isLoading = false;
+    if (Object.entries(errors).length !== 0) {
+      isLoading = false;
+    } else {
+      isLoading = true;
+    }
+    const loader = (
+      <div className='lds-ring'>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
     const errMsg =
       this.state.errMsg ||
       errors.name ||
@@ -120,13 +141,9 @@ class Register extends Component {
       <div>
         <form className='form-signin' noValidate onSubmit={this.onSubmit}>
           <div className='text-center mb-4'>
-            <a href='/'>
-              <img
-                className='mb-4 login-logo'
-                src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
-                alt=''
-              />
-            </a>
+            <Link to='/'>
+              <img className='mb-4 login-logo' src={logo} alt='' />
+            </Link>
           </div>
           {errMsg ? (
             <div className='alert alert-danger text-center'>
@@ -227,7 +244,7 @@ class Register extends Component {
             className='btn btn-lg btn-primary btn-block login-btn'
             type='submit'
           >
-            Register
+            {isLoading ? loader : 'Register'}
           </button>
           <br />
           <div className='mt-2 text-center login-links'>
@@ -238,7 +255,8 @@ class Register extends Component {
           </p>
           <p className='mt-0 mb-3 text-muted text-center'>
             Your information is ensured to be kept in the most secure way
-            possible. For more, visit our <a href='#'>Privacy Policy</a> page.
+            possible. For more, visit our <Link to='#'>Privacy Policy</Link>{' '}
+            page.
           </p>
         </form>
       </div>

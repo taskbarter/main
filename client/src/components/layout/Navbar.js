@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../TaskBarterLogo_Transparent.png';
 class Navbar extends Component {
   render() {
     return (
@@ -8,7 +9,7 @@ class Navbar extends Component {
           <a href='/'>
             {' '}
             <img
-              src='inc/TaskbarterLogo/TaskbarterLogo_Transparent.png'
+              src={logo}
               className='logo navbar-brand mr-auto mr-lg-0'
             />{' '}
           </a>
@@ -181,7 +182,7 @@ class Navbar extends Component {
                 aria-labelledby='dropdown01'
               >
                 <a className='dropdown-item' href='#'>
-                  See Points{' '}
+                  See Points
                   <span className='badge badge-pill bg-light align-text-bottom points-badge-dd'>
                     124
                   </span>
@@ -223,7 +224,10 @@ class Navbar extends Component {
                 </div>
               </a>
 
-              <div className='dropdown-menu' aria-labelledby='dropdown02'>
+              <div
+                className='dropdown-menu mobile-dropdown'
+                aria-labelledby='dropdown02'
+              >
                 <a className='dropdown-item' href='#'>
                   See Points{' '}
                   <span className='badge badge-pill bg-light align-text-bottom points-badge-dd'>
@@ -246,6 +250,7 @@ class Navbar extends Component {
             </div>
           </div>
         </nav>
+
         <div className='nav-scroller bg-white box-shadow nav-submenu'>
           <nav className='nav nav-underline'>
             <a className='nav-link active' href='#'>
@@ -264,7 +269,7 @@ class Navbar extends Component {
             <a className='nav-link' href='#'>
               Explore
             </a>
-            <a className='nav-link nav-link-last' href='#'>
+            <a className='nav-link' href='#' style={{ marginRight: 'auto' }}>
               Your Profile
             </a>
 

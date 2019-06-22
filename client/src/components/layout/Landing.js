@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../TaskBarterLogo_Transparent_White.png';
+import { connect } from 'react-redux';
+
 class Landing extends Component {
   componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
     document.getElementById('body').className = 'landing-body';
   }
   componentWillUnmount() {
@@ -12,24 +18,19 @@ class Landing extends Component {
       <div>
         <header className='fixed-top '>
           <nav className='navbar py-3' data-track-group='Global Header'>
-            <a className='float-left' href='/landing'>
-              <img
-                className='landing-logo'
-                src='inc/TaskbarterLogo/TaskbarterLogo_Transparent_White.png'
-                alt=''
-              />
-            </a>
+            <Link to='/landing' className='float-left'>
+              <img className='landing-logo' src={logo} alt='Taskbarter' />
+            </Link>
             <div className='d-none d-md-block recommend' />
             <div className='float-right buttons'>
-              <a href='/login' className='btn btn-sm btn-link text-white'>
-                Log In
-              </a>
-              <a
-                href='/register'
-                className='btn btn-sm bg-white font-weight-bold'
-              >
-                Sign Up
-              </a>
+              <Link to='/login'>
+                <div className='btn btn-sm btn-link text-white'>Log In</div>
+              </Link>
+              <Link to='/register'>
+                <div className='btn btn-sm bg-white font-weight-bold'>
+                  Sign Up
+                </div>
+              </Link>
             </div>
           </nav>
         </header>
@@ -45,17 +46,20 @@ class Landing extends Component {
                 </p>
                 <p>
                   {' '}
-                  <a href='/register' class='btn btn-success btn-lg px-4'>
-                    Sign Up – It’s Free!
-                  </a>{' '}
+                  <Link to='/register'>
+                    <span className='btn btn-success btn-lg px-4'>
+                      Sign Up – It’s Free!
+                    </span>
+                  </Link>{' '}
                 </p>
               </div>
-              <div claclassNamess='col-lg-6 offset-lg-1'>
+              <div className='col-lg-6 offset-lg-1'>
                 {' '}
                 <img
                   src='https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/308998dcb3ed5ab3d01217a4d24ffa03/hero-a.svg'
                   width='582'
-                  class='img-fluid'
+                  className='img-fluid'
+                  alt='Cover'
                 />{' '}
               </div>
             </div>
@@ -65,4 +69,9 @@ class Landing extends Component {
     );
   }
 }
-export default Landing;
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(mapStateToProps)(Landing);
