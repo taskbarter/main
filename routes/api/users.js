@@ -12,6 +12,18 @@ const validateLoginInput = require('../../validation/login');
 // Load User model
 const User = require('../../models/User');
 
+
+//get verification response
+router.post('/confirmation/:token',async(request,response)=>{
+  try{
+      console.log('Verification Started')
+      const {user:{id}}=jwt.verify(request.params.token,keys.jwtSecret);
+      await User.update({isEmailVerified:true},{where:{id }});
+  }catch(e){
+      response.send('Unable to verify your email');
+  }
+   return response.redirect('http://localhost:3000/login');
+});
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -25,8 +37,12 @@ router.post('/register', (req, res) => {
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       return res.status(400).json({ email: 'Email already exists' });
-    } else {
-<<<<<<< HEAD
+    }
+    User.findOne({ name: req.body.name }).then(user => {
+      if (user) {
+        return res.status(400).json({ email: 'Username already exists' });
+      }
+     else {
       const newUser = new User({
         sname: req.body.sname,
         fname: req.body.fname,
@@ -74,7 +90,7 @@ router.post('/register', (req, res) => {
                 to: newUser.email,
                 
                 subject: 'Task Barter Email Verification',
-                text: 'http://localhost:3000/confirmation/'+token
+                text: 'http://localhost:5000/confirmation/'+token
               };
               
               transporter.sendMail(mailOptions, function(error, info){
@@ -89,39 +105,19 @@ router.post('/register', (req, res) => {
 
           
 
-=======
-      User.findOne({ name: req.body.name }).then(user => {
-        if (user) {
-          return res.status(400).json({ email: 'Username already exists' });
-        }
-        const newUser = new User({
-          sname: req.body.sname,
-          fname: req.body.fname,
-          name: req.body.name,
-          email: req.body.email,
-          password: req.body.password
-        });
-        // Hash password before saving in database
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser
-              .save()
-              .then(user => res.json(user))
-              .catch(err => console.log(err));
-          });
->>>>>>> 1dbb2251dac1b0cb3274fbbdda4c3efbba581154
-        });
+
       });
-    }
+    
+});
+     }
+    });
   });
 });
-
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-router.post('/login', (req, res) => {
+router.post('/login', (req, res) =>
+{
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
@@ -174,7 +170,7 @@ router.post('/login', (req, res) => {
   const email = req.body.email;
 
   // Find user by email
-<<<<<<< HEAD
+
   User.findOne({ email }).then(user => {
      
     // Check if user exists
@@ -209,48 +205,56 @@ router.post('/login', (req, res) => {
             });
           }
         );
-      } else {
-=======
-  if (email.includes('@')) {
-    User.findOne({ email }).then(user => {
-      // Check if user exists
-      if (!user) {
->>>>>>> 1dbb2251dac1b0cb3274fbbdda4c3efbba581154
-        return res
-          .status(404)
-          .json({ emailnotfound: 'Email address not found' });
-      }
-      // Check password
-      bcrypt.compare(password, user.password).then(isMatch => {
-        if (isMatch) {
-          // User matched
-          // Create JWT Payload
-          const payload = {
-            id: user.id,
-            name: user.name
-          };
-          // Sign token
-          jwt.sign(
-            payload,
-            keys.secretOrKey,
-            {
-              expiresIn: 31556926 // 1 year in seconds
-            },
-            (err, token) => {
-              res.json({
-                success: true,
-                token: 'Bearer ' + token
-              });
-            }
-          );
-        } else {
-          return res
-            .status(400)
-            .json({ passwordincorrect: 'Password incorrect' });
-        }
+      } 
+      else 
+      {
+        if (email.includes('@')) 
+        {
+            User.findOne({ email }).then(user => {
+              // Check if user exists
+              if (!user) {
+                  return res
+                  .status(404)
+                  .json({ emailnotfound: 'Email address not found' });
+              }
+              // Check password
+              bcrypt.compare(password, user.password).then(isMatch => 
+              {
+                if (isMatch) {
+                  // User matched
+                  // Create JWT Payload
+                  const payload = {
+                    id: user.id,
+                    name: user.name
+                  };
+                  // Sign token
+                  jwt.sign(
+                    payload,
+                    keys.secretOrKey,
+                    {
+                      expiresIn: 31556926 // 1 year in seconds
+                    },
+                    (err, token) => {
+                      res.json({
+                        success: true,
+                        token: 'Bearer ' + token
+                      });
+                    }
+                  );
+                }
+                else 
+                {
+                  return res
+                    .status(400)
+                    .json({ passwordincorrect: 'Password incorrect' });
+                }
+        });
       });
-    });
-  }
+    }
+ }});
 });
+});
+ 
 
+      
 module.exports = router;

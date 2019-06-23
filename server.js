@@ -6,11 +6,11 @@ const users = require('./routes/api/users');
 const User=require('./models/User')
 const jwt=require('jsonwebtoken')
 const app = express();
-<<<<<<< HEAD
+
 const keys=require('./config/keys')
-=======
+
 var path = require('path');
->>>>>>> 1dbb2251dac1b0cb3274fbbdda4c3efbba581154
+
 
 // Bodyparser middleware
 app.use(
@@ -45,17 +45,6 @@ if (process.env.NODE_ENV === 'production') {
 
 }
 
-//get verification response
-app.get('/confirmation/:token',async(request,response)=>{
-  try{
-      console.log('Verification Started')
-      const {user:{id}}=jwt.verify(request.params.token,keys.jwtSecret);
-      await User.update({isEmailVerified:true},{where:{ id }});
-  }catch(e){
-      response.send('Unable to verify your email');
-  }
-   return response.redirect('http://localhost:3000/login');
-});
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
 app.listen(port, () => console.log(`TaskBarter First Msg on ${port} !`));
