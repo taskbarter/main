@@ -34,6 +34,18 @@ require('./config/passport')(passport);
 // Routes
 app.use('/api/users', users);
 
+
+//get verification response
+app.get('/confirmation/:token',async(request,response)=>{
+  try{
+      console.log('Verification Started')
+      const {user:{id}}=jwt.verify(request.params.token,keys.jwtSecret);
+       User.update({isEmailVerified:true},{where:{id }});
+  }catch(e){
+      response.send('Unable to verify your email');
+  }
+   return response.redirect('http://localhost:3000/login');
+});
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder

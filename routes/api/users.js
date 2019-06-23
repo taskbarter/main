@@ -13,17 +13,6 @@ const validateLoginInput = require('../../validation/login');
 const User = require('../../models/User');
 
 
-//get verification response
-router.post('/confirmation/:token',async(request,response)=>{
-  try{
-      console.log('Verification Started')
-      const {user:{id}}=jwt.verify(request.params.token,keys.jwtSecret);
-      await User.update({isEmailVerified:true},{where:{id }});
-  }catch(e){
-      response.send('Unable to verify your email');
-  }
-   return response.redirect('http://localhost:3000/login');
-});
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -88,7 +77,6 @@ router.post('/register', (req, res) => {
               var mailOptions = {
                 from: keys.taskBarterGmail,
                 to: newUser.email,
-                
                 subject: 'Task Barter Email Verification',
                 text: 'http://localhost:5000/confirmation/'+token
               };
