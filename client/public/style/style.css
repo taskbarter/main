@@ -933,3 +933,146 @@ header nav.navbar {
     transform: rotate(360deg);
   }
 }
+
+.dropdown-item {
+  cursor: pointer !important;
+}
+
+.redeem-points {
+  text-align: center;
+}
+
+.redeem-heading {
+  color: #433881;
+  font-weight: 600;
+  font-size: 17px;
+}
+.redeem-text {
+  margin-top: 6px;
+  margin-bottom: 20px;
+}
+.redeem-btn {
+  color: white;
+  background: #433881;
+  width: 100%;
+}
+
+.notification-heading {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.notification-block-first {
+  color: #433881;
+  font-size: 14px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #cfcfcf;
+  padding: 15px 8px 15px 8px;
+  background: #43388105;
+}
+
+.notification-block {
+  color: #433881;
+  font-size: 14px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #cfcfcf;
+  padding: 15px 8px 15px 8px;
+  background: #43388105;
+  border-top: none;
+}
+
+.notification-block:hover {
+  background: #ffffff;
+}
+
+.notification-block-first:hover {
+  background: #ffffff;
+}
+
+.notification-btn {
+  background: #433881;
+  color: white;
+  font-size: 10px;
+  padding: 3px 7px 3px 7px;
+  font-weight: 400;
+  vertical-align: text-top;
+  margin-left: 5px;
+}
+
+.profile-badge {
+  text-align: center;
+}
+
+.profile-badge-dp > img {
+  width: 80px;
+}
+
+.profile-badge-name {
+  margin: 4px 10px 0px 10px;
+  color: #433881;
+  font-weight: 500;
+}
+
+.profile-badge-headline {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.profile-badge-categories {
+}
+
+.profile-badge-category {
+  width: fit-content;
+  font-size: 10px;
+  background: #4338811f;
+  padding: 2px 5px 2px 5px;
+  border-radius: 3px;
+  display: inline;
+  color: #504444;
+  margin-left: 5px;
+  white-space: nowrap;
+  display: -webkit-inline-box;
+}
+
+.profile-categories-more {
+  font-size: 10px;
+}
+
+.profile-badge-rating {
+  font-size: 13px;
+  color: #433880;
+  margin-top: 20px;
+}
+.profile-badge-rating-info {
+  font-size: 10px;
+  vertical-align: top;
+}
+
+.profile-badge-stats {
+  color: #41367d;
+  font-size: 12px;
+  margin-top: 13px;
+}
+
+#profile-tasks-done,
+#profile-tasks-posted,
+#profile-tasks-cancelled,
+#profile-points-earned,
+#profile-points-spent {
+  font-weight: 700;
+}
+
+.profile-badge-edit {
+  position: absolute;
+  right: 9px;
+  font-size: 9px;
+  top: 11px;
+  border-style: solid;
+  padding: 0px 7px 0px 7px;
+  border-width: 1px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: #433881;
+}
