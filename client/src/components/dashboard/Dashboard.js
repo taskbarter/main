@@ -6,6 +6,7 @@ import Navbar from '../layout/Navbar';
 import AddTaskCTA from './AddTaskCTA';
 import Notifications from './Notifications';
 import ProfileBadge from './ProfileBadge';
+import Footer from '../layout/Footer';
 
 class Dashboard extends Component {
   onLogoutClick = e => {
@@ -28,6 +29,7 @@ class Dashboard extends Component {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }

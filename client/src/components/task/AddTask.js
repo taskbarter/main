@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Navbar from '../layout/Navbar';
 import CurrentBalanceCard from '../profile/CurrentBalanceCard';
 import AddTaskHints from './AddTaskHints';
+import Footer from '../layout/Footer';
 
 class AddTask extends Component {
   onLogoutClick = e => {
@@ -144,6 +145,7 @@ class AddTask extends Component {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }

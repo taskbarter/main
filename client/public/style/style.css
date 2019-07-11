@@ -1195,3 +1195,33 @@ header nav.navbar {
 .add-task-hints > ul > li {
   margin-bottom: 6px;
 }
+
+.footer {
+  margin: auto;
+  border-top: solid;
+  border-top-width: 0.1px;
+  border-top-color: #e4e4e4;
+  padding-top: 11px;
+  font-size: 12px;
+  color: #84848c;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.footer .footer-links {
+  text-align: right;
+}
+
+.footer .footer-links > a {
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: #e4e4e4;
+  padding-right: 9px;
+  padding-left: 9px;
+  color: #433880;
+}
+
+#report-problem {
+  color: #dc3545;
+  border-right: none;
+}
