@@ -2502,7 +2502,7 @@
     };
     var Default = {
       animation: true,
-      template: '<div class="tooltip" role="tooltip">' + '<div class="arrow"></div>' + '<div class="tooltip-inner"></div></div>',
+      template: '<div className="tooltip" role="tooltip">' + '<div className="arrow"></div>' + '<div className="tooltip-inner"></div></div>',
       trigger: 'hover focus',
       title: '',
       delay: 0,
@@ -3151,7 +3151,7 @@
       placement: 'right',
       trigger: 'click',
       content: '',
-      template: '<div class="popover" role="tooltip">' + '<div class="arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div></div>'
+      template: '<div className="popover" role="tooltip">' + '<div className="arrow"></div>' + '<h3 className="popover-header"></h3>' + '<div className="popover-body"></div></div>'
     });
 
     var DefaultType = _objectSpread({}, Tooltip.DefaultType, {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const AddTaskCTA = () => {
   return (
@@ -8,9 +9,9 @@ const AddTaskCTA = () => {
         You can use your earned points to add tasks to Taskbarter according to
         your terms and requirements.
       </div>
-      <a href='/add'>
+      <Link to='/add'>
         <button className='btn redeem-btn'>Add a task</button>
-      </a>
+      </Link>
     </div>
   );
 };
