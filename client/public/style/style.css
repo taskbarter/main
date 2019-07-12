@@ -1225,3 +1225,14 @@ header nav.navbar {
   color: #dc3545;
   border-right: none;
 }
+
+
+@media (max-width: 767px) {
+  .footer .footer-copyrights{
+    text-align: center;
+  }
+  .footer .footer-links {
+    text-align: center;
+    margin-top: 9px;
+  }
+}
