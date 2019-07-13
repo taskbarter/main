@@ -251,7 +251,7 @@ class Navbar extends Component {
                 <a className='dropdown-item' href='#'>
                   My Account
                 </a>
-                <a className='dropdown-item' href='#'>
+                <a className='dropdown-item' onClick={this.onLogoutClick}>
                   Logout
                 </a>
               </div>
