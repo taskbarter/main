@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../TaskBarterLogo_Transparent.png';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logoutUser } from '../../actions/authActions';
+
 class Navbar extends Component {
+  onLogoutClick = e => {
+    e.preventDefault();
+    this.props.logoutUser();
+  };
   render() {
     return (
       <span>
@@ -196,7 +204,7 @@ class Navbar extends Component {
                 <a className='dropdown-item' href='#'>
                   My Account
                 </a>
-                <a className='dropdown-item' href='#'>
+                <a onClick={this.onLogoutClick} className='dropdown-item'>
                   Logout
                 </a>
               </div>
@@ -243,7 +251,7 @@ class Navbar extends Component {
                 <a className='dropdown-item' href='#'>
                   My Account
                 </a>
-                <a className='dropdown-item' href='#'>
+                <a className='dropdown-item' onClick={this.onLogoutClick}>
                   Logout
                 </a>
               </div>
@@ -282,4 +290,15 @@ class Navbar extends Component {
     );
   }
 }
-export default Navbar;
+
+Navbar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(Navbar);

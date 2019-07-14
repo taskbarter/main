@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import Navbar from '../layout/Navbar';
+import AddTaskCTA from './AddTaskCTA';
+import Notifications from './Notifications';
+import ProfileBadge from './ProfileBadge';
+import Footer from '../layout/Footer';
+
 class Dashboard extends Component {
   onLogoutClick = e => {
     e.preventDefault();
@@ -13,30 +18,18 @@ class Dashboard extends Component {
     return (
       <div>
         <Navbar />
-        <div className='row container mt-3'>
-          <div className='col s12 center-align'>
-            <h4>
-              <b>Hey there,</b> {user.name.split(' ')[0]}
-              <p className='flow-text grey-text text-darken-1'>
-                You are logged into your very own{' '}
-                <span style={{ fontFamily: 'monospace' }}>TASKBARTER</span> app
-                👏
-              </p>
-            </h4>
-            <button
-              style={{
-                width: '150px',
-                borderRadius: '3px',
-                letterSpacing: '1.5px',
-                marginTop: '1rem'
-              }}
-              onClick={this.onLogoutClick}
-              className='btn btn-large waves-effect waves-light hoverable blue accent-3'
-            >
-              Logout
-            </button>
+        <main role='main' className='container mt-4'>
+          <div className='row'>
+            <div className='col-md-4 order-md-2 mb-2'>
+              <AddTaskCTA />
+              <ProfileBadge />
+            </div>
+            <div className='col-md-8 order-md-1'>
+              <Notifications />
+            </div>
           </div>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }

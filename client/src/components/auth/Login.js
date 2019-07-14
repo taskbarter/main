@@ -13,7 +13,7 @@ class Login extends Component {
       password: '',
       errors: {},
       errMsg: '',
-      isLoading: false
+      isLoading: false 
     };
   }
   componentWillReceiveProps(nextProps) {

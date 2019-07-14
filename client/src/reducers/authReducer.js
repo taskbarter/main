@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, USER_LOADING } from '../actions/types';
+import { SET_CURRENT_USER, USER_LOADING, GET_ERRORS } from '../actions/types';
 
 const isEmpty = require('is-empty');
 
@@ -20,6 +20,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case GET_ERRORS:
+      return {
+        ...state,
+        err: action.payload
       };
     default:
       return state;
