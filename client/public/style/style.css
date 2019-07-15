@@ -1237,3 +1237,183 @@ header nav.navbar {
     margin-top: 9px;
   }
 }
+.steps {
+  width: 675px;
+margin: 50px auto;
+position: relative;
+}
+
+.steps fieldset {
+background: white;
+border: 0 none;
+border-radius: 3px;
+box-shadow: 0 17px 41px -21px rgb(0, 0, 0);
+padding: 20px 30px;
+border-top: 9px solid #7B1FA2;
+box-sizing: border-box;
+width: 80%;
+margin: 0 10%;
+
+/*stacking fieldsets above each other*/
+position: absolute;
+}
+/*Hide all except first fieldset*/
+.steps fieldset:not(:first-of-type) {
+display: none;
+}
+/*inputs*/
+.steps label{
+color: #333333;
+text-align: left !important;
+font-size: 15px;
+font-weight: 200;
+padding-bottom: 7px;
+padding-top: 12px;
+display: inline-block;
+}
+
+
+.steps input, .steps textarea {
+outline: none;
+display: block;
+width: 100%;
+margin: 0 0 20px;
+padding: 10px 15px;
+border: 1px solid #d9d9d9;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+color: #837E7E;
+font-family: "Roboto";
+-webkti-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+font-size: 14px;
+font-weight: 400;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-transition: all 0.3s linear 0s;
+-moz-transition: all 0.3s linear 0s;
+-ms-transition: all 0.3s linear 0s;
+-o-transition: all 0.3s linear 0s;
+transition: all 0.3s linear 0s;
+}
+
+.steps input:focus, .steps textarea:focus{
+color: #333333;
+border: 1px solid #7B1FA2;
+}
+/*progressbar*/
+#progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  /*CSS counters to number the steps*/
+  counter-reset: step;
+  width:100%;
+  text-align: center;
+}
+#progressbar li {
+  list-style-type: none;
+    color: rgb(51, 51, 51);
+  text-transform: uppercase;
+  font-size: 9px;
+  width: 20%;
+  float: left;
+  position: relative;
+}
+#progressbar li:before {
+  content: counter(step);
+  counter-increment: step;
+  width: 20px;
+  line-height: 20px;
+  display: block;
+  font-size: 10px;
+  color: #333;
+  background: white;
+  border-radius: 3px;
+  margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: white;
+  position: absolute;
+  left: -50%;
+  top: 9px;
+  z-index: -1; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+  /*connector not needed before the first step*/
+  content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,  #progressbar li.active:after{
+  background: #7B1FA2;
+  color: white;
+}
+.steps fieldset {
+  background: white;
+  border: 0 none;
+  border-radius: 3px;
+  box-shadow: 0 17px 41px -21px rgb(0, 0, 0);
+  padding: 20px 30px;
+  border-top: 9px solid #7B1FA2;
+  box-sizing: border-box;
+  width: 80%;
+  margin: 0 10%;
+  
+  /*stacking fieldsets above each other*/
+  position: absolute;
+}
+/*Hide all except first fieldset*/
+.steps fieldset:not(:first-of-type) {
+  display: none;
+}
+/*inputs*/
+.steps label{
+  color: #333333;
+  text-align: left !important;
+  font-size: 15px;
+  font-weight: 200;
+  padding-bottom: 7px;
+  padding-top: 12px;
+  display: inline-block;
+}
+
+
+.steps input, .steps textarea {
+  outline: none;
+  display: block;
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 10px 15px;
+  border: 1px solid #d9d9d9;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #837E7E;
+  font-family: "Roboto";
+  -webkti-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition: all 0.3s linear 0s;
+  -moz-transition: all 0.3s linear 0s;
+  -ms-transition: all 0.3s linear 0s;
+  -o-transition: all 0.3s linear 0s;
+  transition: all 0.3s linear 0s;
+}
+
+.steps input:focus, .steps textarea:focus{
+  color: #333333;
+  border: 1px solid #7B1FA2;
+}
+
+
+

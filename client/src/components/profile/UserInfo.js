@@ -3,13 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../TaskBarterLogo_Transparent.png';
 
 class UserInfo extends Component {
-  constructor() {
-    super();
-    this.state = {
-      email: '',
-      errMsg: ''
-    };
-  }
+
   componentDidMount() {
     document.getElementById('body').className = 'login-body';
     document.getElementById('html').className = 'login-html';
@@ -18,56 +12,33 @@ class UserInfo extends Component {
     document.getElementById('body').className = '';
     document.getElementById('html').className = '';
   }
-  onChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
-  };
-  onSubmit = e => {
-    e.preventDefault();
-    const userData = {
-      email: this.state.email
-    };
-    console.log(userData);
-  };
   render() {
-    const errMsg = this.state.errMsg;
     return (
-      <div>
-        <form className='form-signin'>
-          <div className='text-center mb-4'>
-            <Link to='/'>
-              <img className='mb-4 login-logo' src={logo} alt='' />
-            </Link>
-          </div>
 
-          {errMsg ? (
-            <div className='alert alert-danger text-center'>
-              <strong>Error: </strong> {errMsg}
-            </div>
-          ) : null}
-
-          <div className='form-label-group'>
+     <div>
+        <form class="steps" accept-charset="UTF-8" enctype="multipart/form-data" novalidate="">
+        <ul id="progressbar">
+        <li class="active">User Information</li>
+        <li>Personal Details</li>
+        <li>Background Info</li>
+        <li>Categories</li>
+        <li>Verification</li>
+     </ul>
+     <fieldset>
+     <div className='form-label-group'>
             <input
-              type='email'
-              id='inputEmail'
+              type='FullName'
+              id='fullname'
               className='form-control'
-              placeholder='Email address'
+              placeholder='Full Name'
               required
               autoFocus={true}
             />
-            <label htmlFor='inputEmail'>Email address</label>
+            <label htmlFor='email'> Full Name</label>
           </div>
 
-          <button
-            className='btn btn-lg btn-primary btn-block login-btn'
-            type='submit'
-          >
-            Send Verification Link
-          </button>
-          <br />
-          <div className='mt-2 text-center login-links'>
-            <Link to='/login'>Login to your account</Link> |{' '}
-            <Link to='/register'>Create an account</Link>
-          </div>
+    </fieldset>
+     </form>
           <p className='mt-4 mb-1 text-muted text-center'>
             Taskbarter &copy; 2019
           </p>
@@ -76,9 +47,11 @@ class UserInfo extends Component {
             possible. For more, visit our <Link to='#'>Privacy Policy</Link>{' '}
             page.
           </p>
-        </form>
       </div>
     );
   }
 }
+
+  
+  
 export default UserInfo;
