@@ -28,7 +28,7 @@ router.post('/add', (req, res) => {
 });
 
 // @route   GET api/tasks/all/:user_id/:skip/:limit
-// @desc    get all tasks of some specific user.
+// @desc    get all tasks of some specific user. Skip and Limit are for pagination.
 // @access  Public
 router.get('/all/:user_id/:skip_tasks/:limit_tasks', async (req, res) => {
   try {
@@ -57,7 +57,7 @@ router.get('/all/:user_id/:skip_tasks/:limit_tasks', async (req, res) => {
 });
 
 // @route   GET api/tasks/:task_id
-// @desc    get all tasks of some specific user.
+// @desc    get single task with the specified ID.
 // @access  Public
 router.get('/:task_id', async (req, res) => {
   try {
