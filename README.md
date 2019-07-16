@@ -30,3 +30,6 @@ Back-end developer responsible for Authentication and profile security.
 * **Testing and Quality Assurance**
 * **Marketing and Designing**
 * **Production Build & Optimization**
+
+### Want to contribute?
+If you want to be a part of our production team, email us at **taskbarter@gmail.com**
