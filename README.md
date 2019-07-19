@@ -1,4 +1,4 @@
-![Taskbarter Logo](https://www.taskbarter.com/static/media/TaskBarterLogo_Transparent.266adc1f.png)
+![Taskbarter Logo](https://taskbarter.github.io/inc/logo.png)
 
 ***
 
