@@ -23,6 +23,7 @@ Back-end developer responsible for Authentication and profile security.
 * **Workspace**
 * **Rating/Review System**
 * **Task Add/Remove/Update**
+* **Project Add/Remove/Update**
 * **Report/Suggest Feature**
 * **Admin Panel**
 * **Search Page**
