@@ -11,6 +11,8 @@ const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 // Load User model
 const User = require('../../models/User');
+const PersonalDetails=require('../../models/PersonalDetails');
+
 
 
 // @route POST api/users/register
@@ -101,6 +103,7 @@ router.post('/register', (req, res) => {
     });
   });
 });
+
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
@@ -242,7 +245,33 @@ router.post('/login', (req, res) =>
  }});
 });
 });
- 
+
+//User Personal Details
+router.post('/userpersonaldetails',(req,res) =>
+{
+  // Form validation
+  const { errors, isValid } = validateLoginInput(req.body);
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  const userpersonaldetails = new PersonalDetails({
+    FName: req.body.FName,
+    Lname: req.body.LName,
+    address:req.body.address,
+    headline:req.body.headline,
+    DobDay:req.body.DobDay,
+    DobMonth:req.body.DobMonth,
+    DobYear:req.body.DobYear,
+    PhoneNo:req.body.PhoneNo,
+    gender:req.body.gender
+  });
+
+  userpersonaldetails
+            .save()
+            .then(console.log('User details inserted'))
+            .catch(err => console.log(err));
+}); 
 
       
 module.exports = router;
