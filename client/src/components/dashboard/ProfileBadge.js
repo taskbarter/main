@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrentProfil } from '../../actions/profileAction';
+import { getCurrentProfile } from '../../actions/profileAction';
 
 const ProfileBadge = props => {
   if (props.profile.profile == null && !props.profile.loading) {
     console.log('here');
-    props.getCurrentProfil();
+    props.getCurrentProfile();
   }
 
   return (
@@ -56,7 +56,7 @@ const ProfileBadge = props => {
 
 ProfileBadge.propTypes = {
   profile: PropTypes.object.isRequired,
-  getCurrentProfil: PropTypes.func.isRequired
+  getCurrentProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -65,5 +65,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfil }
+  { getCurrentProfile }
 )(ProfileBadge);

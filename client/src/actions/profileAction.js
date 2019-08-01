@@ -1,18 +1,20 @@
 import axios from 'axios';
-
 import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from './types';
 import setAuthToken from '../utils/setAuthToken';
+import jwt_decode from 'jwt-decode';
 
 // get profile
-export const getCurrentProfil = () => async dispatch => {
-  console.log('here');
-};
+
 export const getCurrentProfile = () => async dispatch => {
   dispatch(setProfileLoading());
 
   try {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      const artok = mtok.split(' ');
+      console.log(artok[1]);
+      // setAuthToken(mtok);
+      axios.defaults.headers.common['x-auth-token'] = artok[1];
     }
 
     const res = await axios.get('/api/profile/me');
