@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const ProfileBadge = () => {
+const ProfileBadge = props => {
   return (
     <div className='card card-body profile-badge'>
       <div className='profile-badge-dp'>
@@ -45,4 +47,12 @@ const ProfileBadge = () => {
   );
 };
 
-export default ProfileBadge;
+ProfileBadge.propTypes = {
+  profile: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(null)(ProfileBadge);
