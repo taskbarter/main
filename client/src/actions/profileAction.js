@@ -1,18 +1,20 @@
 import axios from 'axios';
 
-import {
-  GET_PROFILE,
-  PROFILE_LOADING,
-  AUTH_ERROR,
-  CLEAR_CURRENT_PROFILE
-} from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
 // get profile
+export const getCurrentProfil = () => async dispatch => {
+  console.log('here');
+};
 export const getCurrentProfile = () => async dispatch => {
   dispatch(setProfileLoading());
 
   try {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
     const res = await axios.get('/api/profile/me');
     dispatch({
       type: GET_PROFILE,

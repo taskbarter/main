@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getCurrentProfil } from '../../actions/profileAction';
 
 const ProfileBadge = props => {
+  if (props.profile.profile == null && !props.profile.loading) {
+    console.log('here');
+    props.getCurrentProfil();
+  }
+
   return (
     <div className='card card-body profile-badge'>
       <div className='profile-badge-dp'>
         <img src='/inc/Mohsin_DP.jpg' className='rounded img-thumbnail' />
       </div>
       <div className='profile-badge-name'>Mohsin Hayat</div>
+
       <div className='profile-badge-headline'>
         Full Stack Web Developer & Designer
       </div>
@@ -48,11 +55,15 @@ const ProfileBadge = props => {
 };
 
 ProfileBadge.propTypes = {
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  getCurrentProfil: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(null)(ProfileBadge);
+export default connect(
+  mapStateToProps,
+  { getCurrentProfil }
+)(ProfileBadge);
