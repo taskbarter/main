@@ -5,12 +5,34 @@ import { getCurrentProfile } from '../../actions/profileAction';
 
 const ProfileBadge = props => {
   const [data, setData] = useState({
-    fname: '',
-    sname: '',
-    status: '',
+    fname: 'Initial',
+    sname: 'Name',
+    status: 'Someone',
     skills: []
   });
 
+  const { fname, sname } = data;
+  if (props.profile.profile == null && !props.profile.loading) {
+    console.log('here');
+    props.getCurrentProfile();
+  }
+  try {
+    if (props.profile.profile !== null && props.profile.profile.user !== null) {
+      if (
+        fname !== props.profile.profile.user.fname ||
+        sname !== props.profile.profile.user.sname
+      )
+        setData({
+          ...data,
+          fname: props.profile.profile.user.fname,
+          sname: props.profile.profile.user.sname
+        });
+    }
+  } catch (err) {
+    console.log('There is no profile currently');
+  }
+
+  // FOR SKILLS
   const skilos = [
     'Web Development',
     'Wordpress Development',
@@ -24,50 +46,32 @@ const ProfileBadge = props => {
     'Content Wrting',
     'Designing'
   ];
-
-  const secSkill = skils => {
+  const skillsbadges = skils => {
     if (skils.length > 6) {
       const fsix = skils.slice(0, 6);
-      return fsix.map((skl, index) =>
-        React.createElement('div', { className: 'profile-badge-category' }, skl)
-      );
+      return fsix.map((skl, index) => {
+        React.createElement(
+          'div',
+          { className: 'profile-badge-category' },
+          { key: index },
+          skl
+        );
+      });
     } else {
       return skils.map((skl, index) =>
-        React.createElement('div', { className: 'profile-badge-category' }, skl)
+        React.createElement(
+          'div',
+          { className: 'profile-badge-category' },
+          { key: index },
+          skl
+        )
       );
     }
   };
 
-  const skillsdeto = skill => {
-    return React.createElement(
-      'div',
-      { className: 'profile-badge-category' },
-      skill
-    );
-  };
-
-  // FOR SKILLS
   const skillSection = (
-    <div className='profile-badge-categories'>{secSkill(skilos)}</div>
+    <div className='profile-badge-categories'>{skillsbadges(skilos)}</div>
   );
-  const { fname, sname } = data;
-  if (props.profile.profile == null && !props.profile.loading) {
-    console.log('here');
-    props.getCurrentProfile();
-  }
-
-  if (props.profile.profile !== null) {
-    if (
-      fname !== props.profile.profile.user.fname ||
-      sname !== props.profile.profile.user.sname
-    )
-      setData({
-        ...data,
-        fname: props.profile.profile.user.fname,
-        sname: props.profile.profile.user.sname
-      });
-  }
-  // console.log(props.profile.profile.user.fname);
 
   return (
     <div className='card card-body profile-badge'>
