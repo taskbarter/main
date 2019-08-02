@@ -12,9 +12,10 @@ export const getCurrentProfile = () => async dispatch => {
     const mtok = localStorage.jwtToken;
     if (mtok) {
       const artok = mtok.split(' ');
+
       //console.log(artok[1]);
       // setAuthToken(mtok);
-      axios.defaults.headers.common['x-auth-token'] = artok[1];
+      axios.defaults.headers.common['Authorization'] = artok[1];
     }
 
     const res = await axios.get('/api/profile/me');
