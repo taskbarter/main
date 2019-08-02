@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const TaskSchema = new Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users'
+  },
   headline: {
     type: String,
     required: true
@@ -41,6 +45,14 @@ const TaskSchema = new Schema({
   rating: {
     type: Number,
     default: 0
-  }
+  },
+  likes: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+      }
+    }
+  ]
 });
 module.exports = Task = mongoose.model('tasks', TaskSchema);
