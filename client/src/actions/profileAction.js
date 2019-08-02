@@ -12,7 +12,7 @@ export const getCurrentProfile = () => async dispatch => {
     const mtok = localStorage.jwtToken;
     if (mtok) {
       const artok = mtok.split(' ');
-      console.log(artok[1]);
+      //console.log(artok[1]);
       // setAuthToken(mtok);
       axios.defaults.headers.common['x-auth-token'] = artok[1];
     }

@@ -13,9 +13,9 @@ const ProfileBadge = props => {
 
   const { fname, sname } = data;
   if (props.profile.profile == null && !props.profile.loading) {
-    console.log('here');
     props.getCurrentProfile();
   }
+
   try {
     if (props.profile.profile !== null && props.profile.profile.user !== null) {
       if (
@@ -49,17 +49,45 @@ const ProfileBadge = props => {
       let fsix = skils.slice(0, 6);
       console.log(fsix);
       return fsix.map((skl, index) =>
-        React.createElement('div', { className: 'profile-badge-category' }, skl)
+        React.createElement(
+          'div',
+          { className: 'profile-badge-category' },
+          { key: index },
+          skl
+        )
       );
     } else {
       return skils.map((skl, index) =>
-        React.createElement('div', { className: 'profile-badge-category' }, skl)
+        React.createElement(
+          'div',
+          { className: 'profile-badge-category' },
+          { key: index },
+          skl
+        )
       );
     }
   };
 
+  const skillsbadges2 = skils => {
+    if (skils.length > 6) {
+      let fsix = skils.slice(0, 6);
+      //console.log(fsix);
+      return fsix.map((skl, i) => (
+        <div className='profile-badge-category' key={i}>
+          {skl}
+        </div>
+      ));
+    } else {
+      return skils.map((skl, i) => (
+        <div className='profile-badge-category' key={i}>
+          {skl}
+        </div>
+      ));
+    }
+  };
+
   const skillSection = (
-    <div className='profile-badge-categories'>{skillsbadges(skilos)}</div>
+    <div className='profile-badge-categories'>{skillsbadges2(skilos)}</div>
   );
 
   return (
