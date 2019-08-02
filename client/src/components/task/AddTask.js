@@ -33,6 +33,7 @@ class AddTask extends Component {
   render() {
     const { user } = this.props.auth;
     console.log(this.state);
+
     return (
       <div>
         <Navbar />
@@ -103,6 +104,7 @@ class AddTask extends Component {
                   <select
                     className='custom-select my-1 mr-sm-2'
                     id='addTaskCategory'
+                    onChange={e => this.onChange(e)}
                   >
                     <option defaultValue>Choose...</option>
                     <option>Computer Programming</option>
@@ -121,7 +123,12 @@ class AddTask extends Component {
                 </div>
                 <div className='add-task-categories form-group'>
                   <label htmlFor='addTaskSkills'>Select Skills</label>
-                  <select multiple className='form-control' id='addTaskSkills'>
+                  <select
+                    multiple
+                    className='form-control'
+                    id='addTaskSkills'
+                    onChange={e => this.onChange(e)}
+                  >
                     <option>Adobe Photoshop</option>
                     <option>C++</option>
                     <option>Javascript</option>
@@ -147,6 +154,7 @@ class AddTask extends Component {
                     id='addTaskPoints'
                     className='form-control'
                     aria-describedby='taskPointsHelp'
+                    onChange={e => this.onChange(e)}
                   />
                   <small id='taskPointsHelp' className='text-muted'>
                     Must depict the requirements you mentioned
