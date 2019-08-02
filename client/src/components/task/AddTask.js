@@ -5,14 +5,34 @@ import Navbar from '../layout/Navbar';
 import CurrentBalanceCard from '../profile/CurrentBalanceCard';
 import AddTaskHints from './AddTaskHints';
 import Footer from '../layout/Footer';
+import validate from '../../config/rules';
 
 class AddTask extends Component {
-  onLogoutClick = e => {
-    e.preventDefault();
-    this.props.logoutUser();
+  constructor() {
+    super();
+    this.state = {
+      headline: '',
+      requirement: '',
+      duration: '',
+      category: '',
+      skills: '',
+      points: 0,
+      errors: {}
+    };
+  }
+
+  onChange = e => {
+    // if (validate(e.target.id, e.target.value) !== '') {
+    //   document.getElementById(e.target.id).classList.add('is-invalid');
+    // } else {
+    //   document.getElementById(e.target.id).classList.remove('is-invalid');
+    //   document.getElementById(e.target.id).classList.add('is-valid');
+    // }
+    this.setState({ [e.target.id]: e.target.value });
   };
   render() {
     const { user } = this.props.auth;
+    console.log(this.state);
     return (
       <div>
         <Navbar />
@@ -34,6 +54,9 @@ class AddTask extends Component {
                     type='text'
                     placeholder='put headline here'
                     width='100px'
+                    value={this.state.headline}
+                    id='headline'
+                    onChange={e => this.onChange(e)}
                   />
                   <span className='max-chars'>* (Max 50 characters)</span>
                 </div>
@@ -46,6 +69,9 @@ class AddTask extends Component {
                       id='addTaskDetails'
                       rows='5'
                       placeholder='Put all your requirements here'
+                      value={this.state.requirement}
+                      id='requirement'
+                      onChange={e => this.onChange(e)}
                     />
                   </div>
                   <span className='max-chars'>* (Max 4000 characters)</span>
@@ -57,12 +83,14 @@ class AddTask extends Component {
                     className='custom-select d-block w-100'
                     id='state'
                     required=''
+                    id='duration'
+                    onChange={e => this.onChange(e)}
                   >
                     <option value=''>Choose...</option>
-                    <option>one to ten hours</option>
-                    <option>less than 24 hours</option>
-                    <option>less than a week</option>
-                    <option>less than a month</option>
+                    <option value='.3'>one to ten hours</option>
+                    <option value='1'>less than 24 hours</option>
+                    <option value='7'>less than a week</option>
+                    <option value='30'>less than a month</option>
                   </select>
                   <span className='max-chars'>
                     * Choose the closest option{' '}
