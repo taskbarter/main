@@ -31,7 +31,6 @@ const ProfileBadge = props => {
   } catch (err) {
     console.log('There is no profile currently');
   }
-
   // FOR SKILLS
   const skilos = [
     'Web Development',
@@ -40,7 +39,6 @@ const ProfileBadge = props => {
     'React Development',
     'Content Wrting',
     'Designing',
-    'Wordpress Development',
     'Databases',
     'React Development',
     'Content Wrting',
@@ -48,23 +46,14 @@ const ProfileBadge = props => {
   ];
   const skillsbadges = skils => {
     if (skils.length > 6) {
-      const fsix = skils.slice(0, 6);
-      return fsix.map((skl, index) => {
-        React.createElement(
-          'div',
-          { className: 'profile-badge-category' },
-          { key: index },
-          skl
-        );
-      });
+      let fsix = skils.slice(0, 6);
+      console.log(fsix);
+      return fsix.map((skl, index) =>
+        React.createElement('div', { className: 'profile-badge-category' }, skl)
+      );
     } else {
       return skils.map((skl, index) =>
-        React.createElement(
-          'div',
-          { className: 'profile-badge-category' },
-          { key: index },
-          skl
-        )
+        React.createElement('div', { className: 'profile-badge-category' }, skl)
       );
     }
   };
@@ -86,7 +75,6 @@ const ProfileBadge = props => {
         Full Stack Web Developer & Designer
       </div>
       {skillSection}
-
       <div className='profile-badge-rating'>
         <i className='fas fa-star fa-fw' />
         <i className='fas fa-star fa-fw' />
