@@ -13,7 +13,9 @@ module.exports = function(req, res, next) {
   }
   // verify token
   try {
-    const decoded = jwt.verify(token, keys.secretOrKey);
+    const artok = token.split(' ');
+
+    const decoded = jwt.verify(artok[1], keys.secretOrKey);
 
     req.user = {};
     req.user.id = decoded.id;

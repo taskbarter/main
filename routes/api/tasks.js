@@ -6,8 +6,10 @@ const Task = require('../../models/Task');
 
 // @route POST api/tasks/add
 // @desc Add new Task
-// @access Public
-router.post('/add', (req, res) => {
+// @access Private
+
+// only those having account must add task to ensure security ?
+router.post('/add', auth, (req, res) => {
   if (!req.body.headline) {
     return res
       .status(404)

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from './types';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
+import { set } from 'mongoose';
 
 // get profile
 
@@ -11,11 +12,7 @@ export const getCurrentProfile = () => async dispatch => {
   try {
     const mtok = localStorage.jwtToken;
     if (mtok) {
-      const artok = mtok.split(' ');
-
-      //console.log(artok[1]);
-      // setAuthToken(mtok);
-      axios.defaults.headers.common['Authorization'] = artok[1];
+      setAuthToken(mtok);
     }
 
     const res = await axios.get('/api/profile/me');
