@@ -5,16 +5,20 @@ import { getCurrentProfile } from '../../actions/profileAction';
 
 const ProfileBadge = props => {
   const [data, setData] = useState({
-    fname: 'Initial',
-    sname: 'Name',
-    status: 'Someone',
-    skills: []
+    fname: '',
+    sname: '',
+    status: '',
+    skills: [],
+    catched: false
   });
 
-  const { fname, sname } = data;
+  const { fname, sname, skills, status, catched } = data;
+
   if (props.profile.profile == null && !props.profile.loading) {
     props.getCurrentProfile();
   }
+
+  let skilos = ['Create Profile to Add skills'];
 
   try {
     if (props.profile.profile !== null && props.profile.profile.user !== null) {
@@ -22,51 +26,44 @@ const ProfileBadge = props => {
         fname !== props.profile.profile.user.fname ||
         sname !== props.profile.profile.user.sname
       )
+        // TODO : modification for update
         setData({
           ...data,
           fname: props.profile.profile.user.fname,
-          sname: props.profile.profile.user.sname
+          sname: props.profile.profile.user.sname,
+          status: props.profile.profile.status,
+          skills: props.profile.profile.skills,
+          catched: false
         });
+      skilos = [
+        'Web Development',
+        'Wordpress Development',
+        'Databases',
+        'React Development',
+        'Content Wrting',
+        'Designing',
+        'Databases',
+        'React Development',
+        'Content Wrting',
+        'Designing'
+      ];
     }
   } catch (err) {
+    if (!catched)
+      setData({
+        ...data,
+        fname: 'Initial',
+        sname: 'Name',
+        status: '(please create profile)',
+        skills: ['Create Profile to Add skills'],
+        catched: true
+      });
+
+    //skilos = ['Create Profile to Add skills'];
+
     console.log('There is no profile currently');
   }
   // FOR SKILLS
-  const skilos = [
-    'Web Development',
-    'Wordpress Development',
-    'Databases',
-    'React Development',
-    'Content Wrting',
-    'Designing',
-    'Databases',
-    'React Development',
-    'Content Wrting',
-    'Designing'
-  ];
-  const skillsbadges = skils => {
-    if (skils.length > 6) {
-      let fsix = skils.slice(0, 6);
-      console.log(fsix);
-      return fsix.map((skl, index) =>
-        React.createElement(
-          'div',
-          { className: 'profile-badge-category' },
-          { key: index },
-          skl
-        )
-      );
-    } else {
-      return skils.map((skl, index) =>
-        React.createElement(
-          'div',
-          { className: 'profile-badge-category' },
-          { key: index },
-          skl
-        )
-      );
-    }
-  };
 
   const skillsbadges2 = skils => {
     if (skils.length > 6) {
@@ -87,7 +84,7 @@ const ProfileBadge = props => {
   };
 
   const skillSection = (
-    <div className='profile-badge-categories'>{skillsbadges2(skilos)}</div>
+    <div className='profile-badge-categories'>{skillsbadges2(skills)}</div>
   );
 
   return (
@@ -99,9 +96,7 @@ const ProfileBadge = props => {
         {fname} {sname}
       </div>
 
-      <div className='profile-badge-headline'>
-        Full Stack Web Developer & Designer
-      </div>
+      <div className='profile-badge-headline'>{status}</div>
       {skillSection}
       <div className='profile-badge-rating'>
         <i className='fas fa-star fa-fw' />
