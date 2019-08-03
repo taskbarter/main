@@ -21,10 +21,7 @@ const TaskSchema = new Schema({
     type: Array,
     required: true
   },
-  user_id: {
-    type: String,
-    required: true
-  },
+
   date: {
     type: Date,
     default: Date.now

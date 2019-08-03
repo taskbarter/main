@@ -20,14 +20,17 @@ router.post('/add', auth, (req, res) => {
     description: req.body.description,
     category: req.body.category,
     skills: req.body.skills,
-    user_id: req.body.user_id,
+    user: req.user.id, // for secure task adding
     duration: req.body.duration,
     points: req.body.points
   });
   newTask
     .save()
     .then(task => res.json(task))
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Server Error');
+    });
 });
 
 // @route   GET api/tasks/all/:user_id/:skip/:limit

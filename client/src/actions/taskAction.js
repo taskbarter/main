@@ -1,4 +1,5 @@
 import axios from 'axios';
+import setAuthToken from '../utils/setAuthToken';
 
 import {
   ADD_TASK,
@@ -10,8 +11,9 @@ import {
 
 // Add task
 export const addTask = taskData => async dispatch => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
+  if (localStorage.jwtToken) {
+    setAuthToken(localStorage.jwtToken);
+    console.log('token added');
   }
 
   const config = {
@@ -19,13 +21,23 @@ export const addTask = taskData => async dispatch => {
       'Content-Type': 'application/json'
     }
   };
+  console.log('bfrs');
   try {
-    const res = await axios.post('/api/tasks/add');
+    console.log('res.data');
+    console.log(taskData);
+    const body = JSON.stringify(taskData);
+    console.log(body);
+
+    const res = await axios.post('/api/tasks/add', body, config);
+    console.log(res.data);
+
     dispatch({
       type: ADD_TASK,
       payload: res.data
     });
   } catch (err) {
-    console.error(err);
+    console.log('res.data inside err');
+
+    console.log(err);
   }
 };
