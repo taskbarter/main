@@ -10,7 +10,7 @@ import {
 } from '../actions/types';
 
 // Add task
-export const addTask = taskData => async dispatch => {
+export const addTask = (taskData, history) => async dispatch => {
   if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
   }
@@ -30,6 +30,7 @@ export const addTask = taskData => async dispatch => {
       type: ADD_TASK,
       payload: res.data
     });
+    history.push('/dashboard');
   } catch (err) {
     console.log('res.data inside err');
 

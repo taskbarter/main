@@ -43,7 +43,7 @@ class AddTask extends Component {
       points: this.state.points
     };
 
-    this.props.addTask(newTask);
+    this.props.addTask(newTask, this.props.history);
   };
   render() {
     const { user } = this.props.auth;
