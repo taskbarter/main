@@ -42,12 +42,12 @@ class AddTask extends Component {
       skills: this.state.skills,
       points: this.state.points
     };
-    console.log('onsubmit');
+
     this.props.addTask(newTask);
   };
   render() {
     const { user } = this.props.auth;
-    console.log(this.state);
+    // console.log(this.state);
 
     return (
       <div>

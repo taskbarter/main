@@ -13,7 +13,6 @@ import {
 export const addTask = taskData => async dispatch => {
   if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
-    console.log('token added');
   }
 
   const config = {
@@ -21,15 +20,11 @@ export const addTask = taskData => async dispatch => {
       'Content-Type': 'application/json'
     }
   };
-  console.log('bfrs');
+
   try {
-    console.log('res.data');
-    console.log(taskData);
     const body = JSON.stringify(taskData);
-    console.log(body);
 
     const res = await axios.post('/api/tasks/add', body, config);
-    console.log(res.data);
 
     dispatch({
       type: ADD_TASK,

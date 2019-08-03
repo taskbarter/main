@@ -17,7 +17,7 @@ export default function(state = initialState, action) {
     case ADD_TASK:
       return {
         ...state,
-        posts: [action.payload, ...state]
+        posts: [action.payload, ...state.posts]
       };
     default:
       return state;
