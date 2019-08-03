@@ -7,13 +7,18 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  profile: null,
-  profiles: null,
+  posts: [],
+  post: {},
   loading: false
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case ADD_TASK:
+      return {
+        ...state,
+        posts: [action.payload, ...state]
+      };
     default:
       return state;
   }
