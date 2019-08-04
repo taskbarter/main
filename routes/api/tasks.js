@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth');
 
 const Task = require('../../models/Task');
 const auth = require('../../middleware/auth');
@@ -7,8 +8,10 @@ const { check, validationResult } = require('express-validator');
 
 // @route POST api/tasks/add
 // @desc Add new Task
-// @access Public
-router.post('/add', (req, res) => {
+// @access Private
+
+// only those having account must add task to ensure security ?
+router.post('/add', auth, (req, res) => {
   if (!req.body.headline) {
     return res
       .status(404)
@@ -19,18 +22,21 @@ router.post('/add', (req, res) => {
     description: req.body.description,
     category: req.body.category,
     skills: req.body.skills,
-    user_id: req.body.user_id,
+    user: req.user.id, // for secure task adding
     duration: req.body.duration,
     points: req.body.points
   });
   newTask
     .save()
     .then(task => res.json(task))
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Server Error');
+    });
 });
 
 // @route   GET api/tasks/all/:user_id/:skip/:limit
-// @desc    get all tasks of some specific user.
+// @desc    get all tasks of some specific user. Skip and Limit are for pagination.
 // @access  Public
 router.get('/all/:user_id/:skip_tasks/:limit_tasks', async (req, res) => {
   try {
@@ -59,7 +65,7 @@ router.get('/all/:user_id/:skip_tasks/:limit_tasks', async (req, res) => {
 });
 
 // @route   GET api/tasks/:task_id
-// @desc    get all tasks of some specific user.
+// @desc    get single task with the specified ID.
 // @access  Public
 router.get('/:task_id', async (req, res) => {
   try {

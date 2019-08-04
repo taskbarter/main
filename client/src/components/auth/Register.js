@@ -52,6 +52,7 @@ class Register extends Component {
       document.getElementById(e.target.id).classList.add('is-valid');
     }
     this.setState({ [e.target.id]: e.target.value });
+    console.log(this.state);
   };
   onSubmit = e => {
     e.preventDefault();
