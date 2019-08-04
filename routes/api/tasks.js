@@ -3,8 +3,6 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 
 const Task = require('../../models/Task');
-const auth = require('../../middleware/auth');
-const { check, validationResult } = require('express-validator');
 
 // @route POST api/tasks/add
 // @desc Add new Task
@@ -84,64 +82,5 @@ router.get('/:task_id', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-// @route   Put api/tasks/:task_id
-// @desc    update a task
-// @access  Public
-router.put(
-  '/:task_id',
-  [
-    auth,
-    [
-      check('headline', 'Headline is required')
-        .not()
-        .isEmpty(),
-      check('description', 'Description is required')
-        .not()
-        .isEmpty(),
-      check('points', 'Points are required')
-        .not()
-        .isEmpty()
-    ]
-  ],
-  async (req, res) => {
-    try {
-      let cur_task = await Task.findById(req.params.task_id);
-
-      if (!cur_task) {
-        return res.status(400).json({ msg: 'Task not found' });
-      }
-
-      const {
-        headline,
-        description,
-        points,
-        category,
-        skills,
-        duration
-      } = req.body;
-
-      cur_task = {
-        headline,
-        description,
-        points,
-        category,
-        skills,
-        duration,
-        user_id: cur_task.user_id
-      };
-
-      cur_task.save();
-    } catch (err) {
-      if (err.kind == 'ObjectId') {
-        return res
-          .status(400)
-          .json({ msg: 'Could not find the specified task' });
-      }
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  }
-);
 
 module.exports = router;
