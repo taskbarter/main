@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const RecommendedTasks = () => {
+const RecommendedTasks = props => {
   return (
     <div className='card card-body'>
       <div className='tasks-heading'>Recommended Tasks</div>
@@ -133,4 +135,12 @@ const RecommendedTasks = () => {
   );
 };
 
-export default RecommendedTasks;
+RecommendedTasks.propTypes = {
+  task: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  task: state.task
+});
+
+export default connect()(RecommendedTasks);
