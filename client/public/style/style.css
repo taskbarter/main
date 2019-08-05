@@ -6,6 +6,9 @@ body {
 body {
   padding-top: 56px;
   background: #f6f5f9;
+  min-height: 100vh;
+  position: relative;
+  margin: 0;
 }
 
 .mobile-menu {
@@ -1208,7 +1211,6 @@ header nav.navbar {
   margin-top: 20px;
   margin-bottom: 0px;
   padding-bottom: 20px;
-  background: #fbfbfd;
 }
 
 .footer .footer-links {
@@ -1229,9 +1231,8 @@ header nav.navbar {
   border-right: none;
 }
 
-
 @media (max-width: 767px) {
-  .footer .footer-copyrights{
+  .footer .footer-copyrights {
     text-align: center;
   }
   .footer .footer-links {

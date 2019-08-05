@@ -59,11 +59,10 @@ class AddTask extends Component {
               <AddTaskHints />
             </div>
 
-            <form onSubmit={this.onSubmit}>
-              <div className='col-md-8 order-md-1'>
-                <div className='card card-body mb-2'>
-                  <div className='add-task-heading'>Add New Task</div>
-
+            <div className='col-md-8 order-md-1'>
+              <div className='card card-body mb-2'>
+                <div className='add-task-heading'>Add New Task</div>
+                <form onSubmit={this.onSubmit}>
                   <div className='add-task-input-headline'>
                     I want someone to{' '}
                     <input
@@ -195,9 +194,9 @@ class AddTask extends Component {
                       Add Task
                     </button>
                   </div>
-                </div>
+                </form>
               </div>
-            </form>
+            </div>
           </div>
         </main>
         <Footer />
