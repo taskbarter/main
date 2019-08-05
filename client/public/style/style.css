@@ -1240,21 +1240,20 @@ header nav.navbar {
     margin-top: 9px;
   }
 }
-fieldset{
+fieldset {
   border-top: 6px solid #433881;
   border-right: 1px solid #433881;
   border-left: 1px solid #433881;
   border-bottom: 1px solid #433881;
-  
-  margin-top:1%;
+
+  margin-top: 1%;
   margin-left: 20%;
-  margin-right:14%;
-  
+  margin-right: 14%;
+
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 10px #6055a0;
-  
-} 
+}
 legend {
   padding: 2px 4px;
   background: #fff;
@@ -1270,7 +1269,6 @@ fieldset > legend + * {
   width: 100px;
   height: 40px;
   margin-left: 10px;
-  
 }
 .UserInfohead1 {
   font-size: 24px;
@@ -1284,46 +1282,43 @@ fieldset > legend + * {
   margin-left: 15px;
   cursor: default;
 }
-.userInfoLeftMargin{
+.userInfoLeftMargin {
   margin-left: 15px;
-  
 }
-.userInfoInsideMargin{
+.userInfoInsideMargin {
   margin-left: -24px;
 }
 .UserInfo-dp > img {
   width: 180px;
-  height:180px;
-  margin-left:480px;
+  height: 180px;
+  margin-left: 480px;
   float: right;
   position: relative;
-  bottom:35px;
+  bottom: 35px;
 }
 .comboxPosition {
-  
-  margin-top:-83px;
+  margin-top: -83px;
   margin-left: 0px;
 }
-.UserInfoFont{
+.UserInfoFont {
   font-size: 12px;
   margin-top: -11px;
   margin-left: 16px;
   cursor: default;
 }
-.UserInfoBDatePosition{
+.UserInfoBDatePosition {
   position: relative;
- 
+
   margin-top: 300px;
   margin-left: 430px;
 }
-.UserInfoYearDatePosition
-{
+.UserInfoYearDatePosition {
   position: relative;
   margin-top: 300px;
   margin-left: 500px;
 }
 .UserInfoButton {
-  background-color: #433881;; /* Green */
+  background-color: #433881; /* Green */
   border: none;
   color: white;
   padding: 5px 33px;
@@ -1333,6 +1328,20 @@ fieldset > legend + * {
   font-size: 16px;
   cursor: pointer;
   float: right;
-  margin-right:50px;
+  margin-right: 50px;
   margin-bottom: 25px;
+}
+
+.mg-32 {
+  margin: 32px;
+}
+.tick-mark-completion {
+  background: #433880;
+  color: white;
+  padding: 16px 22px;
+  border-radius: 50%;
+  font-size: 30px;
+}
+.fs-20 {
+  font-size: 20px;
 }

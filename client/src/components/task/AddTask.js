@@ -26,7 +26,7 @@ class AddTask extends Component {
         type: 0
       },
       areTermsAccepted: false,
-      isAccepted: ''
+      isAccepted: false
     };
   }
 
@@ -155,12 +155,20 @@ class AddTask extends Component {
       points: this.state.points
     };
 
-    this.props.addTask(newTask, this.props.history);
+    if (this.props.addTask(newTask, this.props.history)) {
+      this.setState({
+        isAccepted: true,
+        error: {
+          msg:
+            'Your task has been successfully added and is public for everyone on Taskbarter.',
+          type: 2
+        }
+      });
+    }
   };
   render() {
     const { user } = this.props.auth;
     // console.log(this.state);
-
     return (
       <div>
         <Navbar />
@@ -180,144 +188,160 @@ class AddTask extends Component {
             </div>
 
             <div className='col-md-8 order-md-1'>
-              <div className='card card-body mb-2'>
-                <div className='add-task-heading'>Add New Task</div>
+              {!this.state.isAccepted ? (
+                <div className='card card-body mb-2'>
+                  <div className='add-task-heading'>Add New Task</div>
 
-                <form onSubmit={this.onSubmit}>
-                  <div className='add-task-input-headline'>
-                    I want someone to{' '}
-                    <input
-                      className='form-control'
-                      type='text'
-                      placeholder='put headline here'
-                      width='100px'
-                      value={this.state.headline}
-                      id='headline'
-                      onChange={e => this.onChange(e)}
-                    />
-                    <span className='max-chars'>* (Max 50 characters)</span>
-                  </div>
-
-                  <div className='add-task-input-details'>
-                    <div className='form-group'>
-                      <label htmlFor='addTaskDetails'>Requirement</label>
-                      <textarea
+                  <form onSubmit={this.onSubmit}>
+                    <div className='add-task-input-headline'>
+                      I want someone to{' '}
+                      <input
                         className='form-control'
-                        rows='5'
-                        placeholder='Put all your Requirements here'
-                        value={this.state.description}
-                        id='description'
+                        type='text'
+                        placeholder='put headline here'
+                        width='100px'
+                        value={this.state.headline}
+                        id='headline'
                         onChange={e => this.onChange(e)}
                       />
+                      <span className='max-chars'>* (Max 50 characters)</span>
                     </div>
-                    <span className='max-chars'>* (Max 4000 characters)</span>
-                  </div>
 
-                  <div className='add-task-duration form-group'>
-                    <label htmlFor='state'>Duration</label>
-                    <select
-                      className='custom-select d-block w-100'
-                      id='state'
-                      required=''
-                      id='duration'
-                      onChange={e => this.onChange(e)}
-                    >
-                      <option value=''>Choose...</option>
-                      <option value='.3'>one to ten hours</option>
-                      <option value='1'>less than 24 hours</option>
-                      <option value='7'>less than a week</option>
-                      <option value='30'>less than a month</option>
-                    </select>
-                    <span className='max-chars'>
-                      * Choose the closest option{' '}
+                    <div className='add-task-input-details'>
+                      <div className='form-group'>
+                        <label htmlFor='addTaskDetails'>Requirement</label>
+                        <textarea
+                          className='form-control'
+                          rows='5'
+                          placeholder='Put all your Requirements here'
+                          value={this.state.description}
+                          id='description'
+                          onChange={e => this.onChange(e)}
+                        />
+                      </div>
+                      <span className='max-chars'>* (Max 4000 characters)</span>
+                    </div>
+
+                    <div className='add-task-duration form-group'>
+                      <label htmlFor='state'>Duration</label>
+                      <select
+                        className='custom-select d-block w-100'
+                        id='state'
+                        required=''
+                        id='duration'
+                        onChange={e => this.onChange(e)}
+                      >
+                        <option value=''>Choose...</option>
+                        <option value='.3'>one to ten hours</option>
+                        <option value='1'>less than 24 hours</option>
+                        <option value='7'>less than a week</option>
+                        <option value='30'>less than a month</option>
+                      </select>
+                      <span className='max-chars'>
+                        * Choose the closest option{' '}
+                      </span>
+                    </div>
+                    <div className='add-task-categories form-group'>
+                      <label className='my-1 mr-2' htmlFor='category'>
+                        Category
+                      </label>
+                      <select
+                        className='custom-select my-1 mr-sm-2'
+                        id='category'
+                        onChange={e => this.onChange(e)}
+                      >
+                        <option defaultValue>Choose...</option>
+                        <option>Computer Programming</option>
+                        <option>Content Writing</option>
+                        <option>Search Engine Optimization</option>
+                        <option>Web Development</option>
+                        <option>Arts & Design</option>
+                        <option>Research Work</option>
+                        <option>Engineering</option>
+                        <option>Data Entry</option>
+                        <option>Web Design</option>
+                        <option>Gaming</option>
+                        <option>Social Media Marketing</option>
+                        <option>Logo/Banner Design</option>
+                      </select>
+                    </div>
+                    <div className='add-task-categories form-group'>
+                      <label htmlFor='skills'>Select Skills</label>
+                      <select
+                        multiple
+                        className='form-control'
+                        id='skills'
+                        onChange={e => this.onChange(e)}
+                      >
+                        <option>Adobe Photoshop</option>
+                        <option>C++</option>
+                        <option>Javascript</option>
+                        <option>ASP.NET</option>
+                        <option>Powerpoint</option>
+                        <option>MS Excel</option>
+                        <option>Oracle DB</option>
+                        <option>Theme Design</option>
+                        <option>HTML/CSS</option>
+                        <option>MERN Developer</option>
+                        <option>Search Engine Optimization</option>
+                        <option>Wordpress Development</option>
+                      </select>
+                      <span className='max-chars'>
+                        * Choose 3 most related skills{' '}
+                      </span>
+                    </div>
+
+                    <div className='add-task-input-points form-group'>
+                      <label htmlFor='points'>Points Allocated</label>
+                      <input
+                        type='number'
+                        id='points'
+                        className='form-control'
+                        aria-describedby='taskPointsHelp'
+                        onChange={e => this.onChange(e)}
+                        value={this.state.points_for_task}
+                      />
+                      <small id='taskPointsHelp' className='text-muted'>
+                        Must depict the requirements you mentioned
+                      </small>
+                    </div>
+
+                    <div className='task-points-confirm form-check'>
+                      <input
+                        className='form-check-input'
+                        type='checkbox'
+                        id='gridCheck1'
+                        onChange={e => this.onChange(e)}
+                      />
+                      <label className='form-check-label' htmlFor='gridCheck1'>
+                        I confirm that the information provided in this task
+                        form is my responsibility and it does not violate any of
+                        the <a href='#'>terms & conditions</a> of Taskbarter.
+                      </label>
+                    </div>
+
+                    <div className='task-button-submit'>
+                      <button type='submit' className='btn add-task-btn'>
+                        Add Task
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              ) : (
+                <div className='card card-body mb-2'>
+                  <div className='text-center mg-32'>
+                    <span className='tick-mark-completion'>
+                      <i
+                        class='fa fa-check little-text-shadow'
+                        aria-hidden='true'
+                      />
                     </span>
                   </div>
-                  <div className='add-task-categories form-group'>
-                    <label className='my-1 mr-2' htmlFor='category'>
-                      Category
-                    </label>
-                    <select
-                      className='custom-select my-1 mr-sm-2'
-                      id='category'
-                      onChange={e => this.onChange(e)}
-                    >
-                      <option defaultValue>Choose...</option>
-                      <option>Computer Programming</option>
-                      <option>Content Writing</option>
-                      <option>Search Engine Optimization</option>
-                      <option>Web Development</option>
-                      <option>Arts & Design</option>
-                      <option>Research Work</option>
-                      <option>Engineering</option>
-                      <option>Data Entry</option>
-                      <option>Web Design</option>
-                      <option>Gaming</option>
-                      <option>Social Media Marketing</option>
-                      <option>Logo/Banner Design</option>
-                    </select>
+                  <div className='text-center fs-20 '>
+                    Your task has been added!
                   </div>
-                  <div className='add-task-categories form-group'>
-                    <label htmlFor='skills'>Select Skills</label>
-                    <select
-                      multiple
-                      className='form-control'
-                      id='skills'
-                      onChange={e => this.onChange(e)}
-                    >
-                      <option>Adobe Photoshop</option>
-                      <option>C++</option>
-                      <option>Javascript</option>
-                      <option>ASP.NET</option>
-                      <option>Powerpoint</option>
-                      <option>MS Excel</option>
-                      <option>Oracle DB</option>
-                      <option>Theme Design</option>
-                      <option>HTML/CSS</option>
-                      <option>MERN Developer</option>
-                      <option>Search Engine Optimization</option>
-                      <option>Wordpress Development</option>
-                    </select>
-                    <span className='max-chars'>
-                      * Choose 3 most related skills{' '}
-                    </span>
-                  </div>
-
-                  <div className='add-task-input-points form-group'>
-                    <label htmlFor='points'>Points Allocated</label>
-                    <input
-                      type='number'
-                      id='points'
-                      className='form-control'
-                      aria-describedby='taskPointsHelp'
-                      onChange={e => this.onChange(e)}
-                      value={this.state.points_for_task}
-                    />
-                    <small id='taskPointsHelp' className='text-muted'>
-                      Must depict the requirements you mentioned
-                    </small>
-                  </div>
-
-                  <div className='task-points-confirm form-check'>
-                    <input
-                      className='form-check-input'
-                      type='checkbox'
-                      id='gridCheck1'
-                      onChange={e => this.onChange(e)}
-                    />
-                    <label className='form-check-label' htmlFor='gridCheck1'>
-                      I confirm that the information provided in this task form
-                      is my responsibility and it does not violate any of the{' '}
-                      <a href='#'>terms & conditions</a> of Taskbarter.
-                    </label>
-                  </div>
-
-                  <div className='task-button-submit'>
-                    <button type='submit' className='btn add-task-btn'>
-                      Add Task
-                    </button>
-                  </div>
-                </form>
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </main>
