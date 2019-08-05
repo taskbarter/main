@@ -5,6 +5,7 @@ import { logoutUser } from '../../actions/authActions';
 import Navbar from '../layout/Navbar';
 import AddTaskCTA from './AddTaskCTA';
 import Notifications from './Notifications';
+import RecommendedTasks from './RecommendedTasks';
 import ProfileBadge from './ProfileBadge';
 import Footer from '../layout/Footer';
 
@@ -26,6 +27,7 @@ class Dashboard extends Component {
             </div>
             <div className='col-md-8 order-md-1'>
               <Notifications />
+              <RecommendedTasks />
             </div>
           </div>
         </main>

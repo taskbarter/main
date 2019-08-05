@@ -7,8 +7,8 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  posts: [],
-  post: {},
+  tasks: [],
+  task: {},
   loading: false
 };
 
@@ -17,7 +17,7 @@ export default function(state = initialState, action) {
     case ADD_TASK:
       return {
         ...state,
-        posts: [action.payload, ...state.posts]
+        tasks: [action.payload, ...state.tasks]
       };
     default:
       return state;
