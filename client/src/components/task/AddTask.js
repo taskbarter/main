@@ -5,8 +5,9 @@ import Navbar from '../layout/Navbar';
 import CurrentBalanceCard from '../profile/CurrentBalanceCard';
 import AddTaskHints from './AddTaskHints';
 import Footer from '../layout/Footer';
-import validate from '../../config/rules';
 import { addTask } from '../../actions/taskAction';
+import validate from '../../config/rules';
+import AlertMsg from '../utils/AlertMsg';
 
 class AddTask extends Component {
   constructor() {
@@ -18,7 +19,13 @@ class AddTask extends Component {
       category: '',
       skills: '',
       points: 0,
-      errors: {}
+      errors: {},
+      points_for_task: 1,
+      error: {
+        msg: 'asd',
+        type: 0
+      },
+      areTermsAccepted: false
     };
   }
 
@@ -30,10 +37,114 @@ class AddTask extends Component {
     //   document.getElementById(e.target.id).classList.add('is-valid');
     // }
     this.setState({ [e.target.id]: e.target.value }); // same is req to work
+    if (e.target.id === 'points' && parseInt(e.target.value) < 1) {
+      this.setState({ points_for_task: 1 });
+    } else if (e.target.id === 'points' && parseInt(e.target.value) < 40) {
+      this.setState({ points_for_task: parseInt(e.target.value) });
+    }
+
+    if (e.target.id === 'skills') {
+      let select = e.target;
+      let values = [].filter
+        .call(select.options, o => o.selected)
+        .map(o => o.value);
+      this.setState({ skills: values });
+      if (values.length > 3) {
+        document.getElementById(e.target.id).classList.add('is-invalid');
+      } else {
+        document.getElementById(e.target.id).classList.remove('is-invalid');
+      }
+      return;
+    }
+
+    if (e.target.id === 'gridCheck1') {
+      if (e.target.checked) {
+        this.setState({
+          areTermsAccepted: true
+        });
+      } else {
+        this.setState({
+          error: { msg: 'You must agree to the terms to continue', type: 0 }
+        });
+      }
+      return;
+    }
+
+    if (this.state[e.target.id] !== '') {
+      let err = validate(e.target.id, this.state[e.target.id]);
+      this.setState({
+        error: {
+          msg: err,
+          type: 0
+        }
+      });
+      if (err !== '') {
+        document.getElementById(e.target.id).classList.add('is-invalid');
+      } else {
+        document.getElementById(e.target.id).classList.remove('is-invalid');
+      }
+    }
   };
 
   onSubmit = async e => {
     e.preventDefault();
+    const {
+      headline,
+      description,
+      skills,
+      areTermsAccepted,
+      category,
+      duration
+    } = this.state;
+    let err = '';
+    err =
+      validate('headline', headline) || validate('description', description);
+
+    if (err !== '') {
+      this.setState({
+        error: { msg: err, type: 0 }
+      });
+    }
+
+    if (skills.length > 3 || skills.length === 0) {
+      this.setState({
+        error: { msg: 'You can only select 3 skills at max.', type: 0 }
+      });
+    }
+
+    if (!areTermsAccepted) {
+      this.setState({
+        error: {
+          msg:
+            'You must agree to our terms and condition before you can submit a task.',
+          type: 0
+        }
+      });
+    }
+
+    if (duration === '') {
+      this.setState({
+        error: {
+          msg: 'You must select a duration to proceed.',
+          type: 0
+        }
+      });
+    }
+
+    if (category === '') {
+      this.setState({
+        error: {
+          msg: 'You must select a category to continue',
+          type: 0
+        }
+      });
+    }
+
+    if (err !== '') {
+      window.scrollTo(0, 0);
+      return;
+    }
+
     const newTask = {
       headline: this.state.headline,
       description: this.state.description,
@@ -55,6 +166,14 @@ class AddTask extends Component {
         <main role='main' className='container mt-4'>
           <div className='row'>
             <div className='col-md-4 order-md-2 mb-2'>
+              {this.state.error.msg !== '' ? (
+                <AlertMsg
+                  type={this.state.error.type}
+                  msg={this.state.error.msg}
+                />
+              ) : (
+                ''
+              )}
               <CurrentBalanceCard />
               <AddTaskHints />
             </div>
@@ -62,6 +181,7 @@ class AddTask extends Component {
             <div className='col-md-8 order-md-1'>
               <div className='card card-body mb-2'>
                 <div className='add-task-heading'>Add New Task</div>
+
                 <form onSubmit={this.onSubmit}>
                   <div className='add-task-input-headline'>
                     I want someone to{' '}
@@ -82,7 +202,6 @@ class AddTask extends Component {
                       <label htmlFor='addTaskDetails'>Requirement</label>
                       <textarea
                         className='form-control'
-                        id='detail'
                         rows='5'
                         placeholder='Put all your Requirements here'
                         value={this.state.description}
@@ -170,6 +289,7 @@ class AddTask extends Component {
                       className='form-control'
                       aria-describedby='taskPointsHelp'
                       onChange={e => this.onChange(e)}
+                      value={this.state.points_for_task}
                     />
                     <small id='taskPointsHelp' className='text-muted'>
                       Must depict the requirements you mentioned
@@ -181,6 +301,7 @@ class AddTask extends Component {
                       className='form-check-input'
                       type='checkbox'
                       id='gridCheck1'
+                      onChange={e => this.onChange(e)}
                     />
                     <label className='form-check-label' htmlFor='gridCheck1'>
                       I confirm that the information provided in this task form
