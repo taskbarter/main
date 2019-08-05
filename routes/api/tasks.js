@@ -34,6 +34,25 @@ router.post('/add', auth, (req, res) => {
     });
 });
 
+// @route   DELETE api/tasks/:task_id
+// @desc    Delete task
+// @access  Private
+router.delete('/:task_id', auth, async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.task_id);
+
+    if (task.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authourized' });
+    }
+
+    await Task.findOneAndRemove({ _id: req.params.task_id });
+
+    res.json({ msg: 'Task deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 // @route   GET api/tasks
 // @desc    Get all tasks
 // @access  Public         // login to see tasks

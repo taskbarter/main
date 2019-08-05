@@ -35,18 +35,6 @@ const TaskSchema = new Schema({
     required: true,
     default: 5
   },
-  reviews: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users'
-      },
-      review: {
-        type: Number,
-        default: 0
-      }
-    }
-  ],
   likes: [
     {
       user: {
