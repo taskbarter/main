@@ -177,44 +177,44 @@ router.post(
   }
 );
 
-// @route   DELETE api/posts/comment/:id/:comment_id
-// @desc    Delete Comment
+// @route   DELETE api/tasks/proposal/:task_id/:proposal_id
+// @desc    Delete Proposal
 // @access  Private
 
-router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+router.delete('/proposal/:task_id/:proposal_id', auth, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const task = await Task.findById(req.params.task_id);
 
-    // Pull out comment
+    // Pull out proposal
 
-    const comment = post.comments.find(
-      comment => comment.id === req.params.comment_id // what about string compare?
+    const proposal = task.proposals.find(
+      proposal => proposal.id === req.params.proposal_id // what about string compare?
     );
 
-    // make sure comment exists
+    // make sure proposal exists
 
-    //return res.json(post.comments);
+    //return res.json(task.proposals);
 
-    if (!comment) {
-      return res.status(404).json({ msg: 'Comment does not exist' });
+    if (!proposal) {
+      return res.status(404).json({ msg: 'proposal does not exist' });
     }
 
-    // check for same user who commented
+    // check for same user who had proposal written
 
-    if (comment.user.toString() !== req.user.id) {
+    if (proposal.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'User not authourized' });
     }
 
     //Get remove index
 
-    const removeIndex = post.comments
-      .map(comment => comment.user.toString())
-      .indexOf(req.user.id);
+    const removeIndex = task.proposals
+      .map(proposal => proposal.id.toString())
+      .indexOf(req.params.proposal_id);
 
-    post.comments.splice(removeIndex, 1);
-    await post.save();
+    task.proposals.splice(removeIndex, 1);
+    await task.save();
 
-    res.json(post.comments);
+    res.json(task.proposals);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
