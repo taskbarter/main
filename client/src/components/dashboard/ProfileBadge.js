@@ -1,25 +1,103 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCurrentProfile } from '../../actions/profileAction';
 
-const ProfileBadge = () => {
+const ProfileBadge = props => {
+  const [data, setData] = useState({
+    fname: '',
+    sname: '',
+    status: '',
+    skills: [],
+    catched: false
+  });
+
+  const { fname, sname, skills, status, catched } = data;
+
+  if (props.profile.profile == null && !props.profile.loading) {
+    props.getCurrentProfile();
+  }
+
+  let skilos = ['Create Profile to Add skills'];
+
+  try {
+    if (props.profile.profile !== null && props.profile.profile.user !== null) {
+      if (
+        fname !== props.profile.profile.user.fname ||
+        sname !== props.profile.profile.user.sname
+      )
+        // TODO : modification for update
+        setData({
+          ...data,
+          fname: props.profile.profile.user.fname,
+          sname: props.profile.profile.user.sname,
+          status: props.profile.profile.status,
+          skills: props.profile.profile.skills,
+          catched: false
+        });
+      skilos = [
+        'Web Development',
+        'Wordpress Development',
+        'Databases',
+        'React Development',
+        'Content Wrting',
+        'Designing',
+        'Databases',
+        'React Development',
+        'Content Wrting',
+        'Designing'
+      ];
+    }
+  } catch (err) {
+    if (!catched)
+      setData({
+        ...data,
+        fname: 'Initial',
+        sname: 'Name',
+        status: '(please create profile)',
+        skills: ['Create Profile to Add skills'],
+        catched: true
+      });
+
+    //skilos = ['Create Profile to Add skills'];
+
+    console.log('There is no profile currently');
+  }
+  // FOR SKILLS
+
+  const skillsbadges2 = skils => {
+    if (skils.length > 6) {
+      let fsix = skils.slice(0, 6);
+      //console.log(fsix);
+      return fsix.map((skl, i) => (
+        <div className='profile-badge-category' key={i}>
+          {skl}
+        </div>
+      ));
+    } else {
+      return skils.map((skl, i) => (
+        <div className='profile-badge-category' key={i}>
+          {skl}
+        </div>
+      ));
+    }
+  };
+
+  const skillSection = (
+    <div className='profile-badge-categories'>{skillsbadges2(skills)}</div>
+  );
+
   return (
     <div className='card card-body profile-badge'>
       <div className='profile-badge-dp'>
         <img src='/inc/Mohsin_DP.jpg' className='rounded img-thumbnail' />
       </div>
-      <div className='profile-badge-name'>Mohsin Hayat</div>
-      <div className='profile-badge-headline'>
-        Full Stack Web Developer & Designer
-      </div>
-      <div className='profile-badge-categories'>
-        <div className='profile-badge-category'>Web Development</div>
-        <div className='profile-badge-category'>Wordpress Development</div>
-        <div className='profile-badge-category'>Databases</div>
-        <div className='profile-badge-category'>React Development</div>
-        <div className='profile-badge-category'>Content Writing</div>
-        <div className='profile-badge-category'>Designing</div>{' '}
-        <span className='profile-categories-more'> and 16 more</span>
+      <div className='profile-badge-name'>
+        {fname} {sname}
       </div>
 
+      <div className='profile-badge-headline'>{status}</div>
+      {skillSection}
       <div className='profile-badge-rating'>
         <i className='fas fa-star fa-fw' />
         <i className='fas fa-star fa-fw' />
@@ -45,4 +123,16 @@ const ProfileBadge = () => {
   );
 };
 
-export default ProfileBadge;
+ProfileBadge.propTypes = {
+  profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  { getCurrentProfile }
+)(ProfileBadge);
