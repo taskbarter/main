@@ -22,10 +22,11 @@ class AddTask extends Component {
       errors: {},
       points_for_task: 1,
       error: {
-        msg: 'asd',
+        msg: '',
         type: 0
       },
-      areTermsAccepted: false
+      areTermsAccepted: false,
+      isAccepted: ''
     };
   }
 
