@@ -1240,3 +1240,99 @@ header nav.navbar {
     margin-top: 9px;
   }
 }
+fieldset{
+  border-top: 6px solid #433881;
+  border-right: 1px solid #433881;
+  border-left: 1px solid #433881;
+  border-bottom: 1px solid #433881;
+  
+  margin-top:1%;
+  margin-left: 20%;
+  margin-right:14%;
+  
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #6055a0;
+  
+} 
+legend {
+  padding: 2px 4px;
+  background: #fff;
+}
+fieldset > legend {
+  float: left;
+  margin-top: -20px;
+}
+fieldset > legend + * {
+  clear: both;
+}
+.login-logoUserInfo {
+  width: 100px;
+  height: 40px;
+  margin-left: 10px;
+  
+}
+.UserInfohead1 {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  margin-left: 10px;
+  cursor: default;
+}
+.UserInfoHead2 {
+  font-size: 16px;
+  margin-left: 15px;
+  cursor: default;
+}
+.userInfoLeftMargin{
+  margin-left: 15px;
+  
+}
+.userInfoInsideMargin{
+  margin-left: -24px;
+}
+.UserInfo-dp > img {
+  width: 180px;
+  height:180px;
+  margin-left:480px;
+  float: right;
+  position: relative;
+  bottom:35px;
+}
+.comboxPosition {
+  
+  margin-top:-83px;
+  margin-left: 0px;
+}
+.UserInfoFont{
+  font-size: 12px;
+  margin-top: -11px;
+  margin-left: 16px;
+  cursor: default;
+}
+.UserInfoBDatePosition{
+  position: relative;
+ 
+  margin-top: 300px;
+  margin-left: 430px;
+}
+.UserInfoYearDatePosition
+{
+  position: relative;
+  margin-top: 300px;
+  margin-left: 500px;
+}
+.UserInfoButton {
+  background-color: #433881;; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 33px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: right;
+  margin-right:50px;
+  margin-bottom: 25px;
+}

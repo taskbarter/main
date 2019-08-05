@@ -12,6 +12,7 @@ import PrivateRoute from './components/private-route/PrivateRoute';
 import Dashboard from './components/dashboard/Dashboard';
 import Forgot from './components/auth/Forgot';
 import AddTask from './components/task/AddTask';
+import UserInfo from  './components/profile/UserInfo';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -42,6 +43,7 @@ class App extends Component {
             <Route exact path='/login' component={Login} />
             <Route exact path='/forgot' component={Forgot} />
             <Route exact path='/landing' component={Landing} />
+            <Route exact path='/UserInfo' component={UserInfo}/>
             <Switch>
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/add' component={AddTask} />

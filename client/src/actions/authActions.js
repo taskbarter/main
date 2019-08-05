@@ -69,3 +69,17 @@ export const logoutUser = () => dispatch => {
   dispatch(setCurrentUser({}));
   dispatch(clearCurrentProfile());
 };
+
+// User Personal Information
+export const userPersonalDetails=(userPersonalDetails,history)=> dispatch =>{
+ 
+  axios
+    .post(url + '/api/users/userpersonaldetails', userPersonalDetails)
+    .then(console.log('Suceesful'))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
