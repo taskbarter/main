@@ -25,10 +25,7 @@ const TaskSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  feedback_id: {
-    type: String,
-    default: false
-  },
+
   duration: {
     type: Number,
     required: true
@@ -42,7 +39,7 @@ const TaskSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'users'
       },
       review: {
         type: Number,
@@ -54,7 +51,7 @@ const TaskSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'users'
       }
     }
   ],
@@ -62,7 +59,7 @@ const TaskSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'users'
       },
       text: {
         type: String,
