@@ -21,7 +21,6 @@ const TaskSchema = new Schema({
     type: Array,
     required: true
   },
-
   date: {
     type: Date,
     default: Date.now
@@ -34,20 +33,51 @@ const TaskSchema = new Schema({
     type: Number,
     required: true
   },
-  points: {
+  taskpoints: {
     type: Number,
     required: true,
     default: 5
   },
-  rating: {
-    type: Number,
-    default: 0
-  },
+  reviews: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+      },
+      review: {
+        type: Number,
+        default: 0
+      }
+    }
+  ],
   likes: [
     {
       user: {
         type: Schema.Types.ObjectId,
         ref: 'user'
+      }
+    }
+  ],
+  proposals: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+      },
+      text: {
+        type: String,
+        required: true
+      },
+      name: {
+        // even after deletion of account it will be possible to show posts
+        type: String
+      },
+      avatar: {
+        type: String
+      },
+      date: {
+        type: Date,
+        default: Date.now
       }
     }
   ]

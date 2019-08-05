@@ -5,6 +5,38 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'
   },
+  reviews: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+      },
+      review: {
+        type: Number,
+        default: 0
+      }
+    }
+  ],
+  pointsEarned: {
+    type: Number,
+    default: 0
+  },
+  pointsSpend: {
+    type: Number,
+    default: 0
+  },
+  tasksDone: {
+    type: Number,
+    default: 0
+  },
+  tasksPosted: {
+    type: Number,
+    default: 0
+  },
+  tasksCanceled: {
+    type: Number,
+    default: 0
+  },
   company: {
     type: String
   },
