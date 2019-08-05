@@ -9,10 +9,26 @@ const ProfileBadge = props => {
     sname: '',
     status: '',
     skills: [],
+    pointsEarned: 0,
+    pointsSpend: 0,
+    taskPosted: 0,
+    taskDone: 0,
+    taskCanceled: 0,
     catched: false
   });
 
-  const { fname, sname, skills, status, catched } = data;
+  const {
+    fname,
+    sname,
+    skills,
+    status,
+    pointsEarned,
+    pointsSpend,
+    tasksPosted,
+    tasksDone,
+    tasksCanceled,
+    catched
+  } = data;
 
   if (props.profile.profile == null && !props.profile.loading) {
     props.getCurrentProfile();
@@ -33,6 +49,11 @@ const ProfileBadge = props => {
           sname: props.profile.profile.user.sname,
           status: props.profile.profile.status,
           skills: props.profile.profile.skills,
+          pointsEarned: props.profile.profile.pointsEarned,
+          pointsSpend: props.profile.profile.pointsSpend,
+          tasksPosted: props.profile.profile.tasksPosted,
+          tasksDone: props.profile.profile.tasksDone,
+          tasksCanceled: props.profile.profile.tasksCanceled,
           catched: false
         });
       skilos = [
@@ -110,11 +131,14 @@ const ProfileBadge = props => {
 
       <div className='profile-badge-stats'>
         <div>
-          Tasks Done: <span id='profile-tasks-done'>19</span> | Tasks Posted:{' '}
-          <span id='profile-tasks-posted'>11</span> | Tasks Cancelled:{' '}
-          <span id='profile-tasks-cancelled'>1</span> <br />
-          Points Earned: <span id='profile-points-earned'>862</span> | Points
-          Spent: <span id='profile-points-spent'>738</span>
+          Tasks Done: <span id='profile-tasks-done'>{tasksDone}</span> | Tasks
+          Posted: <span id='profile-tasks-posted'>{tasksPosted}</span> | Tasks
+          Cancelled: <span id='profile-tasks-cancelled'>{tasksCanceled}</span>{' '}
+          <br />
+          Points Earned: <span id='profile-points-earned'>
+            {pointsEarned}
+          </span>{' '}
+          | Points Spent: <span id='profile-points-spent'>{pointsSpend}</span>
         </div>
       </div>
 
