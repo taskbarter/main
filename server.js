@@ -36,6 +36,7 @@ require('./config/passport')(passport);
 // Routes
 app.use('/api/users', users);
 
+
 //get verification response
 app.use('/confirmation/:token', async (request, response) => {
   try {
