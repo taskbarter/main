@@ -1,4 +1,7 @@
-![Taskbarter Logo](https://taskbarter.github.io/inc/logo.png)
+<p align="center">
+<img src='https://taskbarter.github.io/inc/logo.png' width='500px' style='text-align: center'>
+</p>
+
 
 ***
 

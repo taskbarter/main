@@ -13,7 +13,7 @@ class Login extends Component {
       password: '',
       errors: {},
       errMsg: '',
-      isLoading: false
+      isLoading: false 
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -64,9 +64,6 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.setState({
-      errors: {}
-    });
     this.props.loginUser(userData);
   };
   render() {
@@ -91,7 +88,8 @@ class Login extends Component {
 
     return (
       <div>
-        <form className='form-signin' noValidate onSubmit={this.onSubmit}>
+      
+       <form className='form-signin' noValidate onSubmit={this.onSubmit}>
           <div className='text-center mb-4'>
             <Link to='/'>
               <img className='mb-4 login-logo' src={logo} alt='' />
