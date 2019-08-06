@@ -150,9 +150,8 @@ class AddTask extends Component {
     if (err !== '') {
       window.scrollTo(0, 0);
       return;
-    }
-
-    const newTask = {
+    }else{
+        const newTask = {
       headline: this.state.headline,
       description: this.state.description,
       duration: this.state.duration,
@@ -170,6 +169,8 @@ class AddTask extends Component {
           type: 2
         }
       });
+    }
+    
     }
   };
   render() {
