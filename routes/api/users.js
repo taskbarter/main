@@ -80,7 +80,7 @@ router.post('/register', (req, res) => {
                 from: keys.taskBarterGmail,
                 to: newUser.email,
                 subject: 'Task Barter Email Verification',
-                text: 'http://localhost:5000/confirmation/'+token
+                text: 'http://taskbarter.com/confirmation/'+token
               };
               
               transporter.sendMail(mailOptions, function(error, info){
