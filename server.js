@@ -40,14 +40,26 @@ app.use('/api/users', users);
 app.get('/confirmation/:token', async (request, response) => {
   try {
     console.log('Verification Started');
+
     const {
       user: { id }
     } = jwt.verify(request.params.token, keys.jwtSecret);
-    User.update({ isEmailVerified: true }, { where: { id } });
+    //await User.update({ isEmailVerified: true }, { where: { id } });
+
+    console.log(id);
+
+    let nUser = await User.findOneAndUpdate(
+      { _id: id },
+      { $set: { isEmailVerified: true } },
+      { new: true }
+    );
+
+    console.log('Verification Done');
+    console.log(nUser);
+    return response.send('Verified');
   } catch (e) {
-    response.send('Unable to verify your email');
+    return response.send('Unable to verify your email');
   }
-  return response.redirect('/Userinfo');
 });
 app.use('/api/tasks', tasks);
 app.use('/api/auth', auth);
