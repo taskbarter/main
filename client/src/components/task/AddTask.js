@@ -141,6 +141,8 @@ class AddTask extends Component {
       });
     }
 
+    err = this.state.error.msg;
+    
     if (err !== '') {
       window.scrollTo(0, 0);
       return;
