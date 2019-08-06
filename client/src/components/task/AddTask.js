@@ -107,8 +107,15 @@ class AddTask extends Component {
       });
     }
 
-    if (skills.length > 3 || skills.length === 0) {
+    if (skills.length > 3) {
       err = 'You can only select 3 skills at max.'
+      this.setState({
+        error: { msg: err, type: 0 }
+      });
+    }
+    
+    if (skills.length === 0) {
+      err = 'You must select at least one skill to continue.';
       this.setState({
         error: { msg: err, type: 0 }
       });
