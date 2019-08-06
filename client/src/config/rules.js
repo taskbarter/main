@@ -21,7 +21,22 @@ var validate = function(key, val) {
       return 'Username is not correct';
     }
   }
-
+  if (key === 'headline') {
+    regex = regex = /^[a-z0-9 A-Z_-]{5,50}$/;
+    if (!regex.test(val)) {
+      return 'Headline not in correct format';
+    }
+  }
+  if (key === 'description') {
+    console.log('description', val);
+    regex = regex = /^.{25,4000}$/;
+    if (/^.{1,25}$/.test(val)) {
+      return 'Your requirements must at least be 25 characters long.';
+    }
+    if (!regex.test(val)) {
+      return 'Your requirements are not in the correct format.';
+    }
+  }
   return '';
 };
 export default validate;

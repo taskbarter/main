@@ -12,7 +12,7 @@ Contribution by:
 Developer, designer and project manager of Taskbarter.
 2. **[Anas Usman](https://github.com/AnnasUsman)**
 Back-end developer; handling core parts of the App including Workspace, Messaging and Notifications.
-3. **[Ahmed Hassan](https://github.com/ahmadx16)**
+3. **[Ahmed Hasan](https://github.com/ahmadx16)**
 Full Stack developer handling profile system and task management system in the app.
 4. **[Muhammad Nouman](https://github.com/Muhammad1Nouman)**
 Back-end developer responsible for user accounts, profiles and account security.

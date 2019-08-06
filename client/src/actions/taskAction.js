@@ -30,10 +30,12 @@ export const addTask = (taskData, history) => async dispatch => {
       type: ADD_TASK,
       payload: res.data
     });
-    history.push('/dashboard');
+    //history.push('/dashboard');
+    return true;
   } catch (err) {
     console.log('res.data inside err');
 
     console.log(err);
+    return false;
   }
 };
