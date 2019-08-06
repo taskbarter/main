@@ -47,7 +47,7 @@ app.get('/confirmation/:token', async (request, response) => {
   } catch (e) {
     response.send('Unable to verify your email');
   }
-  return response.redirect('/login');
+  return response.redirect('/Userinfo');
 });
 app.use('/api/tasks', tasks);
 app.use('/api/auth', auth);
