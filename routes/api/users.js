@@ -70,17 +70,21 @@ router.post('/register', (req, res) => {
                 tls:{
                   rejectUnauthorized: false
               },
-                auth: {
-                  user: keys.taskBarterGmail,
-                  pass: keys.taskBarterPassword
-                }
+              auth: {
+                type: 'OAuth2',
+                user: process.env.EMAIL_ADDRESS,
+                clientId: process.env.GMAIL_CLIENT_ID,
+                clientSecret: process.env.GMAIL_CLIENT_SECRET,
+                refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+                accessToken: process.env.GMAIL_ACCESS_TOKEN,
+              }
               });
               
               var mailOptions = {
                 from: keys.taskBarterGmail,
                 to: newUser.email,
-                subject: 'Task Barter Email Verification',
-                text: 'http://localhost:5000/confirmation/'+token
+                subject: 'Taskbarter | Verify Your Email',
+                text: 'Verify your email address by clicking on this link: https://www.taskbarter.com/confirmation/'+token
               };
               
               transporter.sendMail(mailOptions, function(error, info){
