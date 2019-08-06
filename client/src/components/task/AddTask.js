@@ -108,34 +108,38 @@ class AddTask extends Component {
     }
 
     if (skills.length > 3 || skills.length === 0) {
+      err = 'You can only select 3 skills at max.'
       this.setState({
-        error: { msg: 'You can only select 3 skills at max.', type: 0 }
+        error: { msg: err, type: 0 }
       });
     }
 
     if (!areTermsAccepted) {
+      err = 'You must agree to our terms and condition before you can submit a task.';
       this.setState({
         error: {
           msg:
-            'You must agree to our terms and condition before you can submit a task.',
+            err,
           type: 0
         }
       });
     }
 
     if (duration === '') {
+      err = 'You must select a duration to proceed.';
       this.setState({
         error: {
-          msg: 'You must select a duration to proceed.',
+          msg: err,
           type: 0
         }
       });
     }
 
     if (category === '') {
+      err = 'You must select a category to continue';
       this.setState({
         error: {
-          msg: 'You must select a category to continue',
+          msg: err,
           type: 0
         }
       });
