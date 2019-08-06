@@ -47,7 +47,7 @@ app.get('/confirmation/:token', async (request, response) => {
     } = jwt.verify(request.params.token, keys.jwtSecret);
     //await User.update({ isEmailVerified: true }, { where: { id } });
 
-    console.log(id);
+   
 
     let nUser = await User.findOneAndUpdate(
       { _id: id },
@@ -55,7 +55,7 @@ app.get('/confirmation/:token', async (request, response) => {
       { new: true }
     );
     console.log('Verified');
-    return response.redirect('UserInfo');
+    return response.redirect('http://taskbarter.com/UserInfo');
   } catch (e) {
     return response.send('Unable to verify your email');
   }
