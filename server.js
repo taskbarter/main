@@ -37,12 +37,13 @@ require('./config/passport')(passport);
 app.use('/api/users', users);
 
 //get verification response
-app.get('/confirmation/:token', async (request, response) => {
+app.use('/confirmation/:token', async (request, response) => {
   try {
     console.log('Verification Started');
     const {
       user: { id }
     } = jwt.verify(request.params.token, keys.jwtSecret);
+    console.log(id);
     User.update({ isEmailVerified: true }, { where: { id } });
   } catch (e) {
     response.send('Unable to verify your email');

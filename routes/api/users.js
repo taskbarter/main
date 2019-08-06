@@ -84,7 +84,7 @@ router.post('/register', (req, res) => {
                 from: keys.taskBarterGmail,
                 to: newUser.email,
                 subject: 'Taskbarter | Verify Your Email',
-                text: 'Verify your email address by clicking on this link: https://www.taskbarter.com/confirmation/'+token
+                text: 'Verify your email address by clicking on this link: https://localhost:3000/confirmation/'+token
               };
               
               transporter.sendMail(mailOptions, function(error, info){
