@@ -145,11 +145,11 @@ class AddTask extends Component {
       });
     }
 
-    err = this.state.error.msg;
+    //err = this.state.error.msg;
     
     if (err !== '') {
       window.scrollTo(0, 0);
-      return;
+      return false;
     }else{
         const newTask = {
       headline: this.state.headline,
