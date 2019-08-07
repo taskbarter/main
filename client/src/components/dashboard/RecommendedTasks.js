@@ -10,6 +10,16 @@ const RecommendedTasks = props => {
   const allTasks = props.task.tasks;
   console.log(allTasks);
 
+  const heartClick = e => {
+    if (document.getElementById(e.target.id).classList.contains('far')) {
+      document.getElementById(e.target.id).classList.remove('far');
+      document.getElementById(e.target.id).classList.add('fas');
+    } else {
+      document.getElementById(e.target.id).classList.remove('fas');
+      document.getElementById(e.target.id).classList.add('far');
+    }
+  };
+
   const alltasksDOM = allTasks.map((tsk, i) => (
     <div className='task-entry mb-1' key={tsk._id}>
       <div className='task-entry-body'>
@@ -33,7 +43,11 @@ const RecommendedTasks = props => {
       </div>
       <div className='task-footer'>
         <span className='task-fav'>
-          <i className='far fa-heart fa-fw' />
+          <i
+            onClick={heartClick}
+            id={tsk._id + 1}
+            className='far fa-heart fa-fw'
+          />
         </span>
         <button className='btn task-hire-btn'>Send Proposal</button>
         <div className='task-points'>
