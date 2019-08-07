@@ -39,25 +39,21 @@ app.use('/api/users', users);
 //get verification response
 app.get('/confirmation/:token', async (request, response) => {
   try {
-    console.log('Verification Started');
-
     const {
       user: { id }
     } = jwt.verify(request.params.token, keys.jwtSecret);
-    //await User.update({ isEmailVerified: true }, { where: { id } });
-
     let nUser = await User.findOneAndUpdate(
       { _id: id },
       { $set: { isEmailVerified: true } },
       { new: true }
     );
-
     console.log('Verified');
-    return response.redirect('http://taskbarter.com/UserInfo');
+    return response.redirect('/UserInfo');
   } catch (e) {
     return response.send('Unable to verify your email');
   }
 });
+
 app.use('/api/tasks', tasks);
 app.use('/api/auth', auth);
 app.use('/api/profile', profile);
