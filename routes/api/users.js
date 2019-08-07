@@ -169,7 +169,7 @@ router.post('/login', (req, res) =>
   User.findOne({ email }).then(user => {
      
     // Check if user exists
-    if (!user) {
+    if (!user) 
       return res.status(404).json({ emailnotfound: 'Email not found' });
     
     
@@ -219,7 +219,7 @@ router.post('/login', (req, res) =>
               bcrypt.compare(password, user.password).then(isMatch => 
               {
                 if (isMatch) {
-                  
+      
                   if(user.isEmailVerified===false)
                   {
                     sendEmail(user);
