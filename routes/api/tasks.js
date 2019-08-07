@@ -23,7 +23,7 @@ router.post('/add', auth, (req, res) => {
     skills: req.body.skills,
     user: req.user.id, // for secure task adding
     duration: req.body.duration,
-    points: req.body.points
+    taskpoints: req.body.points
   });
   newTask
     .save()
