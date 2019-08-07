@@ -25,9 +25,9 @@ const RecommendedTasks = props => {
       <div className='task-entry-body'>
         <div id='task-statement'>{tsk.headline}</div>
         <div id='task-details'>
-          {tsk.description}(<a href='#'>more</a>)
+          {tsk.description} (<a href='#!'>more</a>)
         </div>
-        <a href='#' className='task-more-options'>
+        <a href='#!' className='task-more-options'>
           <i className='fa fa-ellipsis-v' aria-hidden='true' />
         </a>
         <div className='row mt-2'>

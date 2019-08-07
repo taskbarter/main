@@ -261,9 +261,10 @@ class Navbar extends Component {
 
         <div className='nav-scroller bg-white box-shadow nav-submenu'>
           <nav className='nav nav-underline'>
-            <a className='nav-link active' href='#'>
+            <Link to='/dashboard' className='nav-link active'>
               Dashboard
-            </a>
+            </Link>
+
             <a className='nav-link' href='#'>
               Search Tasks
             </a>
