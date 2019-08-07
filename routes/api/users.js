@@ -171,17 +171,18 @@ router.post('/login', (req, res) =>
     // Check if user exists
     if (!user) {
       return res.status(404).json({ emailnotfound: 'Email not found' });
-    }
-    // Check if email is confirmed 
-    if(user.isEmailVerified===false)
-    {
-      sendEmail(user);
-      return res.status(405).json({emailnotfound: 'Please confirm your email to login' });
-    }
+    
     
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
+      
+      // Check if email is confirmed 
+      if(user.isEmailVerified===false)
+      {
+        sendEmail(user);
+        return res.status(405).json({emailnotfound: 'Please confirm your email to login' });
+      }
         // User matched
         // Create JWT Payload
         const payload = {
@@ -218,6 +219,12 @@ router.post('/login', (req, res) =>
               bcrypt.compare(password, user.password).then(isMatch => 
               {
                 if (isMatch) {
+                  
+                  if(user.isEmailVerified===false)
+                  {
+                    sendEmail(user);
+                    return res.status(405).json({emailnotfound: 'Please confirm your email to login' });
+                  }
                   // User matched
                   // Create JWT Payload
                   const payload = {
