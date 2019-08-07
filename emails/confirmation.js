@@ -1,5 +1,5 @@
 module.exports = (fname, lname, email, url) => {
-return '
+return `
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #f5f8fa; min-width: 350px; font-size: 1px; line-height: normal;">
    <tr>
       <td align="center" valign="top">
@@ -25,7 +25,7 @@ return '
                                  <td align="center" valign="top">
                                     <div style="height: 40px; line-height: 40px; font-size: 38px;">&nbsp;</div>
                                     <a href="#"
-                                       style="display: block; max-width: 250px;">
+                                       style="display: block; max-width: 320px;">
                                     <img src="https://taskbarter.github.io/inc/logo.png" alt="Taskbarter" width="320"
                                        border="0" style="display: block; width: 320px;" />
                                     </a>
@@ -42,13 +42,13 @@ return '
                                     <div style="height: 21px; line-height: 21px; font-size: 19px;">&nbsp;</div>
                                     <font face="'Source Sans Pro', sans-serif" color="#000000" style="font-size: 20px; line-height: 28px;">
                                     <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #000000; font-size: 20px; line-height: 28px;">
-                                    Hey ' + fname + ' ' + lname + ',
+                                    Hey ` + fname + ` ` + lname + `,
                                     </span>
                                     </font>
                                     <div style="height: 6px; line-height: 6px; font-size: 4px;">&nbsp;</div>
                                     <font face="'Source Sans Pro', sans-serif" color="#000000" style="font-size: 20px; line-height: 28px;">
                                     <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #000000; font-size: 20px; line-height: 28px;">
-                                    We just received a request to set your email address to ' + email + ' on <a href="https://www.taskbarter.com/">Taskbarter</a>. If this information is correct, please click on the button below to confirm your email address.
+                                    We just received a request to set your email address to ` + email + ` on <a href="https://www.taskbarter.com/">Taskbarter</a>. If this information is correct, please click on the button below to confirm your email address.
                                     </span>
                                     </font>
                                     <div style="height: 30px; line-height: 30px; font-size: 28px;">&nbsp;</div>
@@ -56,7 +56,7 @@ return '
                                        style="background: #433881; border-radius: 4px;">
                                        <tr>
                                           <td align="center" valign="top">
-                                             <a href="' + url + '"
+                                             <a href="` + url + `"
                                                 target="_blank" style="display: block; border: 1px solid #433881; border-radius: 4px; padding: 19px 27px; font-family: 'Source Sans Pro', Arial, Verdana, Tahoma, Geneva, sans-serif; color: #ffffff; font-size: 26px; line-height: 30px; text-decoration: none; white-space: nowrap; font-weight: 600;"> <font face="'Source Sans Pro', sans-serif" color="#ffffff" style="font-size: 26px; line-height: 30px; text-decoration: none; white-space: nowrap; font-weight: 600;">
                                              <span style="font-family: 'Source Sans Pro', Arial, Verdana, Tahoma, Geneva, sans-serif; color: #ffffff; font-size: 26px; line-height: 30px; text-decoration: none; white-space: nowrap; font-weight: 600;">Confirm Email</span>
                                              </font>
@@ -79,7 +79,7 @@ return '
                               <tr>
                                  <td align="left" valign="top">
                                     <font face="'Source Sans Pro', sans-serif" color="#7f7f7f" style="font-size: 17px; line-height: 23px;">
-                                    <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #7f7f7f; font-size: 17px; line-height: 23px;">After confirming this email with Taskbarter, you'll receive every update about your account on ' + email + '. Visit <a href="https://www.taskbarter.com/">Taskbarter</a> to change your email address.</span>
+                                    <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #7f7f7f; font-size: 17px; line-height: 23px;">After confirming this email with Taskbarter, you'll receive every update about your account on ` + email + `. Visit <a href="https://www.taskbarter.com/">Taskbarter</a> to change your email address.</span>
                                     </font>
                                     <div style="height: 30px; line-height: 30px; font-size: 28px;">&nbsp;</div>
                                  </td>
@@ -158,5 +158,5 @@ return '
       </td>
    </tr>
 </table>
-';
+`;
 }
