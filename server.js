@@ -36,19 +36,12 @@ require('./config/passport')(passport);
 // Routes
 app.use('/api/users', users);
 
-
 //get verification response
 app.get('/confirmation/:token', async (request, response) => {
   try {
-    console.log('Verification Started');
-
     const {
       user: { id }
     } = jwt.verify(request.params.token, keys.jwtSecret);
-    //await User.update({ isEmailVerified: true }, { where: { id } });
-
-   
-
     let nUser = await User.findOneAndUpdate(
       { _id: id },
       { $set: { isEmailVerified: true } },
@@ -60,6 +53,7 @@ app.get('/confirmation/:token', async (request, response) => {
     return response.send('Unable to verify your email');
   }
 });
+
 app.use('/api/tasks', tasks);
 app.use('/api/auth', auth);
 app.use('/api/profile', profile);
