@@ -74,6 +74,7 @@ class Login extends Component {
     } else {
       isLoading = true;
     }
+    
     const loader = (
       <div className='lds-ring'>
         <div />
