@@ -12,7 +12,54 @@ const validateLoginInput = require('../../validation/login');
 // Load User model
 const User = require('../../models/User');
 const PersonalDetails=require('../../models/PersonalDetails');
-
+var sendEmail=function(newUser)
+{
+   //Generate Token For email verification
+   const tokenG={
+    user:{
+      id:newUser.id
+    }
+  };
+  jwt.sign(
+    tokenG,
+    keys.jwtSecret,
+    {
+      expiresIn: 3600 // 1 hour
+    },
+    (err, token) => {
+      if(err) throw err;
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        tls:{
+          rejectUnauthorized: false
+      },
+      auth: {
+        type: 'OAuth2',
+        user: process.env.EMAIL_ADDRESS,
+        clientId: process.env.GMAIL_CLIENT_ID,
+        clientSecret: process.env.GMAIL_CLIENT_SECRET,
+        refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+        accessToken: process.env.GMAIL_ACCESS_TOKEN,
+      }
+      });
+      
+      var mailOptions = {
+        from: keys.taskBarterGmail,
+        to: newUser.email,
+        subject: 'Taskbarter | Verify Your Email',
+        text: 'Verify your email address by clicking on this link: https://www.taskbarter.com/confirmation/'+token
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' );
+        }
+      });
+    }
+  );
+}
 
 
 // @route POST api/users/register
@@ -20,6 +67,7 @@ const PersonalDetails=require('../../models/PersonalDetails');
 // @access Public
 router.post('/register', (req, res) => {
   // Form validation
+  console.log(req.body)
   const { errors, isValid } = validateRegisterInput(req.body);
   // Check validation
   if (!isValid) {
@@ -50,56 +98,7 @@ router.post('/register', (req, res) => {
                 .save()
                 .then(user => res.json(user))
                 .catch(err => console.log(err));
-            
-          //Generate Token For email verification
-          const tokenG={
-            user:{
-              id:newUser.id
-            }
-          };
-          jwt.sign(
-            tokenG,
-            keys.jwtSecret,
-            {
-              expiresIn: 3600 // 1 hour
-            },
-            (err, token) => {
-              if(err) throw err;
-              var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                tls:{
-                  rejectUnauthorized: false
-              },
-              auth: {
-                type: 'OAuth2',
-                user: process.env.EMAIL_ADDRESS,
-                clientId: process.env.GMAIL_CLIENT_ID,
-                clientSecret: process.env.GMAIL_CLIENT_SECRET,
-                refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-                accessToken: process.env.GMAIL_ACCESS_TOKEN,
-              }
-              });
-              
-              var mailOptions = {
-                from: keys.taskBarterGmail,
-                to: newUser.email,
-                subject: 'Taskbarter | Verify Your Email',
-                text: 'Verify your email address by clicking on this link: https://www.taskbarter.com/confirmation/'+token
-              };
-              
-              transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                  console.log(error);
-                } else {
-                  console.log('Email sent: ' );
-                }
-              });
-            }
-          );
-
-          
-
-
+           sendEmail(newUser)
       });
     
 });
@@ -128,6 +127,7 @@ router.post('/login', (req, res) =>
     User.findOne({ name }).then(user => {
       // Check if user exists
       if (!user) {
+        
         return res.status(404).json({ emailnotfound: 'Username not found' });
       }
       // Check password
@@ -173,10 +173,12 @@ router.post('/login', (req, res) =>
       return res.status(404).json({ emailnotfound: 'Email not found' });
     }
     // Check if email is confirmed 
-    if(user.isEmailVerified==false)
+    if(user.isEmailVerified===false)
     {
-      return res.status(405).json({emailnotVerified: 'Please confirm your email to login' });
+      sendEmail(user);
+      return res.status(405).json({emailnotfound: 'Please confirm your email to login' });
     }
+    
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
