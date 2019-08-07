@@ -39,3 +39,38 @@ export const addTask = (taskData, history) => async dispatch => {
     return false;
   }
 };
+
+// get profile
+
+export const getAllTasks = () => async dispatch => {
+  console.log('here1');
+
+  dispatch(setTaskLoading());
+  console.log('here2');
+
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+
+    const res = await axios.get('/api/tasks');
+    console.log(res.data);
+
+    dispatch({
+      type: GET_TASKS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_TASKS, //   get errors might be more graceful
+      payload: {}
+    });
+  }
+};
+
+export const setTaskLoading = () => {
+  return {
+    type: TASK_LOADING
+  };
+};

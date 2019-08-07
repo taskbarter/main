@@ -1,8 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getAllTasks } from '../../actions/taskAction';
 
 const RecommendedTasks = props => {
+  if (props.task.tasks.length < 1 && !props.task.loading) {
+    props.getAllTasks();
+    console.log('in here');
+  }
+  console.log(props.task.loading);
+
   return (
     <div className='card card-body'>
       <div className='tasks-heading'>Recommended Tasks</div>
@@ -136,11 +143,15 @@ const RecommendedTasks = props => {
 };
 
 RecommendedTasks.propTypes = {
-  task: PropTypes.object.isRequired
+  task: PropTypes.object.isRequired,
+  getAllTasks: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   task: state.task
 });
 
-export default connect()(RecommendedTasks);
+export default connect(
+  mapStateToProps,
+  { getAllTasks }
+)(RecommendedTasks);
