@@ -55,7 +55,7 @@ app.get('/confirmation/:token', async (request, response) => {
       { new: true }
     );
     console.log('Verified');
-    return response.redirect('http://taskbarter.com/UserInfo');
+    return response.redirect('/UserInfo');
   } catch (e) {
     return response.send('Unable to verify your email');
   }
