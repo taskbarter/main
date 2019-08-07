@@ -219,6 +219,12 @@ router.post('/login', (req, res) =>
               bcrypt.compare(password, user.password).then(isMatch => 
               {
                 if (isMatch) {
+                  
+                  if(user.isEmailVerified===false)
+                  {
+                    sendEmail(user);
+                    return res.status(405).json({emailnotfound: 'Please confirm your email to login' });
+                  }
                   // User matched
                   // Create JWT Payload
                   const payload = {
