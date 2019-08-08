@@ -159,9 +159,6 @@ class Second extends Component {
 class Progress extends Component {
   constructor() {
     super();
-    this.startTimer = this.startTimer.bind(this);
-    this.stopTimer = this.stopTimer.bind(this);
-    this.resetTimer = this.resetTimer.bind(this);
   }
   state = {
     isActiveClass: '',
