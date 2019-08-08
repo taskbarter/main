@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
-const deafult=require("../../config/default");
+const deafult = require('../../config/default');
 // To send Email
 const nodemailer = require('nodemailer');
 // Load input validation
@@ -11,13 +11,15 @@ const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 // Load User model
 const User = require('../../models/User');
-const PersonalDetails=require('../../models/PersonalDetails');
-var sendEmail=function(newUser)
-{
-   //Generate Token For email verification
-   const tokenG={
-    user:{
-      id:newUser.id
+const PersonalDetails = require('../../models/PersonalDetails');
+
+const htmlForConfirmation = require('../../emails/confirmation');
+
+var sendEmail = function(newUser) {
+  //Generate Token For email verification
+  const tokenG = {
+    user: {
+      id: newUser.id
     }
   };
   jwt.sign(
@@ -27,47 +29,54 @@ var sendEmail=function(newUser)
       expiresIn: 3600 // 1 hour
     },
     (err, token) => {
-      if(err) throw err;
+      if (err) throw err;
       var transporter = nodemailer.createTransport({
         service: 'gmail',
-        tls:{
+        tls: {
           rejectUnauthorized: false
-      },
-      auth: {
-        type: 'OAuth2',
-        user: process.env.EMAIL_ADDRESS,
-        clientId: process.env.GMAIL_CLIENT_ID,
-        clientSecret: process.env.GMAIL_CLIENT_SECRET,
-        refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-        accessToken: process.env.GMAIL_ACCESS_TOKEN,
-      }
+        },
+        auth: {
+          type: 'OAuth2',
+          user: process.env.EMAIL_ADDRESS,
+          clientId: process.env.GMAIL_CLIENT_ID,
+          clientSecret: process.env.GMAIL_CLIENT_SECRET,
+          refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+          accessToken: process.env.GMAIL_ACCESS_TOKEN
+        }
       });
-      
+
       var mailOptions = {
         from: keys.taskBarterGmail,
         to: newUser.email,
         subject: 'Taskbarter | Verify Your Email',
-        text: 'Verify your email address by clicking on this link: https://www.taskbarter.com/confirmation/'+token
+        text:
+          'Verify your email address by clicking on this link: https://www.taskbarter.com/confirmation/' +
+          token,
+        html: htmlForConfirmation(
+          newUser.fname,
+          newUser.sname,
+          newUser.email,
+          'https://www.taskbarter.com/confirmation/' + token
+        )
       };
-      
-      transporter.sendMail(mailOptions, function(error, info){
+
+      transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
           console.log(error);
         } else {
-          console.log('Email sent: ' );
+          console.log('Email sent: ');
         }
       });
     }
   );
-}
-
+};
 
 // @route POST api/users/register
 // @desc Register user
 // @access Public
 router.post('/register', (req, res) => {
   // Form validation
-  console.log(req.body)
+  console.log(req.body);
   const { errors, isValid } = validateRegisterInput(req.body);
   // Check validation
   if (!isValid) {
@@ -80,29 +89,27 @@ router.post('/register', (req, res) => {
     User.findOne({ name: req.body.name }).then(user => {
       if (user) {
         return res.status(400).json({ email: 'Username already exists' });
+      } else {
+        const newUser = new User({
+          sname: req.body.sname,
+          fname: req.body.fname,
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password
+        });
+        // Hash password before saving in database
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+              .save()
+              .then(user => res.json(user))
+              .catch(err => console.log(err));
+            sendEmail(newUser);
+          });
+        });
       }
-     else {
-      const newUser = new User({
-        sname: req.body.sname,
-        fname: req.body.fname,
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-      });
-      // Hash password before saving in database
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser
-                .save()
-                .then(user => res.json(user))
-                .catch(err => console.log(err));
-           sendEmail(newUser)
-      });
-    
-});
-     }
     });
   });
 });
@@ -110,8 +117,7 @@ router.post('/register', (req, res) => {
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-router.post('/login', (req, res) =>
-{
+router.post('/login', (req, res) => {
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
@@ -127,7 +133,6 @@ router.post('/login', (req, res) =>
     User.findOne({ name }).then(user => {
       // Check if user exists
       if (!user) {
-        
         return res.status(404).json({ emailnotfound: 'Username not found' });
       }
       // Check password
@@ -167,22 +172,20 @@ router.post('/login', (req, res) =>
   // Find user by email
 
   User.findOne({ email }).then(user => {
-     
     // Check if user exists
-    if (!user) 
+    if (!user)
       return res.status(404).json({ emailnotfound: 'Email not found' });
-    
-    
+
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-      
-      // Check if email is confirmed 
-      if(user.isEmailVerified===false)
-      {
-        sendEmail(user);
-        return res.status(405).json({emailnotfound: 'Please confirm your email to login' });
-      }
+        // Check if email is confirmed
+        if (user.isEmailVerified === false) {
+          sendEmail(user);
+          return res
+            .status(405)
+            .json({ emailnotfound: 'Please confirm your email to login' });
+        }
         // User matched
         // Create JWT Payload
         const payload = {
@@ -203,65 +206,59 @@ router.post('/login', (req, res) =>
             });
           }
         );
-      } 
-      else 
-      {
-        if (email.includes('@')) 
-        {
-            User.findOne({ email }).then(user => {
-              // Check if user exists
-              if (!user) {
-                  return res
-                  .status(404)
-                  .json({ emailnotfound: 'Email address not found' });
-              }
-              // Check password
-              bcrypt.compare(password, user.password).then(isMatch => 
-              {
-                if (isMatch) {
-      
-                  if(user.isEmailVerified===false)
+      } else {
+        if (email.includes('@')) {
+          User.findOne({ email }).then(user => {
+            // Check if user exists
+            if (!user) {
+              return res
+                .status(404)
+                .json({ emailnotfound: 'Email address not found' });
+            }
+            // Check password
+            bcrypt.compare(password, user.password).then(isMatch => {
+              if (isMatch) {
+                if (user.isEmailVerified === false) {
+                  sendEmail(user);
+                  return res.status(405).json({
+                    emailnotfound: 'Please confirm your email to login'
+                  });
+                }
+                // User matched
+                // Create JWT Payload
+                const payload = {
+                  id: user.id,
+                  name: user.name
+                };
+                // Sign token
+                jwt.sign(
+                  payload,
+                  keys.secretOrKey,
                   {
-                    sendEmail(user);
-                    return res.status(405).json({emailnotfound: 'Please confirm your email to login' });
+                    expiresIn: 31556926 // 1 year in seconds
+                  },
+                  (err, token) => {
+                    res.json({
+                      success: true,
+                      token: 'Bearer ' + token
+                    });
                   }
-                  // User matched
-                  // Create JWT Payload
-                  const payload = {
-                    id: user.id,
-                    name: user.name
-                  };
-                  // Sign token
-                  jwt.sign(
-                    payload,
-                    keys.secretOrKey,
-                    {
-                      expiresIn: 31556926 // 1 year in seconds
-                    },
-                    (err, token) => {
-                      res.json({
-                        success: true,
-                        token: 'Bearer ' + token
-                      });
-                    }
-                  );
-                }
-                else 
-                {
-                  return res
-                    .status(400)
-                    .json({ passwordincorrect: 'Password incorrect' });
-                }
-        });
-      });
-    }
- }});
-});
+                );
+              } else {
+                return res
+                  .status(400)
+                  .json({ passwordincorrect: 'Password incorrect' });
+              }
+            });
+          });
+        }
+      }
+    });
+  });
 });
 
 //User Personal Details
-router.post('/userpersonaldetails',(req,res) =>
-{
+router.post('/userpersonaldetails', (req, res) => {
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
@@ -271,20 +268,19 @@ router.post('/userpersonaldetails',(req,res) =>
   const userpersonaldetails = new PersonalDetails({
     FName: req.body.FName,
     Lname: req.body.LName,
-    address:req.body.address,
-    headline:req.body.headline,
-    DobDay:req.body.DobDay,
-    DobMonth:req.body.DobMonth,
-    DobYear:req.body.DobYear,
-    PhoneNo:req.body.PhoneNo,
-    gender:req.body.gender
+    address: req.body.address,
+    headline: req.body.headline,
+    DobDay: req.body.DobDay,
+    DobMonth: req.body.DobMonth,
+    DobYear: req.body.DobYear,
+    PhoneNo: req.body.PhoneNo,
+    gender: req.body.gender
   });
 
   userpersonaldetails
-            .save()
-            .then(console.log('User details inserted'))
-            .catch(err => console.log(err));
-}); 
+    .save()
+    .then(console.log('User details inserted'))
+    .catch(err => console.log(err));
+});
 
-      
 module.exports = router;
