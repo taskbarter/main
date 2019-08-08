@@ -20,6 +20,65 @@ const RecommendedTasks = props => {
     }
   };
 
+  const dateEpx = Taskdate => {
+    const secondInMilisecond = 1000;
+    const minuitInMilisecond = 1000 * 60;
+    const hourInMilisecond = 1000 * 60 * 60;
+    const dayInMilisecond = 1000 * 60 * 60 * 24;
+    const weekInMilisecond = 1000 * 60 * 60 * 24 * 7;
+    const monthInMilisecond = 1000 * 60 * 60 * 24 * 30;
+
+    var localDateOfTask = new Date(Taskdate);
+
+    var currentDate = Date.now();
+    var lcd = new Date(currentDate);
+
+    var diffTime = lcd.getTime() - localDateOfTask.getTime();
+
+    var showTime;
+
+    if (diffTime / monthInMilisecond >= 1) {
+      showTime =
+        `about ${Math.round(diffTime / monthInMilisecond)} month` +
+        (Math.round(diffTime / monthInMilisecond) == 1 ? '' : 's') +
+        ' ' +
+        'ago';
+    } else if (diffTime / weekInMilisecond > 1) {
+      showTime =
+        `about ${Math.round(diffTime / weekInMilisecond)} week` +
+        (Math.round(diffTime / weekInMilisecond) == 1 ? '' : 's') +
+        ' ' +
+        'ago';
+    } else if (diffTime / dayInMilisecond > 1) {
+      showTime =
+        `about ${Math.round(diffTime / dayInMilisecond)} day` +
+        (Math.round(diffTime / dayInMilisecond) == 1 ? '' : 's') +
+        ' ' +
+        'ago';
+    } else if (diffTime / hourInMilisecond > 1) {
+      showTime =
+        `about ${Math.round(diffTime / hourInMilisecond)} hour` +
+        (Math.round(diffTime / hourInMilisecond) == 1 ? '' : 's') +
+        ' ' +
+        'ago';
+    } else if (diffTime / minuitInMilisecond > 1) {
+      showTime =
+        `about ${Math.round(diffTime / minuitInMilisecond)} minuit` +
+        (Math.round(diffTime / minuitInMilisecond) == 1 ? '' : 's') +
+        ' ' +
+        'ago';
+    } else if (diffTime / secondInMilisecond > 1) {
+      showTime =
+        `about ${Math.round(diffTime / secondInMilisecond)} second` +
+        (Math.round(diffTime / secondInMilisecond) == 1 ? '' : 's') +
+        ' ' +
+        'ago';
+    }
+
+    console.log(showTime);
+    return <div>{showTime}</div>;
+  };
+
   const alltasksDOM = allTasks.map((tsk, i) => (
     <div className='task-entry mb-1' key={tsk._id}>
       <div className='task-entry-body'>
@@ -38,7 +97,9 @@ const RecommendedTasks = props => {
               </div>
             ))}
           </div>
-          <div className='col-sm-4 task-date'>added 3 hours ago</div>
+          <div id={tsk._id + 'date'} className='col-sm-4 task-date'>
+            {dateEpx(tsk.date)}
+          </div>
         </div>
       </div>
       <div className='task-footer'>
