@@ -80,8 +80,6 @@ const ProfileBadge = props => {
         catched: true
       });
 
-    //skilos = ['Create Profile to Add skills'];
-
     console.log('There is no profile currently');
   }
   // FOR SKILLS
@@ -89,7 +87,7 @@ const ProfileBadge = props => {
   const skillsbadges2 = skils => {
     if (skils.length > 6) {
       let fsix = skils.slice(0, 6);
-      //console.log(fsix);
+
       return fsix.map((skl, i) => (
         <div className='profile-badge-category' key={i}>
           {skl}

@@ -9,7 +9,6 @@ const RecommendedTasks = props => {
     props.getAllTasks();
   }
   const allTasks = props.task.tasks;
-  console.log(allTasks);
 
   const heartClick = (e, id) => {
     if (document.getElementById(e.target.id).classList.contains('far')) {
@@ -88,7 +87,6 @@ const RecommendedTasks = props => {
         'ago';
     }
 
-    console.log(showTime);
     return <div>{showTime}</div>;
   };
 

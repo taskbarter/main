@@ -33,8 +33,6 @@ export const addTask = (taskData, history) => async dispatch => {
     //history.push('/dashboard');
     return true;
   } catch (err) {
-    console.log('res.data inside err');
-
     console.log(err);
     return false;
   }
@@ -43,10 +41,7 @@ export const addTask = (taskData, history) => async dispatch => {
 // get profile
 
 export const getAllTasks = () => async dispatch => {
-  console.log('here1');
-
   dispatch(setTaskLoading());
-  console.log('here2');
 
   try {
     const mtok = localStorage.jwtToken;
@@ -74,7 +69,6 @@ export const toggleLike = id => async dispatch => {
     if (mtok) {
       setAuthToken(mtok);
     }
-    console.log('LIKE');
 
     const res = await axios.put(`/api/tasks/like/${id}`);
 

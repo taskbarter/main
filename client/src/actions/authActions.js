@@ -71,11 +71,13 @@ export const logoutUser = () => dispatch => {
 };
 
 // User Personal Information
-export const userPersonalDetails=(userPersonalDetails,history)=> dispatch =>{
- 
+export const userPersonalDetails = (
+  userPersonalDetails,
+  history
+) => dispatch => {
   axios
     .post(url + '/api/users/userpersonaldetails', userPersonalDetails)
-    .then(console.log('Suceesful'))
+    .then(console.log('Suceessful'))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
