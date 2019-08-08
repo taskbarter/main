@@ -1,0 +1,23 @@
+.nav {
+  margin-bottom: 15px;
+  text-align: center;
+  display: block;
+}
+
+.dot {
+  color: black;
+  cursor: pointer;
+  font-size: 36px;
+  line-height: 1;
+  margin: 0 15px;
+  opacity: 0.4;
+  text-shadow: none;
+  transition: opacity 1s ease, text-shadow 1s ease;
+  will-change: opacity, text-shadow;
+}
+
+.active {
+  color: var(--blue);
+  opacity: 1;
+  text-shadow: 0 0px 8px;
+}
