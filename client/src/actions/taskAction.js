@@ -68,6 +68,25 @@ export const getAllTasks = () => async dispatch => {
   }
 };
 
+export const toggleLike = id => async dispatch => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    console.log('LIKE');
+
+    const res = await axios.put(`/api/tasks/like/${id}`);
+
+    dispatch(getAllTasks());
+  } catch (err) {
+    dispatch({
+      type: GET_TASKS, //   get errors might be more graceful
+      payload: {}
+    });
+  }
+};
+
 export const setTaskLoading = () => {
   return {
     type: TASK_LOADING

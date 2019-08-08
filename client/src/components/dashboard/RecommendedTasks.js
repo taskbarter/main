@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAllTasks } from '../../actions/taskAction';
+import { toggleLike } from '../../actions/taskAction';
 
 const RecommendedTasks = props => {
   if (props.task.tasks.length < 1 && !props.task.loading) {
@@ -10,7 +11,7 @@ const RecommendedTasks = props => {
   const allTasks = props.task.tasks;
   console.log(allTasks);
 
-  const heartClick = e => {
+  const heartClick = (e, id) => {
     if (document.getElementById(e.target.id).classList.contains('far')) {
       document.getElementById(e.target.id).classList.remove('far');
       document.getElementById(e.target.id).classList.add('fas');
@@ -18,6 +19,18 @@ const RecommendedTasks = props => {
       document.getElementById(e.target.id).classList.remove('fas');
       document.getElementById(e.target.id).classList.add('far');
     }
+    props.toggleLike(id);
+  };
+
+  const preHeartFun = likes => {
+    const { auth } = props;
+    var i;
+    if (likes.filter(like => like.user === auth.user.id).length > 0) {
+      i = 'fas';
+    } else {
+      i = 'far';
+    }
+    return i;
   };
 
   const dateEpx = Taskdate => {
@@ -105,9 +118,9 @@ const RecommendedTasks = props => {
       <div className='task-footer'>
         <span className='task-fav'>
           <i
-            onClick={heartClick}
-            id={tsk._id + 1}
-            className='far fa-heart fa-fw'
+            onClick={e => heartClick(e, tsk._id)}
+            id={tsk._id + 'heart'}
+            className={preHeartFun(tsk.likes) + ' fa-heart fa-fw'}
           />
         </span>
         <button className='btn task-hire-btn'>Send Proposal</button>
@@ -137,14 +150,17 @@ const RecommendedTasks = props => {
 
 RecommendedTasks.propTypes = {
   task: PropTypes.object.isRequired,
-  getAllTasks: PropTypes.func.isRequired
+  auth: PropTypes.object.isRequired,
+  getAllTasks: PropTypes.func.isRequired,
+  toggleLike: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  task: state.task
+  task: state.task,
+  auth: state.auth
 });
 
 export default connect(
   mapStateToProps,
-  { getAllTasks }
+  { getAllTasks, toggleLike }
 )(RecommendedTasks);
