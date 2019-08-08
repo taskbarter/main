@@ -941,6 +941,7 @@ header nav.navbar {
   border-radius: 3px;
   display: inline;
   color: #504444;
+  margin-right: 3px;
 }
 
 .task-points {
