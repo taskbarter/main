@@ -112,8 +112,35 @@ const Stats = ({
 /** Steps */
 
 class First extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      img: ''
+    };
+  }
+
   update = e => {
     this.props.update(e.target.name, e.target.value);
+  };
+
+  uploadImage = () => {
+    let widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: 'taskbarter',
+        uploadPreset: 'profile_pictures',
+        cropping: true
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          console.log('Done! Here is the image info: ', result.info);
+          this.props.update('img_url', result.info.secure_url);
+          this.setState({
+            img: result.info.secure_url
+          });
+        }
+      }
+    );
+    widget.open();
   };
 
   render() {
@@ -129,6 +156,8 @@ class First extends Component {
           placeholder='First Name'
           onChange={this.update}
         />
+        {this.state.img !== '' ? <img src={this.state.img} /> : ''}
+        <button onClick={this.uploadImage}>Upload Image</button>
         <Stats step={1} {...this.props} />
       </div>
     );

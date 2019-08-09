@@ -17,7 +17,7 @@
 }
 
 .active {
-  color: var(--blue);
+  color: #433881;
   opacity: 1;
   text-shadow: 0 0px 8px;
 }
