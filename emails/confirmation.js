@@ -133,7 +133,7 @@ return `
                                                    <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #868686; font-size: 15px; line-height: 20px;">
                                                    <span style="color:#433881; font-size: 18px">Taskbarter</span>
                                                    <br>
-                                                   The one and only app to exchange your skills for free</span>
+                                                   The one and only app where people can exchange skills for free!</span>
                                                    </font>
                                                    <div style="height: 4px; line-height: 4px; font-size: 2px;">&nbsp;</div>
                                                    <div style="height: 3px; line-height: 3px; font-size: 1px;">&nbsp;</div>
