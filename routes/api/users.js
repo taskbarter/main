@@ -15,7 +15,7 @@ const PersonalDetails = require('../../models/PersonalDetails');
 
 const htmlForConfirmation = require('../../emails/confirmation');
 
-var sendEmail = function(newUser) {
+var sendEmailVerification = function(newUser) {
   //Generate Token For email verification
   const tokenG = {
     user: {
@@ -106,7 +106,7 @@ router.post('/register', (req, res) => {
               .save()
               .then(user => res.json(user))
               .catch(err => console.log(err));
-            sendEmail(newUser);
+            sendEmailVerification(newUser);
           });
         });
       }
@@ -181,7 +181,7 @@ router.post('/login', (req, res) => {
       if (isMatch) {
         // Check if email is confirmed
         if (user.isEmailVerified === false) {
-          sendEmail(user);
+          sendEmailVerification(user);
           return res
             .status(405)
             .json({ emailnotfound: 'Please confirm your email to login' });
@@ -219,7 +219,7 @@ router.post('/login', (req, res) => {
             bcrypt.compare(password, user.password).then(isMatch => {
               if (isMatch) {
                 if (user.isEmailVerified === false) {
-                  sendEmail(user);
+                  sendEmailVerification(user);
                   return res.status(405).json({
                     emailnotfound: 'Please confirm your email to login'
                   });
