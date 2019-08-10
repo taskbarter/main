@@ -128,7 +128,12 @@ class First extends Component {
       {
         cloudName: 'taskbarter',
         uploadPreset: 'profile_pictures',
-        cropping: true
+        resource_type: 'image',
+        cropping: true,
+        format: 'jpg',
+        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'svg'],
+        max_file_size: 1048576, 
+        multiple: false
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
