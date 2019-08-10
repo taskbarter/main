@@ -10,7 +10,7 @@ const url = ''; //'http://' + CURRENT_URL + ':' + CURRENT_PORT;
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post(url + '/api/users/register', userData)
-    .then(res => history.push('/login'))
+    .then(res => history.push('/login?v=1'))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
