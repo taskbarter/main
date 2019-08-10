@@ -38,7 +38,7 @@ class Login extends Component {
         empty: 'The fields are empty'
       }
     });
-    this.props.location.search.v!== undefined ? console.log(this.props.location.search.v);
+    this.props.location.search.v!== undefined ? console.log(this.props.location.search.v) : ();
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
