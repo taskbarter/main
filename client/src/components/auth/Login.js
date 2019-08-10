@@ -101,6 +101,9 @@ class Login extends Component {
               <strong>Error: </strong> {errMsg}
             </div>
           ) : null}
+          {(this.props.location.search.v === '1') ? (<div className='alert alert-success text-center'>
+              <strong>Success: </strong> verification email has been sent at your email address
+            </div>) : ''}
           <div className='form-label-group'>
             <input
               onChange={this.onChange}
