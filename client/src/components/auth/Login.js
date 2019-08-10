@@ -13,7 +13,7 @@ class Login extends Component {
       password: '',
       errors: {},
       errMsg: '',
-      isLoading: false 
+      isLoading: false
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -38,7 +38,8 @@ class Login extends Component {
         empty: 'The fields are empty'
       }
     });
-    this.props.location.search.v!== undefined ? console.log(this.props.location.search.v) : ();
+    this.props.location.search.v !== undefined &&
+      console.log(this.props.location.search.v);
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
@@ -75,7 +76,7 @@ class Login extends Component {
     } else {
       isLoading = true;
     }
-    
+
     const loader = (
       <div className='lds-ring'>
         <div />
@@ -90,8 +91,7 @@ class Login extends Component {
 
     return (
       <div>
-      
-       <form className='form-signin' noValidate onSubmit={this.onSubmit}>
+        <form className='form-signin' noValidate onSubmit={this.onSubmit}>
           <div className='text-center mb-4'>
             <Link to='/'>
               <img className='mb-4 login-logo' src={logo} alt='' />
@@ -102,9 +102,14 @@ class Login extends Component {
               <strong>Error: </strong> {errMsg}
             </div>
           ) : null}
-          {(this.props.location.search.v!==undefined) ? (<div className='alert alert-success text-center'>
-              <strong>Success: </strong> verification email has been sent at your email address
-            </div>) : ''}
+          {this.props.location.search.v !== undefined ? (
+            <div className='alert alert-success text-center'>
+              <strong>Success: </strong> verification email has been sent at
+              your email address
+            </div>
+          ) : (
+            ''
+          )}
           <div className='form-label-group'>
             <input
               onChange={this.onChange}
