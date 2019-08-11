@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,9 +7,12 @@ import { dateEpx } from '../../actions/taskAction';
 import { toggleLike } from '../../actions/taskAction';
 
 const RecommendedTasks = props => {
-  if (props.task.tasks.length < 1 && !props.task.loading) {
-    props.getAllTasks();
-  }
+  useEffect(() => {
+    props.getAllTasks(3);
+  }, []);
+  // if (props.task.tasks.length < 1 && !props.task.loading) {
+  //   props.getAllTasks(3);
+  // }
   const allTasks = props.task.tasks;
 
   const heartClick = (e, id) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
@@ -8,9 +8,14 @@ import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 
 const ExploreTasks = props => {
-  if (props.task.tasks.length < 1 && !props.task.loading) {
-    props.getAllTasks();
-  }
+  // replacement of component did mount hook
+  useEffect(() => {
+    props.getAllTasks(0);
+  }, []);
+
+  //   if (props.task.tasks.length < 1 && !props.task.loading) {
+  //     props.getAllTasks(0);
+  //   }
   const allTasks = props.task.tasks;
 
   const heartClick = (e, id) => {
@@ -89,9 +94,6 @@ const ExploreTasks = props => {
         <div className='tasks-heading'>All Tasks</div>
 
         <div className='tasks-entries pt-2'>{alltasksDOM}</div>
-        <Link to='/explore'>
-          <button className='mt-3 btn redeem-btn'>View More Tasks...</button>
-        </Link>
       </div>
     </div>
   );

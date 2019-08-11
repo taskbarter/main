@@ -40,7 +40,8 @@ export const addTask = (taskData, history) => async dispatch => {
 
 // get profile
 
-export const getAllTasks = () => async dispatch => {
+export const getAllTasks = t => async dispatch => {
+  var total_tasks = t || 0; // zero means all
   dispatch(setTaskLoading());
 
   try {
@@ -48,8 +49,8 @@ export const getAllTasks = () => async dispatch => {
     if (mtok) {
       setAuthToken(mtok);
     }
-
-    const res = await axios.get('/api/tasks/3');
+    console.log(total_tasks);
+    const res = await axios.get(`/api/tasks/${total_tasks}`);
 
     dispatch({
       type: GET_TASKS,
