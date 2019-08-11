@@ -139,6 +139,14 @@ router.post('/login', (req, res) => {
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
           // User matched
+
+          if (!user.isEmailVerified) {
+            sendEmailVerification(user);
+            return res
+              .status(405)
+              .json({ emailnotfound: 'Please confirm your email to login' });
+          }
+
           // Create JWT Payload
           const payload = {
             id: user.id,
@@ -180,7 +188,7 @@ router.post('/login', (req, res) => {
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         // Check if email is confirmed
-        if (user.isEmailVerified === false) {
+        if (!user.isEmailVerified) {
           sendEmailVerification(user);
           return res
             .status(405)
@@ -206,52 +214,6 @@ router.post('/login', (req, res) => {
             });
           }
         );
-      } else {
-        if (email.includes('@')) {
-          User.findOne({ email }).then(user => {
-            // Check if user exists
-            if (!user) {
-              return res
-                .status(404)
-                .json({ emailnotfound: 'Email address not found' });
-            }
-            // Check password
-            bcrypt.compare(password, user.password).then(isMatch => {
-              if (isMatch) {
-                if (user.isEmailVerified === false) {
-                  sendEmailVerification(user);
-                  return res.status(405).json({
-                    emailnotfound: 'Please confirm your email to login'
-                  });
-                }
-                // User matched
-                // Create JWT Payload
-                const payload = {
-                  id: user.id,
-                  name: user.name
-                };
-                // Sign token
-                jwt.sign(
-                  payload,
-                  keys.secretOrKey,
-                  {
-                    expiresIn: 31556926 // 1 year in seconds
-                  },
-                  (err, token) => {
-                    res.json({
-                      success: true,
-                      token: 'Bearer ' + token
-                    });
-                  }
-                );
-              } else {
-                return res
-                  .status(400)
-                  .json({ passwordincorrect: 'Password incorrect' });
-              }
-            });
-          });
-        }
       }
     });
   });

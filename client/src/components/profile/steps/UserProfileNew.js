@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import StepWizard from 'react-step-wizard';
-
+import logo from '../../../TaskBarterLogo_Transparent.png';
 import Nav from './nav';
 
 import styles from './wizard.css';
@@ -132,7 +132,7 @@ class First extends Component {
         cropping: true,
         format: 'jpg',
         allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'svg'],
-        max_file_size: 1048576, 
+        max_file_size: 1048576,
         multiple: false
       },
       (error, result) => {
