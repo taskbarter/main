@@ -91,7 +91,11 @@ class Login extends Component {
     );
 
     const errMsg =
-      this.state.errMsg || errors.passwordincorrect || errors.emailnotfound;
+      this.state.errMsg ||
+      errors.passwordincorrect ||
+      errors.emailnotfound ||
+      errors.usernamenotfound ||
+      errors.emailnotverified;
 
     return (
       <div>
@@ -103,7 +107,8 @@ class Login extends Component {
           </div>
           {errMsg ? (
             <div className='alert alert-danger text-center'>
-              <strong>Error: </strong> {errMsg}
+              <strong>Error: </strong>{' '}
+              <span dangerouslySetInnerHTML={{ __html: errMsg }} />
             </div>
           ) : null}
           {this.getParams(this.props.location).v === '1' ? (

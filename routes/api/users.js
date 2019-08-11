@@ -133,18 +133,19 @@ router.post('/login', (req, res) => {
     User.findOne({ name }).then(user => {
       // Check if user exists
       if (!user) {
-        return res.status(404).json({ emailnotfound: 'Username not found' });
+        return res.status(404).json({ usernamenotfound: 'Username not found' });
       }
       // Check password
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
           // User matched
-
           if (!user.isEmailVerified) {
             sendEmailVerification(user);
-            return res
-              .status(405)
-              .json({ emailnotfound: 'Please confirm your email to login' });
+            return res.status(405).json({
+              emailnotverified:
+                'Please verify your email address to login. <br/>Verification email sent to ' +
+                user.email
+            });
           }
 
           // Create JWT Payload
@@ -173,50 +174,50 @@ router.post('/login', (req, res) => {
         }
       });
     });
-  }
+  } else {
+    const email = req.body.email;
+    // Find user by email
+    User.findOne({ email }).then(user => {
+      // Check if user exists
+      if (!user)
+        return res.status(404).json({ emailnotfound: 'Email not found' });
 
-  const email = req.body.email;
-
-  // Find user by email
-
-  User.findOne({ email }).then(user => {
-    // Check if user exists
-    if (!user)
-      return res.status(404).json({ emailnotfound: 'Email not found' });
-
-    // Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
-        // Check if email is confirmed
-        if (!user.isEmailVerified) {
-          sendEmailVerification(user);
-          return res
-            .status(405)
-            .json({ emailnotfound: 'Please confirm your email to login' });
-        }
-        // User matched
-        // Create JWT Payload
-        const payload = {
-          id: user.id,
-          name: user.name
-        };
-        // Sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926 // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: 'Bearer ' + token
+      // Check password
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {
+          // Check if email is confirmed
+          if (!user.isEmailVerified) {
+            sendEmailVerification(user);
+            return res.status(405).json({
+              emailnotverified:
+                'Please verify your email address to login. <br/>Verification email sent to ' +
+                user.email
             });
           }
-        );
-      }
+          // User matched
+          // Create JWT Payload
+          const payload = {
+            id: user.id,
+            name: user.name
+          };
+          // Sign token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            {
+              expiresIn: 31556926 // 1 year in seconds
+            },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: 'Bearer ' + token
+              });
+            }
+          );
+        }
+      });
     });
-  });
+  }
 });
 
 //User Personal Details
