@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
@@ -9,9 +9,13 @@ import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 
 const ExploreTasks = props => {
+  const [data, setData] = useState({
+    pageNo: 1
+  });
+
   // replacement of component did mount hook
   useEffect(() => {
-    props.getAllTasks(10, 10);
+    props.getAllTasks(10, 0);
     props.getTasksCount();
   }, []);
 
@@ -89,23 +93,53 @@ const ExploreTasks = props => {
     </div>
   ));
 
+  console.log(data.pageNo);
+
+  const onPageButtonClick = e => {
+    if (e.target.id === 'pageinationbtndec') {
+      setData({ ...data, pageNo: data.pageNo - 1 });
+    } else if (e.target.id === 'pageinationbtninc') {
+      setData({ ...data, pageNo: data.pageNo - 1 + 2 }); // strange javascript behaviour
+    } else {
+      setData({ ...data, pageNo: e.target.value });
+    }
+  };
+
   const pageButtons = tButtons => {
     var btns = [];
     btns.push(
-      <button key='pageinationbtn0' className='btn m-1'>
+      <button
+        id={'pageinationbtndec'}
+        key='pageinationbtndec'
+        value='dec'
+        onClick={onPageButtonClick}
+        className='btn m-1'
+      >
         &lt;
       </button>
     );
     var i;
     for (i = 1; i <= tButtons; i++) {
       btns.push(
-        <button key={'pageinationbtn' + i} className='btn m-1'>
+        <button
+          id={'pageinationbtn' + i}
+          key={'pageinationbtn' + i}
+          value={i}
+          onClick={onPageButtonClick}
+          className='btn m-1'
+        >
           {i}
         </button>
       );
     }
     btns.push(
-      <button key={'pageinationbtn' + i} className='btn m-1'>
+      <button
+        id={'pageinationbtninc'}
+        key={'pageinationbtninc'}
+        value='inc'
+        onClick={onPageButtonClick}
+        className='btn m-1'
+      >
         &gt;
       </button>
     );
@@ -114,7 +148,7 @@ const ExploreTasks = props => {
 
   const paginations = tasksPerPage => {
     const totalButtons = Math.ceil(props.task.tasksCount / tasksPerPage);
-    console.log(totalButtons);
+
     if (totalButtons === 0) return;
 
     const btns = pageButtons(totalButtons);
