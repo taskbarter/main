@@ -98,10 +98,13 @@ const ExploreTasks = props => {
   const onPageButtonClick = e => {
     if (e.target.id === 'pageinationbtndec') {
       setData({ ...data, pageNo: data.pageNo - 1 });
+      props.getAllTasks(10, data.pageNo * 10);
     } else if (e.target.id === 'pageinationbtninc') {
       setData({ ...data, pageNo: data.pageNo - 1 + 2 }); // strange javascript behaviour
+      props.getAllTasks(10, data.pageNo * 10);
     } else {
       setData({ ...data, pageNo: e.target.value });
+      props.getAllTasks(10, (e.target.value - 1) * 10);
     }
   };
 
