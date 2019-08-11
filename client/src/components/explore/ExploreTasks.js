@@ -93,18 +93,18 @@ const ExploreTasks = props => {
     </div>
   ));
 
-  console.log(data.pageNo);
-
   const onPageButtonClick = e => {
     if (e.target.id === 'pageinationbtndec') {
+      if (data.pageNo === 1) return;
       setData({ ...data, pageNo: data.pageNo - 1 });
-      props.getAllTasks(10, data.pageNo * 10);
+      props.getAllTasks(10, (data.pageNo - 2) * 10); // updates on refresh so will not have been updated by then
     } else if (e.target.id === 'pageinationbtninc') {
       setData({ ...data, pageNo: data.pageNo - 1 + 2 }); // strange javascript behaviour
       props.getAllTasks(10, data.pageNo * 10);
     } else {
       setData({ ...data, pageNo: e.target.value });
       props.getAllTasks(10, (e.target.value - 1) * 10);
+      console.log(data.pageNo);
     }
   };
 
