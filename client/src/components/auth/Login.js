@@ -38,8 +38,6 @@ class Login extends Component {
         empty: 'The fields are empty'
       }
     });
-    this.props.location.search.v !== undefined &&
-      console.log(this.props.location.search.v);
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
@@ -102,10 +100,9 @@ class Login extends Component {
               <strong>Error: </strong> {errMsg}
             </div>
           ) : null}
-          {this.props.location.search.v !== undefined ? (
+          {this.props.location.search.split('=')[1] === '1' ? (
             <div className='alert alert-success text-center'>
-              <strong>Success: </strong> verification email has been sent at
-              your email address
+              <strong>Success: </strong> verification email has been sent
             </div>
           ) : (
             ''
