@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAllTasks } from '../../actions/taskAction';
@@ -139,9 +140,12 @@ const RecommendedTasks = props => {
 
   return (
     <div className='card card-body'>
-      <div className='tasks-heading'>Recommended Tasks</div>
+      <div className='tasks-heading'>Recently Added Tasks</div>
 
       <div className='tasks-entries pt-2'>{alltasksDOM}</div>
+      <Link to='/explore'>
+        <button className='mt-3 btn redeem-btn'>View More Tasks...</button>
+      </Link>
     </div>
   );
 };

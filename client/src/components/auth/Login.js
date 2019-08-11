@@ -27,6 +27,12 @@ class Login extends Component {
       });
     }
   }
+  getParams(location) {
+    const searchParams = new URLSearchParams(location.search);
+    return {
+      v: searchParams.get('v') || ''
+    };
+  }
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
