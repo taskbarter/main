@@ -27,6 +27,12 @@ class Login extends Component {
       });
     }
   }
+  getParams(location) {
+    const searchParams = new URLSearchParams(location.search);
+    return {
+      v: searchParams.get('v') || ''
+    };
+  }
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
@@ -38,8 +44,8 @@ class Login extends Component {
         empty: 'The fields are empty'
       }
     });
-    this.props.location.search.v !== undefined &&
-      console.log(this.props.location.search.v);
+    const vObj = this.getParams(this.props.location);
+    console.log(vObj);
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
