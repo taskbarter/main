@@ -91,7 +91,11 @@ class Login extends Component {
     );
 
     const errMsg =
-      this.state.errMsg || errors.passwordincorrect || errors.emailnotfound;
+      this.state.errMsg ||
+      errors.passwordincorrect ||
+      errors.emailnotfound ||
+      errors.usernamenotfound ||
+      errors.emailnotverified;
 
     return (
       <div>
