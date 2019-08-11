@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
 import { toggleLike } from '../../actions/taskAction';
+import { Link } from 'react-router-dom';
+import Navbar from '../layout/Navbar';
 
-const RecommendedTasks = props => {
+const ExploreTasks = props => {
   if (props.task.tasks.length < 1 && !props.task.loading) {
     props.getAllTasks();
   }
@@ -52,7 +53,7 @@ const RecommendedTasks = props => {
               </div>
             ))}
           </div>
-          <div id={tsk._id + 'date'} className='col-sm-4 task-date'>
+          <div id={tsk._id + 'dateexplore'} className='col-sm-4 task-date'>
             <div>{dateEpx(tsk.date)}</div>
           </div>
         </div>
@@ -82,18 +83,21 @@ const RecommendedTasks = props => {
   ));
 
   return (
-    <div className='card card-body'>
-      <div className='tasks-heading'>Recently Added Tasks</div>
+    <div>
+      <Navbar />
+      <div className='card card-body'>
+        <div className='tasks-heading'>All Tasks</div>
 
-      <div className='tasks-entries pt-2'>{alltasksDOM}</div>
-      <Link to='/explore'>
-        <button className='mt-3 btn redeem-btn'>View More Tasks...</button>
-      </Link>
+        <div className='tasks-entries pt-2'>{alltasksDOM}</div>
+        <Link to='/explore'>
+          <button className='mt-3 btn redeem-btn'>View More Tasks...</button>
+        </Link>
+      </div>
     </div>
   );
 };
 
-RecommendedTasks.propTypes = {
+ExploreTasks.propTypes = {
   task: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   getAllTasks: PropTypes.func.isRequired,
@@ -108,4 +112,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getAllTasks, toggleLike }
-)(RecommendedTasks);
+)(ExploreTasks);
