@@ -108,12 +108,12 @@ class AddTask extends Component {
     }
 
     if (skills.length > 3) {
-      err = 'You can only select 3 skills at max.'
+      err = 'You can only select 3 skills at max.';
       this.setState({
         error: { msg: err, type: 0 }
       });
     }
-    
+
     if (skills.length === 0) {
       err = 'You must select at least one skill to continue.';
       this.setState({
@@ -122,11 +122,11 @@ class AddTask extends Component {
     }
 
     if (!areTermsAccepted) {
-      err = 'You must agree to our terms and condition before you can submit a task.';
+      err =
+        'You must agree to our terms and condition before you can submit a task.';
       this.setState({
         error: {
-          msg:
-            err,
+          msg: err,
           type: 0
         }
       });
@@ -153,31 +153,30 @@ class AddTask extends Component {
     }
 
     //err = this.state.error.msg;
-    
+
     if (err !== '') {
       window.scrollTo(0, 0);
       return false;
-    }else{
-        const newTask = {
-      headline: this.state.headline,
-      description: this.state.description,
-      duration: this.state.duration,
-      category: this.state.category,
-      skills: this.state.skills,
-      points: this.state.points
-    };
+    } else {
+      const newTask = {
+        headline: this.state.headline,
+        description: this.state.description,
+        duration: this.state.duration,
+        category: this.state.category,
+        skills: this.state.skills,
+        points: this.state.points
+      };
 
-    if (this.props.addTask(newTask, this.props.history)) {
-      this.setState({
-        isAccepted: true,
-        error: {
-          msg:
-            'Your task has been successfully added and is public for everyone on Taskbarter.',
-          type: 2
-        }
-      });
-    }
-    
+      if (this.props.addTask(newTask, this.props.history)) {
+        this.setState({
+          isAccepted: true,
+          error: {
+            msg:
+              'Your task has been successfully added and is public for everyone on Taskbarter.',
+            type: 2
+          }
+        });
+      }
     }
   };
   render() {
@@ -336,7 +335,7 @@ class AddTask extends Component {
 
                     <div className='task-button-submit'>
                       <button type='submit' className='btn add-task-btn'>
-                        Add Task
+                        <a href='#'> Add Task</a>
                       </button>
                     </div>
                   </form>
