@@ -103,7 +103,8 @@ class Login extends Component {
           </div>
           {errMsg ? (
             <div className='alert alert-danger text-center'>
-              <strong>Error: </strong> {errMsg}
+              <strong>Error: </strong>{' '}
+              <span dangerouslySetInnerHTML={{ __html: errMsg }} />
             </div>
           ) : null}
           {this.getParams(this.props.location).v === '1' ? (

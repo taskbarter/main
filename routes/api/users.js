@@ -142,9 +142,11 @@ router.post('/login', (req, res) => {
 
           if (!user.isEmailVerified) {
             sendEmailVerification(user);
-            return res
-              .status(405)
-              .json({ emailnotfound: 'Please confirm your email to login' });
+            return res.status(405).json({
+              emailnotfound:
+                'Please confirm your email address to login. <br/>Verification email sent to ' +
+                user.email
+            });
           }
 
           // Create JWT Payload
@@ -190,9 +192,11 @@ router.post('/login', (req, res) => {
         // Check if email is confirmed
         if (!user.isEmailVerified) {
           sendEmailVerification(user);
-          return res
-            .status(405)
-            .json({ emailnotfound: 'Please confirm your email to login' });
+          return res.status(405).json({
+            emailnotfound:
+              'Please verify your email address to login. <br/>Verification email sent to ' +
+              user.email
+          });
         }
         // User matched
         // Create JWT Payload
