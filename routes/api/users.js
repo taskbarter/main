@@ -144,7 +144,7 @@ router.post('/login', (req, res) => {
             sendEmailVerification(user);
             return res.status(405).json({
               emailnotfound:
-                'Please confirm your email address to login. <br/>Verification email sent to ' +
+                'Please verify your email address to login. <br/>Verification email sent to ' +
                 user.email
             });
           }
