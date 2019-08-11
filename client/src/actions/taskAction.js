@@ -49,7 +49,7 @@ export const getAllTasks = () => async dispatch => {
       setAuthToken(mtok);
     }
 
-    const res = await axios.get('/api/tasks');
+    const res = await axios.get('/api/tasks/3');
 
     dispatch({
       type: GET_TASKS,
