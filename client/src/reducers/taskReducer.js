@@ -3,10 +3,13 @@ import {
   TASK_LOADING,
   GET_TASK,
   GET_TASKS,
-  DELETE_TASK
+  DELETE_TASK,
+  GET_TASKS_COUNT,
+  TASKS_COUNT_LOADING
 } from '../actions/types';
 
 const initialState = {
+  tasksCount: 0,
   tasks: [],
   task: {},
   loading: false
@@ -30,6 +33,17 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         tasks: action.payload
+      };
+    case GET_TASKS_COUNT:
+      return {
+        ...state,
+        loading: false,
+        tasksCount: action.payload
+      };
+    case TASKS_COUNT_LOADING:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;

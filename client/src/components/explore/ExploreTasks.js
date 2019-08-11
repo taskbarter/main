@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
+import { getTasksCount } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
 import { toggleLike } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
@@ -10,7 +11,8 @@ import Navbar from '../layout/Navbar';
 const ExploreTasks = props => {
   // replacement of component did mount hook
   useEffect(() => {
-    props.getAllTasks(0);
+    props.getAllTasks(10, 10);
+    props.getTasksCount();
   }, []);
 
   //   if (props.task.tasks.length < 1 && !props.task.loading) {
@@ -87,6 +89,43 @@ const ExploreTasks = props => {
     </div>
   ));
 
+  const pageButtons = tButtons => {
+    var btns = [];
+    btns.push(
+      <button key='pageinationbtn0' className='btn m-1'>
+        &lt;
+      </button>
+    );
+    var i;
+    for (i = 1; i <= tButtons; i++) {
+      btns.push(
+        <button key={'pageinationbtn' + i} className='btn m-1'>
+          {i}
+        </button>
+      );
+    }
+    btns.push(
+      <button key={'pageinationbtn' + i} className='btn m-1'>
+        &gt;
+      </button>
+    );
+    return btns;
+  };
+
+  const paginations = tasksPerPage => {
+    const totalButtons = Math.ceil(props.task.tasksCount / tasksPerPage);
+    console.log(totalButtons);
+    if (totalButtons === 0) return;
+
+    const btns = pageButtons(totalButtons);
+
+    return (
+      <div className='text-center'>
+        <div className='btn-group'>{btns}</div>
+      </div>
+    );
+  };
+
   return (
     <div>
       <Navbar />
@@ -94,6 +133,7 @@ const ExploreTasks = props => {
         <div className='tasks-heading'>All Tasks</div>
 
         <div className='tasks-entries pt-2'>{alltasksDOM}</div>
+        {paginations(10)}
       </div>
     </div>
   );
@@ -103,7 +143,8 @@ ExploreTasks.propTypes = {
   task: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   getAllTasks: PropTypes.func.isRequired,
-  toggleLike: PropTypes.func.isRequired
+  toggleLike: PropTypes.func.isRequired,
+  getTasksCount: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -113,5 +154,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getAllTasks, toggleLike }
+  { getAllTasks, toggleLike, getTasksCount }
 )(ExploreTasks);
