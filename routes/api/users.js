@@ -214,6 +214,10 @@ router.post('/login', (req, res) => {
               });
             }
           );
+        } else {
+          return res
+            .status(400)
+            .json({ passwordincorrect: 'Password incorrect' });
         }
       });
     });
