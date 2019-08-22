@@ -95,8 +95,8 @@ export const toggleLike = id => async dispatch => {
     }
 
     const res = await axios.put(`/api/tasks/like/${id}`);
-
-    dispatch(getAllTasks());
+    //  why call again??
+    //dispatch(getAllTasks());
   } catch (err) {
     dispatch({
       type: GET_TASKS, //   get errors might be more graceful
