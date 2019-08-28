@@ -14,7 +14,7 @@ const RecommendedTasks = props => {
   //   props.getAllTasks(3);
   // }
   const allTasks = props.task.tasks;
-
+  //testing comment
   const heartClick = (e, id) => {
     if (document.getElementById(e.target.id).classList.contains('far')) {
       document.getElementById(e.target.id).classList.remove('far');
