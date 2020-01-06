@@ -335,7 +335,7 @@ class AddTask extends Component {
 
                     <div className='task-button-submit'>
                       <button type='submit' className='btn add-task-btn'>
-                        <a href='#'> Add Task</a>
+                        Add Task
                       </button>
                     </div>
                   </form>
