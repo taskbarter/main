@@ -7,6 +7,7 @@ const User = require('./models/User');
 const jwt = require('jsonwebtoken');
 const auth = require('./routes/api/auth');
 const profile = require('./routes/api/profile');
+const search = require('./routes/api/search');
 const app = express();
 
 const keys = require('./config/keys');
@@ -57,6 +58,7 @@ app.get('/confirmation/:token', async (request, response) => {
 app.use('/api/tasks', tasks);
 app.use('/api/auth', auth);
 app.use('/api/profile', profile);
+app.use('/api/search', search);
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
