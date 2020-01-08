@@ -184,7 +184,6 @@ class AddTask extends Component {
     // console.log(this.state);
     return (
       <div>
-        <Navbar />
         <main role='main' className='container mt-4'>
           <div className='row'>
             <div className='col-md-4 order-md-2 mb-2'>
@@ -370,7 +369,4 @@ AddTask.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(
-  mapStateToProps,
-  { addTask }
-)(AddTask);
+export default connect(mapStateToProps, { addTask })(AddTask);
