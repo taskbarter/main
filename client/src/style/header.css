@@ -78,6 +78,13 @@
 .header-container .svg_icon {
   width: 1.9rem;
   margin-top: 15px;
+  -webkit-transition: width 50ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: width 50ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.header-container .svg_icon:active {
+  width: 1.7rem;
+  margin-bottom: 3px;
 }
 
 .header-container .nav-items .nav-item .nav-item-text {
@@ -317,7 +324,7 @@
     width: 230px;
   }
   .mobile-expand {
-    width: 390px !important;
+    width: 400px !important;
   }
   .navbar-toggler-icon,
   .menu-toggler-open {
