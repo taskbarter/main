@@ -57,12 +57,28 @@ router.delete('/:task_id', auth, async (req, res) => {
 // @desc    Get all tasks
 // @access  Public         // login to see tasks
 
-router.get('/:limit_tasks', async (req, res) => {
+router.get('/:limit_tasks/:skip_tasks', async (req, res) => {
   try {
     const limit = parseInt(req.params.limit_tasks) || 0;
+    const skip = parseInt(req.params.skip_tasks) || 0;
     const tasks = await Task.find()
       .sort({ date: -1 })
-      .limit(limit); // toget recents one
+      .limit(limit)
+      .skip(skip); // toget recents one
+    res.json(tasks);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/tasks
+// @desc    Get all tasks count
+// @access  Public         // login to see tasks
+
+router.get('/taskscount', async (req, res) => {
+  try {
+    const tasks = await Task.count(); // toget recents one
     res.json(tasks);
   } catch (err) {
     console.error(err.message);

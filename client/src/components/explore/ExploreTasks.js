@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
+import { getTasksCount } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
 import { toggleLike } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 
 const ExploreTasks = props => {
+  const [data, setData] = useState({
+    pageNo: 1
+  });
+
   // replacement of component did mount hook
   useEffect(() => {
-    props.getAllTasks(0);
+    props.getAllTasks(10, 0);
+    props.getTasksCount();
   }, []);
 
   //   if (props.task.tasks.length < 1 && !props.task.loading) {
@@ -88,12 +94,83 @@ const ExploreTasks = props => {
   //   </div>
   // ));
 
+  const onPageButtonClick = e => {
+    if (e.target.id === 'pageinationbtndec') {
+      if (data.pageNo === 1) return;
+      setData({ ...data, pageNo: data.pageNo - 1 });
+      props.getAllTasks(10, (data.pageNo - 2) * 10); // updates on refresh so will not have been updated by then
+    } else if (e.target.id === 'pageinationbtninc') {
+      setData({ ...data, pageNo: data.pageNo - 1 + 2 }); // strange javascript behaviour
+      props.getAllTasks(10, data.pageNo * 10);
+    } else {
+      setData({ ...data, pageNo: e.target.value });
+      props.getAllTasks(10, (e.target.value - 1) * 10);
+      console.log(data.pageNo);
+    }
+  };
+
+  const pageButtons = tButtons => {
+    var btns = [];
+    btns.push(
+      <button
+        id={'pageinationbtndec'}
+        key='pageinationbtndec'
+        value='dec'
+        onClick={onPageButtonClick}
+        className='btn m-1'
+      >
+        &lt;
+      </button>
+    );
+    var i;
+    for (i = 1; i <= tButtons; i++) {
+      btns.push(
+        <button
+          id={'pageinationbtn' + i}
+          key={'pageinationbtn' + i}
+          value={i}
+          onClick={onPageButtonClick}
+          className='btn m-1'
+        >
+          {i}
+        </button>
+      );
+    }
+    btns.push(
+      <button
+        id={'pageinationbtninc'}
+        key={'pageinationbtninc'}
+        value='inc'
+        onClick={onPageButtonClick}
+        className='btn m-1'
+      >
+        &gt;
+      </button>
+    );
+    return btns;
+  };
+
+  const paginations = tasksPerPage => {
+    const totalButtons = Math.ceil(props.task.tasksCount / tasksPerPage);
+
+    if (totalButtons === 0) return;
+
+    const btns = pageButtons(totalButtons);
+
+    return (
+      <div className='text-center'>
+        <div className='btn-group'>{btns}</div>
+      </div>
+    );
+  };
+
   return (
     <div>
       <div className='card card-body'>
         <div className='tasks-heading'>All Tasks</div>
 
         <div className='tasks-entries pt-2'>{alltasksDOM}</div>
+        {paginations(10)}
       </div>
     </div>
   );
@@ -103,7 +180,8 @@ ExploreTasks.propTypes = {
   task: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   getAllTasks: PropTypes.func.isRequired,
-  toggleLike: PropTypes.func.isRequired
+  toggleLike: PropTypes.func.isRequired,
+  getTasksCount: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -111,6 +189,8 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getAllTasks, toggleLike })(
-  ExploreTasks
-);
+export default connect(mapStateToProps, {
+  getAllTasks,
+  toggleLike,
+  getTasksCount
+})(ExploreTasks);

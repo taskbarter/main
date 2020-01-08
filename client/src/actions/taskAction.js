@@ -6,7 +6,9 @@ import {
   TASK_LOADING,
   GET_TASK,
   GET_TASKS,
-  DELETE_TASK
+  DELETE_TASK,
+  TASKS_COUNT_LOADING,
+  GET_TASKS_COUNT
 } from '../actions/types';
 
 // Add task
@@ -40,8 +42,9 @@ export const addTask = (taskData, history) => async dispatch => {
 
 // get profile
 
-export const getAllTasks = t => async dispatch => {
+export const getAllTasks = (t = 0, s = 0) => async dispatch => {
   var total_tasks = t || 0; // zero means all
+  var skip_tasks = s || 0; // zero means all
   dispatch(setTaskLoading());
 
   try {
@@ -50,7 +53,7 @@ export const getAllTasks = t => async dispatch => {
       setAuthToken(mtok);
     }
     console.log(total_tasks);
-    const res = await axios.get(`/api/tasks/${total_tasks}`);
+    const res = await axios.get(`/api/tasks/${total_tasks}/${skip_tasks}`);
 
     dispatch({
       type: GET_TASKS,
@@ -64,6 +67,26 @@ export const getAllTasks = t => async dispatch => {
   }
 };
 
+export const getTasksCount = () => async dispatch => {
+  dispatch({
+    type: TASKS_COUNT_LOADING
+  });
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+
+    const res = await axios.get(`/api/tasks/taskscount`);
+    dispatch({
+      type: GET_TASKS_COUNT,
+      payload: res.data
+    });
+    // think if reduces neede or not
+  } catch (err) {
+    console.log('Get total tasks count error');
+  }
+};
 export const toggleLike = id => async dispatch => {
   try {
     const mtok = localStorage.jwtToken;
@@ -72,8 +95,8 @@ export const toggleLike = id => async dispatch => {
     }
 
     const res = await axios.put(`/api/tasks/like/${id}`);
-
-    dispatch(getAllTasks());
+    //  why call again??
+    //dispatch(getAllTasks());
   } catch (err) {
     dispatch({
       type: GET_TASKS, //   get errors might be more graceful
