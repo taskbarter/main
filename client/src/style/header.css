@@ -335,7 +335,12 @@
     line-height: 0;
   }
   .profile-menu {
+    min-width: 14.4rem;
     top: 5px !important;
+  }
+  .profile-menu-item {
+    font-size: 15px;
+    padding: 0.25625rem 0.875rem;
   }
 }
 @media only screen and (max-width: 576px) {
