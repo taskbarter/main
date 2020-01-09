@@ -46,7 +46,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "react-phone-code": "0.0.4",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^3.3.0",
     "validator": "^11.0.0"
   },
   "devDependencies": {

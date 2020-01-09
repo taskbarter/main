@@ -25,6 +25,10 @@ const TaskSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  isCompleted: {
+    type: Boolean,
+    default: false
+  },
 
   duration: {
     type: Number,

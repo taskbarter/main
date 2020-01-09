@@ -15,7 +15,7 @@ const { check, validationResult } = require('express-validator');
 // @route   GET api/search
 // @desc    route for searching
 // @access  Private
-router.get('/:query/:skills/:categories/:people/:comptasks/:mytasks/:webcontent',  async (req, res) => {
+router.get('/:query/:skills/:categories/:people/:comptasks/:mytasks/:webcontent', auth,  async (req, res) => {
   // search parameters
   try {
 
@@ -29,25 +29,32 @@ router.get('/:query/:skills/:categories/:people/:comptasks/:mytasks/:webcontent'
     }
 
     if (req.params.skills==1){
+      // search tasks by skills
       const task = await Task.find({ skills: { $all: req.params.query.toString() } });
-
       resObj.skills.push(task);
     }
     if (req.params.categories==1){
+      // search tasks by categories
       const task = await Task.find({ category: req.params.query.toString()});
       resObj.categories.push(task);
       
     }
     if (req.params.people==1){
-      resObj.people.push("people");
+      //user name search
+      const users = await User.find({ name: req.params.query.toString()});    
+      resObj.people.push(users);
       
     }
+    // TODO filter by completed tasks
     if (req.params.comptasks==1){
-      resObj.comptasks.push("comptasks");
+      // completed tasks of currently login user  
+      const tasks = await Task.find({ user: req.user.id});
+      resObj.comptasks.push(tasks);
       
     }
     if (req.params.mytasks==1){
-      resObj.mytasks.push("mytasks");
+      const tasks = await Task.find({ user: req.user.id});
+      resObj.mytasks.push(tasks);
       
     }
     if (req.params.webcontent==1){
