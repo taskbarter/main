@@ -18,7 +18,7 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
     return (
       <div>
-        <Navbar />
+        {/* <Navbar /> */}
         <main role='main' className='container mt-4'>
           <div className='row'>
             <div className='col-md-4 order-md-2 mb-2'>
@@ -43,7 +43,4 @@ Dashboard.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(Dashboard);
+export default connect(mapStateToProps, { logoutUser })(Dashboard);

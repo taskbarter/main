@@ -15,6 +15,8 @@ import Forgot from './components/auth/Forgot';
 import AddTask from './components/task/AddTask';
 import UserInfo from './components/profile/UserInfo';
 import UserProfileNew from './components/profile/steps/UserProfileNew';
+import Header from './components/layout/Header';
+import Messages from './components/message/Messages';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -40,6 +42,7 @@ class App extends Component {
       <Provider store={store}>
         <Router basename={process.env.PUBLIC_URL}>
           <div className='App'>
+            <Header />
             <Route exact path='/' component={Landing} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
@@ -51,6 +54,7 @@ class App extends Component {
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/add' component={AddTask} />
               <PrivateRoute exact path='/explore' component={Explore} />
+              <PrivateRoute exact path='/messages' component={Messages} />
             </Switch>
           </div>
         </Router>

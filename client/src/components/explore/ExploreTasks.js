@@ -46,52 +46,53 @@ const ExploreTasks = props => {
     return i;
   };
 
-  const alltasksDOM = allTasks.map((tsk, i) => (
-    <div className='task-entry mb-1' key={tsk._id}>
-      <div className='task-entry-body'>
-        <div id='task-statement'>{tsk.headline}</div>
-        <div id='task-details'>
-          {tsk.description} (<a href='#!'>more</a>)
-        </div>
-        <a href='#!' className='task-more-options'>
-          <i className='fa fa-ellipsis-v' aria-hidden='true' />
-        </a>
-        <div className='row mt-2'>
-          <div className='col-sm-8'>
-            {tsk.skills.map((skl, index) => (
-              <div className='task-category' key={tsk._id + index}>
-                {skl}
-              </div>
-            ))}
-          </div>
-          <div id={tsk._id + 'dateexplore'} className='col-sm-4 task-date'>
-            <div>{dateEpx(tsk.date)}</div>
-          </div>
-        </div>
-      </div>
-      <div className='task-footer'>
-        <span className='task-fav'>
-          <i
-            onClick={e => heartClick(e, tsk._id)}
-            id={tsk._id + 'heart'}
-            className={preHeartFun(tsk.likes) + ' fa-heart fa-fw'}
-          />
-        </span>
-        <button className='btn task-hire-btn'>Send Proposal</button>
-        <div className='task-points'>
-          {tsk.taskpoints} <span className='task-points-curr'>TP</span>
-        </div>
-        <div className='task-rating'>
-          <i className='fas fa-star fa-fw' />
-          <i className='fas fa-star fa-fw' />
-          <i className='fas fa-star fa-fw' />
-          <i className='fas fa-star-half-alt' />
-          <i className='far fa-star fa-fw' />
-          <span className='rating-info'>(25 reviews)</span>
-        </div>
-      </div>
-    </div>
-  ));
+  const alltasksDOM = [];
+  // allTasks.map((tsk, i) => (
+  //   <div className='task-entry mb-1' key={tsk._id}>
+  //     <div className='task-entry-body'>
+  //       <div id='task-statement'>{tsk.headline}</div>
+  //       <div id='task-details'>
+  //         {tsk.description} (<a href='#!'>more</a>)
+  //       </div>
+  //       <a href='#!' className='task-more-options'>
+  //         <i className='fa fa-ellipsis-v' aria-hidden='true' />
+  //       </a>
+  //       <div className='row mt-2'>
+  //         <div className='col-sm-8'>
+  //           {tsk.skills.map((skl, index) => (
+  //             <div className='task-category' key={tsk._id + index}>
+  //               {skl}
+  //             </div>
+  //           ))}
+  //         </div>
+  //         <div id={tsk._id + 'dateexplore'} className='col-sm-4 task-date'>
+  //           <div>{dateEpx(tsk.date)}</div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //     <div className='task-footer'>
+  //       <span className='task-fav'>
+  //         <i
+  //           onClick={e => heartClick(e, tsk._id)}
+  //           id={tsk._id + 'heart'}
+  //           className={preHeartFun(tsk.likes) + ' fa-heart fa-fw'}
+  //         />
+  //       </span>
+  //       <button className='btn task-hire-btn'>Send Proposal</button>
+  //       <div className='task-points'>
+  //         {tsk.taskpoints} <span className='task-points-curr'>TP</span>
+  //       </div>
+  //       <div className='task-rating'>
+  //         <i className='fas fa-star fa-fw' />
+  //         <i className='fas fa-star fa-fw' />
+  //         <i className='fas fa-star fa-fw' />
+  //         <i className='fas fa-star-half-alt' />
+  //         <i className='far fa-star fa-fw' />
+  //         <span className='rating-info'>(25 reviews)</span>
+  //       </div>
+  //     </div>
+  //   </div>
+  // ));
 
   const onPageButtonClick = e => {
     if (e.target.id === 'pageinationbtndec') {
@@ -165,7 +166,6 @@ const ExploreTasks = props => {
 
   return (
     <div>
-      <Navbar />
       <div className='card card-body'>
         <div className='tasks-heading'>All Tasks</div>
 
@@ -189,7 +189,8 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { getAllTasks, toggleLike, getTasksCount }
-)(ExploreTasks);
+export default connect(mapStateToProps, {
+  getAllTasks,
+  toggleLike,
+  getTasksCount
+})(ExploreTasks);

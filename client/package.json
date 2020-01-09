@@ -7,6 +7,7 @@
     "classnames": "^2.2.6",
     "jwt-decode": "^2.2.0",
     "react": "^16.8.6",
+    "react-burger-menu": "^1.1.6",
     "react-dom": "^16.6.3",
     "react-redux": "^7.1.0",
     "react-router-dom": "^4.3.1",

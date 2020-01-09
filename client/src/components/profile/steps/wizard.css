@@ -52,3 +52,8 @@
 .loaded .progress-bar {
   animation: grow 3s ease, stripes 1s linear infinite, rainbow 3s ease infinite;
 }
+
+.css-xb86n1 .db .pointer {
+  display: none !important;
+}
+

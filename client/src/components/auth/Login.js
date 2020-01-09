@@ -23,7 +23,8 @@ class Login extends Component {
 
     if (nextProps.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.errors,
+        isLoading: false
       });
     }
   }
@@ -70,6 +71,9 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
+    this.setState({
+      isLoading: true
+    });
     this.props.loginUser(userData);
   };
   render() {
@@ -155,7 +159,7 @@ class Login extends Component {
             className='btn btn-lg btn-primary btn-block login-btn'
             type='submit'
           >
-            {isLoading ? loader : 'Login'}
+            {this.state.isLoading ? loader : 'Login'}
           </button>
           <br />
           <div className='mt-2 text-center login-links'>
@@ -185,7 +189,4 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
-export default connect(
-  mapStateToProps,
-  { loginUser }
-)(Login);
+export default connect(mapStateToProps, { loginUser })(Login);
