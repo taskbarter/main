@@ -9,7 +9,11 @@ const PersonalDetails = new mongoose.Schema({
   dob_month: { type: String, required: false },
   dob_year: { type: String, required: false },
   phone_num: { type: String, required: false },
-  gender: { type: String, required: false }
+  gender: { type: String, required: false },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users'
+  }
 });
 
 module.exports = Profile = mongoose.model('PersonalDetails', PersonalDetails);

@@ -23,7 +23,9 @@ var sendEmailVerification = function(newUser) {
     }
   };
 
-  console.log('sending email to: ' + newUser.email);
+  console.log(
+    'Name: ' + newUser.first_name + ' => sending email to: ' + newUser.email
+  );
   jwt.sign(
     tokenG,
     keys.jwtSecret,
@@ -119,6 +121,7 @@ const createProfileAuth = async function(auth, profile) {
     const encrypted_pass = await hashPassword(auth.password);
     auth = { ...auth, password: encrypted_pass };
     const userEntry = await new User(auth).save();
+    profile = { ...profile, user: userEntry._id };
     const profileEntry = await new PersonalDetails(profile).save();
     return new Promise((resolve, reject) => {
       if (userEntry) {
@@ -209,14 +212,18 @@ const checkUserForLogin = async function(user_data) {
     }
 
     if (!user.isEmailVerified) {
-      sendEmailVerification(user);
+      const details = await PersonalDetails.findOne({ user: user._id });
+      sendEmailVerification({
+        email: user.email,
+        first_name: details.first_name,
+        second_name: details.second_name
+      });
       return Promise.reject({
         emailnotverified:
           'Please verify your email address to login. <br/>Verification email sent to ' +
           user.email
       });
     }
-
     return Promise.resolve(user);
   } catch (err) {
     console.log(err);
