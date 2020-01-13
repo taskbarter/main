@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
 
 const PersonalDetails = new mongoose.Schema({
-      FName:    {type: String, required: true},
-      LName:    {type:String, required: true},
-      address:  {type:String, required: true},
-      headline: {type:String, required: true},
-      DobDay:   {type:String, required: true},
-      DobMonth: {type:String, required: true},
-      DobYear:  {type:String, required: true},
-      PhoneNo:  {type:String, required: true},
-      gender:   {type:String, required: true},
-      
+  first_name: { type: String, required: true },
+  second_name: { type: String, required: true },
+  address: { type: String, required: false },
+  headline: { type: String, required: false },
+  dob_day: { type: String, required: false },
+  dob_month: { type: String, required: false },
+  dob_year: { type: String, required: false },
+  phone_num: { type: String, required: false },
+  gender: { type: String, required: false }
 });
 
 module.exports = Profile = mongoose.model('PersonalDetails', PersonalDetails);

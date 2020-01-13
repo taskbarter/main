@@ -136,7 +136,8 @@ class Register extends Component {
       errors.name ||
       errors.email ||
       errors.password ||
-      errors.password2;
+      errors.password2 ||
+      errors.errMsg;
     return (
       <div>
         <form className='form-signin' noValidate onSubmit={this.onSubmit}>
@@ -275,7 +276,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(withRouter(Register));
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));

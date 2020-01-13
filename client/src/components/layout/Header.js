@@ -41,6 +41,7 @@ class Header extends Component {
   };
 
   render() {
+    const user_info = this.props.auth.user;
     if (this.props.auth.isAuthenticated) {
       return (
         <header class='main-header-v2'>
@@ -130,7 +131,7 @@ class Header extends Component {
                       ></img>
                     </span>
                     <span className='text'>
-                      <p className='name'>Mohsin</p>
+                      <p className='name'>{user_info.first_name}</p>
                       <span className='name-sub'>225 Pts</span>
                     </span>
                     <span>

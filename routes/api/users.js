@@ -22,6 +22,8 @@ var sendEmailVerification = function(newUser) {
       id: newUser.id
     }
   };
+
+  console.log('sending email to: ' + newUser.email);
   jwt.sign(
     tokenG,
     keys.jwtSecret,
@@ -53,8 +55,8 @@ var sendEmailVerification = function(newUser) {
           'Verify your email address by clicking on this link: https://www.taskbarter.com/confirmation/' +
           token,
         html: htmlForConfirmation(
-          newUser.fname,
-          newUser.sname,
+          newUser.first_name,
+          newUser.second_name,
           newUser.email,
           'https://www.taskbarter.com/confirmation/' + token
         )
@@ -76,7 +78,6 @@ var sendEmailVerification = function(newUser) {
 // @access Public
 router.post('/register', (req, res) => {
   // Form validation
-  console.log(req.body);
   const { errors, isValid } = validateRegisterInput(req.body);
   // Check validation
   if (!isValid) {
@@ -90,29 +91,59 @@ router.post('/register', (req, res) => {
       if (user) {
         return res.status(400).json({ email: 'Username already exists' });
       } else {
-        const newUser = new User({
-          sname: req.body.sname,
-          fname: req.body.fname,
+        const newUser = {
           name: req.body.name,
           email: req.body.email,
           password: req.body.password
-        });
-        // Hash password before saving in database
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser
-              .save()
-              .then(user => res.json(user))
-              .catch(err => console.log(err));
-            sendEmailVerification(newUser);
+        };
+        const userPersonalDetails = {
+          first_name: req.body.fname,
+          second_name: req.body.sname
+        };
+        createProfileAuth(newUser, userPersonalDetails)
+          .then(user => {
+            sendEmailVerification({ ...newUser, ...userPersonalDetails });
+            return res.json(user);
+          })
+          .catch(err => {
+            console.log(err);
+            return res.status(500).json({ errMsg: 'Server did not respond.' });
           });
-        });
       }
     });
   });
 });
+
+const createProfileAuth = async function(auth, profile) {
+  try {
+    const encrypted_pass = await hashPassword(auth.password);
+    auth = { ...auth, password: encrypted_pass };
+    const userEntry = await new User(auth).save();
+    const profileEntry = await new PersonalDetails(profile).save();
+    return new Promise((resolve, reject) => {
+      if (userEntry) {
+        resolve(userEntry);
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ email: 'Some error has occured!' });
+  }
+};
+
+async function hashPassword(pass) {
+  const password = pass;
+  const saltRounds = 10;
+
+  const hashedPassword = await new Promise((resolve, reject) => {
+    bcrypt.hash(password, saltRounds, function(err, hash) {
+      if (err) reject(err);
+      resolve(hash);
+    });
+  });
+
+  return hashedPassword;
+}
 
 // @route POST api/users/login
 // @desc Login user and return JWT token
@@ -128,101 +159,70 @@ router.post('/login', (req, res) => {
   const password = req.body.password;
   const name = req.body.email;
 
-  //find user using username
-  if (!name.includes('@')) {
-    User.findOne({ name }).then(user => {
-      // Check if user exists
-      if (!user) {
-        return res.status(404).json({ usernamenotfound: 'Username not found' });
-      }
-      // Check password
-      bcrypt.compare(password, user.password).then(isMatch => {
-        if (isMatch) {
-          // User matched
-          if (!user.isEmailVerified) {
-            sendEmailVerification(user);
-            return res.status(405).json({
-              emailnotverified:
-                'Please verify your email address to login. <br/>Verification email sent to ' +
-                user.email
-            });
-          }
-
-          // Create JWT Payload
-          const payload = {
-            id: user.id,
-            name: user.name
-          };
-          // Sign token
-          jwt.sign(
-            payload,
-            keys.secretOrKey,
-            {
-              expiresIn: 31556926 // 1 year in seconds
-            },
-            (err, token) => {
-              res.json({
-                success: true,
-                token: 'Bearer ' + token
-              });
-            }
-          );
-        } else {
-          return res
-            .status(400)
-            .json({ passwordincorrect: 'Incorrect password' });
+  checkUserForLogin({ name, password })
+    .then(user => {
+      // Create JWT Payload
+      const payload = {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      };
+      // Sign token
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        {
+          expiresIn: 31556926 // 1 year in seconds
+        },
+        (err, token) => {
+          res.json({
+            success: true,
+            token: 'Bearer ' + token
+          });
         }
-      });
+      );
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(404).json(err);
     });
-  } else {
-    const email = req.body.email;
-    // Find user by email
-    User.findOne({ email }).then(user => {
-      // Check if user exists
-      if (!user)
-        return res.status(404).json({ emailnotfound: 'Email not found' });
-
-      // Check password
-      bcrypt.compare(password, user.password).then(isMatch => {
-        if (isMatch) {
-          // Check if email is confirmed
-          if (!user.isEmailVerified) {
-            sendEmailVerification(user);
-            return res.status(405).json({
-              emailnotverified:
-                'Please verify your email address to login. <br/>Verification email sent to ' +
-                user.email
-            });
-          }
-          // User matched
-          // Create JWT Payload
-          const payload = {
-            id: user.id,
-            name: user.name
-          };
-          // Sign token
-          jwt.sign(
-            payload,
-            keys.secretOrKey,
-            {
-              expiresIn: 31556926 // 1 year in seconds
-            },
-            (err, token) => {
-              res.json({
-                success: true,
-                token: 'Bearer ' + token
-              });
-            }
-          );
-        } else {
-          return res
-            .status(400)
-            .json({ passwordincorrect: 'Incorrect password' });
-        }
-      });
-    });
-  }
 });
+
+const checkUserForLogin = async function(user_data) {
+  try {
+    const user = await User.findOne({
+      $or: [{ email: user_data.name }, { name: user_data.name }]
+    });
+
+    if (!user) {
+      if (!user && user_data.name.includes('@'))
+        return Promise.reject({ emailnotfound: 'Email not found' });
+      else return Promise.reject({ usernamenotfound: 'Username not found' });
+    }
+
+    const isPassCorrect = await bcrypt.compare(
+      user_data.password,
+      user.password
+    );
+    if (!isPassCorrect) {
+      return Promise.reject({ passwordincorrect: 'Incorrect password' });
+    }
+
+    if (!user.isEmailVerified) {
+      sendEmailVerification(user);
+      return Promise.reject({
+        emailnotverified:
+          'Please verify your email address to login. <br/>Verification email sent to ' +
+          user.email
+      });
+    }
+
+    return Promise.resolve(user);
+  } catch (err) {
+    console.log(err);
+    return Promise.reject(err);
+  }
+};
 
 //User Personal Details
 router.post('/userpersonaldetails', (req, res) => {
