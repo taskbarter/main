@@ -7,6 +7,8 @@ import { dateEpx } from '../../actions/taskAction';
 import { toggleLike } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const ExploreTasks = props => {
   const [data, setData] = useState({
@@ -163,13 +165,50 @@ const ExploreTasks = props => {
       </div>
     );
   };
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <div>
       <div className='card card-body'>
         <div className='tasks-heading'>All Tasks</div>
 
         <div className='tasks-entries pt-2'>{alltasksDOM}</div>
+
+        <Button variant="primary" onClick={handleShow}>
+        Launch demo modal
+      </Button>
+        <Modal show={show} size="lg" dialogClassName="modal-90w" aria-labelledby="example-custom-modal-styling-title" onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title >Software Engineer, New Grad
+          </Modal.Title>
+          
+        </Modal.Header>
+        <Modal.Body>
+          <strong>JOB DESCRIPTION</strong>
+        <p>
+        Over the next 10 years, biotech will fundamentally rewrite the way we live. Gene editing and cell therapy will dramatically change how we treat cancer and other major illnesses. Biofuels and biomaterials will transform the cars we drive, the clothes we wear, and the makeup of everyday objects. Crop science and synthetic biology will produce sustainable and ethical food. Benchling’s mission is to accelerate the research that propels us towards this future, and magnify its impact, through modern software.
+
+
+
+Every day, scientists around the world use Benchling in their efforts to solve humanity's most pressing problems. For these scientists, Benchling is the central technology they use to conduct their research.
+
+Benchling was founded by a team of MIT graduates and has raised funding from Benchmark, Andreessen Horowitz, Thrive Capital, and Y Combinator. Our customers include pharmaceutical giants, leading biotechs, and the world's most renowned research institutes.
+
+Our engineering team is small but growing. We're looking for engineers who thrive on teamwork, crave ownership and impact, and are driven to make a dent in our space.
+        </p>
+        
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
         {paginations(10)}
       </div>
     </div>
