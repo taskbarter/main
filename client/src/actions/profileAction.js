@@ -66,3 +66,22 @@ export const clearCurrentProfile = () => dispatch => {
     type: CLEAR_CURRENT_PROFILE
   });
 };
+
+export const updateProfile = profileData => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.post('/api/profile/update', profileData, config);
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};

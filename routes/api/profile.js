@@ -168,6 +168,49 @@ router.delete('/', auth, async (req, res) => {
   }
 });
 
+// @route   POST api/profile/update         // for updation of existing profile
+// @desc    Add profile experience
+// @access  Private
+
+router.post('/update', [auth], async (req, res) => {
+  const {
+    first_name,
+    second_name,
+    gender,
+    tagline,
+    bio,
+    dob,
+    location
+  } = req.body;
+
+  const profileFields = {}; // empty object?  // runtime object??
+  console.log('updating profile...' + req.user.id);
+  profileFields.user = req.user.id;
+  profileFields.first_name = first_name;
+  profileFields.second_name = second_name;
+  profileFields.gender = gender;
+  profileFields.headline = tagline;
+  profileFields.bio = bio;
+  profileFields.location = location;
+  profileFields.dob = dob;
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    if (profile) {
+      // update profile
+      profile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true }
+      );
+      return res.json(profile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   PUT api/profile/experience         // for updation of existing
 // @desc    Add profile experience
 // @access  Private

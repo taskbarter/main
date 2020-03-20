@@ -26,12 +26,18 @@ const EditFirst = props => {
     e.preventDefault();
     const form = e.target;
     // get the field that you want
-    const userInputField = form.elements['gender'];
-    alert(userInputField.value);
-    console.log(e);
-  };
-  const onDoBChange = function(d) {
-    console.log(d);
+    const userInputField = form.elements['gender'].value;
+
+    let data = {
+      first_name: form.elements['firstName'].value,
+      second_name: form.elements['secondName'].value,
+      gender: form.elements['gender'].value,
+      tagline: form.elements['tagline'].value,
+      bio: form.elements['bio'].value,
+      dob: props.current_dob,
+      location: form.elements['location'].value
+    };
+    props.submitForm(data);
   };
 
   return (
@@ -129,11 +135,11 @@ const EditFirst = props => {
               />
             </div>
           </div>
-
+          <br />
           <div className='form-row'>
             <div className='form-group col-md-12'>
               <label htmlFor='inputLocation'>Date of Birth {'  '}</label>
-              {'  '}
+              {'   '} &nbsp;
               <DatePicker
                 className='form-control'
                 selected={props.current_dob}

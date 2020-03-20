@@ -33,6 +33,21 @@ const FirstBlock = props => {
         Member since {month[date_memberSince.getMonth()]}{' '}
         {date_memberSince.getFullYear()}
       </div>
+      <br />
+      <div className='bio-heading' style={{ marginBottom: '8px' }}>
+        Personal Details
+      </div>
+      <div className='row' style={{ fontSize: '13px', marginBottom: '3px' }}>
+        <div className='col-4'>
+          Gender: <strong>{profile.gender}</strong>
+        </div>
+        <div className='col-4'>
+          Location: <strong>{profile.location}</strong>
+        </div>
+        <div className='col-4'>
+          Date of Birth: <strong>{new Date(profile.dob).getFullYear()}</strong>
+        </div>
+      </div>
 
       <br />
       <div className='bio-heading'>Bio</div>
@@ -44,20 +59,6 @@ const FirstBlock = props => {
         ) : (
           <i style={{ color: 'grey', fontWeight: 100 }}>your bio here...</i>
         )}
-      </div>
-      <br />
-
-      <div className='bio-heading'>Personal Details</div>
-      <div className='row' style={{ fontSize: '13px', marginBottom: '8px' }}>
-        <div className='col-4'>
-          Gender: <strong>{profile.gender}</strong>
-        </div>
-        <div className='col-4'>
-          Location: <strong>{profile.location}</strong>
-        </div>
-        <div className='col-4'>
-          Date of Birth: <strong>{profile.location}</strong>
-        </div>
       </div>
     </div>
   );

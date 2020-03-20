@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getCurrentProfile } from '../../actions/profileAction';
+import { getCurrentProfile, updateProfile } from '../../actions/profileAction';
 import '../../style/profile/profile_page.css';
 import FirstBlock from './subs/FirstBlock';
 import SecondBlock from './subs/SecondBlock';
@@ -37,6 +37,11 @@ class Me extends Component {
     });
   };
 
+  onProfileUpdateFirst = payload => {
+    this.props.updateProfile(payload);
+    this.closeFirstEditDialog();
+  };
+
   render() {
     const profile = this.props.profile.profile;
     const user = this.props.user;
@@ -66,6 +71,7 @@ class Me extends Component {
           profile={profile}
           onDoBChange={this.onDoBChange}
           current_dob={current_dob}
+          submitForm={this.onProfileUpdateFirst}
         />
       </div>
     );
@@ -77,4 +83,6 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Me);
+export default connect(mapStateToProps, { getCurrentProfile, updateProfile })(
+  Me
+);
