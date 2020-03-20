@@ -17,6 +17,7 @@ import UserInfo from './components/profile/UserInfo';
 import UserProfileNew from './components/profile/steps/UserProfileNew';
 import Header from './components/layout/Header';
 import Messages from './components/message/Messages';
+import Me from './components/profile/Me';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -55,6 +56,7 @@ class App extends Component {
               <PrivateRoute exact path='/add' component={AddTask} />
               <PrivateRoute exact path='/explore' component={Explore} />
               <PrivateRoute exact path='/messages' component={Messages} />
+              <Route exact path='/me' component={Me} />
             </Switch>
           </div>
         </Router>

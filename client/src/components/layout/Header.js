@@ -167,7 +167,10 @@ class Header extends Component {
                   className='dropdown-menu dropdown-menu-right profile-menu'
                   aria-labelledby='dropdown03'
                 >
-                  <span className='profile-menu-item'>My Profile</span>
+                  <Link exact to='/me' className='link-no-style'>
+                    <span className='profile-menu-item'>My Profile</span>
+                  </Link>
+
                   <span className='profile-menu-item'>Settings</span>
                   <hr />
                   <a onClick={this.onLogoutClick} className='profile-menu-item'>

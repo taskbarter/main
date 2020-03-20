@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const PersonalDetails = new mongoose.Schema({
   first_name: { type: String, required: true },
   second_name: { type: String, required: true },
-  address: { type: String, required: false },
-  headline: { type: String, required: false },
-  dob_day: { type: String, required: false },
+  address: { type: String, required: false, default: '' },
+  headline: { type: String, required: false, default: '' },
+  dob_day: { type: String, required: false, default: '' },
   dob_month: { type: String, required: false },
   dob_year: { type: String, required: false },
   phone_num: { type: String, required: false },
@@ -124,6 +124,14 @@ const PersonalDetails = new mongoose.Schema({
     instagram: {
       type: String
     }
+  },
+  tagline: {
+    type: String,
+    default: ''
+  },
+  memberSince: {
+    type: Date,
+    default: Date.now()
   }
 });
 

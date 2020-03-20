@@ -1,0 +1,43 @@
+.container-box {
+  background-color: white;
+}
+.profile-tagline {
+  margin-top: -10px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #575757;
+}
+.profile-member-since {
+  margin-top: 2px;
+  border-top: #e4e4e4 solid 1px;
+  font-size: 13px;
+  padding-top: 7px;
+  margin-top: 13px;
+  width: 189px;
+  color: rgb(85, 83, 83);
+}
+
+.profile-name {
+  font-size: 22px;
+}
+
+.bio-heading {
+  font-weight: 600;
+}
+
+.bio-text {
+  color: rgb(85, 83, 83);
+}
+
+.profile-status-select {
+  max-width: 100%;
+  margin-top: 5px;
+  margin-bottom: 1px;
+  background: #fcfcfc;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 2px;
+  padding: 6px;
+  border: #dddddd solid 1px;
+  min-width: 100%;
+}

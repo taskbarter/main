@@ -15,6 +15,16 @@ body {
   margin: 0;
 }
 
+.link-no-style {
+  text-decoration: none;
+  color: inherit;
+}
+
+.link-no-style:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 .mobile-menu {
   display: none !important;
 }
