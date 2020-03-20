@@ -23,13 +23,14 @@ const ProfileBadge = props => {
     skills,
     status,
     pointsEarned,
-    pointsSpend,
+    pointsSpent,
     tasksPosted,
     tasksDone,
     tasksCanceled,
     catched
   } = data;
 
+  console.log(props.profile.profile);
   if (props.profile.profile == null && !props.profile.loading) {
     props.getCurrentProfile();
   }
@@ -39,18 +40,18 @@ const ProfileBadge = props => {
   try {
     if (props.profile.profile !== null && props.profile.profile.user !== null) {
       if (
-        fname !== props.profile.profile.user.fname ||
-        sname !== props.profile.profile.user.sname
+        fname !== props.profile.profile.first_name ||
+        sname !== props.profile.profile.second_name
       )
         // TODO : modification for update
         setData({
           ...data,
-          fname: props.profile.profile.user.fname,
-          sname: props.profile.profile.user.sname,
+          fname: props.profile.profile.first_name,
+          sname: props.profile.profile.second_name,
           status: props.profile.profile.status,
           skills: props.profile.profile.skills,
           pointsEarned: props.profile.profile.pointsEarned,
-          pointsSpend: props.profile.profile.pointsSpend,
+          pointsSpent: props.profile.profile.pointsSpent,
           tasksPosted: props.profile.profile.tasksPosted,
           tasksDone: props.profile.profile.tasksDone,
           tasksCanceled: props.profile.profile.tasksCanceled,
@@ -85,20 +86,22 @@ const ProfileBadge = props => {
   // FOR SKILLS
 
   const skillsbadges2 = skils => {
-    if (skils.length > 6) {
-      let fsix = skils.slice(0, 6);
+    if (skils) {
+      if (skils.length > 6) {
+        let fsix = skils.slice(0, 6);
 
-      return fsix.map((skl, i) => (
-        <div className='profile-badge-category' key={i}>
-          {skl}
-        </div>
-      ));
-    } else {
-      return skils.map((skl, i) => (
-        <div className='profile-badge-category' key={i}>
-          {skl}
-        </div>
-      ));
+        return fsix.map((skl, i) => (
+          <div className='profile-badge-category' key={i}>
+            {skl}
+          </div>
+        ));
+      } else {
+        return skils.map((skl, i) => (
+          <div className='profile-badge-category' key={i}>
+            {skl}
+          </div>
+        ));
+      }
     }
   };
 
@@ -136,7 +139,7 @@ const ProfileBadge = props => {
           Points Earned: <span id='profile-points-earned'>
             {pointsEarned}
           </span>{' '}
-          | Points Spent: <span id='profile-points-spent'>{pointsSpend}</span>
+          | Points Spent: <span id='profile-points-spent'>{pointsSpent}</span>
         </div>
       </div>
 
@@ -154,7 +157,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(
-  mapStateToProps,
-  { getCurrentProfile }
-)(ProfileBadge);
+export default connect(mapStateToProps, { getCurrentProfile })(ProfileBadge);

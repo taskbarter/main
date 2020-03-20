@@ -7,7 +7,7 @@ const request = require('request');
 const config = require('config');
 
 const User = require('../../models/User');
-const Profile = require('../../models/Profile');
+const PersonalDetails = require('../../models/PersonalDetails');
 
 // @route   GET api/profile/me
 // @desc    My profile
@@ -15,10 +15,9 @@ const Profile = require('../../models/Profile');
 router.get('/me', auth, async (req, res) => {
   try {
     // populate brings in fields from other model
-    const profile = await Profile.findOne({ user: req.user.id }).populate(
-      'user',
-      ['name', 'fname', 'sname']
-    );
+    const profile = await PersonalDetails.findOne({
+      user: req.user.id
+    }).populate('user', ['name', 'fname', 'sname']);
     if (!profile) {
       return res.status(400).json({ msg: 'There is no Profile for this user' });
     }

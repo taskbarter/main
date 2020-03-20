@@ -21,7 +21,7 @@ const ProfileSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  pointsSpend: {
+  pointsSpent: {
     type: Number,
     default: 0
   },

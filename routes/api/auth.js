@@ -15,9 +15,9 @@ router.get('/', auth, async (req, res) => {
   // to make it protected simply add second (auth middleware) parameter
 
   try {
-    const user = await User.findById(req.user.id).select('-password'); // leave of the password
+    const user = await User.findById(req.user.id).select('-password');
+
     res.json(user);
-    //res.send('Auth Route');           imp to keep in try block
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');

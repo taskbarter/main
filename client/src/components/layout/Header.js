@@ -41,11 +41,11 @@ class Header extends Component {
   };
 
   render() {
-    const user_info = this.props.auth.user;
+    const user_info = this.props.profile;
     if (this.props.auth.isAuthenticated) {
       return (
-        <header class='main-header-v2'>
-          <div class='header-container'>
+        <header className='main-header-v2'>
+          <div className='header-container'>
             <img src={logo} className='logo' />
             <span className={this.state.itemsStyling}>
               <a onClick={this.onMobMenuOpen} className='menu-toggler-close'>
@@ -59,17 +59,17 @@ class Header extends Component {
                 activeClassName='active'
                 className='nav-item'
               >
-                <span class='nav-item-header'>
+                <span className='nav-item-header'>
                   <img
                     src={workspace_icon}
-                    class='svg_icon icon_inactive'
+                    className='svg_icon icon_inactive'
                   ></img>
                   <img
                     src={workspace_filled_icon}
-                    class='svg_icon icon_active'
+                    className='svg_icon icon_active'
                   ></img>
                 </span>
-                <p class='nav-item-text'>Workspace</p>
+                <p className='nav-item-text'>Workspace</p>
               </NavLink>
               <NavLink
                 exact
@@ -77,14 +77,17 @@ class Header extends Component {
                 activeClassName='active'
                 className='nav-item'
               >
-                <span class='nav-item-header'>
-                  <img src={explore_icon} class='svg_icon icon_inactive'></img>
+                <span className='nav-item-header'>
+                  <img
+                    src={explore_icon}
+                    className='svg_icon icon_inactive'
+                  ></img>
                   <img
                     src={explore_filled_icon}
-                    class='svg_icon icon_active'
+                    className='svg_icon icon_active'
                   ></img>
                 </span>
-                <p class='nav-item-text'>Explore</p>
+                <p className='nav-item-text'>Explore</p>
               </NavLink>
               <NavLink
                 exact
@@ -92,11 +95,14 @@ class Header extends Component {
                 activeClassName='active'
                 className='nav-item'
               >
-                <span class='nav-item-header'>
-                  <img src={msg_icon} class='svg_icon icon_inactive'></img>
-                  <img src={msg_filled_icon} class='svg_icon icon_active'></img>
+                <span className='nav-item-header'>
+                  <img src={msg_icon} className='svg_icon icon_inactive'></img>
+                  <img
+                    src={msg_filled_icon}
+                    className='svg_icon icon_active'
+                  ></img>
                 </span>
-                <p class='nav-item-text'>Messages</p>
+                <p className='nav-item-text'>Messages</p>
               </NavLink>
 
               <NavLink
@@ -105,14 +111,17 @@ class Header extends Component {
                 activeClassName='active'
                 className='nav-item'
               >
-                <span class='nav-item-header'>
-                  <img src={notif_icon} class='svg_icon icon_inactive'></img>
+                <span className='nav-item-header'>
+                  <img
+                    src={notif_icon}
+                    className='svg_icon icon_inactive'
+                  ></img>
                   <img
                     src={notif_filled_icon}
-                    class='svg_icon icon_active'
+                    className='svg_icon icon_active'
                   ></img>
                 </span>
-                <p class='nav-item-text'>Notifications</p>
+                <p className='nav-item-text'>Notifications</p>
               </NavLink>
               <div className='nav-profile dropdown'>
                 <a
@@ -131,8 +140,22 @@ class Header extends Component {
                       ></img>
                     </span>
                     <span className='text'>
-                      <p className='name'>{user_info.first_name}</p>
-                      <span className='name-sub'>225 Pts</span>
+                      <p className='name'>
+                        {user_info.profile ? (
+                          user_info.profile.first_name
+                        ) : (
+                          <i style={{ color: 'grey', fontWeight: 100 }}>
+                            loading..
+                          </i>
+                        )}
+                      </p>
+                      <span className='name-sub'>
+                        {user_info.profile
+                          ? user_info.profile.pointsEarned -
+                            user_info.profile.pointsSpent
+                          : ''}{' '}
+                        Pts
+                      </span>
                     </span>
                     <span>
                       <i className='fas fa-caret-down' />
@@ -173,6 +196,7 @@ Header.propTypes = {
   auth: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 export default withRouter(connect(mapStateToProps, { logoutUser })(Header));
