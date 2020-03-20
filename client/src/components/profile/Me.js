@@ -9,16 +9,31 @@ import SecondBlock from './subs/SecondBlock';
 import StatusBlock from './subs/StatusBlock';
 import SkillsBlock from './subs/SkillsBlock';
 import LinksBlock from './subs/LinksBlock';
+import EditFirst from './edit/EditFirst';
 
 class Me extends Component {
   constructor(props) {
     super();
+    this.state = {
+      isFirstEditDialogOpenned: false
+    };
   }
   componentDidMount() {
     this.props.getCurrentProfile();
   }
+
+  openFirstModal = () => {
+    this.setState({ isFirstEditDialogOpenned: true });
+  };
+
+  closeFirstEditDialog = () => {
+    this.setState({ isFirstEditDialogOpenned: false });
+  };
+
   render() {
     const profile = this.props.profile.profile;
+    const user = this.props.user;
+    const { isFirstEditDialogOpenned } = this.state;
     return (
       <div>
         <main role='main' className='container mt-4'>
@@ -29,18 +44,28 @@ class Me extends Component {
               <LinksBlock profile={profile} />
             </div>
             <div className='col-md-8 order-md-1'>
-              <FirstBlock profile={profile} />
+              <FirstBlock
+                editModal={this.openFirstModal}
+                profile={profile}
+                user={user}
+              />
               <SecondBlock profile={profile} />
             </div>
           </div>
         </main>
+        <EditFirst
+          modalIsOpen={isFirstEditDialogOpenned}
+          closeModal={this.closeFirstEditDialog}
+          profile={profile}
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps, { getCurrentProfile })(Me);

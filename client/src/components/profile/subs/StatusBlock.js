@@ -17,7 +17,7 @@ const StatusBlock = props => {
       >
         {' '}
         I'm available as{' '}
-        <select class='profile-status-select'>
+        <select className='profile-status-select'>
           <option defaultChecked value='fullTime'>
             New User (first time using Taskbarter)
           </option>

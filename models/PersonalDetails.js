@@ -5,6 +5,7 @@ const PersonalDetails = new mongoose.Schema({
   second_name: { type: String, required: true },
   address: { type: String, required: false, default: '' },
   headline: { type: String, required: false, default: '' },
+  dob: { type: Date, required: false },
   dob_day: { type: String, required: false, default: '' },
   dob_month: { type: String, required: false },
   dob_year: { type: String, required: false },

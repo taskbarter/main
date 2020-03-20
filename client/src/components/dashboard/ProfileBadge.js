@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profileAction';
+import { Link } from 'react-router-dom';
 
 const ProfileBadge = props => {
   const [data, setData] = useState({
@@ -144,7 +145,11 @@ const ProfileBadge = props => {
         </div>
       </div>
 
-      <span className='profile-badge-edit'>edit</span>
+      <span className='profile-badge-edit'>
+        <Link exact='true' to='/me'>
+          edit
+        </Link>
+      </span>
     </div>
   );
 };

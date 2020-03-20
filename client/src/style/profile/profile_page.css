@@ -55,3 +55,37 @@
   display: -webkit-inline-box;
   margin-bottom: 7px;
 }
+
+.confirm-button {
+  color: white;
+  background: #433881;
+  width: 130px;
+  font-size: 16px;
+  border: none;
+  height: 33px;
+  border-radius: 5px;
+  vertical-align: bottom;
+  box-shadow: 1px 3px #d5d5d5;
+  cursor: pointer;
+}
+
+.cancel-button {
+  color: #26316a;
+  background: #ffffff;
+  width: 130px;
+  font-size: 16px;
+  border: none;
+  height: 33px;
+  border-radius: 5px;
+  vertical-align: bottom;
+  /* box-shadow: 1px 3px #d5d5d5; */
+  cursor: pointer;
+  border: #b9b9b9 solid 1px;
+}
+.profile-username {
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.profile-edit-col {
+}

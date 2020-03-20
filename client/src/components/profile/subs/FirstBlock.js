@@ -2,6 +2,7 @@ import React from 'react';
 import month from '../../../config/months_name';
 const FirstBlock = props => {
   const profile = props.profile;
+  const user = props.user;
   let date_memberSince = Date.now();
   if (profile) {
     date_memberSince = new Date(profile.memberSince);
@@ -13,7 +14,13 @@ const FirstBlock = props => {
     <div className='card card-body mb-2'>
       <div className='notification-heading profile-name'>
         {profile.first_name} {profile.second_name}
-        <button className='btn notification-btn float-right'>Edit</button>
+        <span className='profile-username'>(@{user.name})</span>
+        <button
+          onClick={props.editModal}
+          className='btn notification-btn float-right'
+        >
+          Edit
+        </button>
       </div>
       <div className='profile-tagline'>
         {profile.headline ? (

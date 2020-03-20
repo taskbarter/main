@@ -167,7 +167,7 @@ class Header extends Component {
                   className='dropdown-menu dropdown-menu-right profile-menu'
                   aria-labelledby='dropdown03'
                 >
-                  <Link exact to='/me' className='link-no-style'>
+                  <Link exact='true' to='/me' className='link-no-style'>
                     <span className='profile-menu-item'>My Profile</span>
                   </Link>
 
