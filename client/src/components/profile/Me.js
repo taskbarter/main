@@ -15,7 +15,8 @@ class Me extends Component {
   constructor(props) {
     super();
     this.state = {
-      isFirstEditDialogOpenned: false
+      isFirstEditDialogOpenned: false,
+      current_dob: new Date('October 4, 1997 11:13:00')
     };
   }
   componentDidMount() {
@@ -30,10 +31,16 @@ class Me extends Component {
     this.setState({ isFirstEditDialogOpenned: false });
   };
 
+  onDoBChange = d => {
+    this.setState({
+      current_dob: d
+    });
+  };
+
   render() {
     const profile = this.props.profile.profile;
     const user = this.props.user;
-    const { isFirstEditDialogOpenned } = this.state;
+    const { isFirstEditDialogOpenned, current_dob } = this.state;
     return (
       <div>
         <main role='main' className='container mt-4'>
@@ -57,6 +64,8 @@ class Me extends Component {
           modalIsOpen={isFirstEditDialogOpenned}
           closeModal={this.closeFirstEditDialog}
           profile={profile}
+          onDoBChange={this.onDoBChange}
+          current_dob={current_dob}
         />
       </div>
     );

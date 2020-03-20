@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
+import '../../../style/inc/react-datepicker.css';
 
 const EditFirst = props => {
   const profile = props.profile;
@@ -106,20 +107,11 @@ const EditFirst = props => {
                 className='form-control profile-edit-col'
                 id='selectGender'
                 name='gender'
+                defaultValue={profile.gender}
               >
-                <option selected={profile.gender === 'Male' ? 'true' : 'false'}>
-                  Male
-                </option>
-                <option
-                  selected={profile.gender === 'Female' ? 'true' : 'false'}
-                >
-                  Female
-                </option>
-                <option
-                  selected={profile.gender === 'Other' ? 'true' : 'false'}
-                >
-                  Other
-                </option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
               </select>
             </div>
           </div>
@@ -140,12 +132,16 @@ const EditFirst = props => {
 
           <div className='form-row'>
             <div className='form-group col-md-12'>
-              <label htmlFor='inputLocation'>Date of Birth</label>
+              <label htmlFor='inputLocation'>Date of Birth {'  '}</label>
+              {'  '}
               <DatePicker
                 className='form-control'
-                selected={profile.dob || Date.now()}
-                onChange={onDoBChange}
+                selected={props.current_dob}
+                onChange={props.onDoBChange}
                 maxDate={new Date()}
+                showYearDropdown
+                yearDropdownItemNumber={15}
+                scrollableYearDropdown
               />
             </div>
           </div>
