@@ -41,7 +41,7 @@ const FirstBlock = props => {
       <br />
 
       <div className='bio-heading'>Personal Details</div>
-      <div className='row' style={{ fontSize: '13px', marginBottom: '5px' }}>
+      <div className='row' style={{ fontSize: '13px', marginBottom: '8px' }}>
         <div className='col-4'>
           Gender: <strong>{profile.gender}</strong>
         </div>

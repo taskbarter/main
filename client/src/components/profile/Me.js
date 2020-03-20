@@ -8,6 +8,7 @@ import FirstBlock from './subs/FirstBlock';
 import SecondBlock from './subs/SecondBlock';
 import StatusBlock from './subs/StatusBlock';
 import SkillsBlock from './subs/SkillsBlock';
+import LinksBlock from './subs/LinksBlock';
 
 class Me extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Me extends Component {
             <div className='col-md-4 order-md-2 mb-2'>
               <StatusBlock profile={profile} />
               <SkillsBlock profile={profile} />
+              <LinksBlock profile={profile} />
             </div>
             <div className='col-md-8 order-md-1'>
               <FirstBlock profile={profile} />
