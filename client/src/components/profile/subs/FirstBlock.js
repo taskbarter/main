@@ -38,6 +38,20 @@ const FirstBlock = props => {
           <i style={{ color: 'grey', fontWeight: 100 }}>your bio here...</i>
         )}
       </div>
+      <br />
+
+      <div className='bio-heading'>Personal Details</div>
+      <div className='row' style={{ fontSize: '13px', marginBottom: '5px' }}>
+        <div className='col-4'>
+          Gender: <strong>{profile.gender}</strong>
+        </div>
+        <div className='col-4'>
+          Location: <strong>{profile.location}</strong>
+        </div>
+        <div className='col-4'>
+          Date of Birth: <strong>{profile.location}</strong>
+        </div>
+      </div>
     </div>
   );
 };

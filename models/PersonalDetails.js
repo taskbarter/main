@@ -10,6 +10,7 @@ const PersonalDetails = new mongoose.Schema({
   dob_year: { type: String, required: false },
   phone_num: { type: String, required: false },
   gender: { type: String, required: false },
+  location: { type: String, required: false },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'
