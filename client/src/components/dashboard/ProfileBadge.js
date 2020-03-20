@@ -14,7 +14,8 @@ const ProfileBadge = props => {
     taskPosted: 0,
     taskDone: 0,
     taskCanceled: 0,
-    catched: false
+    catched: false,
+    headline: ''
   });
 
   const {
@@ -48,7 +49,7 @@ const ProfileBadge = props => {
           ...data,
           fname: props.profile.profile.first_name,
           sname: props.profile.profile.second_name,
-          status: props.profile.profile.status,
+          status: props.profile.profile.headline,
           skills: props.profile.profile.skills,
           pointsEarned: props.profile.profile.pointsEarned,
           pointsSpent: props.profile.profile.pointsSpent,

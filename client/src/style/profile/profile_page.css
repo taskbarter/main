@@ -41,3 +41,17 @@
   border: #dddddd solid 1px;
   min-width: 100%;
 }
+
+.profile-skills {
+  width: fit-content;
+  font-size: 13px;
+  background: #4338811f;
+  padding: 2px 5px 2px 5px;
+  border-radius: 3px;
+  display: inline;
+  color: #504444;
+  margin-left: 7px;
+  white-space: nowrap;
+  display: -webkit-inline-box;
+  margin-bottom: 7px;
+}

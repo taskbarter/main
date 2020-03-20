@@ -16,14 +16,16 @@ const StatusBlock = props => {
         style={{ textAlign: 'left', fontSize: '10px' }}
       >
         {' '}
-        I'm available{' '}
+        I'm available as{' '}
         <select class='profile-status-select'>
           <option defaultChecked value='fullTime'>
             New User (first time using Taskbarter)
           </option>
           <option value='fullTime'>Full Time (40 hours a week)</option>
           <option value='fullTime'>Part Time (20 hours a week)</option>
-          <option value='fullTime'>Occassionally (5-10 hours a week)</option>
+          <option value='fullTime'>
+            Occassional Visitor (5-10 hours a week)
+          </option>
           <option value='fullTime'>Casual Visitor (1-2 hours a week)</option>
           <option value='fullTime'>Not Available</option>
         </select>
