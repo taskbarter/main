@@ -56,7 +56,7 @@ class App extends Component {
               <PrivateRoute exact path='/add' component={AddTask} />
               <PrivateRoute exact path='/explore' component={Explore} />
               <PrivateRoute exact path='/messages' component={Messages} />
-              <Route exact path='/me' component={Me} />
+              <PrivateRoute exact path='/me' component={Me} />
             </Switch>
           </div>
         </Router>

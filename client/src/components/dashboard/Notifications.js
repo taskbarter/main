@@ -5,7 +5,7 @@ const Notifications = () => {
     <div className='card card-body mb-2'>
       <div className='notification-heading'>
         Your Notifications
-        <button className='btn notification-btn fl-r'>Edit</button>
+        <button className='btn notification-btn fl-r'>View All</button>
       </div>
 
       <div className='notification-block-first'>

@@ -10,6 +10,9 @@ const SecondBlock = props => {
   const getExperiences = experience => {
     const temp_exp = experience;
     console.log(temp_exp);
+    if (!temp_exp) {
+      return '';
+    }
     return temp_exp.map((exp, i) => (
       <div className='experience-row' key={i}>
         <span className='experience-title'>{exp.title}</span>
@@ -52,8 +55,11 @@ const SecondBlock = props => {
           Add
         </button>
       </div>
-
-      <div className='experience-container'>{experienceSection}</div>
+      {profile.experience && profile.experience.length !== 0 ? (
+        <div className='experience-container'>{experienceSection}</div>
+      ) : (
+        'No experience'
+      )}
     </div>
   );
 };
