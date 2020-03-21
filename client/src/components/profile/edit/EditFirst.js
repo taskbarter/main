@@ -39,7 +39,6 @@ const EditFirst = props => {
     };
     props.submitForm(data);
   };
-
   return (
     <Modal
       isOpen={props.modalIsOpen}

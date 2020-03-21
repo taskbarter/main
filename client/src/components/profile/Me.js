@@ -2,33 +2,69 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getCurrentProfile, updateProfile } from '../../actions/profileAction';
+import {
+  getCurrentProfile,
+  updateProfile,
+  updateStatus,
+  addExperience
+} from '../../actions/profileAction';
 import '../../style/profile/profile_page.css';
 import FirstBlock from './subs/FirstBlock';
 import SecondBlock from './subs/SecondBlock';
+import ThirdBlock from './subs/ThirdBlock';
 import StatusBlock from './subs/StatusBlock';
 import SkillsBlock from './subs/SkillsBlock';
 import LinksBlock from './subs/LinksBlock';
 import EditFirst from './edit/EditFirst';
+import AddSecond from './edit/AddSecond';
 
 class Me extends Component {
   constructor(props) {
     super();
     this.state = {
       isFirstEditDialogOpenned: false,
-      current_dob: new Date('October 4, 1997 11:13:00')
+      isSecondAddDialogOpenned: false,
+      current_dob: new Date('October 4, 1997 11:13:00'),
+      isCurrentlyWorking: false,
+      current_from: new Date('October 4, 2019 11:13:00'),
+      current_to: new Date()
     };
   }
   componentDidMount() {
     this.props.getCurrentProfile();
   }
 
+  toggleCurrentlyWorking = () => {
+    const tempCur = this.state.isCurrentlyWorking;
+    this.setState({
+      isCurrentlyWorking: !tempCur
+    });
+  };
+
   openFirstModal = () => {
-    this.setState({ isFirstEditDialogOpenned: true });
+    this.setState({
+      isFirstEditDialogOpenned: true,
+      current_dob: new Date(this.props.profile.profile.dob)
+    });
+  };
+
+  addSecondModal = () => {
+    this.setState({
+      isSecondAddDialogOpenned: true
+    });
+  };
+
+  onProfileUpdateSecond = data => {
+    this.props.addExperience(data);
+    this.closeSecondAddDialog();
   };
 
   closeFirstEditDialog = () => {
     this.setState({ isFirstEditDialogOpenned: false });
+  };
+
+  closeSecondAddDialog = () => {
+    this.setState({ isSecondAddDialogOpenned: false });
   };
 
   onDoBChange = d => {
@@ -37,9 +73,26 @@ class Me extends Component {
     });
   };
 
+  onFromChanged = d => {
+    this.setState({
+      current_from: d
+    });
+  };
+
+  onToChanged = d => {
+    this.setState({
+      current_to: d
+    });
+  };
+
   onProfileUpdateFirst = payload => {
     this.props.updateProfile(payload);
     this.closeFirstEditDialog();
+  };
+
+  onStatusChange = s => {
+    console.log('new status', s);
+    this.props.updateStatus(s);
   };
 
   render() {
@@ -51,7 +104,10 @@ class Me extends Component {
         <main role='main' className='container mt-4'>
           <div className='row'>
             <div className='col-md-4 order-md-2 mb-2'>
-              <StatusBlock profile={profile} />
+              <StatusBlock
+                changeStatus={this.onStatusChange}
+                profile={profile}
+              />
               <SkillsBlock profile={profile} />
               <LinksBlock profile={profile} />
             </div>
@@ -61,7 +117,8 @@ class Me extends Component {
                 profile={profile}
                 user={user}
               />
-              <SecondBlock profile={profile} />
+              <SecondBlock addModal={this.addSecondModal} profile={profile} />
+              <ThirdBlock profile={profile} />
             </div>
           </div>
         </main>
@@ -73,6 +130,19 @@ class Me extends Component {
           current_dob={current_dob}
           submitForm={this.onProfileUpdateFirst}
         />
+
+        <AddSecond
+          modalIsOpen={this.state.isSecondAddDialogOpenned}
+          closeModal={this.closeSecondAddDialog}
+          profile={profile}
+          submitForm={this.onProfileUpdateSecond}
+          toggleCurrentlyWorking={this.toggleCurrentlyWorking}
+          isCurrentlyWorking={this.state.isCurrentlyWorking}
+          currentFrom={this.state.current_from}
+          currentTo={this.state.current_to}
+          onFromChanged={this.onFromChanged}
+          onToChanged={this.onToChanged}
+        />
       </div>
     );
   }
@@ -83,6 +153,9 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, updateProfile })(
-  Me
-);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  updateProfile,
+  updateStatus,
+  addExperience
+})(Me);

@@ -12,6 +12,7 @@ const PersonalDetails = new mongoose.Schema({
   phone_num: { type: String, required: false },
   gender: { type: String, required: false },
   location: { type: String, required: false },
+  status: { type: Number, default: 0 },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'
@@ -35,11 +36,6 @@ const PersonalDetails = new mongoose.Schema({
   tasksCanceled: {
     type: Number,
     default: 0
-  },
-  status: {
-    type: String,
-    required: false,
-    default: ''
   },
   skills: {
     type: [String],

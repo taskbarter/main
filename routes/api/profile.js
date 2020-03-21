@@ -211,66 +211,76 @@ router.post('/update', [auth], async (req, res) => {
   }
 });
 
+// @route   POST api/profile/updatestatus        // for updation of existing profile
+// @desc    Add profile availability status
+// @access  Private
+
+router.post('/updatestatus', [auth], async (req, res) => {
+  const { status } = req.body;
+
+  const profileFields = {}; // empty object?  // runtime object??
+  console.log('updating profile...' + req.user.id);
+  profileFields.user = req.user.id;
+  profileFields.status = status;
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    if (profile) {
+      // update profile
+      profile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true }
+      );
+      return res.json(profile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   PUT api/profile/experience         // for updation of existing
 // @desc    Add profile experience
 // @access  Private
 
-router.put(
-  '/experience',
-  [
-    auth,
-    [
-      check('title', 'Title is required')
-        .not()
-        .isEmpty(),
-      check('company', 'Company is required')
-        .not()
-        .isEmpty(),
-      check('from', 'From date is required')
-        .not()
-        .isEmpty()
-    ]
-  ],
-  async (req, res) => {
-    errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-    }
-
-    const {
-      title,
-      company,
-      location,
-      from,
-      to,
-      current,
-      description
-    } = req.body;
-
-    const newExp = {
-      // it will even have id (perks of nosql document database)
-      //rather having saperate relation table and diong keys relation
-      title,
-      company,
-      location,
-      from,
-      to,
-      current,
-      description
-    };
-
-    try {
-      const profile = await Profile.findOne({ user: req.user.id });
-
-      profile.experience.unshift(newExp); // push with new at recent (on top)
-      profile.save();
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
+router.put('/experience', [auth], async (req, res) => {
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
   }
-);
+
+  const { title, company, location, from, to, current, description } = req.body;
+
+  const newExp = {
+    // it will even have id (perks of nosql document database)
+    //rather having saperate relation table and diong keys relation
+    title,
+    company,
+    location,
+    from,
+    to,
+    current,
+    description
+  };
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    if (profile) {
+      profile.experience.unshift(newExp); // push with new at recent (on top)
+      let tprofile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: { experience: profile.experience } },
+        { new: true }
+      );
+      console.log(profile.experience);
+      res.json(tprofile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route   DELETE api/profile/experience/:epx_id
 // @desc    Delete experience from profile

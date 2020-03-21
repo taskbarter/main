@@ -85,3 +85,49 @@ export const updateProfile = profileData => async dispatch => {
     console.error(err);
   }
 };
+
+export const updateStatus = newStatus => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.post(
+      '/api/profile/updatestatus',
+      { status: newStatus },
+      config
+    );
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const addExperience = newExperience => async dispatch => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  console.log(newExperience);
+  try {
+    const res = await axios.put(
+      '/api/profile/experience',
+      newExperience,
+      config
+    );
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};

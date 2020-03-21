@@ -86,6 +86,43 @@
   font-size: 14px;
   margin-left: 10px;
 }
+.check-box {
+}
+
+.experience-company {
+  font-size: 14px;
+  font-weight: 600;
+  padding-right: 8px;
+}
+
+.experience-title {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.experience-location {
+  font-weight: 400;
+  border-left: #c2b9f2 solid 1px;
+  padding-left: 10px;
+}
+
+.experience-date {
+  font-size: 13px;
+  color: #4e4e4e;
+}
+
+.experience-desc {
+  border-bottom: #e8e1e1 solid 1px;
+  font-size: 13px;
+  color: #4e4e4e;
+  margin-top: 5px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+
+.experience-row {
+  margin-bottom: 15px;
+}
 
 .profile-edit-col {
 }

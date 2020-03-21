@@ -1,5 +1,6 @@
 import React from 'react';
 import month from '../../../config/months_name';
+import status_type from '../../utils/Status_Type';
 const FirstBlock = props => {
   const profile = props.profile;
   const user = props.user;
@@ -38,14 +39,25 @@ const FirstBlock = props => {
         Personal Details
       </div>
       <div className='row' style={{ fontSize: '13px', marginBottom: '3px' }}>
-        <div className='col-4'>
+        <div className='col-md-4'>
           Gender: <strong>{profile.gender}</strong>
         </div>
-        <div className='col-4'>
+        <div className='col-md-4'>
           Location: <strong>{profile.location}</strong>
         </div>
-        <div className='col-4'>
+        <div className='col-md-4'>
           Date of Birth: <strong>{new Date(profile.dob).getFullYear()}</strong>
+        </div>
+      </div>
+      <div className='row' style={{ fontSize: '13px', marginBottom: '3px' }}>
+        <div className='col-md-4'>
+          Email: <strong>{user.email}</strong>
+        </div>
+        <div className='col-md-4'>
+          Username: <strong>{user.name}</strong>
+        </div>
+        <div className='col-md-4'>
+          Availability: <strong>{status_type[profile.status]}</strong>
         </div>
       </div>
 
