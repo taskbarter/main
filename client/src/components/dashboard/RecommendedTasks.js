@@ -91,7 +91,7 @@ const RecommendedTasks = props => {
 
       <div className='tasks-entries pt-2'>{alltasksDOM}</div>
       <Link to='/explore'>
-        <button className='mt-3 btn redeem-btn'>View More Tasks...</button>
+        <button className='mt-3 btn redeem-btn'>Explore More Work</button>
       </Link>
     </div>
   );

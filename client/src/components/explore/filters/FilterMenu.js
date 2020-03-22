@@ -35,11 +35,29 @@ const FilterMenu = props => {
       { name: 'London, UK' }
     ]
   };
+
+  const item3 = {
+    title: 'Industry',
+    id: 3,
+    options: [
+      { name: 'Marketing' },
+      { name: 'Graphic Designing' },
+      { name: 'Web Programming' },
+      { name: 'Content Writing' },
+      { name: 'Videography' },
+      { name: 'Photo Editing' },
+      { name: 'Voiceover Art' },
+      { name: 'Sound Editing' },
+      { name: 'Computer Programming' },
+      { name: 'Virtual Assistant' }
+    ]
+  };
   return (
     <React.Fragment>
       <div className='filter-bar'>
         <div className='filter-container'>
           <FilterItem item={item1} />
+          <FilterItem item={item3} />
           <FilterItem item={item2} />
 
           <Input type='select' className='sort-dropdown'>

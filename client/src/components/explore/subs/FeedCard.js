@@ -13,7 +13,7 @@ const FeedCard = props => {
           How bartering works?
         </div>
         <div className='feed-card--how-it-works-body'>
-          You do some tasks for others and others help you with your task. This
+          You do some tasks for others and others help you with your tasks. This
           is completely free on Taskbarter.
         </div>
         <div className='find-out-button-container'>
