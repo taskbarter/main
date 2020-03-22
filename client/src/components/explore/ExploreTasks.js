@@ -10,7 +10,7 @@ import Navbar from '../layout/Navbar';
 import FilterMenu from './filters/FilterMenu';
 import { Input } from 'reactstrap';
 import '../../style/task.css';
-
+import FeedCard from './subs/FeedCard';
 const ExploreTasks = props => {
   const [data, setData] = useState({
     pageNo: 1
@@ -184,7 +184,9 @@ const ExploreTasks = props => {
 
         <div className='task-list-section'>
           <div className='task-list-title'>Top new jobs on Taskbarter</div>
-          <div className='task-list-container'></div>
+          <div className='task-list-container'>
+            <FeedCard />
+          </div>
         </div>
       </div>
       {/* <div className='card card-body'>

@@ -86,14 +86,88 @@
   align-items: stretch;
 }
 
+@media only screen and (min-width: 32em) {
+  .task-list-container {
+    grid-template: auto/repeat(2, 1fr) [end];
+  }
+}
+
 @media only screen and (min-width: 48em) {
   .task-list-container {
     grid-template: auto/repeat(3, 1fr) [end];
   }
 }
 
-@media only screen and (min-width: 32em) {
-  .task-list-container {
-    grid-template: auto/repeat(2, 1fr) [end];
-  }
+.feed-card {
+  width: 100%;
+  margin: 0;
+  padding: 0.9375rem;
+  margin-bottom: 0.9375rem;
+  overflow: hidden;
+  border-radius: 0.3125rem;
+  border: 1px solid #d6dae0;
+  background: #fff;
+  -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.how-it-works-card {
+  border: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  position: relative;
+  min-height: 16.0625rem;
+  background: #d00865;
+  background: center no-repeat;
+  background-size: cover;
+  background-image: url(https://images.jumpstart.me/frontend/illustrations/feed/wave-card.svg);
+}
+
+.feed-card--how-it-works-header {
+  color: #fff;
+  width: 80%;
+  margin-bottom: 1.25rem;
+  font-size: 1.25rem;
+  line-height: 1.6875rem;
+  font-weight: 500;
+}
+
+.find-out-button {
+  color: rgb(255, 255, 255);
+  border: none;
+  -webkit-transition: color 125ms;
+  transition: color 125ms;
+  background: #873580;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.3125rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.feed-card--how-it-works-body {
+  color: #fff;
+  margin-bottom: 25px;
 }
