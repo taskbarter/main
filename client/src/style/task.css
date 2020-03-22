@@ -340,3 +340,8 @@
   width: 16px;
   cursor: pointer;
 }
+
+.feed-card:hover {
+  box-shadow: 0 0 11px #ddd9d9;
+  cursor: pointer;
+}
