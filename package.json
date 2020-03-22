@@ -1,7 +1,7 @@
 {
   "name": "taskbarter.com",
   "version": "1.0.0",
-  "description": "A platform where solving tasks give you points and you can use those points to hire people.",
+  "description": "A platform where solving tasks gives you points and you can use those points to hire people.",
   "main": "server.js",
   "engines": {
     "node": "10.15.3"

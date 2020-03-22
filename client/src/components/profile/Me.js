@@ -42,10 +42,16 @@ class Me extends Component {
   };
 
   openFirstModal = () => {
-    this.setState({
-      isFirstEditDialogOpenned: true,
-      current_dob: new Date(this.props.profile.profile.dob)
-    });
+    if (!isNaN(this.props.profile.profile.dob)) {
+      this.setState({
+        isFirstEditDialogOpenned: true,
+        current_dob: new Date(this.props.profile.profile.dob)
+      });
+    } else {
+      this.setState({
+        isFirstEditDialogOpenned: true
+      });
+    }
   };
 
   addSecondModal = () => {

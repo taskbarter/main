@@ -7,6 +7,7 @@ import { dateEpx } from '../../actions/taskAction';
 import { toggleLike } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
+import FilterMenu from './filters/FilterMenu';
 
 const ExploreTasks = props => {
   const [data, setData] = useState({
@@ -166,6 +167,7 @@ const ExploreTasks = props => {
 
   return (
     <div>
+      <FilterMenu />
       <div className='card card-body'>
         <div className='tasks-heading'>All Tasks</div>
 
