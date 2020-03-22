@@ -377,6 +377,15 @@
   padding-right: 9px;
 }
 
+@media only screen and (max-width: 31.9375em) {
+  .filter-container {
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    overflow: auto;
+    white-space: nowrap;
+  }
+}
+
 .filter-item {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -387,7 +396,7 @@
   height: 2.1875rem;
   border: 1px solid #d6dae0;
   border-radius: 4px;
-  margin: 0.25rem 0.5rem 0.25rem 0;
+  margin: 0.25rem 0.5rem 0.25rem 6px;
 }
 
 .filter-title {
@@ -403,7 +412,7 @@
   padding-top: 0.3125rem;
 }
 .filter-item .title-item {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   width: auto;
   width: initial;
   margin-right: 0.4375rem;
@@ -562,9 +571,8 @@
   display: inline;
   width: 155px;
   height: 35.5px;
-  font-size: 14px;
   margin-top: px;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   width: auto;
   width: initial;
   margin-right: 0.4375rem;

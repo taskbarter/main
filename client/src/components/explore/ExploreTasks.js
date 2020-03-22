@@ -8,6 +8,8 @@ import { toggleLike } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 import FilterMenu from './filters/FilterMenu';
+import { Input } from 'reactstrap';
+import '../../style/task.css';
 
 const ExploreTasks = props => {
   const [data, setData] = useState({
@@ -168,12 +170,29 @@ const ExploreTasks = props => {
   return (
     <div>
       <FilterMenu />
-      <div className='card card-body'>
+
+      <div className='container explore-container'>
+        <div className='search-container'>
+          <Input
+            type='search'
+            name='search'
+            id='exampleSearch'
+            placeholder='search tasks'
+            className='task-search-box'
+          />
+        </div>
+
+        <div className='task-list-section'>
+          <div className='task-list-title'>Top new jobs on Taskbarter</div>
+          task1, task2
+        </div>
+      </div>
+      {/* <div className='card card-body'>
         <div className='tasks-heading'>All Tasks</div>
 
         <div className='tasks-entries pt-2'>{alltasksDOM}</div>
         {paginations(10)}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -36,19 +36,21 @@ const FilterMenu = props => {
     ]
   };
   return (
-    <div className='filter-bar'>
-      <div className='filter-container'>
-        <FilterItem item={item1} />
-        <FilterItem item={item2} />
+    <React.Fragment>
+      <div className='filter-bar'>
+        <div className='filter-container'>
+          <FilterItem item={item1} />
+          <FilterItem item={item2} />
 
-        <Input type='select' className='sort-dropdown'>
-          <option>Recommended</option>
-          <option>Newest</option>
-          <option>Saved</option>
-          <option>Applied</option>
-        </Input>
+          <Input type='select' className='sort-dropdown'>
+            <option>Recommended</option>
+            <option>Newest</option>
+            <option>Saved</option>
+            <option>Applied</option>
+          </Input>
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
