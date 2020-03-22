@@ -75,3 +75,25 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.task-list-container {
+  display: grid;
+  grid-template: auto/1fr [end];
+  grid-gap: 0.9375rem;
+  justify-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+@media only screen and (min-width: 48em) {
+  .task-list-container {
+    grid-template: auto/repeat(3, 1fr) [end];
+  }
+}
+
+@media only screen and (min-width: 32em) {
+  .task-list-container {
+    grid-template: auto/repeat(2, 1fr) [end];
+  }
+}

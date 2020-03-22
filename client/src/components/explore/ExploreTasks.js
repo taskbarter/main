@@ -184,7 +184,7 @@ const ExploreTasks = props => {
 
         <div className='task-list-section'>
           <div className='task-list-title'>Top new jobs on Taskbarter</div>
-          task1, task2
+          <div className='task-list-container'></div>
         </div>
       </div>
       {/* <div className='card card-body'>
