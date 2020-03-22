@@ -335,3 +335,8 @@
   color: #fff;
   background: #433881;
 }
+
+.feed-card--footer-left .svg_icon {
+  width: 16px;
+  cursor: pointer;
+}

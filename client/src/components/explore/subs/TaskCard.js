@@ -8,12 +8,21 @@ import {
   Tooltip
 } from 'reactstrap';
 
+import bookmark_icon from '../../../style/inc/bookmark.svg';
+import share_icon from '../../../style/inc/share.svg';
+
 import { Link } from 'react-router-dom';
 
 const TaskCard = props => {
-  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState({
+    num1: false,
+    num2: false,
+    num3: false
+  });
 
-  const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
+  const toggleTooltip1 = () => setTooltipOpen({ num1: !tooltipOpen.num1 });
+  const toggleTooltip2 = () => setTooltipOpen({ num3: !tooltipOpen.num2 });
+  const toggleTooltip3 = () => setTooltipOpen({ num3: !tooltipOpen.num3 });
 
   const skillsbadges2 = skills => {
     if (skills) {
@@ -54,7 +63,20 @@ const TaskCard = props => {
         </div>
         <hr className='feed-card--sep' />
         <div className='feed-card--footer'>
-          <div className='feed-card--footer-left '>save</div>
+          <div className='feed-card--footer-left '>
+            {' '}
+            <img
+              src={bookmark_icon}
+              className='svg_icon icon_inactive'
+              id='SaveJob'
+            ></img>
+            &nbsp;&nbsp;&nbsp;
+            <img
+              src={share_icon}
+              className='svg_icon icon_inactive'
+              id='share-job'
+            ></img>
+          </div>
           <div className='feed-card--footer-right '>
             <button className='feed-card-learn-more'>Learn More</button>
           </div>
@@ -62,11 +84,19 @@ const TaskCard = props => {
       </div>
       <Tooltip
         placement='left'
-        isOpen={tooltipOpen}
+        isOpen={tooltipOpen.num1}
         target='PointsEarned'
-        toggle={toggleTooltip}
+        toggle={toggleTooltip1}
       >
         Points for this task
+      </Tooltip>
+      <Tooltip
+        placement='bottom'
+        isOpen={tooltipOpen.num3}
+        target='SaveJob'
+        toggle={toggleTooltip3}
+      >
+        Save this job
       </Tooltip>
     </React.Fragment>
   );
