@@ -11,6 +11,31 @@ import FilterMenu from './filters/FilterMenu';
 import { Input } from 'reactstrap';
 import '../../style/task.css';
 import FeedCard from './subs/FeedCard';
+import TaskCard from './subs/TaskCard';
+
+const tasks = [
+  {
+    headline: 'do my web development task',
+    category: 'Web Development',
+    points: 10,
+    date: '2020-03-22T17:19:49.308+00:00',
+    applicants: 24,
+    skills: ['Python', 'Django'],
+    location: 'Lahore, Pakistan',
+    from: 'Mohsin Hayat'
+  },
+  {
+    headline: 'do my SEO task',
+    category: 'Marketing',
+    points: 23,
+    date: '2020-03-22T19:19:49.308+00:00',
+    applicants: 12,
+    skills: ['Google', 'Webmaster Tools', 'Wordpress'],
+    location: 'Washington DC, USA',
+    from: 'Daniyal Ikhlaq'
+  }
+];
+
 const ExploreTasks = props => {
   const [data, setData] = useState({
     pageNo: 1
@@ -186,6 +211,9 @@ const ExploreTasks = props => {
           <div className='task-list-title'>Top new jobs on Taskbarter</div>
           <div className='task-list-container'>
             <FeedCard />
+            {tasks.map((task, i) => (
+              <TaskCard task={task} key={i} />
+            ))}
           </div>
         </div>
       </div>

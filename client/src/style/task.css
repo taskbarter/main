@@ -171,3 +171,167 @@
   color: #fff;
   margin-bottom: 25px;
 }
+
+.feed-card--header {
+  font-size: 1.2rem;
+  line-height: 1.375rem;
+  font-weight: 500;
+}
+
+.up-headline {
+  font-size: 12px;
+  font-weight: 500;
+  color: #898790;
+  margin-bottom: 0px;
+  margin-top: 20px;
+}
+
+.feed-card--applicants {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 500;
+  color: #a09cb5;
+  width: fit-content;
+  float: right;
+  margin-top: -16px;
+}
+
+.feed-card--container {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0;
+  flex: 1 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 180px;
+}
+
+.feed-card--sep {
+  background: #d6dae0;
+  width: auto;
+  width: initial;
+  margin: 0.9375rem calc(-0.9375rem);
+}
+
+.feed-card-person-details {
+  margin-top: 10px;
+}
+.feed-card-person-details,
+.feed-card-person-details .from {
+  font-size: 11px;
+}
+
+.feed-card-person-details .loc {
+  font-size: 11px;
+  color: #585858;
+}
+.feed-card--sep2 {
+  width: 10px;
+}
+.skill-section {
+  margin-top: 14px;
+}
+.skill-section .profile-skills {
+  margin-right: 6px;
+  margin-left: 0px;
+}
+.feed-card--category {
+  font-size: 10px;
+  background: #433881;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding-left: 6px;
+  padding-right: 6px;
+  float: left;
+  color: white;
+  border-radius: 2px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.feed-card--points {
+  background: #433881;
+  color: white;
+  width: 41px;
+  font-weight: 500;
+  padding: 2px 0px 4px 0px;
+  text-align: center;
+  border-radius: 7px;
+  margin-left: auto;
+  margin-top: 2.4px;
+}
+
+.feed-card--points .pts {
+  display: block;
+  font-size: 6px;
+}
+.fc-pts {
+  font-size: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: 7px;
+  margin-bottom: -45px;
+}
+
+.feed-card--footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.feed-card--footer-left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin-right: 0.75rem;
+}
+
+.feed-card--footer-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.feed-card-learn-more {
+  background: #fff;
+  color: #433881;
+  border: 1px solid #433881;
+  -webkit-transition: color 0s;
+  transition: color 0s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 7px;
+  border-radius: 0.3125rem;
+  font-weight: 600;
+  font-size: 12px;
+  -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.feed-card-learn-more:hover {
+  color: #fff;
+  background: #433881;
+}
