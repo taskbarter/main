@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
 import { getTasksCount } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
-import { toggleLike } from '../../actions/taskAction';
+import { toggleLike, doExplore } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 import FilterMenu from './filters/FilterMenu';
@@ -38,7 +38,14 @@ const tasks = [
 
 const ExploreTasks = props => {
   const [data, setData] = useState({
-    pageNo: 1
+    pageNo: 1,
+    current_segment: 0,
+    segment_size: 6,
+    search_query: '',
+    sort_by: -1,
+    skills_filter: [],
+    location_filter: [],
+    industry_filter: []
   });
 
   // replacement of component did mount hook
@@ -232,7 +239,8 @@ ExploreTasks.propTypes = {
   auth: PropTypes.object.isRequired,
   getAllTasks: PropTypes.func.isRequired,
   toggleLike: PropTypes.func.isRequired,
-  getTasksCount: PropTypes.func.isRequired
+  getTasksCount: PropTypes.func.isRequired,
+  doExplore: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -243,5 +251,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getAllTasks,
   toggleLike,
-  getTasksCount
+  getTasksCount,
+  doExplore
 })(ExploreTasks);

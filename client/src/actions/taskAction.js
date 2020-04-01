@@ -40,6 +40,12 @@ export const addTask = (taskData, history) => async dispatch => {
   }
 };
 
+// explore tasks
+
+export const doExplore = (filters = {}) => async dispatch => {
+  console.log(filters);
+};
+
 // get profile
 
 export const getAllTasks = (t = 0, s = 0) => async dispatch => {

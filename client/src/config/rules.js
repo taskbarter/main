@@ -22,7 +22,7 @@ var validate = function(key, val) {
     }
   }
   if (key === 'headline') {
-    regex = regex = /^[a-z0-9 A-Z_-]{5,50}$/;
+    regex = /^[a-z0-9 A-Z_-]{5,50}$/;
     if (!regex.test(val)) {
       return 'Headline not in correct format';
     }

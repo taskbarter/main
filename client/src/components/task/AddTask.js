@@ -344,7 +344,7 @@ class AddTask extends Component {
                   <div className='text-center mg-32'>
                     <span className='tick-mark-completion'>
                       <i
-                        class='fa fa-check little-text-shadow'
+                        className='fa fa-check little-text-shadow'
                         aria-hidden='true'
                       />
                     </span>

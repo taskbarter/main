@@ -34,6 +34,55 @@ router.post('/add', auth, (req, res) => {
     });
 });
 
+// @route   GET api/tasks/explore
+// @desc    Get all tasks with filtering, sorting and lazy loading
+// @access  Public         // login to see tasks
+
+/*
+@VARIABLES:
+s='' (search query)
+k='' (skill filter)
+i='' (industry filter)
+r='' (sort by filter)
+l='' (location filter)
+c=0 (current segment for lazy loading)
+z=0 (segment size)
+*/
+
+router.get('/explore', async (req, res) => {
+  try {
+    const search_query = req.query.s.toString() || '';
+    const skill_filter = toString(req.query.k) || '';
+    const industry_filter = toString(req.query.i) || '';
+    const location_filter = toString(req.query.l) || '';
+    const sort_by = toString(req.query.r) || '';
+    const segment_number = parseInt(req.query.c) || 0;
+    const segment_size = parseInt(req.query.z) || 6;
+
+    let search_filter = {};
+    if (search_query) {
+      search_filter = {
+        $or: [
+          {
+            description: new RegExp('\\b' + search_query + '', 'i')
+          },
+          {
+            headline: new RegExp('\\b' + search_query + '', 'i')
+          }
+        ]
+      };
+    }
+    const tasks = await Task.find(search_filter)
+      .sort({ date: -1 })
+      .limit(segment_size)
+      .skip(segment_size * segment_number); // toget recents one
+    res.json(tasks);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   DELETE api/tasks/:task_id
 // @desc    Delete task
 // @access  Private

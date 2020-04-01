@@ -4,6 +4,7 @@ import logo from '../../TaskBarterLogo_Transparent.png';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
+import { getCurrentProfile } from '../../actions/profileAction';
 import '../../style/header.css';
 import workspace_icon from '../../style/inc/work.svg';
 import notif_icon from '../../style/inc/notif.svg';
@@ -39,6 +40,10 @@ class Header extends Component {
       itemsStyling: newS
     });
   };
+
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
 
   render() {
     const user_info = this.props.profile;
@@ -202,4 +207,6 @@ const mapStateToProps = state => ({
   auth: state.auth,
   profile: state.profile
 });
-export default withRouter(connect(mapStateToProps, { logoutUser })(Header));
+export default withRouter(
+  connect(mapStateToProps, { logoutUser, getCurrentProfile })(Header)
+);
