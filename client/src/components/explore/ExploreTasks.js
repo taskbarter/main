@@ -13,34 +13,11 @@ import '../../style/task.css';
 import FeedCard from './subs/FeedCard';
 import TaskCard from './subs/TaskCard';
 
-const tasks = [
-  {
-    headline: 'do my web development task',
-    category: 'Web Development',
-    points: 10,
-    date: '2020-03-22T17:19:49.308+00:00',
-    applicants: 24,
-    skills: ['Python', 'Django'],
-    location: 'Lahore, Pakistan',
-    from: 'Mohsin Hayat'
-  },
-  {
-    headline: 'do my SEO task',
-    category: 'Marketing',
-    points: 23,
-    date: '2020-03-22T19:19:49.308+00:00',
-    applicants: 12,
-    skills: ['Google', 'Webmaster Tools', 'Wordpress'],
-    location: 'Washington DC, USA',
-    from: 'Daniyal Ikhlaq'
-  }
-];
-
 const ExploreTasks = props => {
   const [data, setData] = useState({
     pageNo: 1,
     current_segment: 0,
-    segment_size: 6,
+    segment_size: 9,
     search_query: '',
     sort_by: -1,
     skills_filter: [],
@@ -50,19 +27,21 @@ const ExploreTasks = props => {
 
   const fetchFilters = () => {
     const explored_filters = {
-      current_segment: data.current_segment,
-      segment_size: data.segment_size,
-      search_query: data.search_query,
-      sort_by: data.sort_by,
-      skills_filter: data.skills_filter,
-      location_filter: data.location_filter,
-      industry_filter: data.industry_filter
+      c: data.current_segment,
+      z: data.segment_size,
+      s: data.search_query,
+      r: data.sort_by,
+      k: data.skills_filter,
+      l: data.location_filter,
+      i: data.industry_filter
     };
+    return explored_filters;
   };
 
   // replacement of component did mount hook
   useEffect(() => {
-    const filters = fetchFilters();
+    let filters = fetchFilters();
+    filters.z = 8;
     props.doExplore(filters);
   }, []);
 
