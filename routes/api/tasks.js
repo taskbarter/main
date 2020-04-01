@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const Task = require('../../models/Task');
 const User = require('../../models/User');
+const PersonalDetails = require('../../models/PersonalDetails');
 const { check, validationResult } = require('express-validator');
 
 // @route POST api/tasks/add
@@ -51,11 +52,11 @@ z=0 (segment size)
 
 router.get('/explore', async (req, res) => {
   try {
-    const search_query = req.query.s.toString() || '';
-    const skill_filter = toString(req.query.k) || '';
-    const industry_filter = toString(req.query.i) || '';
-    const location_filter = toString(req.query.l) || '';
-    const sort_by = toString(req.query.r) || '';
+    const search_query = (req.query.s && req.query.s.toString()) || '';
+    const skill_filter = (req.query.k && req.query.k.toString()) || '';
+    const industry_filter = (req.query.i && req.query.i.toString()) || '';
+    const location_filter = (req.query.l && req.query.l.toString()) || '';
+    const sort_by = (req.query.r && req.query.r.toString()) || '';
     const segment_number = parseInt(req.query.c) || 0;
     const segment_size = parseInt(req.query.z) || 6;
 
@@ -72,10 +73,38 @@ router.get('/explore', async (req, res) => {
         ]
       };
     }
-    const tasks = await Task.find(search_filter)
-      .sort({ date: -1 })
-      .limit(segment_size)
-      .skip(segment_size * segment_number); // toget recents one
+    const tasks = await Task.aggregate([
+      {
+        $lookup: {
+          from: 'personaldetails',
+          localField: 'user',
+          foreignField: 'user',
+          as: 'userdetails'
+        }
+      },
+      {
+        $sort: { date: -1 }
+      },
+      {
+        $limit: segment_size
+      },
+      {
+        $skip: segment_size * segment_number
+      },
+      {
+        $match: search_filter
+      },
+      {
+        $project: {
+          headline: 1,
+          category: 1,
+          taskpoints: 1,
+          date: 1,
+          skills: 1,
+          userdetails: { first_name: 1, second_name: 1, location: 1 }
+        }
+      }
+    ]);
     res.json(tasks);
   } catch (err) {
     console.error(err.message);

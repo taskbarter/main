@@ -48,10 +48,22 @@ const ExploreTasks = props => {
     industry_filter: []
   });
 
+  const fetchFilters = () => {
+    const explored_filters = {
+      current_segment: data.current_segment,
+      segment_size: data.segment_size,
+      search_query: data.search_query,
+      sort_by: data.sort_by,
+      skills_filter: data.skills_filter,
+      location_filter: data.location_filter,
+      industry_filter: data.industry_filter
+    };
+  };
+
   // replacement of component did mount hook
   useEffect(() => {
-    props.getAllTasks(10, 0);
-    props.getTasksCount();
+    const filters = fetchFilters();
+    props.doExplore(filters);
   }, []);
 
   //   if (props.task.tasks.length < 1 && !props.task.loading) {
@@ -199,6 +211,12 @@ const ExploreTasks = props => {
     );
   };
 
+  const onSearch = e => {
+    setData({
+      search_query: e.target.value
+    });
+  };
+
   return (
     <div>
       <FilterMenu />
@@ -211,6 +229,8 @@ const ExploreTasks = props => {
             id='exampleSearch'
             placeholder='search tasks'
             className='task-search-box'
+            value={data.search_query}
+            onChange={onSearch}
           />
         </div>
 
@@ -218,7 +238,7 @@ const ExploreTasks = props => {
           <div className='task-list-title'>Top new jobs on Taskbarter</div>
           <div className='task-list-container'>
             <FeedCard />
-            {tasks.map((task, i) => (
+            {allTasks.map((task, i) => (
               <TaskCard task={task} key={i} />
             ))}
           </div>

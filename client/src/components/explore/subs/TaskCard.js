@@ -41,6 +41,11 @@ const TaskCard = props => {
       {skillsbadges2(props.task.skills)}
     </div>
   );
+
+  if (!props.task || props.task.userdetails === undefined) {
+    return 'loading...';
+  }
+
   return (
     <React.Fragment>
       <div className='feed-card'>
@@ -48,17 +53,20 @@ const TaskCard = props => {
           {' '}
           <div className='feed-card--category'>{props.task.category}</div>
           <div className='feed-card--applicants'>
-            {props.task.applicants} applicants
+            {props.task.applicants ? props.task.applicants : '0'} applicants
           </div>
           <div className='up-headline'>I want someone to</div>
           <div className='feed-card--header'>{props.task.headline}</div>
           <div className='skill-section'>{skillSection}</div>
           <div className='feed-card-person-details'>
-            <span className='from'>{props.task.from}</span> •{' '}
-            <span className='loc'>{props.task.location}</span>
+            <span className='from'>
+              {props.task.userdetails[0].first_name}{' '}
+              {props.task.userdetails[0].second_name}
+            </span>{' '}
+            • <span className='loc'>{props.task.userdetails[0].location}</span>
           </div>
           <div className='feed-card--points' id='PointsEarned'>
-            {props.task.points}
+            {props.task.taskpoints}
           </div>
         </div>
         <hr className='feed-card--sep' />

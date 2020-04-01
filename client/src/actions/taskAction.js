@@ -43,7 +43,24 @@ export const addTask = (taskData, history) => async dispatch => {
 // explore tasks
 
 export const doExplore = (filters = {}) => async dispatch => {
-  console.log(filters);
+  dispatch(setTaskLoading());
+
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get(`/api/tasks/explore`, { params: filters });
+    dispatch({
+      type: GET_TASKS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_TASKS, //   get errors might be more graceful
+      payload: {}
+    });
+  }
 };
 
 // get profile
