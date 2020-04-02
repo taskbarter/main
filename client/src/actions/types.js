@@ -11,3 +11,5 @@ export const DELETE_TASK = 'DELETE_TASK';
 export const TASK_LOADING = 'TASK_LOADING';
 export const TASKS_COUNT_LOADING = 'TASKS_COUNT_LOADING';
 export const GET_TASKS_COUNT = 'GET_TASKS_COUNT';
+export const EMPTY_TASKS = 'EMPTY_TASKS';
+export const APPEND_TASKS = 'APPEND_TASKS';

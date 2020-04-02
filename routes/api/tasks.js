@@ -75,6 +75,9 @@ router.get('/explore', async (req, res) => {
     }
     const tasks = await Task.aggregate([
       {
+        $match: search_filter
+      },
+      {
         $lookup: {
           from: 'personaldetails',
           localField: 'user',
@@ -86,13 +89,10 @@ router.get('/explore', async (req, res) => {
         $sort: { date: -1 }
       },
       {
-        $limit: segment_size
-      },
-      {
         $skip: segment_size * segment_number
       },
       {
-        $match: search_filter
+        $limit: segment_size
       },
       {
         $project: {

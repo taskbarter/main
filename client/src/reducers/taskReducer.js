@@ -5,7 +5,9 @@ import {
   GET_TASKS,
   DELETE_TASK,
   GET_TASKS_COUNT,
-  TASKS_COUNT_LOADING
+  TASKS_COUNT_LOADING,
+  APPEND_TASKS,
+  EMPTY_TASKS
 } from '../actions/types';
 
 const initialState = {
@@ -28,12 +30,27 @@ export default function(state = initialState, action) {
         loading: true
       };
 
+    case EMPTY_TASKS:
+      return {
+        ...state,
+        tasks: [],
+        loading: true
+      };
+
     case GET_TASKS:
       return {
         ...state,
         loading: false,
         tasks: action.payload
       };
+
+    case APPEND_TASKS:
+      return {
+        ...state,
+        loading: false,
+        tasks: state.tasks.concat(action.payload)
+      };
+
     case GET_TASKS_COUNT:
       return {
         ...state,

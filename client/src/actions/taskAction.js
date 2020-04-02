@@ -8,7 +8,9 @@ import {
   GET_TASKS,
   DELETE_TASK,
   TASKS_COUNT_LOADING,
-  GET_TASKS_COUNT
+  GET_TASKS_COUNT,
+  APPEND_TASKS,
+  EMPTY_TASKS
 } from '../actions/types';
 
 // Add task
@@ -42,7 +44,7 @@ export const addTask = (taskData, history) => async dispatch => {
 
 // explore tasks
 
-export const doExplore = (filters = {}) => async dispatch => {
+export const doExplore = (filters = {}, append = true) => async dispatch => {
   dispatch(setTaskLoading());
 
   try {
@@ -50,11 +52,23 @@ export const doExplore = (filters = {}) => async dispatch => {
     if (mtok) {
       setAuthToken(mtok);
     }
+    if (!append) {
+      dispatch({
+        type: EMPTY_TASKS
+      });
+    }
     const res = await axios.get(`/api/tasks/explore`, { params: filters });
-    dispatch({
-      type: GET_TASKS,
-      payload: res.data
-    });
+    if (append) {
+      dispatch({
+        type: APPEND_TASKS,
+        payload: res.data
+      });
+    } else {
+      dispatch({
+        type: GET_TASKS,
+        payload: res.data
+      });
+    }
   } catch (err) {
     dispatch({
       type: GET_TASKS, //   get errors might be more graceful
