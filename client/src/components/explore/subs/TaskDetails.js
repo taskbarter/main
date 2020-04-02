@@ -7,30 +7,43 @@ import {
   ModalFooter,
   Tooltip
 } from 'reactstrap';
+import { fetchTask } from '../../../actions/taskAction';
+import { connect } from 'react-redux';
 
 const TaskDetails = props => {
   const { modal, toggle } = props;
 
-  const [task, setTask] = useState({
-    headline: '',
-    skills: [],
-    description: '',
-    taskpoints: 0,
-    category: '',
-    user: {},
-    date: new Date()
-  });
+  const [task, setTask] = useState({});
 
+  useEffect(() => {
+    console.log(task);
+  }, [task]);
+  const handleChange = newTask => {
+    setTask(newTask);
+  };
   const modalOpened = () => {
-    console.log('OOO');
+    props.fetchTask(props.selected_task).then(payload => {
+      handleChange(payload.taskData[0]);
+    });
+  };
+
+  const modalClosed = () => {
+    setTask({});
   };
 
   return (
-    <Modal isOpen={modal} toggle={toggle} onOpened={modalOpened}>
-      <ModalHeader toggle={toggle}>How Taskbarter Works?</ModalHeader>
-      <ModalBody>ID: {props.selected_task}</ModalBody>
+    <Modal
+      isOpen={modal}
+      toggle={toggle}
+      onOpened={modalOpened}
+      onClosed={modalClosed}
+    >
+      <ModalHeader toggle={toggle}>{task.headline}</ModalHeader>
+      <ModalBody>{task.description}</ModalBody>
     </Modal>
   );
 };
 
-export default TaskDetails;
+export default connect(null, {
+  fetchTask
+})(TaskDetails);
