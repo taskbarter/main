@@ -43,13 +43,17 @@ const TaskCard = props => {
   );
 
   if (!props.task || props.task.userdetails === undefined) {
-    return 'loading...';
+    return '';
   }
+
+  const onSelectTask = () => {
+    props.onClick(props.task._id);
+  };
 
   return (
     <React.Fragment>
       <div className='feed-card'>
-        <div className='feed-card--container'>
+        <div className='feed-card--container' onClick={onSelectTask}>
           {' '}
           <div className='feed-card--category'>{props.task.category}</div>
           <div className='feed-card--applicants'>
@@ -86,7 +90,9 @@ const TaskCard = props => {
             ></img>
           </div>
           <div className='feed-card--footer-right '>
-            <button className='feed-card-learn-more'>Learn More</button>
+            <button className='feed-card-learn-more' onClick={onSelectTask}>
+              Learn More
+            </button>
           </div>
         </div>
       </div>

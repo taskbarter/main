@@ -12,6 +12,7 @@ import { Input } from 'reactstrap';
 import '../../style/task.css';
 import FeedCard from './subs/FeedCard';
 import TaskCard from './subs/TaskCard';
+import TaskDetails from './subs/TaskDetails';
 
 class ExploreTasks extends Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class ExploreTasks extends Component {
       skills_filter: [],
       location_filter: [],
       industry_filter: [],
-      first_time: true
+      first_time: true,
+      detail_popup_is_open: false,
+      selected_task: 0
     };
   }
 
@@ -35,6 +38,15 @@ class ExploreTasks extends Component {
     //console.log(filters);
     document.addEventListener('scroll', this.trackScrolling);
   }
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.trackScrolling);
+  }
+
+  task_detail_toggle = () => {
+    this.setState({
+      detail_popup_is_open: !this.state.detail_popup_is_open
+    });
+  };
 
   trackScrolling = () => {
     const wrappedElement = document.getElementById('explore-container');
@@ -105,6 +117,12 @@ class ExploreTasks extends Component {
     }
   };
 
+  onTaskSelect = task_id => {
+    this.setState({ selected_task: task_id }, () => {
+      this.task_detail_toggle();
+    });
+  };
+
   render() {
     const allTasks = this.props.task.tasks;
     return (
@@ -130,11 +148,16 @@ class ExploreTasks extends Component {
             <div className='task-list-container'>
               <FeedCard />
               {allTasks.map((task, i) => (
-                <TaskCard task={task} key={i} />
+                <TaskCard task={task} key={i} onClick={this.onTaskSelect} />
               ))}
             </div>
           </div>
         </div>
+        <TaskDetails
+          toggle={this.task_detail_toggle}
+          modal={this.state.detail_popup_is_open}
+          selected_task={this.state.selected_task}
+        />
       </div>
     );
   }
