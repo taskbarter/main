@@ -5,6 +5,7 @@ const Task = require('../../models/Task');
 const User = require('../../models/User');
 const PersonalDetails = require('../../models/PersonalDetails');
 const { check, validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 // @route POST api/tasks/add
 // @desc Add new Task
@@ -106,6 +107,37 @@ router.get('/explore', async (req, res) => {
       }
     ]);
     res.json(tasks);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/tasks/fetch
+// @desc    Get single task using ID
+// @access  Public         // login to see tasks
+
+router.get('/fetch', async (req, res) => {
+  try {
+    const task_id = req.query.id || '';
+    if (task_id === '') {
+      throw { msg: 'no id provided' };
+    }
+
+    const taskData = await Task.aggregate([
+      {
+        $match: { _id: mongoose.Types.ObjectId(task_id) }
+      },
+      {
+        $lookup: {
+          from: 'personaldetails',
+          localField: 'user',
+          foreignField: 'user',
+          as: 'userdetails'
+        }
+      }
+    ]);
+    res.json({ taskData });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -77,6 +77,23 @@ export const doExplore = (filters = {}, append = true) => async dispatch => {
   }
 };
 
+// fetch task
+
+export const fetchTask = task_id => async dispatch => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get(`/api/tasks/fetch`, {
+      params: { id: task_id }
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 // get profile
 
 export const getAllTasks = (t = 0, s = 0) => async dispatch => {
