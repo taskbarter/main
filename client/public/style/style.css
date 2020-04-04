@@ -4,7 +4,8 @@ html {
 
 html,
 body {
-  overflow-x: hidden; /* Prevent scroll on narrow devices */
+  overflow-x: hidden;
+  /* Prevent scroll on narrow devices */
 }
 
 body {
@@ -32,7 +33,8 @@ body {
 @media (max-width: 991.98px) {
   .offcanvas-collapse {
     position: fixed;
-    top: 56px; /* Height of navbar */
+    top: 56px;
+    /* Height of navbar */
     bottom: 0;
     left: 100%;
     width: 100%;
@@ -107,9 +109,11 @@ body {
 .lh-100 {
   line-height: 1;
 }
+
 .lh-125 {
   line-height: 1.25;
 }
+
 .lh-150 {
   line-height: 1.5;
 }
@@ -241,11 +245,9 @@ body {
     background: #ffffffd4;
     transition: background ease 0.5s;
   }
-
   .search-form:focus {
     min-width: 98.8%;
   }
-
   .search-button {
     padding: 6px;
     background: white;
@@ -258,13 +260,11 @@ body {
     padding: 6px;
     background: #ffffffd4;
   }
-
   .nav-message,
   .nav-notification,
   .nav-user-dp {
     display: none;
   }
-
   .dropdown-menu {
     top: 190px;
     left: 0%;
@@ -274,12 +274,10 @@ body {
     align-items: center;
     margin: auto;
   }
-
   .mobile-menu {
     display: flex !important;
     margin-top: 20px !important;
   }
-
   .nav-icon {
     color: white;
     font-size: 18px;
@@ -289,7 +287,6 @@ body {
     cursor: pointer;
     transition: background ease 0.5s;
   }
-
   .nav-icon:hover {
     background: #433881;
     color: white;
@@ -338,6 +335,7 @@ body {
   max-height: 200px;
   overflow-x: hidden;
 }
+
 .scrollable-menu::-webkit-scrollbar {
   width: 0.5em;
 }
@@ -345,6 +343,7 @@ body {
 .scrollable-menu::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
+
 .scrollable-menu::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
@@ -409,7 +408,8 @@ BELOW IS THE LOGIN THEME
   left: 0;
   display: block;
   width: 100%;
-  margin-bottom: 0; /* Override default `<label>` margin */
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
   line-height: 1.5;
   color: #495057;
   border: 1px solid transparent;
@@ -482,7 +482,6 @@ BELOW IS THE LOGIN THEME
 }
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap');
-
 .landing-body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
@@ -534,7 +533,8 @@ header nav.navbar {
 @media (max-width: 991.98px) {
   .offcanvas-collapse {
     position: fixed;
-    top: 56px; /* Height of navbar */
+    top: 56px;
+    /* Height of navbar */
     bottom: 0;
     left: 100%;
     width: 100%;
@@ -609,9 +609,11 @@ header nav.navbar {
 .lh-100 {
   line-height: 1;
 }
+
 .lh-125 {
   line-height: 1.25;
 }
+
 .lh-150 {
   line-height: 1.5;
 }
@@ -738,11 +740,9 @@ header nav.navbar {
     background: #ffffffd4;
     transition: background ease 0.5s;
   }
-
   .search-form:focus {
     min-width: 98.8%;
   }
-
   .search-button {
     padding: 6px;
     background: white;
@@ -755,13 +755,11 @@ header nav.navbar {
     padding: 6px;
     background: #ffffffd4;
   }
-
   .nav-message,
   .nav-notification,
   .nav-user-dp {
     display: none;
   }
-
   .dropdown-menu {
     top: 190px;
     left: 0%;
@@ -771,12 +769,10 @@ header nav.navbar {
     align-items: center;
     margin: auto;
   }
-
   .mobile-menu {
     display: flex !important;
     margin-top: 20px !important;
   }
-
   .nav-icon {
     color: white;
     font-size: 18px;
@@ -786,7 +782,6 @@ header nav.navbar {
     cursor: pointer;
     transition: background ease 0.5s;
   }
-
   .nav-icon:hover {
     background: #433881;
     color: white;
@@ -835,6 +830,7 @@ header nav.navbar {
   max-height: 200px;
   overflow-x: hidden;
 }
+
 .scrollable-menu::-webkit-scrollbar {
   width: 0.5em;
 }
@@ -842,6 +838,7 @@ header nav.navbar {
 .scrollable-menu::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
+
 .scrollable-menu::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
@@ -1063,6 +1060,7 @@ header nav.navbar {
   width: 30px;
   height: 30px;
 }
+
 .lds-ring div {
   box-sizing: border-box;
   display: block;
@@ -1075,15 +1073,19 @@ header nav.navbar {
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #fff transparent transparent transparent;
 }
+
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;
 }
+
 .lds-ring div:nth-child(2) {
   animation-delay: -0.3s;
 }
+
 .lds-ring div:nth-child(3) {
   animation-delay: -0.15s;
 }
+
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);
@@ -1106,10 +1108,12 @@ header nav.navbar {
   font-weight: 600;
   font-size: 17px;
 }
+
 .redeem-text {
   margin-top: 6px;
   margin-bottom: 20px;
 }
+
 .redeem-btn {
   color: white;
   background: #433881;
@@ -1152,6 +1156,16 @@ header nav.navbar {
 
 .notification-btn {
   background: #433881;
+  color: white;
+  font-size: 10px;
+  padding: 3px 7px 3px 7px;
+  font-weight: 400;
+  vertical-align: text-top;
+  margin-left: 5px;
+}
+
+.delete-btn {
+  background: #a52f2f;
   color: white;
   font-size: 10px;
   padding: 3px 7px 3px 7px;
@@ -1204,6 +1218,7 @@ header nav.navbar {
   color: #433880;
   margin-top: 20px;
 }
+
 .profile-badge-rating-info {
   font-size: 10px;
   vertical-align: top;
@@ -1239,11 +1254,13 @@ header nav.navbar {
 .add-task-points {
   text-align: center;
 }
+
 .add-task-point-curr {
   vertical-align: top;
   margin-top: -3px;
   font-size: 13px;
 }
+
 .add-task-point-total {
   font-size: 32px;
   font-weight: 800;
@@ -1261,6 +1278,7 @@ header nav.navbar {
   font-weight: 500;
   text-align: center;
 }
+
 .add-task-input-headline {
   margin-top: 30px;
 }
@@ -1327,36 +1345,40 @@ header nav.navbar {
     margin-top: 9px;
   }
 }
+
 fieldset {
   border-top: 6px solid #433881;
   border-right: 1px solid #433881;
   border-left: 1px solid #433881;
   border-bottom: 1px solid #433881;
-
   margin-top: 1%;
   margin-left: 20%;
   margin-right: 14%;
-
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 10px #6055a0;
 }
+
 legend {
   padding: 2px 4px;
   background: #fff;
 }
+
 fieldset > legend {
   float: left;
   margin-top: -20px;
 }
+
 fieldset > legend + * {
   clear: both;
 }
+
 .login-logoUserInfo {
   width: 100px;
   height: 40px;
   margin-left: 10px;
 }
+
 .UserInfohead1 {
   font-size: 24px;
   font-weight: 400;
@@ -1364,17 +1386,21 @@ fieldset > legend + * {
   margin-left: 10px;
   cursor: default;
 }
+
 .UserInfoHead2 {
   font-size: 16px;
   margin-left: 15px;
   cursor: default;
 }
+
 .userInfoLeftMargin {
   margin-left: 15px;
 }
+
 .userInfoInsideMargin {
   margin-left: -24px;
 }
+
 .UserInfo-dp > img {
   width: 180px;
   height: 180px;
@@ -1383,29 +1409,34 @@ fieldset > legend + * {
   position: relative;
   bottom: 35px;
 }
+
 .comboxPosition {
   margin-top: -83px;
   margin-left: 0px;
 }
+
 .UserInfoFont {
   font-size: 12px;
   margin-top: -11px;
   margin-left: 16px;
   cursor: default;
 }
+
 .UserInfoBDatePosition {
   position: relative;
-
   margin-top: 300px;
   margin-left: 430px;
 }
+
 .UserInfoYearDatePosition {
   position: relative;
   margin-top: 300px;
   margin-left: 500px;
 }
+
 .UserInfoButton {
-  background-color: #433881; /* Green */
+  background-color: #433881;
+  /* Green */
   border: none;
   color: white;
   padding: 5px 33px;
@@ -1422,6 +1453,7 @@ fieldset > legend + * {
 .mg-32 {
   margin: 32px;
 }
+
 .tick-mark-completion {
   background: #433880;
   color: white;
@@ -1429,11 +1461,7 @@ fieldset > legend + * {
   border-radius: 50%;
   font-size: 30px;
 }
+
 .fs-20 {
   font-size: 20px;
-}
-
-.description-editor {
-  padding: 0px;
-  border: none;
 }

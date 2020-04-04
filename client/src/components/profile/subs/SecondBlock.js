@@ -1,13 +1,13 @@
 import React from 'react';
 import month from '../../../config/months_name';
 
-const SecondBlock = props => {
+const SecondBlock = (props) => {
   const profile = props.profile;
   if (!profile) {
     return <div>Loading...</div>;
   }
 
-  const getExperiences = experience => {
+  const getExperiences = (experience) => {
     const temp_exp = experience;
     console.log(temp_exp);
     if (!temp_exp) {
@@ -16,6 +16,19 @@ const SecondBlock = props => {
     return temp_exp.map((exp, i) => (
       <div className='experience-row' key={i}>
         <span className='experience-title'>{exp.title}</span>
+        <button
+          onClick={props.editModal}
+          className='btn notification-btn float-right'
+        >
+          Edit
+        </button>
+        <button
+          onClick={props.editModal}
+          className='btn delete-btn float-right'
+        >
+          Delete
+        </button>
+        <div className='clearfix'></div>
         <div className='experience-company'>
           {exp.company}
           {'  '} &nbsp;

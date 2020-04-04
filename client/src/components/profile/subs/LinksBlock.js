@@ -1,5 +1,5 @@
 import React from 'react';
-const LinksBlock = props => {
+const LinksBlock = (props) => {
   const profile = props.profile;
   let date_memberSince = Date.now();
   if (profile) {
@@ -13,6 +13,7 @@ const LinksBlock = props => {
       <div className='redeem-heading'>
         Links
         <button
+          onClick={props.addModal}
           style={{ marginLeft: '-23px' }}
           className='btn notification-btn float-right'
         >

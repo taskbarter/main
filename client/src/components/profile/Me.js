@@ -6,7 +6,9 @@ import {
   getCurrentProfile,
   updateProfile,
   updateStatus,
-  addExperience
+  addExperience,
+  addProject,
+  addSkill,
 } from '../../actions/profileAction';
 import '../../style/profile/profile_page.css';
 import FirstBlock from './subs/FirstBlock';
@@ -17,6 +19,8 @@ import SkillsBlock from './subs/SkillsBlock';
 import LinksBlock from './subs/LinksBlock';
 import EditFirst from './edit/EditFirst';
 import AddSecond from './edit/AddSecond';
+import AddThird from './edit/AddThird';
+import AddSkills from './edit/AddSkills';
 
 class Me extends Component {
   constructor(props) {
@@ -24,10 +28,12 @@ class Me extends Component {
     this.state = {
       isFirstEditDialogOpenned: false,
       isSecondAddDialogOpenned: false,
+      isThirdAddDialogOpenned: false,
+      isSkillAddDialogOpenned: false,
       current_dob: new Date('October 4, 1997 11:13:00'),
       isCurrentlyWorking: false,
       current_from: new Date('October 4, 2019 11:13:00'),
-      current_to: new Date()
+      current_to: new Date(),
     };
   }
   componentDidMount() {
@@ -37,7 +43,7 @@ class Me extends Component {
   toggleCurrentlyWorking = () => {
     const tempCur = this.state.isCurrentlyWorking;
     this.setState({
-      isCurrentlyWorking: !tempCur
+      isCurrentlyWorking: !tempCur,
     });
   };
 
@@ -45,24 +51,46 @@ class Me extends Component {
     if (!isNaN(this.props.profile.profile.dob)) {
       this.setState({
         isFirstEditDialogOpenned: true,
-        current_dob: new Date(this.props.profile.profile.dob)
+        current_dob: new Date(this.props.profile.profile.dob),
       });
     } else {
       this.setState({
-        isFirstEditDialogOpenned: true
+        isFirstEditDialogOpenned: true,
       });
     }
   };
 
   addSecondModal = () => {
     this.setState({
-      isSecondAddDialogOpenned: true
+      isSecondAddDialogOpenned: true,
     });
   };
 
-  onProfileUpdateSecond = data => {
+  addThirdModal = () => {
+    this.setState({
+      isThirdAddDialogOpenned: true,
+    });
+  };
+
+  addSkillModal = () => {
+    this.setState({
+      isSkillAddDialogOpenned: true,
+    });
+  };
+
+  onProfileUpdateSecond = (data) => {
     this.props.addExperience(data);
     this.closeSecondAddDialog();
+  };
+
+  onProfileUpdateThird = (data) => {
+    this.props.addProject(data);
+    this.closeThirdAddDialog();
+  };
+
+  onProfileUpdateSkill = (data) => {
+    this.props.addSkill(data);
+    this.closeSkillAddDialog();
   };
 
   closeFirstEditDialog = () => {
@@ -73,30 +101,38 @@ class Me extends Component {
     this.setState({ isSecondAddDialogOpenned: false });
   };
 
-  onDoBChange = d => {
+  closeThirdAddDialog = () => {
+    this.setState({ isThirdAddDialogOpenned: false });
+  };
+
+  closeSkillAddDialog = () => {
+    this.setState({ isSkillAddDialogOpenned: false });
+  };
+
+  onDoBChange = (d) => {
     this.setState({
-      current_dob: d
+      current_dob: d,
     });
   };
 
-  onFromChanged = d => {
+  onFromChanged = (d) => {
     this.setState({
-      current_from: d
+      current_from: d,
     });
   };
 
-  onToChanged = d => {
+  onToChanged = (d) => {
     this.setState({
-      current_to: d
+      current_to: d,
     });
   };
 
-  onProfileUpdateFirst = payload => {
+  onProfileUpdateFirst = (payload) => {
     this.props.updateProfile(payload);
     this.closeFirstEditDialog();
   };
 
-  onStatusChange = s => {
+  onStatusChange = (s) => {
     console.log('new status', s);
     this.props.updateStatus(s);
   };
@@ -114,7 +150,7 @@ class Me extends Component {
                 changeStatus={this.onStatusChange}
                 profile={profile}
               />
-              <SkillsBlock profile={profile} />
+              <SkillsBlock addModal={this.addSkillModal} profile={profile} />
               <LinksBlock profile={profile} />
             </div>
             <div className='col-md-8 order-md-1'>
@@ -124,7 +160,7 @@ class Me extends Component {
                 user={user}
               />
               <SecondBlock addModal={this.addSecondModal} profile={profile} />
-              <ThirdBlock profile={profile} />
+              <ThirdBlock addModal={this.addThirdModal} profile={profile} />
             </div>
           </div>
         </main>
@@ -149,19 +185,47 @@ class Me extends Component {
           onFromChanged={this.onFromChanged}
           onToChanged={this.onToChanged}
         />
+
+        <AddThird
+          modalIsOpen={this.state.isThirdAddDialogOpenned}
+          closeModal={this.closeThirdAddDialog}
+          profile={profile}
+          submitForm={this.onProfileUpdateThird}
+          toggleCurrentlyWorking={this.toggleCurrentlyWorking}
+          isCurrentlyWorking={this.state.isCurrentlyWorking}
+          currentFrom={this.state.current_from}
+          currentTo={this.state.current_to}
+          onFromChanged={this.onFromChanged}
+          onToChanged={this.onToChanged}
+        />
+
+        <AddSkills
+          modalIsOpen={this.state.isSkillAddDialogOpenned}
+          closeModal={this.closeSkillAddDialog}
+          profile={profile}
+          submitForm={this.onProfileUpdateSkill}
+          toggleCurrentlyWorking={this.toggleCurrentlyWorking}
+          isCurrentlyWorking={this.state.isCurrentlyWorking}
+          currentFrom={this.state.current_from}
+          currentTo={this.state.current_to}
+          onFromChanged={this.onFromChanged}
+          onToChanged={this.onToChanged}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.profile,
-  user: state.auth.user
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, {
   getCurrentProfile,
   updateProfile,
   updateStatus,
-  addExperience
+  addExperience,
+  addProject,
+  addSkill,
 })(Me);

@@ -6,7 +6,7 @@ import { set } from 'mongoose';
 
 // get profile
 
-export const getCurrentProfile = () => async dispatch => {
+export const getCurrentProfile = () => async (dispatch) => {
   dispatch(setProfileLoading());
 
   try {
@@ -18,27 +18,27 @@ export const getCurrentProfile = () => async dispatch => {
     const res = await axios.get('/api/profile/me');
     dispatch({
       type: GET_PROFILE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_PROFILE, //   get errors might be more graceful
-      payload: {}
+      payload: {},
     });
   }
 };
 
 // create profile
 
-export const createProfile = (profileData, history) => async dispatch => {
+export const createProfile = (profileData, history) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   };
 
   try {
@@ -55,27 +55,27 @@ export const createProfile = (profileData, history) => async dispatch => {
 
 export const setProfileLoading = () => {
   return {
-    type: PROFILE_LOADING
+    type: PROFILE_LOADING,
   };
 };
 
 //Clear Profile
 
-export const clearCurrentProfile = () => dispatch => {
+export const clearCurrentProfile = () => (dispatch) => {
   dispatch({
-    type: CLEAR_CURRENT_PROFILE
+    type: CLEAR_CURRENT_PROFILE,
   });
 };
 
-export const updateProfile = profileData => async dispatch => {
+export const updateProfile = (profileData) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   };
 
   try {
@@ -86,15 +86,15 @@ export const updateProfile = profileData => async dispatch => {
   }
 };
 
-export const updateStatus = newStatus => async dispatch => {
+export const updateStatus = (newStatus) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   };
 
   try {
@@ -109,15 +109,15 @@ export const updateStatus = newStatus => async dispatch => {
   }
 };
 
-export const addExperience = newExperience => async dispatch => {
+export const addExperience = (newExperience) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   };
   console.log(newExperience);
   try {
@@ -126,6 +126,44 @@ export const addExperience = newExperience => async dispatch => {
       newExperience,
       config
     );
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const addProject = (newProject) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  console.log(newProject);
+  try {
+    const res = await axios.put('/api/profile/project', newProject, config);
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const addSkill = (newSkill) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  console.log(newSkill);
+  try {
+    const res = await axios.put('/api/profile/skill', newSkill, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);

@@ -10,6 +10,7 @@
   z-index: 13;
   padding: 0 5rem;
 }
+
 .header-container {
   height: 100%;
   display: -webkit-box;
@@ -25,6 +26,7 @@
   max-width: 62.5rem;
   margin: 0 auto;
 }
+
 .header-container .logo {
   margin-right: auto;
   cursor: pointer;
@@ -113,14 +115,17 @@
 .nav-items .icon_active {
   display: none;
 }
+
 .nav-items .icon_inactive {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
+
 .nav-items .active .icon_inactive {
   display: none;
 }
+
 .nav-items .active .icon_active {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -264,6 +269,7 @@
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
+
 @media only screen and (max-width: 63.9375em) {
   .header-container .nav-items .nav-item {
     -webkit-box-orient: horizontal;
@@ -343,6 +349,7 @@
     padding: 0.25625rem 0.875rem;
   }
 }
+
 @media only screen and (max-width: 576px) {
   .main-header-v2 {
     padding: 0 1rem;
@@ -411,6 +418,7 @@
   padding-bottom: 0.3125rem;
   padding-top: 0.3125rem;
 }
+
 .filter-item .title-item {
   font-size: 1.1rem;
   width: auto;
@@ -420,6 +428,7 @@
   position: initial;
   margin-left: 0.4375rem;
 }
+
 .checkbox__label .checkmark {
   position: absolute;
   top: 0;
@@ -435,6 +444,7 @@
 .checkbox-list .checkbox-list {
   margin-left: 2.125rem;
 }
+
 .checkbox__label {
   display: block;
   position: relative;
@@ -446,25 +456,31 @@
   -ms-user-select: none;
   user-select: none;
 }
+
 .checkbox__label:hover input ~ .checkmark {
   background-color: #d6dae0;
 }
+
 .checkbox__label input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
+
 .checkbox__label input:checked ~ .checkmark {
   background-color: #433881;
   border-color: #433881;
 }
+
 .checkbox__label input:checked ~ .checkmark:after {
   display: block;
 }
+
 .checkbox__label input:checked ~ .checkmark.checkmark--azul {
   background-color: #01a3a4;
   border-color: #01a3a4;
 }
+
 .checkbox__label .checkmark {
   position: absolute;
   top: 0;
@@ -476,9 +492,11 @@
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   border: 1px solid #b6b9be;
 }
+
 .checkbox__label .checkmark.radio {
   border-radius: 50%;
 }
+
 .checkbox__label .checkmark:not(.radio):after {
   content: '';
   position: absolute;
@@ -492,6 +510,7 @@
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
 .filter-item .bs-popover-auto[x-placement^='bottom'],
 .bs-popover-bottom {
   margin-top: 14px;
@@ -506,10 +525,12 @@
   overflow-y: auto;
   min-width: 260px;
 }
+
 .filter-item .popover-body {
   padding: 1rem 0.75rem;
   color: #494e54;
 }
+
 .filter-dropdown-container {
 }
 
