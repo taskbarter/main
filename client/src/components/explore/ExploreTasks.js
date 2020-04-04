@@ -36,7 +36,7 @@ class ExploreTasks extends Component {
     let filters = this.fetchFilters();
     this.updateFeed(filters, false);
     //console.log(filters);
-    document.addEventListener('scroll', this.trackScrolling);
+    //document.addEventListener('scroll', this.trackScrolling);
   }
   componentWillUnmount() {
     document.removeEventListener('scroll', this.trackScrolling);

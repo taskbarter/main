@@ -345,3 +345,50 @@
   box-shadow: 0 0 11px #ddd9d9;
   cursor: pointer;
 }
+
+.dt-header .dt-sub-title {
+  color: #727272;
+  font-size: 11px;
+  margin-bottom: -2px;
+}
+
+.dt-skills {
+  margin-left: 0px !important;
+  margin-right: 7px;
+}
+
+.dt-title {
+  margin-bottom: 3px;
+}
+
+.dt-modal {
+  max-width: 80%;
+}
+
+@media (max-width: 576px) {
+  .dt-modal {
+    max-width: 100%;
+  }
+}
+
+.dt-added-on {
+  font-size: 9px;
+  color: #788699;
+  font-weight: 400;
+}
+
+.dt-body {
+  /* padding-top: 0; */
+  overflow-y: scroll;
+  max-height: 68vh;
+}
+
+.dt-action-box {
+  border-bottom: 1px solid #e9ecef;
+  padding: 9px 15px;
+}
+
+.dt-points {
+  font-weight: 500;
+  color: #493e85;
+}
