@@ -8,6 +8,8 @@ import Footer from '../layout/Footer';
 import { addTask } from '../../actions/taskAction';
 import validate from '../../config/rules';
 import AlertMsg from '../utils/AlertMsg';
+import { useQuill } from 'react-quilljs';
+import DescriptionEditor from './subs/DescriptionEditor';
 
 class AddTask extends Component {
   constructor() {
@@ -15,6 +17,8 @@ class AddTask extends Component {
     this.state = {
       headline: '',
       requirement: '',
+      quillObj: {},
+      requirementRaw: '',
       duration: '',
       category: '',
       skills: '',
@@ -26,7 +30,8 @@ class AddTask extends Component {
         type: 0
       },
       areTermsAccepted: false,
-      isAccepted: false
+      isAccepted: false,
+      description: ''
     };
   }
 
@@ -87,16 +92,23 @@ class AddTask extends Component {
     }
   };
 
+  onAssignQuillObj = quillObj => {
+    this.setState({
+      quillObj: quillObj
+    });
+  };
+
   onSubmit = async e => {
     e.preventDefault();
     const {
       headline,
-      description,
       skills,
       areTermsAccepted,
       category,
       duration
     } = this.state;
+
+    const description = this.state.quillObj.getText();
     let err = '';
     err =
       validate('headline', headline) || validate('description', description);
@@ -158,9 +170,10 @@ class AddTask extends Component {
       window.scrollTo(0, 0);
       return false;
     } else {
+      window.scrollTo(0, 0);
       const newTask = {
         headline: this.state.headline,
-        description: this.state.description,
+        description: this.state.quillObj.root.innerHTML,
         duration: this.state.duration,
         category: this.state.category,
         skills: this.state.skills,
@@ -221,14 +234,9 @@ class AddTask extends Component {
 
                     <div className='add-task-input-details'>
                       <div className='form-group'>
-                        <label htmlFor='addTaskDetails'>Requirement</label>
-                        <textarea
-                          className='form-control'
-                          rows='5'
-                          placeholder='Put all your Requirements here'
-                          value={this.state.description}
-                          id='description'
-                          onChange={e => this.onChange(e)}
+                        <label htmlFor='addTaskDetails'>Requirements</label>
+                        <DescriptionEditor
+                          onAssignQuillObj={this.onAssignQuillObj}
                         />
                       </div>
                       <span className='max-chars'>* (Max 4000 characters)</span>
@@ -369,4 +377,42 @@ AddTask.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth
 });
+
+AddTask.modules = {
+  toolbar: [
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ size: [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote', 'formula'],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' }
+    ],
+    ['link', 'image', 'video'],
+    ['clean']
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false
+  }
+};
+AddTask.formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image',
+  'video',
+  'formula'
+];
+
 export default connect(mapStateToProps, { addTask })(AddTask);

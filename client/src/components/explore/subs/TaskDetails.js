@@ -83,7 +83,9 @@ const TaskDetails = props => {
             ></img>
           </div>
           <div className='feed-card--footer-right '>
-            <button className='feed-card-learn-more'>Send Proposal</button>
+            <button className='feed-card-learn-more dt-action-btn'>
+              Send Proposal
+            </button>
           </div>
         </div>
       </div>
@@ -98,7 +100,30 @@ const TaskDetails = props => {
         <div className='task-list-title dt-title mb-1'>Skills</div>
         <div className='mb-2 mt-1'>{skillSection}</div>
         <div className='task-list-title dt-title'>Description</div>
-        {task.description}
+        <div className='mb-2 ql-editor dt-description'>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: task.description
+            }}
+          ></div>
+        </div>
+        <div className='task-list-title dt-title'>Posted By</div>
+        {task.userdetails && task.userdetails[0] ? (
+          <div className='mb-2'>
+            <span className='dt-points'>
+              {task.userdetails[0].first_name} {task.userdetails[0].second_name}
+            </span>
+            <div className='dt-added-on'>
+              Member since{' '}
+              <span className='dt-date'>
+                {moment(task.userdetails[0].memberSince).years()}
+              </span>{' '}
+              • {task.userdetails[0].location}
+            </div>
+          </div>
+        ) : (
+          <div className='mb-2'>Hidden</div>
+        )}
       </ModalBody>
     </Modal>
   );

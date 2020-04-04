@@ -13,6 +13,7 @@ import '../../style/task.css';
 import FeedCard from './subs/FeedCard';
 import TaskCard from './subs/TaskCard';
 import TaskDetails from './subs/TaskDetails';
+import 'quill/dist/quill.snow.css';
 
 class ExploreTasks extends Component {
   constructor(props) {
@@ -58,7 +59,9 @@ class ExploreTasks extends Component {
   };
 
   isBottom = el => {
-    return el.getBoundingClientRect().bottom <= window.innerHeight;
+    if (el && el.getBoundingClientRect()) {
+      return el.getBoundingClientRect().bottom <= window.innerHeight;
+    } else return false;
   };
 
   updateFeed = (shouldAppend = true) => {

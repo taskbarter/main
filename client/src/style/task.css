@@ -3,11 +3,22 @@
   margin-top: 30px;
 }
 
+.btn-primary {
+  color: #fff;
+  background-color: #493e85;
+  border-color: #493e85;
+}
+
 .task-search-box {
   font-size: 1rem;
   padding-left: 3rem;
   padding-right: 3rem;
   height: 3.125rem;
+}
+
+.dt-description {
+  padding: 0px;
+  font-size: 13px;
 }
 
 .search-container {
@@ -391,4 +402,9 @@
 .dt-points {
   font-weight: 500;
   color: #493e85;
+}
+
+.dt-action-btn {
+  font-size: 14px;
+  padding: 3px 8px;
 }

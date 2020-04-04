@@ -1432,3 +1432,8 @@ fieldset > legend + * {
 .fs-20 {
   font-size: 20px;
 }
+
+.description-editor {
+  padding: 0px;
+  border: none;
+}
