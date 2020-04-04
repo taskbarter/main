@@ -18,7 +18,7 @@ const tasks = require('./routes/api/tasks');
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 app.use(bodyParser.json());
@@ -28,7 +28,7 @@ const db = require('./config/keys').mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log('MongoDB successfully connected'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
@@ -41,7 +41,7 @@ app.use('/api/users', users);
 app.get('/confirmation/:token', async (request, response) => {
   try {
     const {
-      user: { id }
+      user: { id },
     } = jwt.verify(request.params.token, keys.jwtSecret);
     let nUser = await User.findOneAndUpdate(
       { _id: id },
@@ -70,4 +70,4 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
-app.listen(port, () => console.log(`TaskBarter First Msg on ${port}!`));
+app.listen(port, () => console.log(`TaskBarter First Message on ${port}!`));
