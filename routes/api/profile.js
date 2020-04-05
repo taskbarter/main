@@ -16,7 +16,7 @@ router.get('/me', auth, async (req, res) => {
   try {
     // populate brings in fields from other model
     const profile = await PersonalDetails.findOne({
-      user: req.user.id
+      user: req.user.id,
     }).populate('user', ['name', 'fname', 'sname']);
     if (!profile) {
       return res.status(400).json({ msg: 'There is no Profile for this user' });
@@ -36,13 +36,9 @@ router.post(
   [
     auth,
     [
-      check('status', 'status is required')
-        .not()
-        .isEmpty(),
-      check('skills', 'skills are required')
-        .not()
-        .isEmpty()
-    ]
+      check('status', 'status is required').not().isEmpty(),
+      check('skills', 'skills are required').not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -62,7 +58,7 @@ router.post(
       facebook,
       twitter,
       instagram,
-      linkedin
+      linkedin,
     } = req.body;
     // built profile object
 
@@ -78,7 +74,7 @@ router.post(
 
     // after split each element trim (due to map)
     if (skills) {
-      profileFields.skills = skills.split(',').map(skill => skill.trim());
+      profileFields.skills = skills.split(',').map((skill) => skill.trim());
     }
 
     profileFields.social = {};
@@ -120,7 +116,7 @@ router.get('/', async (req, res) => {
     let profiles = await Profile.find().populate('user', [
       'name',
       'fname',
-      'sname'
+      'sname',
     ]);
     res.json(profiles);
   } catch (err) {
@@ -135,7 +131,7 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.params.user_id
+      user: req.params.user_id,
     }).populate('user', ['name', 'fname', 'sname']);
     if (!profile) {
       return res.status(400).json({ msg: 'Profile not found' });
@@ -180,7 +176,7 @@ router.post('/update', [auth], async (req, res) => {
     tagline,
     bio,
     dob,
-    location
+    location,
   } = req.body;
 
   const profileFields = {}; // empty object?  // runtime object??
@@ -261,7 +257,7 @@ router.put('/experience', [auth], async (req, res) => {
     from,
     to,
     current,
-    description
+    description,
   };
 
   try {
@@ -292,7 +288,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
 
     // get remove index
     const removeIndex = profile.experience
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.exp_id);
     // may need check if not found
     profile.experience.splice(removeIndex, 1);
@@ -317,19 +313,11 @@ router.put(
   [
     auth,
     [
-      check('school', 'School is required')
-        .not()
-        .isEmpty(),
-      check('degree', 'Degree is required')
-        .not()
-        .isEmpty(),
-      check('fieldofstudy', 'Field of Study is required')
-        .not()
-        .isEmpty(),
-      check('from', 'From date is required')
-        .not()
-        .isEmpty()
-    ]
+      check('school', 'School is required').not().isEmpty(),
+      check('degree', 'Degree is required').not().isEmpty(),
+      check('fieldofstudy', 'Field of Study is required').not().isEmpty(),
+      check('from', 'From date is required').not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     errors = validationResult(req);
@@ -344,7 +332,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     } = req.body;
 
     const newEdu = {
@@ -356,7 +344,7 @@ router.put(
       from,
       to,
       current,
-      description
+      description,
     };
 
     try {
@@ -382,7 +370,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 
     // get remove index
     const removeIndex = profile.education
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.edu_id);
 
     profile.education.splice(removeIndex, 1);
@@ -425,5 +413,81 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 //     res.status(500).send('Server Error');
 //   }
 // });
+
+// @route   PUT api/profile/experience         // for updation of existing
+// @desc    Add profile experience
+// @access  Private
+
+router.put('/project', [auth], async (req, res) => {
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+  }
+
+  const { title, link, location, from, to, current, description } = req.body;
+
+  const newProject = {
+    // it will even have id (perks of nosql document database)
+    //rather having saperate relation table and diong keys relation
+    title,
+    link,
+    location,
+    from,
+    to,
+    current,
+    description,
+  };
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    console.log(profile.projects);
+    if (profile) {
+      profile.projects.unshift(newProject); // push with new at recent (on top)
+      let tprofile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: { projects: profile.projects } },
+        { new: true }
+      );
+      console.log(profile.projects);
+      res.json(tprofile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.put('/skill', [auth], async (req, res) => {
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+  }
+
+  const { skill } = req.body;
+
+  const newSkill = {
+    // it will even have id (perks of nosql document database)
+    //rather having saperate relation table and diong keys relation
+    skill,
+  };
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    console.log(profile.skills);
+    if (profile) {
+      profile.skills.unshift(newSkill.skill); // push with new at recent (on top)
+      let tprofile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: { skills: profile.skills } },
+        { new: true }
+      );
+      console.log(profile.skills);
+      res.json(tprofile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

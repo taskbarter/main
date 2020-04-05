@@ -1,5 +1,5 @@
 import React from 'react';
-const SkillsBlock = props => {
+const SkillsBlock = (props) => {
   const profile = props.profile;
   let date_memberSince = Date.now();
   if (profile) {
@@ -9,7 +9,7 @@ const SkillsBlock = props => {
     return <div>Loading...</div>;
   }
 
-  const skillsbadges2 = skills => {
+  const skillsbadges2 = (skills) => {
     if (skills) {
       let fsix = skills;
 
@@ -32,6 +32,7 @@ const SkillsBlock = props => {
       <div className='redeem-heading'>
         Skills
         <button
+          onClick={props.addModal}
           style={{ marginLeft: '-23px' }}
           className='btn notification-btn float-right'
         >
