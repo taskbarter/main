@@ -10,10 +10,16 @@ const ChatTextArea = props => {
               className='form-control chat-editor'
               placeholder='enter message...'
               rows='2'
+              disabled={props.selected_convo === ''}
             />
           </div>
           <div className='col-2'>
-            <button className='btn chat-send-btn'>Send</button>
+            <button
+              className='btn chat-send-btn'
+              disabled={props.selected_convo === ''}
+            >
+              Send
+            </button>
             <span className='press-enter'>or press enter</span>
           </div>
         </div>

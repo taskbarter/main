@@ -251,6 +251,13 @@
   border-color: #433881;
 }
 
+.chat-messages-container .no-convo {
+  margin: auto;
+  margin-top: 25vh;
+  text-align: center;
+  color: #909090;
+}
+
 .chat-typing-container .press-enter {
   font-size: 9px;
   text-align: center;
@@ -323,4 +330,13 @@
 
 .conversations .is-selected:hover {
   border-right: #433881 solid 10px;
+}
+
+.chat-header-container .close-chat-btn {
+  margin-top: -43px;
+  margin-right: 10px;
+}
+
+.chat-header-container .close-chat-btn .close {
+  padding: 10px;
 }

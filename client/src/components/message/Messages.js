@@ -71,12 +71,17 @@ class Messages extends Component {
   constructor() {
     super();
     this.state = {
-      selected_convo: '123456'
+      selected_convo: ''
     };
   }
   onConvoClick = id => {
     return this.setState({
       selected_convo: id
+    });
+  };
+  onConvoClear = () => {
+    return this.setState({
+      selected_convo: ''
     });
   };
   render() {
@@ -107,9 +112,16 @@ class Messages extends Component {
           </div>
         </div>
         <div className='chat-box'>
-          <ChatHeader user={userObj} />
-          <ChatMessages msgs={messages} />
-          <ChatTextArea />
+          <ChatHeader
+            selected_convo={this.state.selected_convo}
+            onCloseBtn={this.onConvoClear}
+            user={userObj}
+          />
+          <ChatMessages
+            selected_convo={this.state.selected_convo}
+            msgs={messages}
+          />
+          <ChatTextArea selected_convo={this.state.selected_convo} />
         </div>
       </div>
     );
