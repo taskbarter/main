@@ -315,3 +315,12 @@
   font-size: 8px;
   color: #6f6f6f;
 }
+
+.conversations .is-selected {
+  border-right: #433881 solid 5px;
+  box-shadow: 0 0 20px #ebe9e9;
+}
+
+.conversations .is-selected:hover {
+  border-right: #433881 solid 10px;
+}

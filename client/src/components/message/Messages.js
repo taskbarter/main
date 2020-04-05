@@ -17,14 +17,16 @@ const users = [
     name: 'Mohsin Hayat',
     username: 'mohsin',
     msg_time: Date.now(),
-    last_msg: 'Hello yr kaisay ho? kafi din hogye milay nai kya hua'
+    last_msg: 'Hello yr kaisay ho? kafi din hogye milay nai kya hua',
+    _id: '123456'
   },
 
   {
     name: 'Daniyal Ikhlaq',
     username: 'daniyal',
     msg_time: Date.now(),
-    last_msg: 'hello brother how are y...'
+    last_msg: 'hello brother how are y...',
+    _id: '54321'
   }
 ];
 
@@ -66,6 +68,17 @@ const messages = [
 ];
 
 class Messages extends Component {
+  constructor() {
+    super();
+    this.state = {
+      selected_convo: '123456'
+    };
+  }
+  onConvoClick = id => {
+    return this.setState({
+      selected_convo: id
+    });
+  };
   render() {
     return (
       <div className='msg-container messages'>
@@ -86,7 +99,11 @@ class Messages extends Component {
           </div>
 
           <div className='userlist-container'>
-            <UserList users={users} />
+            <UserList
+              users={users}
+              selected_convo={this.state.selected_convo}
+              onConvoClick={this.onConvoClick}
+            />
           </div>
         </div>
         <div className='chat-box'>

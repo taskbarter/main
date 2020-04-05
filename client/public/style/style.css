@@ -1,10 +1,7 @@
-html {
-  overflow-y: scroll;
-}
-
 html,
 body {
   overflow-x: hidden;
+  overflow-y: auto;
   /* Prevent scroll on narrow devices */
 }
 

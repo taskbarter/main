@@ -14,11 +14,28 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 const UserList = props => {
+  const getConvoCardClass = user => {
+    if (props.selected_convo === user._id) {
+      return 'convo-card is-selected';
+    } else {
+      return 'convo-card';
+    }
+  };
+  const handleCardClick = id => {
+    if (props.selected_convo !== id) {
+      props.onConvoClick(id);
+    }
+  };
+
   return (
     <React.Fragment>
       {props.users.map((user, i) => {
         return (
-          <div className='convo-card' key={i}>
+          <div
+            onClick={() => handleCardClick(user._id)}
+            className={getConvoCardClass(user)}
+            key={i}
+          >
             <span className='avatar'>
               <img src='/inc/Mohsin_DP.jpg' className='rounded avatar-image' />
             </span>
