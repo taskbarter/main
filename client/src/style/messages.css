@@ -1,6 +1,15 @@
 .msg-container {
   min-height: 91vh;
   background: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  height: 1px;
 }
 
 .msg-container .conversations {
@@ -195,4 +204,61 @@
 .date-icon-block .date {
   color: #9c9c9c;
   white-space: nowrap;
+}
+
+@media only screen and (max-width: 450px) {
+  .messages .conversations {
+    width: 100%;
+    min-width: 300px;
+  }
+}
+
+.chat-header-container {
+  min-height: 89px;
+  border-bottom: 1px solid #ebedf1;
+  box-shadow: 0px 4px 0px #fbfbfb;
+}
+
+.chat-box {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 0;
+  flex: 1 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  padding-top: 0;
+  flex-flow: column nowrap;
+}
+
+.chat-typing-container .chat-editor {
+  margin: 6px;
+  margin-top: 9px;
+}
+
+.chat-typing-container .chat-send-btn {
+  margin-top: 15px;
+  background: #433881;
+  color: white;
+  border-color: #433881;
+}
+
+.chat-typing-container .press-enter {
+  font-size: 9px;
+  text-align: center;
+  margin: auto;
+  color: #433881;
+  margin-left: 4px;
+  display: flex;
+}
+.chat-messages-container {
+  min-height: 64vh;
+  overflow: auto;
+  background: #fafafa;
+  border-bottom: 1px solid #ebedf1;
 }

@@ -8,6 +8,9 @@ import { withRouter } from 'react-router-dom';
 import '../../style/messages.css';
 import { Input } from 'reactstrap';
 import UserList from './subs/UserList';
+import ChatHeader from './subs/ChatHeader';
+import ChatTextArea from './subs/ChatTextArea';
+import ChatMessages from './subs/ChatMessages';
 
 const users = [
   {
@@ -48,6 +51,11 @@ class Messages extends Component {
           <div className='userlist-container'>
             <UserList users={users} />
           </div>
+        </div>
+        <div className='chat-box'>
+          <ChatHeader />
+          <ChatMessages />
+          <ChatTextArea />
         </div>
       </div>
     );
