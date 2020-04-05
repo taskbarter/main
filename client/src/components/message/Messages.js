@@ -28,6 +28,43 @@ const users = [
   }
 ];
 
+const userObj = {
+  first_name: 'Mohsin',
+  second_name: 'Hayat',
+  location: 'Lahore, Pakistan',
+  memberSince: Date.now(),
+  username: 'mohsin'
+};
+
+const messages = [
+  {
+    text: 'kaisa hai bro?',
+    time: Date.now(),
+    from: '123412'
+  },
+  {
+    text: 'Theek bro. Tu kaisa hai?',
+    time: Date.now(),
+    from: '123123'
+  },
+  {
+    text:
+      'Main bhi theek. Kaam krday yr. 10 01 10 101 01 01 01 01 010 01 01 010 0 101 001 01010010101001101  101 10 101 01 1 0',
+    time: Date.now(),
+    from: '123412'
+  },
+  {
+    text: 'Okay main krta hun.',
+    time: Date.now(),
+    from: '123123'
+  },
+  {
+    text: 'bas 10 minute day.',
+    time: Date.now(),
+    from: '123123'
+  }
+];
+
 class Messages extends Component {
   render() {
     return (
@@ -53,8 +90,8 @@ class Messages extends Component {
           </div>
         </div>
         <div className='chat-box'>
-          <ChatHeader />
-          <ChatMessages />
+          <ChatHeader user={userObj} />
+          <ChatMessages msgs={messages} />
           <ChatTextArea />
         </div>
       </div>

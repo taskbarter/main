@@ -18,7 +18,7 @@ const UserList = props => {
     <React.Fragment>
       {props.users.map((user, i) => {
         return (
-          <div className='convo-card'>
+          <div className='convo-card' key={i}>
             <span className='avatar'>
               <img src='/inc/Mohsin_DP.jpg' className='rounded avatar-image' />
             </span>
