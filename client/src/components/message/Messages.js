@@ -84,10 +84,27 @@ class Messages extends Component {
       selected_convo: ''
     });
   };
+
+  getRightPaneClass = () => {
+    if (this.state.selected_convo === '') {
+      return 'chat-box outside-convo';
+    } else {
+      return 'chat-box';
+    }
+  };
+
+  getLeftPaneClass = () => {
+    console.log('sad');
+    if (this.state.selected_convo !== '') {
+      return 'conversations left-pane inside-convo';
+    } else {
+      return 'conversations left-pane';
+    }
+  };
   render() {
     return (
       <div className='msg-container messages'>
-        <div className='conversations left-pane'>
+        <div className={this.getLeftPaneClass()}>
           <div className='action-box'>
             <div className='search-container'>
               <Input
@@ -111,7 +128,7 @@ class Messages extends Component {
             />
           </div>
         </div>
-        <div className='chat-box'>
+        <div className={this.getRightPaneClass()}>
           <ChatHeader
             selected_convo={this.state.selected_convo}
             onCloseBtn={this.onConvoClear}

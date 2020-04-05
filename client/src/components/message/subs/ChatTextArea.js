@@ -5,7 +5,7 @@ const ChatTextArea = props => {
     <React.Fragment>
       <div className='chat-typing-container'>
         <div className='row'>
-          <div className='col-10'>
+          <div className='col-9'>
             <textarea
               className='form-control chat-editor'
               placeholder='enter message...'
@@ -13,7 +13,7 @@ const ChatTextArea = props => {
               disabled={props.selected_convo === ''}
             />
           </div>
-          <div className='col-2'>
+          <div className='col-3'>
             <button
               className='btn chat-send-btn'
               disabled={props.selected_convo === ''}

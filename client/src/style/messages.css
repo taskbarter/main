@@ -340,3 +340,18 @@
 .chat-header-container .close-chat-btn .close {
   padding: 10px;
 }
+
+@media only screen and (max-width: 750px) {
+  .chat-box.outside-convo {
+    display: none;
+  }
+  .conversations {
+    min-width: 98% !important;
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+
+  .conversations.inside-convo {
+    display: none;
+  }
+}
