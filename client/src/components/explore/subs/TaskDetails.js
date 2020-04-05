@@ -100,7 +100,7 @@ const TaskDetails = props => {
         <div className='task-list-title dt-title mb-1'>Skills</div>
         <div className='mb-2 mt-1'>{skillSection}</div>
         <div className='task-list-title dt-title'>Description</div>
-        <div className='mb-2 ql-editor dt-description'>
+        <div className='mb-2 mt-1 ql-editor dt-description'>
           <div
             dangerouslySetInnerHTML={{
               __html: task.description

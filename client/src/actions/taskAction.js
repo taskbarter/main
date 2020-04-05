@@ -10,7 +10,8 @@ import {
   TASKS_COUNT_LOADING,
   GET_TASKS_COUNT,
   APPEND_TASKS,
-  EMPTY_TASKS
+  EMPTY_TASKS,
+  SET_WORKPLACE_TASKS
 } from '../actions/types';
 
 // Add task
@@ -46,7 +47,6 @@ export const addTask = (taskData, history) => async dispatch => {
 
 export const doExplore = (filters = {}, append = true) => async dispatch => {
   dispatch(setTaskLoading());
-
   try {
     const mtok = localStorage.jwtToken;
     if (mtok) {
@@ -73,6 +73,28 @@ export const doExplore = (filters = {}, append = true) => async dispatch => {
     dispatch({
       type: GET_TASKS, //   get errors might be more graceful
       payload: {}
+    });
+  }
+};
+
+//get tasks for workplace
+
+export const fetch_workplace_tasks = () => async dispatch => {
+  const filters = { c: 0, z: 2 };
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get(`/api/tasks/explore`, { params: filters });
+    dispatch({
+      type: SET_WORKPLACE_TASKS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: SET_WORKPLACE_TASKS, //   get errors might be more graceful
+      payload: []
     });
   }
 };

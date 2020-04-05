@@ -34,8 +34,8 @@ class ExploreTasks extends Component {
   }
 
   componentDidMount() {
-    let filters = this.fetchFilters();
-    this.updateFeed(filters, false);
+    this.updateFeed(false);
+    console.log('component mounted');
     //console.log(filters);
     //document.addEventListener('scroll', this.trackScrolling);
   }

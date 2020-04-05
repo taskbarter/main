@@ -411,3 +411,19 @@
   font-size: 14px;
   padding: 3px 8px;
 }
+
+.task-list-dashboard {
+  grid-template: auto/1fr [end];
+}
+
+@media only screen and (min-width: 32em) {
+  .task-list-dashboard {
+    grid-template: auto/repeat(1, 1fr) [end];
+  }
+}
+
+@media only screen and (min-width: 48em) {
+  .task-list-dashboard {
+    grid-template: auto/repeat(2, 1fr) [end];
+  }
+}
