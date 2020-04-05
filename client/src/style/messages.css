@@ -310,3 +310,8 @@
   color: black;
   border-radius: 10px 10px 10px 0px;
 }
+
+.msg-time {
+  font-size: 8px;
+  color: #6f6f6f;
+}
