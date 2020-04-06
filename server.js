@@ -69,16 +69,15 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
-app.listen(port, () => console.log(`TaskBarter First Message on ${port}!`));
-
 // for socket connections:
-const socket_port = 5454;
-httpServer = require('http').createServer(app);
-io = socket.listen(socket_port);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 io.on('connection', function(socket) {
   console.log('user connected..');
   require('./sockets/messages_socket')(socket, io);
-  //require('./sockets/notification_socket')(socket, io);
+  require('./sockets/notification_socket')(socket, io);
   return io;
 });
+
+const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
+server.listen(port, () => console.log(`TaskBarter First Message on ${port}!`));

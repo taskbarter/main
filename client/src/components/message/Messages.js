@@ -76,7 +76,8 @@ class Messages extends Component {
     };
   }
   componentDidMount() {
-    const socket = socketIOClient('localhost:5454');
+    console.log(window.location.host);
+    const socket = socketIOClient(window.location.host);
     socket.emit('message_sent');
   }
   onConvoClick = id => {
