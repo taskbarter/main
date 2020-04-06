@@ -11,6 +11,7 @@ import UserList from './subs/UserList';
 import ChatHeader from './subs/ChatHeader';
 import ChatTextArea from './subs/ChatTextArea';
 import ChatMessages from './subs/ChatMessages';
+import socketIOClient from 'socket.io-client';
 
 const users = [
   {
@@ -73,6 +74,10 @@ class Messages extends Component {
     this.state = {
       selected_convo: ''
     };
+  }
+  componentDidMount() {
+    const socket = socketIOClient('localhost:5454');
+    socket.emit('message_sent');
   }
   onConvoClick = id => {
     return this.setState({

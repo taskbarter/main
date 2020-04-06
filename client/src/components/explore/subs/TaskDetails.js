@@ -5,13 +5,15 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Tooltip
+  Tooltip,
+  Spinner
 } from 'reactstrap';
 import bookmark_icon from '../../../style/inc/bookmark.svg';
 import share_icon from '../../../style/inc/share.svg';
 import { fetchTask } from '../../../actions/taskAction';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import TLoader from '../../utils/TLoader';
 
 const TaskDetails = props => {
   const { modal, toggle } = props;
@@ -50,13 +52,29 @@ const TaskDetails = props => {
     setTask({});
   };
 
+  if (!task.headline) {
+    return (
+      <Modal
+        isOpen={modal}
+        toggle={toggle}
+        onOpened={modalOpened}
+        onClosed={modalClosed}
+        className='dt-modal dt-loading fade-scale'
+      >
+        <ModalBody className='dt-body loading'>
+          <TLoader colored={true} />
+        </ModalBody>
+      </Modal>
+    );
+  }
+
   return (
     <Modal
       isOpen={modal}
       toggle={toggle}
       onOpened={modalOpened}
       onClosed={modalClosed}
-      className='dt-modal'
+      className='dt-modal fade-scale'
     >
       <ModalHeader toggle={toggle} className='dt-header'>
         <div className='dt-sub-title'>I want someone to</div>

@@ -9,7 +9,7 @@ const auth = require('./routes/api/auth');
 const profile = require('./routes/api/profile');
 const search = require('./routes/api/search');
 const app = express();
-
+const socket = require('socket.io');
 const keys = require('./config/keys');
 
 var path = require('path');
@@ -18,7 +18,7 @@ const tasks = require('./routes/api/tasks');
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: false
   })
 );
 app.use(bodyParser.json());
@@ -28,7 +28,7 @@ const db = require('./config/keys').mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log('MongoDB successfully connected'))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
@@ -41,7 +41,7 @@ app.use('/api/users', users);
 app.get('/confirmation/:token', async (request, response) => {
   try {
     const {
-      user: { id },
+      user: { id }
     } = jwt.verify(request.params.token, keys.jwtSecret);
     let nUser = await User.findOneAndUpdate(
       { _id: id },
@@ -71,3 +71,14 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
 app.listen(port, () => console.log(`TaskBarter First Message on ${port}!`));
+
+// for socket connections:
+const socket_port = 5454;
+httpServer = require('http').createServer(app);
+io = socket.listen(socket_port);
+io.on('connection', function(socket) {
+  console.log('user connected..');
+  require('./sockets/messages_socket')(socket, io);
+  //require('./sockets/notification_socket')(socket, io);
+  return io;
+});

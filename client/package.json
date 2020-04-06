@@ -21,7 +21,8 @@
     "react-widgets": "^4.4.11",
     "reactstrap": "^8.4.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "homepage": "http://www.taskbarter.com",
   "scripts": {

@@ -1092,6 +1092,16 @@ header nav.navbar {
   }
 }
 
+.lds-ring.colored div {
+  border: 3px solid #433881;
+  border-color: #433881 transparent transparent transparent;
+}
+
+.lds-ring.lds-centered {
+  display: flex;
+  justify-content: center !important;
+  margin: auto;
+}
 .dropdown-item {
   cursor: pointer !important;
 }
@@ -1461,4 +1471,29 @@ fieldset > legend + * {
 
 .fs-20 {
   font-size: 20px;
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: text-bottom;
+  border: 0.25em solid #433881;
+  border-right-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: spinner-border 0.75s linear infinite;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+.fade-scale {
+  transform: scale(0);
+  opacity: 1;
+  -webkit-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+.fade-scale.in {
+  opacity: 1;
+  transform: scale(1);
 }

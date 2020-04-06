@@ -23,6 +23,10 @@
   background: #fcfcff;
 }
 
+.dt-modal .dt-loading {
+  min-height: 300px;
+}
+
 .search-container {
   background: #fff;
   background: rgba(255, 255, 255, 0.4);
@@ -376,6 +380,8 @@
 
 .dt-modal {
   max-width: 80%;
+  -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 @media (max-width: 576px) {
@@ -394,6 +400,13 @@
   /* padding-top: 0; */
   overflow-y: scroll;
   max-height: 68vh;
+  min-height: 35vh;
+}
+
+.dt-body.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dt-action-box {
