@@ -76,7 +76,6 @@ class Messages extends Component {
     };
   }
   componentDidMount() {
-    console.log(window.location.host);
     const socket = socketIOClient(window.location.host);
     socket.emit('message_sent');
   }

@@ -424,6 +424,10 @@
   padding: 3px 8px;
 }
 
+.description-editor {
+  padding: 0px;
+}
+
 .task-list-dashboard {
   grid-template: auto/1fr [end];
 }
