@@ -72,13 +72,13 @@ class Messages extends Component {
   constructor() {
     super();
     this.state = {
-      selected_convo: ''
+      selected_convo: '',
+      messages: [],
+      other_user: { id: '123' },
+      current_message: ''
     };
   }
-  componentDidMount() {
-    const socket = socketIOClient(window.location.host);
-    socket.emit('message_sent');
-  }
+  componentDidMount() {}
   onConvoClick = id => {
     return this.setState({
       selected_convo: id
@@ -106,6 +106,23 @@ class Messages extends Component {
       return 'conversations left-pane';
     }
   };
+
+  onMessageType = e => {
+    this.setState({ current_message: e.target.value });
+  };
+
+  onMessageSend = () => {
+    let data = {
+      text: this.state.current_message,
+      to: this.state.other_user.id,
+      from: this.props.auth.user.id
+    };
+    this.props.socket_connection.emit('send_message', data);
+    this.setState({
+      current_message: ''
+    });
+  };
+
   render() {
     return (
       <div className='msg-container messages'>
@@ -143,11 +160,20 @@ class Messages extends Component {
             selected_convo={this.state.selected_convo}
             msgs={messages}
           />
-          <ChatTextArea selected_convo={this.state.selected_convo} />
+          <ChatTextArea
+            current_message={this.state.current_message}
+            onMessageType={this.onMessageType}
+            selected_convo={this.state.selected_convo}
+            onMessageSend={this.onMessageSend}
+          />
         </div>
       </div>
     );
   }
 }
 
-export default Messages;
+const mapStateToProps = state => ({
+  socket_connection: state.socket.socket_connection,
+  auth: state.auth
+});
+export default connect(mapStateToProps, {})(Messages);

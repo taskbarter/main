@@ -1,7 +1,7 @@
 //socket for message sending, receiving and other events.
 
 module.exports = function(socket, io) {
-  socket.on('message_sent', function() {
-    console.log('message has been sent');
+  socket.on('send_message', function(data) {
+    console.log(data.from + " sent '" + data.text + "' to " + data.to);
   });
 };

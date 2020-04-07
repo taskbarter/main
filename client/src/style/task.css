@@ -401,12 +401,14 @@
   overflow-y: scroll;
   max-height: 68vh;
   min-height: 35vh;
+  transition: min-height 0.7s linear;
 }
 
 .dt-body.loading {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 74vh;
 }
 
 .dt-action-box {

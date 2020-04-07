@@ -70,14 +70,19 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // for socket connections:
+const Socket_Connections = require('./functions/socket_connections');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+
+let socket_connections = new Socket_Connections();
+
 io.on('connection', function(socket) {
   console.log('user connected..');
-  require('./sockets/messages_socket')(socket, io);
-  require('./sockets/notification_socket')(socket, io);
+  require('./sockets/user_socket')(socket, io, socket_connections);
+  require('./sockets/messages_socket')(socket, io, socket_connections);
+  require('./sockets/notification_socket')(socket, io, socket_connections);
   return io;
 });
 
-const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app there
+const port = process.env.PORT || 5000; // process.env.port is Heroku's port
 server.listen(port, () => console.log(`TaskBarter First Message on ${port}!`));

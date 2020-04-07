@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { getCurrentProfile } from '../../actions/profileAction';
+import { createConnection } from '../../actions/socketActions';
 import '../../style/header.css';
 import workspace_icon from '../../style/inc/work.svg';
 import notif_icon from '../../style/inc/notif.svg';
@@ -42,7 +43,9 @@ class Header extends Component {
   };
 
   componentDidMount() {
-    this.props.getCurrentProfile();
+    this.props.getCurrentProfile().then(() => {
+      this.props.createConnection(this.props.auth);
+    });
   }
 
   render() {
@@ -208,5 +211,7 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 export default withRouter(
-  connect(mapStateToProps, { logoutUser, getCurrentProfile })(Header)
+  connect(mapStateToProps, { logoutUser, getCurrentProfile, createConnection })(
+    Header
+  )
 );
