@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-const current_user = '123123';
 
 const MsgItem = props => {
-  if (current_user === props.msg.from) {
+  if (props.current_user === props.msg.from) {
     return (
       <React.Fragment>
         <div className='message-item msg-right'>

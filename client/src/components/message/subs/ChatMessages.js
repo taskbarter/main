@@ -19,10 +19,11 @@ const ChatMessages = props => {
         {props.msgs.map((msg, i) => {
           return (
             <div key={i}>
-              <MsgItem msg={msg} />
+              <MsgItem current_user={props.current_user} msg={msg} />
             </div>
           );
         })}
+        <div ref={props.endRef} />
       </div>
     </React.Fragment>
   );

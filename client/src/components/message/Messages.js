@@ -39,35 +39,6 @@ const userObj = {
   username: 'mohsin'
 };
 
-const messages = [
-  {
-    text: 'kaisa hai bro?',
-    time: Date.now(),
-    from: '123412'
-  },
-  {
-    text: 'Theek bro. Tu kaisa hai?',
-    time: Date.now(),
-    from: '123123'
-  },
-  {
-    text:
-      'Main bhi theek. Kaam krday yr. 10 01 10 101 01 01 01 01 010 01 01 010 0 101 001 01010010101001101  101 10 101 01 1 0',
-    time: Date.now(),
-    from: '123412'
-  },
-  {
-    text: 'Okay main krta hun.',
-    time: Date.now(),
-    from: '123123'
-  },
-  {
-    text: 'bas 10 minute day.',
-    time: Date.now(),
-    from: '123123'
-  }
-];
-
 class Messages extends Component {
   constructor() {
     super();
@@ -75,7 +46,8 @@ class Messages extends Component {
       selected_convo: '',
       messages: [],
       other_user: { id: '123' },
-      current_message: ''
+      current_message: '',
+      messagesEndRef: React.createRef()
     };
   }
   componentDidMount() {}
@@ -115,12 +87,26 @@ class Messages extends Component {
     let data = {
       text: this.state.current_message,
       to: this.state.other_user.id,
-      from: this.props.auth.user.id
+      from: this.props.auth.user.id,
+      time: Date.now()
     };
     this.props.socket_connection.emit('send_message', data);
-    this.setState({
-      current_message: ''
-    });
+    this.state.messages.push(data);
+    this.setState(
+      {
+        messages: this.state.messages
+      },
+      () => {
+        this.setState({
+          current_message: ''
+        });
+        this.scrollToBottom();
+      }
+    );
+  };
+
+  scrollToBottom = () => {
+    this.state.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   render() {
@@ -158,7 +144,9 @@ class Messages extends Component {
           />
           <ChatMessages
             selected_convo={this.state.selected_convo}
-            msgs={messages}
+            msgs={this.state.messages}
+            current_user={this.props.auth.user.id}
+            endRef={this.state.messagesEndRef}
           />
           <ChatTextArea
             current_message={this.state.current_message}
