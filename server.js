@@ -49,11 +49,12 @@ app.get('/confirmation/:token', async (request, response) => {
       { $set: { isEmailVerified: true } },
       { new: true }
     );
-    console.log('Verified', nUsser);
+    console.log('Verified', nUser);
     console.log('id', id);
     return response.redirect('/login?v=2');
   } catch (e) {
-    return response.send('Unable to verify your email');
+    console.log(e);
+    return response.send('Unable to verify your email err: ' + e.message);
   }
 });
 
