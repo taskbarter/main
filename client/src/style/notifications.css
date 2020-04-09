@@ -37,8 +37,11 @@
 }
 
 .notification-item:hover {
-  background: #f4f4ff;
-  box-shadow: 0 0 10px 0px #f0ecec;
+  background-color: #fff;
+  -webkit-box-shadow: 0 1px 6px -1px #b2bac5;
+  box-shadow: 0 1px 6px -1px #b2bac5;
+  -webkit-transform: scale(1.01);
+  transform: scale(1.01);
 }
 
 .notif-list {
