@@ -50,13 +50,16 @@ class Header extends Component {
     }
   }
 
+  onClickOnLogo = () => {
+    this.props.history.push('/');
+  };
   render() {
     const user_info = this.props.profile;
     if (this.props.auth.isAuthenticated) {
       return (
         <header className='main-header-v2'>
           <div className='header-container'>
-            <img src={logo} className='logo' />
+            <img onClick={this.onClickOnLogo} src={logo} className='logo' />
             <span className={this.state.itemsStyling}>
               <a onClick={this.onMobMenuOpen} className='menu-toggler-close'>
                 <span className='navbar-toggler-icon'>
