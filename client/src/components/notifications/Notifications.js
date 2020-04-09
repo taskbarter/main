@@ -20,19 +20,19 @@ const notifs = [
   {
     text: `Your task 'proofread this text' has been deleted as it violates our terms and conditions`,
     time: Date.now(),
-    link_to: '/tasks/312',
+    link_to: '/tasks/612',
     _id: '123457'
   },
   {
     text: `You haven't updated your profile yet. Update it to get matched jobs on Taskbarter`,
     time: Date.now(),
-    link_to: '/tasks/312',
+    link_to: '/tasks/21',
     _id: '123458'
   },
   {
     text: `35 people have bookmarked your task recently.`,
     time: Date.now(),
-    link_to: '/tasks/312',
+    link_to: '/tasks/512',
     _id: '123459'
   }
 ];
@@ -53,7 +53,7 @@ class Notifications extends Component {
       <div className='container notif-container'>
         <div className='notif-section'>
           <div className='task-list-title'>Your recent notifications</div>
-          <div>
+          <div className='notif-list'>
             {this.state.current_notifications.map((notif, key) => {
               return <NotificationItem notif={notif} key={key} />;
             })}

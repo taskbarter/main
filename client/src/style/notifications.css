@@ -1,5 +1,5 @@
 .notif-container {
-  max-width: 64.5rem;
+  max-width: 45.5rem;
   margin-top: 30px;
 }
 
@@ -19,6 +19,8 @@
   padding: 12px 8px;
   background: #fefeff;
   box-shadow: 0 0 10px 0px #fbfbfb;
+  border-top: none;
+  transition: all 0.1s ease-in-out;
 }
 
 .notification-item .notif-text {
@@ -37,4 +39,8 @@
 .notification-item:hover {
   background: #f4f4ff;
   box-shadow: 0 0 10px 0px #f0ecec;
+}
+
+.notif-list {
+  border-top: #e9e9e9 solid 1px;
 }
