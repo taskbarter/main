@@ -18,6 +18,7 @@ import UserProfileNew from './components/profile/steps/UserProfileNew';
 import Header from './components/layout/Header';
 import Messages from './components/message/Messages';
 import Me from './components/profile/Me';
+import Notifications from './components/notifications/Notifications';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -60,6 +61,11 @@ class App extends Component {
               </PrivateRoute>
               {/* <PrivateRoute exact path='/messages' component={Messages} />
               <PrivateRoute exact path='/messages/:id' component={Messages} /> */}
+              <PrivateRoute
+                exact
+                path='/notifications'
+                component={Notifications}
+              />
               <PrivateRoute exact path='/me' component={Me} />
             </Switch>
           </div>
