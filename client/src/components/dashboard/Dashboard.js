@@ -26,7 +26,7 @@ class Dashboard extends Component {
               <ProfileBadge />
             </div>
             <div className='col-md-8 order-md-1'>
-              <Notifications />
+              <Notifications history={this.props.history} />
               <RecommendedTasks />
             </div>
           </div>
