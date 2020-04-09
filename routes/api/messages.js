@@ -99,7 +99,7 @@ router.get('/', async (req, res) => {
     if (err.kind == 'ObjectId') {
       return res
         .status(400)
-        .json({ msg: 'Could not find conversations for this user.' });
+        .json({ msg: 'Could not find messages for this user.' });
     }
   }
 });

@@ -50,7 +50,7 @@ app.get('/confirmation/:token', async (request, response) => {
       { new: true }
     );
     console.log('Verified');
-    return response.redirect('/UserInfo');
+    return response.redirect('/login?v=2');
   } catch (e) {
     return response.send('Unable to verify your email');
   }

@@ -50,16 +50,28 @@ class Messages extends Component {
       messagesEndRef: React.createRef()
     };
   }
-  componentDidMount() {}
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    if (id !== undefined) {
+      this.setState({ selected_convo: id });
+    } else {
+      this.setState({ selected_convo: '' });
+    }
+  }
   onConvoClick = id => {
     return this.setState({
       selected_convo: id
     });
   };
   onConvoClear = () => {
-    return this.setState({
-      selected_convo: ''
-    });
+    return this.setState(
+      {
+        selected_convo: ''
+      },
+      () => {
+        this.props.history.push('/messages');
+      }
+    );
   };
 
   getRightPaneClass = () => {
@@ -84,25 +96,28 @@ class Messages extends Component {
   };
 
   onMessageSend = () => {
-    let data = {
-      text: this.state.current_message,
-      to: this.state.other_user.id,
-      from: this.props.auth.user.id,
-      time: Date.now()
-    };
-    this.props.socket_connection.emit('send_message', data);
-    this.state.messages.push(data);
-    this.setState(
-      {
-        messages: this.state.messages
-      },
-      () => {
-        this.setState({
-          current_message: ''
-        });
-        this.scrollToBottom();
-      }
-    );
+    const msg_text = this.state.current_message.trim();
+    if (msg_text !== '') {
+      let data = {
+        text: this.state.current_message,
+        to: this.state.other_user.id,
+        from: this.props.auth.user.id,
+        time: Date.now()
+      };
+      this.props.socket_connection.emit('send_message', data);
+      this.state.messages.push(data);
+      this.setState(
+        {
+          messages: this.state.messages
+        },
+        () => {
+          this.setState({
+            current_message: ''
+          });
+          this.scrollToBottom();
+        }
+      );
+    }
   };
 
   scrollToBottom = () => {
@@ -133,6 +148,7 @@ class Messages extends Component {
               users={users}
               selected_convo={this.state.selected_convo}
               onConvoClick={this.onConvoClick}
+              history={this.props.history}
             />
           </div>
         </div>

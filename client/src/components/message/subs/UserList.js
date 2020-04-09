@@ -23,6 +23,7 @@ const UserList = props => {
   };
   const handleCardClick = id => {
     if (props.selected_convo !== id) {
+      props.history.push('/messages/' + id);
       props.onConvoClick(id);
     }
   };
