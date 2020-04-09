@@ -24,7 +24,12 @@ var sendEmailVerification = function(newUser) {
   };
 
   console.log(
-    'Name: ' + newUser.first_name + ' => sending email to: ' + newUser.email
+    'Name: ' +
+      newUser.first_name +
+      ' => sending email to:' +
+      newUser.email +
+      ' => id: ' +
+      newUser.id
   );
   jwt.sign(
     tokenG,
@@ -104,7 +109,11 @@ router.post('/register', (req, res) => {
         };
         createProfileAuth(newUser, userPersonalDetails)
           .then(user => {
-            sendEmailVerification({ ...newUser, ...userPersonalDetails });
+            sendEmailVerification({
+              ...newUser,
+              ...userPersonalDetails,
+              id: user._id
+            });
             return res.json(user);
           })
           .catch(err => {
@@ -216,7 +225,8 @@ const checkUserForLogin = async function(user_data) {
       sendEmailVerification({
         email: user.email,
         first_name: details.first_name,
-        second_name: details.second_name
+        second_name: details.second_name,
+        id: user._id
       });
       return Promise.reject({
         emailnotverified:

@@ -43,9 +43,11 @@ class Header extends Component {
   };
 
   componentDidMount() {
-    this.props.getCurrentProfile().then(() => {
-      this.props.createConnection(this.props.auth);
-    });
+    if (this.props.auth.isAuthenticated) {
+      this.props.getCurrentProfile().then(() => {
+        this.props.createConnection(this.props.auth);
+      });
+    }
   }
 
   render() {
