@@ -55,8 +55,11 @@ class App extends Component {
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/add' component={AddTask} />
               <PrivateRoute exact path='/explore' component={Explore} />
-              <PrivateRoute exact path='/messages' component={Messages} />
-              <PrivateRoute exact path='/messages/:id' component={Messages} />
+              <PrivateRoute path='/messages' component={Messages}>
+                <PrivateRoute path='/messages(/:id)' component={Messages} />
+              </PrivateRoute>
+              {/* <PrivateRoute exact path='/messages' component={Messages} />
+              <PrivateRoute exact path='/messages/:id' component={Messages} /> */}
               <PrivateRoute exact path='/me' component={Me} />
             </Switch>
           </div>
