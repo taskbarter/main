@@ -123,12 +123,12 @@ router.get('/conversations', async (req, res) => {
                 $expr: { $eq: ['$conversation_id', '$$conv_id'] },
               },
             },
-            { $sort: { time: -1 } }, // add sort if needed (for example, if you want first 100 comments by creation date)
+            { $sort: { createdAt: -1 } }, // add sort if needed (for example, if you want first 100 comments by creation date)
             { $limit: 1 },
           ],
         },
       },
-      { $sort: { 'last_message.time': -1 } },
+      { $sort: { 'last_message.createdAt': -1 } },
       {
         $project: {
           user1: 1,
@@ -180,7 +180,7 @@ c: Conversation ID
 router.get('/', async (req, res) => {
   try {
     const msgs = await Message.find({
-      conversation: req.query.c,
+      conversation_id: req.query.c,
     });
     if (!msgs) {
       return res.status(200).json([]);

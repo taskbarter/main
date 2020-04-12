@@ -47,7 +47,12 @@ const UserList = (props) => {
               <div className='name'>
                 {user.first_name} {user.second_name}
               </div>
-              <div className='lastmsg'>{conv.last_message[0].text}</div>
+              <div className='lastmsg'>
+                {conv.last_message[0].sender === props.current_user_id
+                  ? 'you: '
+                  : ''}
+                {conv.last_message[0].text}
+              </div>
             </div>
             <div className='date-icon-block'>
               <div className='date'>

@@ -1,4 +1,4 @@
-import { SET_CONVERSATIONS } from './types';
+import { SET_CONVERSATIONS, SET_MESSAGES, ADD_MESSAGE } from './types';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import socketIOClient from 'socket.io-client';
@@ -9,7 +9,6 @@ export const getConversations = (user_id) => async (dispatch) => {
     if (mtok) {
       setAuthToken(mtok);
     }
-    console.log('user: ', user_id);
     const res = await axios.get('/api/messages/conversations', {
       params: { u: user_id },
     });
@@ -76,4 +75,37 @@ export const sendMessage = (payload) => async (dispatch) => {
   } catch (err) {
     console.log('error', err);
   }
+};
+
+export const getMessages = (conv_id, shouldAppend = true) => async (
+  dispatch
+) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/messages/', {
+      params: { c: conv_id },
+    });
+    dispatch({
+      type: SET_MESSAGES,
+      payload: res.data,
+      conv_id: conv_id,
+    });
+  } catch (err) {
+    dispatch({
+      type: SET_MESSAGES,
+      payload: [],
+      conv_id: conv_id,
+    });
+  }
+};
+
+export const addMessage = (conv_id, msg) => async (dispatch) => {
+  dispatch({
+    type: ADD_MESSAGE,
+    payload: msg,
+    conv_id: conv_id,
+  });
 };

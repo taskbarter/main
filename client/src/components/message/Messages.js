@@ -16,33 +16,9 @@ import {
   getConversations,
   createConversation,
   sendMessage,
+  getMessages,
+  addMessage,
 } from '../../actions/messageActions';
-
-const users = [
-  {
-    name: 'Mohsin Hayat',
-    username: 'mohsin',
-    msg_time: Date.now(),
-    last_msg: 'Hello yr kaisay ho? kafi din hogye milay nai kya hua',
-    _id: '123456',
-  },
-
-  {
-    name: 'Daniyal Ikhlaq',
-    username: 'daniyal',
-    msg_time: Date.now(),
-    last_msg: 'hello brother how are y...',
-    _id: '54321',
-  },
-];
-
-const userObj = {
-  first_name: 'Mohsin',
-  second_name: 'Hayat',
-  location: 'Lahore, Pakistan',
-  memberSince: Date.now(),
-  username: 'mohsin',
-};
 
 class Messages extends Component {
   constructor() {
@@ -76,20 +52,35 @@ class Messages extends Component {
   assignConvObj = (id) => {
     for (let j in this.props.conversations) {
       if (this.props.conversations[j]._id === id) {
-        this.setState({
-          conv_obj: this.props.conversations[j],
-        });
+        this.setState(
+          {
+            conv_obj: this.props.conversations[j],
+          },
+          () => {
+            this.props.getMessages(id).then(() => {
+              this.scrollToBottom();
+            });
+          }
+        );
         break;
       }
     }
   };
-  onConvoClick = (id) => {
+  assignEndRef = (newRef) => {
+    console.log('Messages -> assignEndRef -> newRef', newRef);
+
+    this.setState({
+      messagesEndRef: newRef,
+    });
+  };
+  onConvoClick = async (id) => {
     return this.setState(
       {
         selected_convo: id,
       },
-      () => {
-        this.assignConvObj(id);
+      async () => {
+        await this.assignConvObj(id);
+        this.scrollToBottom();
       }
     );
   };
@@ -140,8 +131,15 @@ class Messages extends Component {
         conv_id: this.state.selected_convo,
       };
 
+      let payload2 = {
+        text: this.state.current_message,
+        sender: this.props.auth.user.id,
+        time: Date.now(),
+      };
+
       this.props.sendMessage(payload).then(() => {
         this.state.messages.push(data);
+        this.props.addMessage(payload2);
         this.setState(
           {
             messages: this.state.messages,
@@ -160,7 +158,8 @@ class Messages extends Component {
   };
 
   scrollToBottom = () => {
-    this.state.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (this.state.messagesEndRef.current)
+      this.state.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   render() {
@@ -196,15 +195,15 @@ class Messages extends Component {
           <ChatHeader
             selected_convo={this.state.selected_convo}
             onCloseBtn={this.onConvoClear}
-            user={userObj}
             conv_obj={this.state.conv_obj}
             current_user_id={this.props.auth.user.id}
           />
           <ChatMessages
             selected_convo={this.state.selected_convo}
-            msgs={this.state.messages}
             current_user={this.props.auth.user.id}
             endRef={this.state.messagesEndRef}
+            assignEndRef={this.assignEndRef}
+            msgs={this.props.messages[this.state.selected_convo]}
           />
           <ChatTextArea
             current_message={this.state.current_message}
@@ -221,10 +220,13 @@ class Messages extends Component {
 const mapStateToProps = (state) => ({
   socket_connection: state.socket.socket_connection,
   conversations: state.message.conversations,
+  messages: state.message,
   auth: state.auth,
 });
 export default connect(mapStateToProps, {
   createConversation,
   getConversations,
   sendMessage,
+  getMessages,
+  addMessage,
 })(Messages);
