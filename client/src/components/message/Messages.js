@@ -12,6 +12,11 @@ import ChatHeader from './subs/ChatHeader';
 import ChatTextArea from './subs/ChatTextArea';
 import ChatMessages from './subs/ChatMessages';
 import socketIOClient from 'socket.io-client';
+import {
+  getConversations,
+  createConversation,
+  sendMessage,
+} from '../../actions/messageActions';
 
 const users = [
   {
@@ -19,7 +24,7 @@ const users = [
     username: 'mohsin',
     msg_time: Date.now(),
     last_msg: 'Hello yr kaisay ho? kafi din hogye milay nai kya hua',
-    _id: '123456'
+    _id: '123456',
   },
 
   {
@@ -27,8 +32,8 @@ const users = [
     username: 'daniyal',
     msg_time: Date.now(),
     last_msg: 'hello brother how are y...',
-    _id: '54321'
-  }
+    _id: '54321',
+  },
 ];
 
 const userObj = {
@@ -36,7 +41,7 @@ const userObj = {
   second_name: 'Hayat',
   location: 'Lahore, Pakistan',
   memberSince: Date.now(),
-  username: 'mohsin'
+  username: 'mohsin',
 };
 
 class Messages extends Component {
@@ -47,7 +52,8 @@ class Messages extends Component {
       messages: [],
       other_user: { id: '123' },
       current_message: '',
-      messagesEndRef: React.createRef()
+      messagesEndRef: React.createRef(),
+      conv_obj: {},
     };
   }
   componentDidMount() {
@@ -57,16 +63,40 @@ class Messages extends Component {
     } else {
       this.setState({ selected_convo: '' });
     }
+    //this.props.createConversation('5e9169c97fd65126c464081d');
+    this.refreshConversations();
   }
-  onConvoClick = id => {
-    return this.setState({
-      selected_convo: id
+
+  refreshConversations = () => {
+    const { id } = this.props.match.params;
+    this.props.getConversations(this.props.auth.user.id).then(() => {
+      this.assignConvObj(id);
     });
+  };
+  assignConvObj = (id) => {
+    for (let j in this.props.conversations) {
+      if (this.props.conversations[j]._id === id) {
+        this.setState({
+          conv_obj: this.props.conversations[j],
+        });
+        break;
+      }
+    }
+  };
+  onConvoClick = (id) => {
+    return this.setState(
+      {
+        selected_convo: id,
+      },
+      () => {
+        this.assignConvObj(id);
+      }
+    );
   };
   onConvoClear = () => {
     return this.setState(
       {
-        selected_convo: ''
+        selected_convo: '',
       },
       () => {
         this.props.history.push('/messages');
@@ -83,7 +113,6 @@ class Messages extends Component {
   };
 
   getLeftPaneClass = () => {
-    console.log('sad');
     if (this.state.selected_convo !== '') {
       return 'conversations left-pane inside-convo';
     } else {
@@ -91,7 +120,7 @@ class Messages extends Component {
     }
   };
 
-  onMessageType = e => {
+  onMessageType = (e) => {
     this.setState({ current_message: e.target.value });
   };
 
@@ -102,21 +131,31 @@ class Messages extends Component {
         text: this.state.current_message,
         to: this.state.other_user.id,
         from: this.props.auth.user.id,
-        time: Date.now()
+        time: Date.now(),
       };
+
+      let payload = {
+        text: this.state.current_message,
+        current_user: this.props.auth.user.id,
+        conv_id: this.state.selected_convo,
+      };
+
+      this.props.sendMessage(payload).then(() => {
+        this.state.messages.push(data);
+        this.setState(
+          {
+            messages: this.state.messages,
+          },
+          () => {
+            this.setState({
+              current_message: '',
+            });
+            this.scrollToBottom();
+            this.refreshConversations();
+          }
+        );
+      });
       this.props.socket_connection.emit('send_message', data);
-      this.state.messages.push(data);
-      this.setState(
-        {
-          messages: this.state.messages
-        },
-        () => {
-          this.setState({
-            current_message: ''
-          });
-          this.scrollToBottom();
-        }
-      );
     }
   };
 
@@ -145,10 +184,11 @@ class Messages extends Component {
 
           <div className='userlist-container'>
             <UserList
-              users={users}
+              conversation_list={this.props.conversations}
               selected_convo={this.state.selected_convo}
               onConvoClick={this.onConvoClick}
               history={this.props.history}
+              current_user_id={this.props.auth.user.id}
             />
           </div>
         </div>
@@ -157,6 +197,8 @@ class Messages extends Component {
             selected_convo={this.state.selected_convo}
             onCloseBtn={this.onConvoClear}
             user={userObj}
+            conv_obj={this.state.conv_obj}
+            current_user_id={this.props.auth.user.id}
           />
           <ChatMessages
             selected_convo={this.state.selected_convo}
@@ -176,8 +218,13 @@ class Messages extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   socket_connection: state.socket.socket_connection,
-  auth: state.auth
+  conversations: state.message.conversations,
+  auth: state.auth,
 });
-export default connect(mapStateToProps, {})(Messages);
+export default connect(mapStateToProps, {
+  createConversation,
+  getConversations,
+  sendMessage,
+})(Messages);

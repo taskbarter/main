@@ -5,41 +5,41 @@ const MessageSchema = new Schema({
   sender: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
-    required: true
+    required: true,
   },
-  conversation: {
+  conversation_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'conversations',
-    required: true
+    required: true,
   },
   text: {
     type: String,
-    required: true
+    required: true,
   },
   //Boolean representing whether the receiver has seen this message or not
   seen: {
     type: Boolean,
-    default: false
+    default: false,
   },
   time: {
     type: Date,
-    default: Date.now()
+    default: Date.now(),
   },
   //for quoting messages, such as 'Reply To Message' feature
   quote: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'messages',
-    default: ''
+    default: null,
   },
   //for Attachments or special type of messages.
   content_type: {
     type: Number,
-    default: 0
+    default: 0,
   },
   //for content like attachment code or something other than message text
   content_payload: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 module.exports = Message = mongoose.model('messages', MessageSchema);
