@@ -48,7 +48,8 @@ const UserList = (props) => {
                 {user.first_name} {user.second_name}
               </div>
               <div className='lastmsg'>
-                {conv.last_message[0].sender === props.current_user_id
+                {conv.last_message[0].sender &&
+                conv.last_message[0].sender === props.current_user_id
                   ? 'you: '
                   : ''}
                 {conv.last_message[0].text}
@@ -56,7 +57,7 @@ const UserList = (props) => {
             </div>
             <div className='date-icon-block'>
               <div className='date'>
-                {moment(conv.last_message[0].time).fromNow()}
+                {moment(conv.last_message[0].createdAt).fromNow()}
               </div>
             </div>
           </div>

@@ -11,7 +11,7 @@ import UserList from './subs/UserList';
 import ChatHeader from './subs/ChatHeader';
 import ChatTextArea from './subs/ChatTextArea';
 import ChatMessages from './subs/ChatMessages';
-import socketIOClient from 'socket.io-client';
+
 import {
   getConversations,
   createConversation,
@@ -20,12 +20,13 @@ import {
   addMessage,
 } from '../../actions/messageActions';
 
+import { createConnection } from '../../actions/socketActions';
+
 class Messages extends Component {
   constructor() {
     super();
     this.state = {
       selected_convo: '',
-      messages: [],
       other_user: { id: '123' },
       current_message: '',
       messagesEndRef: React.createRef(),
@@ -41,7 +42,25 @@ class Messages extends Component {
     }
     //this.props.createConversation('5e9169c97fd65126c464081d');
     this.refreshConversations();
+    this.recheckSocket();
   }
+
+  recheckSocket = async () => {
+    if (!this.props.socket_connection.id) {
+      await this.props.createConnection(this.props.auth);
+    }
+    this.props.socket_connection.on('receive_message', (data) => {
+      let payload2 = {
+        text: data.text,
+        sender: data.sender,
+        time: new Date(data.createdAt),
+        conv_id: data.conv_id,
+      };
+      this.props.addMessage(this.state.selected_convo, payload2).then(() => {
+        this.scrollToBottom();
+      });
+    });
+  };
 
   refreshConversations = () => {
     const { id } = this.props.match.params;
@@ -67,8 +86,6 @@ class Messages extends Component {
     }
   };
   assignEndRef = (newRef) => {
-    console.log('Messages -> assignEndRef -> newRef', newRef);
-
     this.setState({
       messagesEndRef: newRef,
     });
@@ -117,12 +134,18 @@ class Messages extends Component {
 
   onMessageSend = () => {
     const msg_text = this.state.current_message.trim();
+    const other_user =
+      this.state.conv_obj.user1 === this.props.auth.user.id
+        ? this.state.conv_obj.user2
+        : this.state.conv_obj.user1;
+
     if (msg_text !== '') {
       let data = {
         text: this.state.current_message,
-        to: this.state.other_user.id,
-        from: this.props.auth.user.id,
-        time: Date.now(),
+        to: other_user,
+        conv_id: this.state.selected_convo,
+        sender: this.props.auth.user.id,
+        createdAt: Date.now(),
       };
 
       let payload = {
@@ -134,26 +157,22 @@ class Messages extends Component {
       let payload2 = {
         text: this.state.current_message,
         sender: this.props.auth.user.id,
-        time: Date.now(),
+        createdAt: Date.now(),
+        conv_id: this.state.selected_convo,
       };
 
       this.props.sendMessage(payload).then(() => {
-        this.state.messages.push(data);
-        this.props.addMessage(payload2);
-        this.setState(
-          {
-            messages: this.state.messages,
-          },
-          () => {
-            this.setState({
-              current_message: '',
-            });
-            this.scrollToBottom();
-            this.refreshConversations();
-          }
-        );
+        this.props.addMessage(this.state.selected_convo, payload2);
+        this.setState({}, () => {
+          this.setState({
+            current_message: '',
+          });
+          this.scrollToBottom();
+          this.refreshConversations();
+        });
       });
-      this.props.socket_connection.emit('send_message', data);
+      if (this.props.socket_connection)
+        this.props.socket_connection.emit('send_message', data);
     }
   };
 
@@ -229,4 +248,5 @@ export default connect(mapStateToProps, {
   sendMessage,
   getMessages,
   addMessage,
+  createConnection,
 })(Messages);

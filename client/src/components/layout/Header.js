@@ -22,11 +22,11 @@ class Header extends Component {
 
     this.state = {
       isMobileMenuOpened: false,
-      itemsStyling: 'nav-items'
+      itemsStyling: 'nav-items',
     };
   }
 
-  onLogoutClick = e => {
+  onLogoutClick = (e) => {
     e.preventDefault();
     this.props.logoutUser();
   };
@@ -38,14 +38,14 @@ class Header extends Component {
     }
     this.setState({
       isMobileMenuOpened: !this.state.isMobileMenuOpened,
-      itemsStyling: newS
+      itemsStyling: newS,
     });
   };
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.getCurrentProfile().then(() => {
-        this.props.createConnection(this.props.auth);
+        //this.props.createConnection(this.props.auth);
       });
     }
   }
@@ -53,6 +53,7 @@ class Header extends Component {
   onClickOnLogo = () => {
     this.props.history.push('/');
   };
+
   render() {
     const user_info = this.props.profile;
     if (this.props.auth.isAuthenticated) {
@@ -209,11 +210,11 @@ class Header extends Component {
 
 Header.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
 });
 export default withRouter(
   connect(mapStateToProps, { logoutUser, getCurrentProfile, createConnection })(

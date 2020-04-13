@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from './types';
 import setAuthToken from '../utils/setAuthToken';
+import { createConnection } from './socketActions';
 import jwt_decode from 'jwt-decode';
 import { set } from 'mongoose';
 
@@ -14,8 +15,8 @@ export const getCurrentProfile = () => async (dispatch) => {
     if (mtok) {
       setAuthToken(mtok);
     }
-
     const res = await axios.get('/api/profile/me');
+    createConnection(res.data.user);
     dispatch({
       type: GET_PROFILE,
       payload: res.data,

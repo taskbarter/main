@@ -1,4 +1,6 @@
 import { SET_CONVERSATIONS, SET_MESSAGES, ADD_MESSAGE } from '../actions/types';
+import update from 'react-addons-update';
+
 const initialState = {
   conversations: [],
 };
@@ -18,8 +20,15 @@ export default function (state = initialState, action) {
     case ADD_MESSAGE:
       return {
         ...state,
-        [action.conv_id]: [action.conv_id].push(action.payload),
+        [action.conv_id]: [...state[action.conv_id], action.payload],
       };
+      return update(state, {
+        contents: {
+          [action.conv_id]: {
+            $push: action.payload,
+          },
+        },
+      });
     default:
       return state;
   }
