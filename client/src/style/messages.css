@@ -355,3 +355,12 @@
     display: none;
   }
 }
+
+.chat-typing {
+  position: relative;
+  bottom: 0px;
+  font-size: 11px;
+  color: #6b6b6b;
+  margin-top: 9px;
+  margin-bottom: -20px;
+}

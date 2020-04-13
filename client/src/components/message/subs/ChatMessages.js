@@ -31,6 +31,8 @@ const ChatMessages = (props) => {
           );
         })}
         <div ref={props.endRef}></div>
+
+        {props.isTyping ? <div className='chat-typing'>typing...</div> : ''}
       </div>
     </React.Fragment>
   );
