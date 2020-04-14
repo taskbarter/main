@@ -9,6 +9,11 @@
   border-color: #493e85;
 }
 
+.btn-primary:hover {
+  background-color: #3a306d;
+  border-color: #3a306d;
+}
+
 .task-search-box {
   font-size: 1rem;
   padding-left: 3rem;
@@ -384,8 +389,16 @@
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
+.pro-modal {
+  max-width: 60%;
+  margin-top: 22vh;
+}
+
 @media (max-width: 576px) {
   .dt-modal {
+    max-width: 100%;
+  }
+  .pro-modal {
     max-width: 100%;
   }
 }
@@ -444,4 +457,19 @@
   .task-list-dashboard {
     grid-template: auto/repeat(2, 1fr) [end];
   }
+}
+
+.pro-textarea {
+  margin-top: 9px;
+  resize: none;
+}
+
+.profile-skills {
+  cursor: pointer;
+  transition: ease-in-out;
+}
+
+.profile-skills:hover {
+  background-color: #3a306d;
+  color: white;
 }

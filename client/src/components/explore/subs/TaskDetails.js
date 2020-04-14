@@ -6,7 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Tooltip,
-  Spinner
+  Spinner,
 } from 'reactstrap';
 import bookmark_icon from '../../../style/inc/bookmark.svg';
 import share_icon from '../../../style/inc/share.svg';
@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import TLoader from '../../utils/TLoader';
 
-const TaskDetails = props => {
+const TaskDetails = (props) => {
   const { modal, toggle } = props;
 
   const [task, setTask] = useState({});
@@ -23,16 +23,16 @@ const TaskDetails = props => {
   useEffect(() => {
     console.log(task);
   }, [task]);
-  const handleChange = newTask => {
+  const handleChange = (newTask) => {
     setTask(newTask);
   };
   const modalOpened = () => {
-    props.fetchTask(props.selected_task).then(payload => {
+    props.fetchTask(props.selected_task).then((payload) => {
       handleChange(payload.taskData[0]);
     });
   };
 
-  const skillsbadges2 = skills => {
+  const skillsbadges2 = (skills) => {
     if (skills) {
       let fsix = skills;
 
@@ -101,7 +101,10 @@ const TaskDetails = props => {
             ></img>
           </div>
           <div className='feed-card--footer-right '>
-            <button className='feed-card-learn-more dt-action-btn'>
+            <button
+              onClick={props.proposal_toggle}
+              className='feed-card-learn-more dt-action-btn'
+            >
               Send Proposal
             </button>
           </div>
@@ -121,7 +124,7 @@ const TaskDetails = props => {
         <div className='mb-2 mt-1 ql-editor dt-description'>
           <div
             dangerouslySetInnerHTML={{
-              __html: task.description
+              __html: task.description,
             }}
           ></div>
         </div>
@@ -148,5 +151,5 @@ const TaskDetails = props => {
 };
 
 export default connect(null, {
-  fetchTask
+  fetchTask,
 })(TaskDetails);

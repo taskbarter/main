@@ -19,6 +19,7 @@ import Header from './components/layout/Header';
 import Messages from './components/message/Messages';
 import Me from './components/profile/Me';
 import Notifications from './components/notifications/Notifications';
+import Footer from './components/layout/Footer';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
