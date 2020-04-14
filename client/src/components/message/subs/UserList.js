@@ -48,7 +48,7 @@ const UserList = (props) => {
                 {user.first_name} {user.second_name}
               </div>
               <div className='lastmsg'>
-                {conv.last_message[0].sender &&
+                {conv.last_message[0].sender !== undefined &&
                 conv.last_message[0].sender === props.current_user_id
                   ? 'you: '
                   : ''}

@@ -310,12 +310,21 @@
   word-wrap: break-word;
   font-size: 1rem;
   line-height: 1.5rem;
+  cursor: pointer;
+}
+
+.message-bubble:hover {
+  background-color: #39306c;
 }
 
 .msg-left .message-bubble {
   background-color: #f1f1f1;
   color: black;
   border-radius: 10px 10px 10px 0px;
+}
+
+.msg-left .message-bubble:hover {
+  background-color: #dddddd;
 }
 
 .msg-time {

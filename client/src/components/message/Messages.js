@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import debounce from 'lodash/debounce';
 import { Link } from 'react-router-dom';
 import logo from '../../TaskBarterLogo_Transparent.png';
 import PropTypes from 'prop-types';
@@ -34,7 +35,6 @@ class Messages extends Component {
       isTyping: false,
       isCurrentUserTyping: false,
     };
-    var timeout = undefined;
   }
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -144,33 +144,25 @@ class Messages extends Component {
   };
 
   onMessageType = (e) => {
-    this.setState({ current_message: e.target.value });
-
-    if (this.state.isCurrentUserTyping === false) {
-      this.setState(
-        {
-          isCurrentUserTyping: true,
-        },
-        () => {
-          const other_user =
-            this.state.conv_obj.user1 === this.props.auth.user.id
-              ? this.state.conv_obj.user2
-              : this.state.conv_obj.user1;
-          let data = {
-            conv_id: this.state.conv_id,
-            sender: this.props.auth.user.id,
-            to: other_user,
-          };
-          this.props.socket_connection.emit('user_started_typing', data);
-          this.timeout = setTimeout(this.onTypingTimeout(), 6000);
-        }
-      );
-    } else {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(this.onTypingTimeout(), 6000);
-    }
+    this.setState(
+      { current_message: e.target.value, isCurrentUserTyping: true },
+      () => {
+        let data = {
+          conv_id: this.state.conv_id,
+          sender: this.props.auth.user.id,
+          to: this.getOtherUserId(),
+        };
+        this.props.socket_connection.emit('user_started_typing', data);
+        this.onTypingMsg();
+      }
+    );
   };
 
+  getOtherUserId = () => {
+    return this.state.conv_obj.user1 === this.props.auth.user.id
+      ? this.state.conv_obj.user2
+      : this.state.conv_obj.user1;
+  };
   onMessageSend = () => {
     const msg_text = this.state.current_message.trim();
     const other_user =
@@ -212,25 +204,19 @@ class Messages extends Component {
       });
       if (this.props.socket_connection)
         this.props.socket_connection.emit('send_message', data);
-      this.onTypingTimeout();
     }
   };
 
-  onTypingTimeout = () => {
-    this.setState({
-      isCurrentUserTyping: false,
+  onTypingMsg = debounce(function () {
+    this.setState({ isCurrentUserTyping: false }, () => {
+      let data_typing = {
+        conv_id: this.state.conv_id,
+        sender: this.props.auth.user.id,
+        to: this.getOtherUserId(),
+      };
+      this.props.socket_connection.emit('user_stopped_typing', data_typing);
     });
-    const other_user =
-      this.state.conv_obj.user1 === this.props.auth.user.id
-        ? this.state.conv_obj.user2
-        : this.state.conv_obj.user1;
-    let data_typing = {
-      conv_id: this.state.conv_id,
-      sender: this.props.auth.user.id,
-      to: other_user,
-    };
-    this.props.socket_connection.emit('user_stopped_typing', data_typing);
-  };
+  }, 3000);
 
   scrollToBottom = () => {
     if (this.state.messagesEndRef.current)
@@ -272,6 +258,7 @@ class Messages extends Component {
             onCloseBtn={this.onConvoClear}
             conv_obj={this.state.conv_obj}
             current_user_id={this.props.auth.user.id}
+            isTyping={this.state.isTyping}
           />
           <ChatMessages
             selected_convo={this.state.selected_convo}

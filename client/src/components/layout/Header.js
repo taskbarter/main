@@ -184,6 +184,9 @@ class Header extends Component {
                   <Link exact='true' to='/me' className='link-no-style'>
                     <span className='profile-menu-item'>My Profile</span>
                   </Link>
+                  <Link exact='true' to='/mytasks' className='link-no-style'>
+                    <span className='profile-menu-item'>My Tasks</span>
+                  </Link>
 
                   <span className='profile-menu-item'>Settings</span>
                   <hr />

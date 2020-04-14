@@ -36,6 +36,7 @@ const ChatHeader = (props) => {
           Member since{' '}
           <span className='dt-date'>{moment(user.memberSince).year()}</span>{' '}
           {user.location ? <span> • {user.location} </span> : ''}
+          {props.isTyping ? <span> • Typing Message </span> : ''}
         </div>
 
         <div className='close-chat-btn'>
