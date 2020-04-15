@@ -20,6 +20,7 @@ import Messages from './components/message/Messages';
 import Me from './components/profile/Me';
 import Notifications from './components/notifications/Notifications';
 import Footer from './components/layout/Footer';
+import MyTasks from './components/task/MyTasks';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -68,6 +69,7 @@ class App extends Component {
                 component={Notifications}
               />
               <PrivateRoute exact path='/me' component={Me} />
+              <PrivateRoute exact path='/mytasks' component={MyTasks} />
             </Switch>
           </div>
         </Router>

@@ -473,3 +473,52 @@
   background-color: #3a306d;
   color: white;
 }
+
+.mytasks-container {
+  max-width: 64.5rem;
+  margin-top: 30px;
+}
+
+.mytasks-section {
+  padding: 0.9375rem;
+  margin-bottom: 0.9375rem;
+  overflow: hidden;
+  border-radius: 0.3125rem;
+  border: 1px solid #d6dae0;
+  background: #fff;
+  -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.mytasks-tabs {
+  display: flex !important;
+}
+
+.mytasks-tabs .active {
+  text-shadow: none;
+  font-weight: 500;
+  color: #493e85 !important;
+  border-top: #493e85 solid 2px;
+}
+
+.mytasks-table {
+  margin-top: 27px;
+  width: 105%;
+  max-width: 105%;
+  margin-bottom: 1rem;
+  margin-left: -15px;
+  border-top: #433881 solid 3px;
+  background-color: transparent;
+}
+
+@media only screen and (max-width: 32em) {
+  .mytasks-date,
+  .mytasks-date-h {
+    display: none;
+  }
+  .mytasks-table,
+  .mytasks-tabs,
+  .mytasks-note {
+    font-size: 12px;
+  }
+}
