@@ -48,16 +48,22 @@ const UserList = (props) => {
                 {user.first_name} {user.second_name}
               </div>
               <div className='lastmsg'>
-                {conv.last_message[0].sender !== undefined &&
+                {conv.last_message[0] !== undefined &&
                 conv.last_message[0].sender === props.current_user_id
                   ? 'you: '
                   : ''}
-                {conv.last_message[0].text}
+                {conv.last_message[0] ? (
+                  conv.last_message[0].text
+                ) : (
+                  <i>no message</i>
+                )}
               </div>
             </div>
             <div className='date-icon-block'>
               <div className='date'>
-                {moment(conv.last_message[0].createdAt).fromNow()}
+                {conv.last_message[0]
+                  ? moment(conv.last_message[0].createdAt).fromNow()
+                  : ''}
               </div>
             </div>
           </div>
