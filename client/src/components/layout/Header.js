@@ -185,10 +185,15 @@ class Header extends Component {
                     <span className='profile-menu-item'>My Profile</span>
                   </Link>
                   <Link exact='true' to='/mytasks' className='link-no-style'>
-                    <span className='profile-menu-item'>My Tasks</span>
+                    <span className='profile-menu-item'>My Added Tasks</span>
+                  </Link>
+                  <Link exact='true' to='/mywork' className='link-no-style'>
+                    <span className='profile-menu-item'>My Work</span>
                   </Link>
 
-                  <span className='profile-menu-item'>Settings</span>
+                  <Link exact='true' to='/settings' className='link-no-style'>
+                    <span className='profile-menu-item'>Settings</span>
+                  </Link>
                   <hr />
                   <a onClick={this.onLogoutClick} className='profile-menu-item'>
                     Logout
