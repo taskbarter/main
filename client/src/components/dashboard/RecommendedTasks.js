@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetch_workplace_tasks } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
-import { toggleLike } from '../../actions/taskAction';
+import { toggleLike, sendProposal } from '../../actions/taskAction';
 import TaskCard from '../explore/subs/TaskCard';
 import TaskDetails from '../explore/subs/TaskDetails';
+import ProposalForm from '../explore/subs/ProposalForm';
 
 class RecommendedTasks extends Component {
   constructor(props) {
@@ -15,7 +16,9 @@ class RecommendedTasks extends Component {
     this.state = {
       detail_popup_is_open: false,
       selected_task: 0,
-      workplaceTasks: []
+      workplaceTasks: [],
+      proposal_popup_is_open: false,
+      proposal_text: '',
     };
   }
 
@@ -27,7 +30,7 @@ class RecommendedTasks extends Component {
       r: '',
       k: '',
       l: '',
-      i: ''
+      i: '',
     };
     return explored_filters;
   };
@@ -38,14 +41,14 @@ class RecommendedTasks extends Component {
       .then(() => {
         console.log(this.props.tasks);
         this.setState({
-          workplaceTasks: this.props.tasks
+          workplaceTasks: this.props.tasks,
         });
       })
       .then(() => {
         //this.props.doExplore({}, false);
       });
   }
-  onTaskSelect = task_id => {
+  onTaskSelect = (task_id) => {
     this.setState({ selected_task: task_id }, () => {
       this.task_detail_toggle();
     });
@@ -53,7 +56,32 @@ class RecommendedTasks extends Component {
 
   task_detail_toggle = () => {
     this.setState({
-      detail_popup_is_open: !this.state.detail_popup_is_open
+      detail_popup_is_open: !this.state.detail_popup_is_open,
+    });
+  };
+
+  changeProposalText = (t) => {
+    if (t) {
+      this.setState({
+        proposal_text: t.target.value,
+      });
+    } else {
+      this.setState({
+        proposal_text: '',
+      });
+    }
+  };
+
+  sendProposal = () => {
+    const payload = {
+      text: this.state.proposal_text,
+      task_id: this.state.selected_task,
+    };
+    this.props.sendProposal(payload);
+  };
+  proposal_toggle = () => {
+    this.setState({
+      proposal_popup_is_open: !this.state.proposal_popup_is_open,
     });
   };
   render() {
@@ -74,6 +102,15 @@ class RecommendedTasks extends Component {
           toggle={this.task_detail_toggle}
           modal={this.state.detail_popup_is_open}
           selected_task={this.state.selected_task}
+          proposal_toggle={this.proposal_toggle}
+        />
+        <ProposalForm
+          toggle={this.proposal_toggle}
+          modal={this.state.proposal_popup_is_open}
+          selected_task={this.state.selected_task}
+          proposal_text={this.state.proposal_text}
+          changeProposalText={this.changeProposalText}
+          sendProposal={this.sendProposal}
         />
       </div>
     );
@@ -83,14 +120,16 @@ class RecommendedTasks extends Component {
 RecommendedTasks.propTypes = {
   auth: PropTypes.object.isRequired,
   fetch_workplace_tasks: PropTypes.func.isRequired,
-  toggleLike: PropTypes.func.isRequired
+  toggleLike: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tasks: state.task.workplace_tasks,
-  auth: state.auth
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps, { fetch_workplace_tasks, toggleLike })(
-  RecommendedTasks
-);
+export default connect(mapStateToProps, {
+  fetch_workplace_tasks,
+  toggleLike,
+  sendProposal,
+})(RecommendedTasks);

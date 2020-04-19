@@ -4,18 +4,19 @@ import setAuthToken from '../utils/setAuthToken';
 import { createConnection } from './socketActions';
 import jwt_decode from 'jwt-decode';
 import { set } from 'mongoose';
+import { addToast } from './toasterActions';
 
 // get profile
 
 export const getCurrentProfile = () => async (dispatch) => {
   dispatch(setProfileLoading());
-
   try {
     const mtok = localStorage.jwtToken;
     if (mtok) {
       setAuthToken(mtok);
     }
     const res = await axios.get('/api/profile/me');
+    addToast('Welcome back ' + res.data.user.name);
     createConnection(res.data.user);
     dispatch({
       type: GET_PROFILE,

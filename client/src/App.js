@@ -21,6 +21,8 @@ import Me from './components/profile/Me';
 import Notifications from './components/notifications/Notifications';
 import Footer from './components/layout/Footer';
 import MyTasks from './components/task/MyTasks';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -71,6 +73,7 @@ class App extends Component {
               <PrivateRoute exact path='/me' component={Me} />
               <PrivateRoute exact path='/mytasks' component={MyTasks} />
             </Switch>
+            <ToastContainer />
           </div>
         </Router>
       </Provider>
