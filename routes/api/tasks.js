@@ -3,6 +3,8 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const Task = require('../../models/Task');
 const User = require('../../models/User');
+const Proposal = require('../../models/Proposal');
+const Conversation = require('../../models/Conversation');
 const PersonalDetails = require('../../models/PersonalDetails');
 const { check, validationResult } = require('express-validator');
 const mongoose = require('mongoose');
@@ -25,12 +27,12 @@ router.post('/add', auth, (req, res) => {
     skills: req.body.skills,
     user: req.user.id, // for secure task adding
     duration: req.body.duration,
-    taskpoints: req.body.points
+    taskpoints: req.body.points,
   });
   newTask
     .save()
-    .then(task => res.json(task))
-    .catch(err => {
+    .then((task) => res.json(task))
+    .catch((err) => {
       console.error(err);
       res.status(500).send('Server Error');
     });
@@ -66,34 +68,34 @@ router.get('/explore', async (req, res) => {
       search_filter = {
         $or: [
           {
-            description: new RegExp('\\b' + search_query + '', 'i')
+            description: new RegExp('\\b' + search_query + '', 'i'),
           },
           {
-            headline: new RegExp('\\b' + search_query + '', 'i')
-          }
-        ]
+            headline: new RegExp('\\b' + search_query + '', 'i'),
+          },
+        ],
       };
     }
     const tasks = await Task.aggregate([
       {
-        $match: search_filter
+        $match: search_filter,
       },
       {
         $lookup: {
           from: 'personaldetails',
           localField: 'user',
           foreignField: 'user',
-          as: 'userdetails'
-        }
+          as: 'userdetails',
+        },
       },
       {
-        $sort: { date: -1 }
+        $sort: { date: -1 },
       },
       {
-        $skip: segment_size * segment_number
+        $skip: segment_size * segment_number,
       },
       {
-        $limit: segment_size
+        $limit: segment_size,
       },
       {
         $project: {
@@ -102,9 +104,9 @@ router.get('/explore', async (req, res) => {
           taskpoints: 1,
           date: 1,
           skills: 1,
-          userdetails: { first_name: 1, second_name: 1, location: 1 }
-        }
-      }
+          userdetails: { first_name: 1, second_name: 1, location: 1 },
+        },
+      },
     ]);
     res.json(tasks);
   } catch (err) {
@@ -126,16 +128,16 @@ router.get('/fetch', async (req, res) => {
 
     const taskData = await Task.aggregate([
       {
-        $match: { _id: mongoose.Types.ObjectId(task_id) }
+        $match: { _id: mongoose.Types.ObjectId(task_id) },
       },
       {
         $lookup: {
           from: 'personaldetails',
           localField: 'user',
           foreignField: 'user',
-          as: 'userdetails'
-        }
-      }
+          as: 'userdetails',
+        },
+      },
     ]);
     res.json({ taskData });
   } catch (err) {
@@ -171,10 +173,7 @@ router.get('/:limit_tasks/:skip_tasks', async (req, res) => {
   try {
     const limit = parseInt(req.params.limit_tasks) || 0;
     const skip = parseInt(req.params.skip_tasks) || 0;
-    const tasks = await Task.find()
-      .sort({ date: -1 })
-      .limit(limit)
-      .skip(skip); // toget recents one
+    const tasks = await Task.find().sort({ date: -1 }).limit(limit).skip(skip); // toget recents one
     res.json(tasks);
   } catch (err) {
     console.error(err.message);
@@ -205,7 +204,7 @@ router.get('/all/:user_id/:skip_tasks/:limit_tasks', async (req, res) => {
     const skip = parseInt(req.params.skip_tasks) || 0;
 
     const uTask = await Task.find({
-      user_id: req.params.user_id
+      user_id: req.params.user_id,
     })
       .limit(limit)
       .skip(skip);
@@ -255,12 +254,13 @@ router.put('/like/:task_id', auth, async (req, res) => {
     const task = await Task.findById(req.params.task_id);
     // check for already liked
     if (
-      task.likes.filter(like => like.user.toString() === req.user.id).length > 0
+      task.likes.filter((like) => like.user.toString() === req.user.id).length >
+      0
     ) {
       //Get remove index
 
       const removeIndex = task.likes
-        .map(like => like.user.toString())
+        .map((like) => like.user.toString())
         .indexOf(req.user.id);
 
       task.likes.splice(removeIndex, 1);
@@ -288,14 +288,7 @@ router.put('/like/:task_id', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/proposal/:task_id',
-  [
-    auth,
-    [
-      check('text', 'Text is required')
-        .not()
-        .isEmpty()
-    ]
-  ],
+  [auth, [check('text', 'Text is required').not().isEmpty()]],
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -310,7 +303,7 @@ router.post(
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
-        user: req.user.id
+        user: req.user.id,
       };
 
       task.proposals.unshift(newProposal);
@@ -336,7 +329,7 @@ router.delete('/proposal/:task_id/:proposal_id', auth, async (req, res) => {
     // Pull out proposal
 
     const proposal = task.proposals.find(
-      proposal => proposal.id === req.params.proposal_id // what about string compare?
+      (proposal) => proposal.id === req.params.proposal_id // what about string compare?
     );
 
     // make sure proposal exists
@@ -356,7 +349,7 @@ router.delete('/proposal/:task_id/:proposal_id', auth, async (req, res) => {
     //Get remove index
 
     const removeIndex = task.proposals
-      .map(proposal => proposal.id.toString())
+      .map((proposal) => proposal.id.toString())
       .indexOf(req.params.proposal_id);
 
     task.proposals.splice(removeIndex, 1);
@@ -365,6 +358,58 @@ router.delete('/proposal/:task_id/:proposal_id', auth, async (req, res) => {
     res.json(task.proposals);
   } catch (err) {
     console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route POST api/tasks/sendproposal
+// @desc Send new Task
+// @access Private
+
+router.post('/sendproposal', auth, async (req, res) => {
+  try {
+    const newProposal = new Proposal({
+      task: req.body.task_id,
+      text: req.body.text,
+      user: req.user.id,
+    });
+    const prop = await newProposal.save();
+    const ptask = await Task.findById(req.body.task_id);
+    console.log(ptask.user);
+    console.log(req.user.id);
+    if (ptask.user.toString() === req.user.id.toString()) {
+      return res
+        .status(500)
+        .json({ message: 'you cannot apply to your own task.' });
+    }
+    let conv = await Conversation.findOne({
+      $or: [
+        {
+          user1: req.user.id,
+          user2: ptask.user,
+        },
+        {
+          user1: ptask.user,
+          user2: req.user.id,
+        },
+      ],
+    });
+    if (!conv) {
+      const newConversation = new Conversation({
+        user1: req.user.id,
+        user2: ptask.user,
+      });
+      conv = await newConversation.save();
+    }
+    const newMsg = new Message({
+      conversation_id: conv._id,
+      sender: req.user.id,
+      text: req.body.text,
+    });
+    const completed = await newMsg.save();
+    res.json(prop);
+  } catch (err) {
+    console.error(err);
     res.status(500).send('Server Error');
   }
 });

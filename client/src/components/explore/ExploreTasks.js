@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
 import { getTasksCount } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
-import { toggleLike, doExplore } from '../../actions/taskAction';
+import { toggleLike, doExplore, sendProposal } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 import FilterMenu from './filters/FilterMenu';
@@ -32,6 +32,7 @@ class ExploreTasks extends Component {
       detail_popup_is_open: false,
       selected_task: 0,
       proposal_popup_is_open: false,
+      proposal_text: '',
     };
   }
 
@@ -133,6 +134,26 @@ class ExploreTasks extends Component {
     });
   };
 
+  changeProposalText = (t) => {
+    if (t) {
+      this.setState({
+        proposal_text: t.target.value,
+      });
+    } else {
+      this.setState({
+        proposal_text: '',
+      });
+    }
+  };
+
+  sendProposal = () => {
+    const payload = {
+      text: this.state.proposal_text,
+      task_id: this.state.selected_task,
+    };
+    this.props.sendProposal(payload);
+  };
+
   render() {
     const allTasks = this.props.task.tasks;
     return (
@@ -173,6 +194,9 @@ class ExploreTasks extends Component {
           toggle={this.proposal_toggle}
           modal={this.state.proposal_popup_is_open}
           selected_task={this.state.selected_task}
+          proposal_text={this.state.proposal_text}
+          changeProposalText={this.changeProposalText}
+          sendProposal={this.sendProposal}
         />
       </div>
     );
@@ -198,4 +222,5 @@ export default connect(mapStateToProps, {
   toggleLike,
   getTasksCount,
   doExplore,
+  sendProposal,
 })(ExploreTasks);

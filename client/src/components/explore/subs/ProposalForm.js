@@ -32,6 +32,7 @@ const ProposalForm = (props) => {
     });
   };
   const modalClosed = () => {
+    props.changeProposalText(false);
     setTask({});
   };
 
@@ -54,10 +55,14 @@ const ProposalForm = (props) => {
           placeholder='enter message...'
           rows='6'
           className='form-control pro-textarea'
+          value={props.proposal_text}
+          onChange={props.changeProposalText}
         />
       </ModalBody>
       <ModalFooter>
-        <button className='btn btn-primary'>Send</button>
+        <button className='btn btn-primary' onClick={props.sendProposal}>
+          Send
+        </button>
       </ModalFooter>
     </Modal>
   );
