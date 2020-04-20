@@ -60,8 +60,12 @@ const ProposalForm = (props) => {
         />
       </ModalBody>
       <ModalFooter>
-        <button className='btn btn-primary' onClick={props.sendProposal}>
-          Send
+        <button
+          disabled={props.proposalLoading}
+          className='btn btn-primary'
+          onClick={props.sendProposal}
+        >
+          {props.proposalLoading ? 'Sending...' : 'Send'}
         </button>
       </ModalFooter>
     </Modal>

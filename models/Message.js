@@ -1,5 +1,6 @@
 //TODO: Add more relevant fields
 const mongoose = require('mongoose');
+const { MESSAGETYPE_TEXT } = require('../constants/types');
 const Schema = mongoose.Schema;
 const MessageSchema = new Schema(
   {
@@ -35,7 +36,7 @@ const MessageSchema = new Schema(
     //for Attachments or special type of messages.
     content_type: {
       type: Number,
-      default: 0,
+      default: MESSAGETYPE_TEXT,
     },
     //for content like attachment code or something other than message text
     content_payload: {

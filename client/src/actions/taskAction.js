@@ -14,6 +14,8 @@ import {
   SET_WORKPLACE_TASKS,
 } from '../actions/types';
 
+import { addToast } from './toasterActions';
+
 // Add task
 export const addTask = (taskData, history) => async (dispatch) => {
   if (localStorage.jwtToken) {
@@ -103,6 +105,7 @@ export const fetch_workplace_tasks = () => async (dispatch) => {
 
 export const fetchTask = (task_id) => async (dispatch) => {
   try {
+    console.log('fetchTask -> task_id', task_id);
     const mtok = localStorage.jwtToken;
     if (mtok) {
       setAuthToken(mtok);
@@ -193,8 +196,10 @@ export const sendProposal = (payload) => async (dispatch) => {
       setAuthToken(mtok);
     }
     const res = await axios.post('/api/tasks/sendproposal', payload, config);
+    addToast('Proposal has been sent');
   } catch (err) {
     console.log(err);
+    addToast('Oops! ' + err.message);
   }
 };
 

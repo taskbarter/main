@@ -33,6 +33,7 @@ class ExploreTasks extends Component {
       selected_task: 0,
       proposal_popup_is_open: false,
       proposal_text: '',
+      proposal_loading: false,
     };
   }
 
@@ -151,7 +152,20 @@ class ExploreTasks extends Component {
       text: this.state.proposal_text,
       task_id: this.state.selected_task,
     };
-    this.props.sendProposal(payload);
+    this.setState(
+      {
+        proposal_loading: true,
+      },
+      () => {
+        this.props.sendProposal(payload).then(() => {
+          this.setState({
+            proposal_popup_is_open: false,
+            proposal_text: '',
+            proposal_loading: false,
+          });
+        });
+      }
+    );
   };
 
   render() {
@@ -197,6 +211,7 @@ class ExploreTasks extends Component {
           proposal_text={this.state.proposal_text}
           changeProposalText={this.changeProposalText}
           sendProposal={this.sendProposal}
+          proposalLoading={this.state.proposal_loading}
         />
       </div>
     );

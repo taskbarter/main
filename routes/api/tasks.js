@@ -7,6 +7,7 @@ const Proposal = require('../../models/Proposal');
 const Conversation = require('../../models/Conversation');
 const PersonalDetails = require('../../models/PersonalDetails');
 const { check, validationResult } = require('express-validator');
+const { MESSAGETYPE_PROPOSAL } = require('../../constants/types');
 const mongoose = require('mongoose');
 
 // @route POST api/tasks/add
@@ -401,10 +402,20 @@ router.post('/sendproposal', auth, async (req, res) => {
       });
       conv = await newConversation.save();
     }
+    const payload = {
+      task_id: req.body.task_id,
+      proposal_id: prop.id,
+
+      //need to store this beforehand because user can update it in future.
+      task_headline: ptask.headline,
+      task_points: ptask.taskpoints,
+    };
     const newMsg = new Message({
       conversation_id: conv._id,
       sender: req.user.id,
       text: req.body.text,
+      content_type: MESSAGETYPE_PROPOSAL,
+      content_payload: JSON.stringify(payload),
     });
     const completed = await newMsg.save();
     res.json(prop);

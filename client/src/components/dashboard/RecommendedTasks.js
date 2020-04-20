@@ -19,6 +19,7 @@ class RecommendedTasks extends Component {
       workplaceTasks: [],
       proposal_popup_is_open: false,
       proposal_text: '',
+      proposal_loading: false,
     };
   }
 
@@ -77,7 +78,20 @@ class RecommendedTasks extends Component {
       text: this.state.proposal_text,
       task_id: this.state.selected_task,
     };
-    this.props.sendProposal(payload);
+    this.setState(
+      {
+        proposal_loading: true,
+      },
+      () => {
+        this.props.sendProposal(payload).then(() => {
+          this.setState({
+            proposal_popup_is_open: false,
+            proposal_text: '',
+            proposal_loading: false,
+          });
+        });
+      }
+    );
   };
   proposal_toggle = () => {
     this.setState({
@@ -111,6 +125,7 @@ class RecommendedTasks extends Component {
           proposal_text={this.state.proposal_text}
           changeProposalText={this.changeProposalText}
           sendProposal={this.sendProposal}
+          proposalLoading={this.state.proposal_loading}
         />
       </div>
     );
