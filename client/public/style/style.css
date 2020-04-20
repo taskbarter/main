@@ -1501,3 +1501,8 @@ fieldset > legend + * {
   opacity: 1;
   transform: scale(1);
 }
+
+.show > .dropdown-menu {
+  display: block;
+  position: absolute;
+}
