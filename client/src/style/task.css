@@ -522,3 +522,20 @@
     font-size: 12px;
   }
 }
+
+.taskv-loader {
+  display: flex;
+  height: 90vh;
+}
+
+.dv-title {
+  font-weight: 500;
+}
+
+.dt-title-anchor {
+  text-decoration: none;
+  color: inherit;
+}
+.dt-title-anchor:hover {
+  color: inherit;
+}

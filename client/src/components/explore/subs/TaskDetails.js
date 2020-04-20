@@ -77,8 +77,15 @@ const TaskDetails = (props) => {
       className='dt-modal fade-scale'
     >
       <ModalHeader toggle={toggle} className='dt-header'>
-        <div className='dt-sub-title'>I want someone to</div>
-        <div className='dt-title'>{task.headline}</div>
+        <a
+          href={'/t/' + task._id}
+          style={{ textDecoration: 'none' }}
+          target='_blank'
+          className='dt-title-anchor'
+        >
+          <div className='dt-sub-title'>I want someone to</div>
+          <div className='dt-title'>{task.headline}</div>
+        </a>
         <div className='dt-added-on'>
           Posted <span className='dt-date'>{moment(task.date).fromNow()}</span>{' '}
           • 0 applicants

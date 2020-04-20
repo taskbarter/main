@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { getCurrentProfile } from '../../actions/profileAction';
 import { createConnection } from '../../actions/socketActions';
-import '../../style/header.css';
 import workspace_icon from '../../style/inc/work.svg';
 import notif_icon from '../../style/inc/notif.svg';
 import msg_icon from '../../style/inc/msg.svg';
