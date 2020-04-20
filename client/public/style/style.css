@@ -1506,3 +1506,7 @@ fieldset > legend + * {
   display: block;
   position: absolute;
 }
+
+body {
+  padding-right: 0 !important;
+}
