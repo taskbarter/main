@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { getCurrentProfile } from '../../actions/profileAction';
-import '../../style/header.css';
+import { createConnection } from '../../actions/socketActions';
 import workspace_icon from '../../style/inc/work.svg';
 import notif_icon from '../../style/inc/notif.svg';
 import msg_icon from '../../style/inc/msg.svg';
@@ -21,11 +21,11 @@ class Header extends Component {
 
     this.state = {
       isMobileMenuOpened: false,
-      itemsStyling: 'nav-items'
+      itemsStyling: 'nav-items',
     };
   }
 
-  onLogoutClick = e => {
+  onLogoutClick = (e) => {
     e.preventDefault();
     this.props.logoutUser();
   };
@@ -37,13 +37,21 @@ class Header extends Component {
     }
     this.setState({
       isMobileMenuOpened: !this.state.isMobileMenuOpened,
-      itemsStyling: newS
+      itemsStyling: newS,
     });
   };
 
   componentDidMount() {
-    this.props.getCurrentProfile();
+    if (this.props.auth.isAuthenticated) {
+      this.props.getCurrentProfile().then(() => {
+        //this.props.createConnection(this.props.auth);
+      });
+    }
   }
+
+  onClickOnLogo = () => {
+    this.props.history.push('/');
+  };
 
   render() {
     const user_info = this.props.profile;
@@ -51,7 +59,7 @@ class Header extends Component {
       return (
         <header className='main-header-v2'>
           <div className='header-container'>
-            <img src={logo} className='logo' />
+            <img onClick={this.onClickOnLogo} src={logo} className='logo' />
             <span className={this.state.itemsStyling}>
               <a onClick={this.onMobMenuOpen} className='menu-toggler-close'>
                 <span className='navbar-toggler-icon'>
@@ -175,8 +183,16 @@ class Header extends Component {
                   <Link exact='true' to='/me' className='link-no-style'>
                     <span className='profile-menu-item'>My Profile</span>
                   </Link>
+                  <Link exact='true' to='/mytasks' className='link-no-style'>
+                    <span className='profile-menu-item'>My Added Tasks</span>
+                  </Link>
+                  <Link exact='true' to='/mywork' className='link-no-style'>
+                    <span className='profile-menu-item'>My Work</span>
+                  </Link>
 
-                  <span className='profile-menu-item'>Settings</span>
+                  <Link exact='true' to='/settings' className='link-no-style'>
+                    <span className='profile-menu-item'>Settings</span>
+                  </Link>
                   <hr />
                   <a onClick={this.onLogoutClick} className='profile-menu-item'>
                     Logout
@@ -201,12 +217,14 @@ class Header extends Component {
 
 Header.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
 });
 export default withRouter(
-  connect(mapStateToProps, { logoutUser, getCurrentProfile })(Header)
+  connect(mapStateToProps, { logoutUser, getCurrentProfile, createConnection })(
+    Header
+  )
 );

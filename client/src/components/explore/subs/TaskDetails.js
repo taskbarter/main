@@ -5,15 +5,17 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Tooltip
+  Tooltip,
+  Spinner,
 } from 'reactstrap';
 import bookmark_icon from '../../../style/inc/bookmark.svg';
 import share_icon from '../../../style/inc/share.svg';
 import { fetchTask } from '../../../actions/taskAction';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import TLoader from '../../utils/TLoader';
 
-const TaskDetails = props => {
+const TaskDetails = (props) => {
   const { modal, toggle } = props;
 
   const [task, setTask] = useState({});
@@ -21,16 +23,16 @@ const TaskDetails = props => {
   useEffect(() => {
     console.log(task);
   }, [task]);
-  const handleChange = newTask => {
+  const handleChange = (newTask) => {
     setTask(newTask);
   };
   const modalOpened = () => {
-    props.fetchTask(props.selected_task).then(payload => {
+    props.fetchTask(props.selected_task).then((payload) => {
       handleChange(payload.taskData[0]);
     });
   };
 
-  const skillsbadges2 = skills => {
+  const skillsbadges2 = (skills) => {
     if (skills) {
       let fsix = skills;
 
@@ -50,17 +52,40 @@ const TaskDetails = props => {
     setTask({});
   };
 
+  if (!task.headline) {
+    return (
+      <Modal
+        isOpen={modal}
+        toggle={toggle}
+        onOpened={modalOpened}
+        onClosed={modalClosed}
+        className='dt-modal dt-loading fade-scale'
+      >
+        <ModalBody className='dt-body loading'>
+          <TLoader colored={true} />
+        </ModalBody>
+      </Modal>
+    );
+  }
+
   return (
     <Modal
       isOpen={modal}
       toggle={toggle}
       onOpened={modalOpened}
       onClosed={modalClosed}
-      className='dt-modal'
+      className='dt-modal fade-scale'
     >
       <ModalHeader toggle={toggle} className='dt-header'>
-        <div className='dt-sub-title'>I want someone to</div>
-        <div className='dt-title'>{task.headline}</div>
+        <a
+          href={'/t/' + task._id}
+          style={{ textDecoration: 'none' }}
+          target='_blank'
+          className='dt-title-anchor'
+        >
+          <div className='dt-sub-title'>I want someone to</div>
+          <div className='dt-title'>{task.headline}</div>
+        </a>
         <div className='dt-added-on'>
           Posted <span className='dt-date'>{moment(task.date).fromNow()}</span>{' '}
           • 0 applicants
@@ -83,7 +108,10 @@ const TaskDetails = props => {
             ></img>
           </div>
           <div className='feed-card--footer-right '>
-            <button className='feed-card-learn-more dt-action-btn'>
+            <button
+              onClick={props.proposal_toggle}
+              className='feed-card-learn-more dt-action-btn'
+            >
               Send Proposal
             </button>
           </div>
@@ -100,10 +128,10 @@ const TaskDetails = props => {
         <div className='task-list-title dt-title mb-1'>Skills</div>
         <div className='mb-2 mt-1'>{skillSection}</div>
         <div className='task-list-title dt-title'>Description</div>
-        <div className='mb-2 ql-editor dt-description'>
+        <div className='mb-2 mt-1 ql-editor dt-description'>
           <div
             dangerouslySetInnerHTML={{
-              __html: task.description
+              __html: task.description,
             }}
           ></div>
         </div>
@@ -130,5 +158,5 @@ const TaskDetails = props => {
 };
 
 export default connect(null, {
-  fetchTask
+  fetchTask,
 })(TaskDetails);

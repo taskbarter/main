@@ -9,6 +9,11 @@
   border-color: #493e85;
 }
 
+.btn-primary:hover {
+  background-color: #3a306d;
+  border-color: #3a306d;
+}
+
 .task-search-box {
   font-size: 1rem;
   padding-left: 3rem;
@@ -17,11 +22,14 @@
 }
 
 .dt-description {
-  padding: 0px;
   font-size: 13px;
   border: #efefef solid 1px;
   border-radius: 3px;
   background: #fcfcff;
+}
+
+.dt-modal .dt-loading {
+  min-height: 300px;
 }
 
 .search-container {
@@ -377,10 +385,20 @@
 
 .dt-modal {
   max-width: 80%;
+  -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.pro-modal {
+  max-width: 60%;
+  margin-top: 22vh;
 }
 
 @media (max-width: 576px) {
   .dt-modal {
+    max-width: 100%;
+  }
+  .pro-modal {
     max-width: 100%;
   }
 }
@@ -395,6 +413,15 @@
   /* padding-top: 0; */
   overflow-y: scroll;
   max-height: 68vh;
+  min-height: 35vh;
+  transition: min-height 0.7s linear;
+}
+
+.dt-body.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 74vh;
 }
 
 .dt-action-box {
@@ -410,4 +437,105 @@
 .dt-action-btn {
   font-size: 14px;
   padding: 3px 8px;
+}
+
+.description-editor {
+  padding: 0px;
+}
+
+.task-list-dashboard {
+  grid-template: auto/1fr [end];
+}
+
+@media only screen and (min-width: 32em) {
+  .task-list-dashboard {
+    grid-template: auto/repeat(1, 1fr) [end];
+  }
+}
+
+@media only screen and (min-width: 48em) {
+  .task-list-dashboard {
+    grid-template: auto/repeat(2, 1fr) [end];
+  }
+}
+
+.pro-textarea {
+  margin-top: 9px;
+  resize: none;
+}
+
+.profile-skills {
+  cursor: pointer;
+  transition: ease-in-out;
+}
+
+.profile-skills:hover {
+  background-color: #3a306d;
+  color: white;
+}
+
+.mytasks-container {
+  max-width: 64.5rem;
+  margin-top: 30px;
+}
+
+.mytasks-section {
+  padding: 0.9375rem;
+  margin-bottom: 0.9375rem;
+  overflow: hidden;
+  border-radius: 0.3125rem;
+  border: 1px solid #d6dae0;
+  background: #fff;
+  -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.mytasks-tabs {
+  display: flex !important;
+}
+
+.mytasks-tabs .active {
+  text-shadow: none;
+  font-weight: 500;
+  color: #493e85 !important;
+  border-top: #493e85 solid 2px;
+}
+
+.mytasks-table {
+  margin-top: 27px;
+  width: 105%;
+  max-width: 105%;
+  margin-bottom: 1rem;
+  margin-left: -15px;
+  border-top: #433881 solid 3px;
+  background-color: transparent;
+}
+
+@media only screen and (max-width: 32em) {
+  .mytasks-date,
+  .mytasks-date-h {
+    display: none;
+  }
+  .mytasks-table,
+  .mytasks-tabs,
+  .mytasks-note {
+    font-size: 12px;
+  }
+}
+
+.taskv-loader {
+  display: flex;
+  height: 90vh;
+}
+
+.dv-title {
+  font-weight: 500;
+}
+
+.dt-title-anchor {
+  text-decoration: none;
+  color: inherit;
+}
+.dt-title-anchor:hover {
+  color: inherit;
 }

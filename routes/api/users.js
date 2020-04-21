@@ -15,29 +15,34 @@ const PersonalDetails = require('../../models/PersonalDetails');
 
 const htmlForConfirmation = require('../../emails/confirmation');
 
-var sendEmailVerification = function(newUser) {
+var sendEmailVerification = function (newUser) {
   //Generate Token For email verification
   const tokenG = {
     user: {
-      id: newUser.id
-    }
+      id: newUser.id,
+    },
   };
 
   console.log(
-    'Name: ' + newUser.first_name + ' => sending email to: ' + newUser.email
+    'Name: ' +
+      newUser.first_name +
+      ' => sending email to:' +
+      newUser.email +
+      ' => id: ' +
+      newUser.id
   );
   jwt.sign(
     tokenG,
     keys.jwtSecret,
     {
-      expiresIn: 3600 // 1 hour
+      expiresIn: 3600, // 1 hour
     },
     (err, token) => {
       if (err) throw err;
       var transporter = nodemailer.createTransport({
         service: 'gmail',
         tls: {
-          rejectUnauthorized: false
+          rejectUnauthorized: false,
         },
         auth: {
           type: 'OAuth2',
@@ -45,8 +50,8 @@ var sendEmailVerification = function(newUser) {
           clientId: process.env.GMAIL_CLIENT_ID,
           clientSecret: process.env.GMAIL_CLIENT_SECRET,
           refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-          accessToken: process.env.GMAIL_ACCESS_TOKEN
-        }
+          accessToken: process.env.GMAIL_ACCESS_TOKEN,
+        },
       });
 
       var mailOptions = {
@@ -61,10 +66,10 @@ var sendEmailVerification = function(newUser) {
           newUser.second_name,
           newUser.email,
           'https://www.taskbarter.com/confirmation/' + token
-        )
+        ),
       };
 
-      transporter.sendMail(mailOptions, function(error, info) {
+      transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log(error);
         } else {
@@ -85,29 +90,33 @@ router.post('/register', (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  User.findOne({ email: req.body.email }).then(user => {
+  User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       return res.status(400).json({ email: 'Email already exists' });
     }
-    User.findOne({ name: req.body.name }).then(user => {
+    User.findOne({ name: req.body.name }).then((user) => {
       if (user) {
         return res.status(400).json({ email: 'Username already exists' });
       } else {
         const newUser = {
           name: req.body.name,
           email: req.body.email,
-          password: req.body.password
+          password: req.body.password,
         };
         const userPersonalDetails = {
           first_name: req.body.fname,
-          second_name: req.body.sname
+          second_name: req.body.sname,
         };
         createProfileAuth(newUser, userPersonalDetails)
-          .then(user => {
-            sendEmailVerification({ ...newUser, ...userPersonalDetails });
+          .then((user) => {
+            sendEmailVerification({
+              ...newUser,
+              ...userPersonalDetails,
+              id: user._id,
+            });
             return res.json(user);
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             return res.status(500).json({ errMsg: 'Server did not respond.' });
           });
@@ -116,7 +125,7 @@ router.post('/register', (req, res) => {
   });
 });
 
-const createProfileAuth = async function(auth, profile) {
+const createProfileAuth = async function (auth, profile) {
   try {
     const encrypted_pass = await hashPassword(auth.password);
     auth = { ...auth, password: encrypted_pass };
@@ -139,7 +148,7 @@ async function hashPassword(pass) {
   const saltRounds = 10;
 
   const hashedPassword = await new Promise((resolve, reject) => {
-    bcrypt.hash(password, saltRounds, function(err, hash) {
+    bcrypt.hash(password, saltRounds, function (err, hash) {
       if (err) reject(err);
       resolve(hash);
     });
@@ -163,44 +172,51 @@ router.post('/login', (req, res) => {
   const name = req.body.email;
 
   checkUserForLogin({ name, password })
-    .then(user => {
+    .then((user) => {
       // Create JWT Payload
       const payload = {
         id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
       };
       // Sign token
       jwt.sign(
         payload,
         keys.secretOrKey,
         {
-          expiresIn: 31556926 // 1 year in seconds
+          expiresIn: 31556926, // 1 year in seconds
         },
         (err, token) => {
           res.json({
             success: true,
-            token: 'Bearer ' + token
+            token: 'Bearer ' + token,
           });
         }
       );
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       return res.status(404).json(err);
     });
 });
 
-const checkUserForLogin = async function(user_data) {
+const checkUserForLogin = async function (user_data) {
   try {
     const user = await User.findOne({
-      $or: [{ email: user_data.name }, { name: user_data.name }]
+      $or: [{ email: user_data.name }, { name: user_data.name }],
     });
 
     if (!user) {
       if (!user && user_data.name.includes('@'))
-        return Promise.reject({ emailnotfound: 'Email not found' });
-      else return Promise.reject({ usernamenotfound: 'Username not found' });
+        return Promise.reject({
+          emailnotfound: 'Email not found',
+          message: 'Email not found.',
+        });
+      else
+        return Promise.reject({
+          usernamenotfound: 'Username not found',
+          message: 'Username not found.',
+        });
     }
 
     const isPassCorrect = await bcrypt.compare(
@@ -208,7 +224,10 @@ const checkUserForLogin = async function(user_data) {
       user.password
     );
     if (!isPassCorrect) {
-      return Promise.reject({ passwordincorrect: 'Incorrect password' });
+      return Promise.reject({
+        passwordincorrect: 'Incorrect password',
+        message: 'Password you entered is incorrect.',
+      });
     }
 
     if (!user.isEmailVerified) {
@@ -216,12 +235,14 @@ const checkUserForLogin = async function(user_data) {
       sendEmailVerification({
         email: user.email,
         first_name: details.first_name,
-        second_name: details.second_name
+        second_name: details.second_name,
+        id: user._id,
       });
       return Promise.reject({
         emailnotverified:
           'Please verify your email address to login. <br/>Verification email sent to ' +
-          user.email
+          user.email,
+        message: 'Your email is not yet verified.',
       });
     }
     return Promise.resolve(user);
@@ -248,13 +269,13 @@ router.post('/userpersonaldetails', (req, res) => {
     DobMonth: req.body.DobMonth,
     DobYear: req.body.DobYear,
     PhoneNo: req.body.PhoneNo,
-    gender: req.body.gender
+    gender: req.body.gender,
   });
 
   userpersonaldetails
     .save()
     .then(console.log('User details inserted'))
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 });
 
 module.exports = router;

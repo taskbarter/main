@@ -30,7 +30,7 @@ var validate = function(key, val) {
   if (key === 'description') {
     console.log('description', val);
     regex = /^.{25,4000}$/;
-    if (/^.{1,25}$/.test(val)) {
+    if (val.length < 25) {
       return 'Your requirements must at least be 25 characters long.';
     }
     if (val.length > 4000) {

@@ -122,6 +122,14 @@ class Login extends Component {
           ) : (
             ''
           )}
+          {this.getParams(this.props.location).v === '2' ? (
+            <div className='alert alert-success text-center'>
+              <strong>Success: </strong> Your email has been verified. Please
+              login again to continue
+            </div>
+          ) : (
+            ''
+          )}
           <div className='form-label-group'>
             <input
               onChange={this.onChange}

@@ -15,9 +15,3 @@
   transition: opacity 1s ease, text-shadow 1s ease;
   will-change: opacity, text-shadow;
 }
-
-.active {
-  color: #433881;
-  opacity: 1;
-  text-shadow: 0 0px 8px;
-}

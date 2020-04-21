@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
 import { getTasksCount } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
-import { toggleLike, doExplore } from '../../actions/taskAction';
+import { toggleLike, doExplore, sendProposal } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 import FilterMenu from './filters/FilterMenu';
@@ -13,6 +13,7 @@ import '../../style/task.css';
 import FeedCard from './subs/FeedCard';
 import TaskCard from './subs/TaskCard';
 import TaskDetails from './subs/TaskDetails';
+import ProposalForm from './subs/ProposalForm';
 import 'quill/dist/quill.snow.css';
 
 class ExploreTasks extends Component {
@@ -29,13 +30,16 @@ class ExploreTasks extends Component {
       industry_filter: [],
       first_time: true,
       detail_popup_is_open: false,
-      selected_task: 0
+      selected_task: 0,
+      proposal_popup_is_open: false,
+      proposal_text: '',
+      proposal_loading: false,
     };
   }
 
   componentDidMount() {
-    let filters = this.fetchFilters();
-    this.updateFeed(filters, false);
+    this.updateFeed(false);
+    console.log('component mounted');
     //console.log(filters);
     //document.addEventListener('scroll', this.trackScrolling);
   }
@@ -45,10 +49,15 @@ class ExploreTasks extends Component {
 
   task_detail_toggle = () => {
     this.setState({
-      detail_popup_is_open: !this.state.detail_popup_is_open
+      detail_popup_is_open: !this.state.detail_popup_is_open,
     });
   };
 
+  proposal_toggle = () => {
+    this.setState({
+      proposal_popup_is_open: !this.state.proposal_popup_is_open,
+    });
+  };
   trackScrolling = () => {
     const wrappedElement = document.getElementById('explore-container');
     if (this.isBottom(wrappedElement)) {
@@ -58,7 +67,7 @@ class ExploreTasks extends Component {
     }
   };
 
-  isBottom = el => {
+  isBottom = (el) => {
     if (el && el.getBoundingClientRect()) {
       return el.getBoundingClientRect().bottom <= window.innerHeight;
     } else return false;
@@ -70,7 +79,7 @@ class ExploreTasks extends Component {
       .doExplore(filters, shouldAppend)
       .then(() => {
         this.setState({
-          current_segment: this.state.current_segment + 1
+          current_segment: this.state.current_segment + 1,
         });
       })
       .then(() => {
@@ -86,16 +95,16 @@ class ExploreTasks extends Component {
       r: this.state.sort_by,
       k: this.state.skills_filter,
       l: this.state.location_filter,
-      i: this.state.industry_filter
+      i: this.state.industry_filter,
     };
     return explored_filters;
   };
 
-  onSearch = e => {
+  onSearch = (e) => {
     if (e.target.value === '') {
       this.setState(
         {
-          current_segment: 0
+          current_segment: 0,
         },
         () => {
           this.updateFeed(false);
@@ -103,15 +112,15 @@ class ExploreTasks extends Component {
       );
     }
     this.setState({
-      search_query: e.target.value
+      search_query: e.target.value,
     });
   };
 
-  onEnterPress = e => {
+  onEnterPress = (e) => {
     if (e.key === 'Enter') {
       this.setState(
         {
-          current_segment: 0
+          current_segment: 0,
         },
         () => {
           this.updateFeed(false);
@@ -120,10 +129,43 @@ class ExploreTasks extends Component {
     }
   };
 
-  onTaskSelect = task_id => {
+  onTaskSelect = (task_id) => {
     this.setState({ selected_task: task_id }, () => {
       this.task_detail_toggle();
     });
+  };
+
+  changeProposalText = (t) => {
+    if (t) {
+      this.setState({
+        proposal_text: t.target.value,
+      });
+    } else {
+      this.setState({
+        proposal_text: '',
+      });
+    }
+  };
+
+  sendProposal = () => {
+    const payload = {
+      text: this.state.proposal_text,
+      task_id: this.state.selected_task,
+    };
+    this.setState(
+      {
+        proposal_loading: true,
+      },
+      () => {
+        this.props.sendProposal(payload).then(() => {
+          this.setState({
+            proposal_popup_is_open: false,
+            proposal_text: '',
+            proposal_loading: false,
+          });
+        });
+      }
+    );
   };
 
   render() {
@@ -160,6 +202,16 @@ class ExploreTasks extends Component {
           toggle={this.task_detail_toggle}
           modal={this.state.detail_popup_is_open}
           selected_task={this.state.selected_task}
+          proposal_toggle={this.proposal_toggle}
+        />
+        <ProposalForm
+          toggle={this.proposal_toggle}
+          modal={this.state.proposal_popup_is_open}
+          selected_task={this.state.selected_task}
+          proposal_text={this.state.proposal_text}
+          changeProposalText={this.changeProposalText}
+          sendProposal={this.sendProposal}
+          proposalLoading={this.state.proposal_loading}
         />
       </div>
     );
@@ -172,17 +224,18 @@ ExploreTasks.propTypes = {
   getAllTasks: PropTypes.func.isRequired,
   toggleLike: PropTypes.func.isRequired,
   getTasksCount: PropTypes.func.isRequired,
-  doExplore: PropTypes.func.isRequired
+  doExplore: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   task: state.task,
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getAllTasks,
   toggleLike,
   getTasksCount,
-  doExplore
+  doExplore,
+  sendProposal,
 })(ExploreTasks);

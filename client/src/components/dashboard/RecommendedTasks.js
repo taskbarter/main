@@ -1,114 +1,150 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAllTasks } from '../../actions/taskAction';
+import { fetch_workplace_tasks } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
-import { toggleLike } from '../../actions/taskAction';
+import { toggleLike, sendProposal } from '../../actions/taskAction';
+import TaskCard from '../explore/subs/TaskCard';
+import TaskDetails from '../explore/subs/TaskDetails';
+import ProposalForm from '../explore/subs/ProposalForm';
 
-const RecommendedTasks = props => {
-  useEffect(() => {
-    props.getAllTasks(3);
-  }, []);
-  // if (props.task.tasks.length < 1 && !props.task.loading) {
-  //   props.getAllTasks(3);
-  // }
-  const allTasks = props.task.tasks;
-  //testing comment
-  const heartClick = (e, id) => {
-    if (document.getElementById(e.target.id).classList.contains('far')) {
-      document.getElementById(e.target.id).classList.remove('far');
-      document.getElementById(e.target.id).classList.add('fas');
-    } else {
-      document.getElementById(e.target.id).classList.remove('fas');
-      document.getElementById(e.target.id).classList.add('far');
-    }
-    props.toggleLike(id);
+class RecommendedTasks extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      detail_popup_is_open: false,
+      selected_task: 0,
+      workplaceTasks: [],
+      proposal_popup_is_open: false,
+      proposal_text: '',
+      proposal_loading: false,
+    };
+  }
+
+  fetchFilters = () => {
+    const explored_filters = {
+      c: 0,
+      z: 2,
+      s: '',
+      r: '',
+      k: '',
+      l: '',
+      i: '',
+    };
+    return explored_filters;
   };
 
-  const preHeartFun = likes => {
-    const { auth } = props;
-    var i;
-    if (likes.filter(like => like.user === auth.user.id).length > 0) {
-      i = 'fas';
-    } else {
-      i = 'far';
-    }
-    return i;
+  componentDidMount() {
+    this.props
+      .fetch_workplace_tasks()
+      .then(() => {
+        console.log(this.props.tasks);
+        this.setState({
+          workplaceTasks: this.props.tasks,
+        });
+      })
+      .then(() => {
+        //this.props.doExplore({}, false);
+      });
+  }
+  onTaskSelect = (task_id) => {
+    this.setState({ selected_task: task_id }, () => {
+      this.task_detail_toggle();
+    });
   };
 
-  const alltasksDOM = [];
-  //allTasks.map((tsk, i) => (
-  //   <div className='task-entry mb-1' key={tsk._id}>
-  //     <div className='task-entry-body'>
-  //       <div id='task-statement'>{tsk.headline}</div>
-  //       <div id='task-details'>
-  //         {tsk.description} (<a href='#!'>more</a>)
-  //       </div>
-  //       <a href='#!' className='task-more-options'>
-  //         <i className='fa fa-ellipsis-v' aria-hidden='true' />
-  //       </a>
-  //       <div className='row mt-2'>
-  //         <div className='col-sm-8'>
-  //           {tsk.skills.map((skl, index) => (
-  //             <div className='task-category' key={tsk._id + index}>
-  //               {skl}
-  //             </div>
-  //           ))}
-  //         </div>
-  //         <div id={tsk._id + 'date'} className='col-sm-4 task-date'>
-  //           <div>{dateEpx(tsk.date)}</div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div className='task-footer'>
-  //       <span className='task-fav'>
-  //         <i
-  //           onClick={e => heartClick(e, tsk._id)}
-  //           id={tsk._id + 'heart'}
-  //           className={preHeartFun(tsk.likes) + ' fa-heart fa-fw'}
-  //         />
-  //       </span>
-  //       <button className='btn task-hire-btn'>Send Proposal</button>
-  //       <div className='task-points'>
-  //         {tsk.taskpoints} <span className='task-points-curr'>TP</span>
-  //       </div>
-  //       <div className='task-rating'>
-  //         <i className='fas fa-star fa-fw' />
-  //         <i className='fas fa-star fa-fw' />
-  //         <i className='fas fa-star fa-fw' />
-  //         <i className='fas fa-star-half-alt' />
-  //         <i className='far fa-star fa-fw' />
-  //         <span className='rating-info'>(25 reviews)</span>
-  //       </div>
-  //     </div>
-  //   </div>
-  // ));
+  task_detail_toggle = () => {
+    this.setState({
+      detail_popup_is_open: !this.state.detail_popup_is_open,
+    });
+  };
 
-  return (
-    <div className='card card-body'>
-      <div className='tasks-heading'>Recently Added Tasks</div>
+  changeProposalText = (t) => {
+    if (t) {
+      this.setState({
+        proposal_text: t.target.value,
+      });
+    } else {
+      this.setState({
+        proposal_text: '',
+      });
+    }
+  };
 
-      <div className='tasks-entries pt-2'>{alltasksDOM}</div>
-      <Link to='/explore'>
-        <button className='mt-3 btn redeem-btn'>Explore More Work</button>
-      </Link>
-    </div>
-  );
-};
+  sendProposal = () => {
+    const payload = {
+      text: this.state.proposal_text,
+      task_id: this.state.selected_task,
+    };
+    this.setState(
+      {
+        proposal_loading: true,
+      },
+      () => {
+        this.props.sendProposal(payload).then(() => {
+          this.setState({
+            proposal_popup_is_open: false,
+            proposal_text: '',
+            proposal_loading: false,
+          });
+        });
+      }
+    );
+  };
+  proposal_toggle = () => {
+    this.setState({
+      proposal_popup_is_open: !this.state.proposal_popup_is_open,
+    });
+  };
+  render() {
+    return (
+      <div className='card card-body'>
+        <div className='tasks-heading'>Recently Added Tasks</div>
+        <br />
+        <div className='task-list-container task-list-dashboard'>
+          {this.state.workplaceTasks.map((task, i) => (
+            <TaskCard task={task} key={i} onClick={this.onTaskSelect} />
+          ))}
+        </div>
+        <Link to='/explore'>
+          <button className='mt-3 btn redeem-btn'>Explore More Work</button>
+        </Link>
+
+        <TaskDetails
+          toggle={this.task_detail_toggle}
+          modal={this.state.detail_popup_is_open}
+          selected_task={this.state.selected_task}
+          proposal_toggle={this.proposal_toggle}
+        />
+        <ProposalForm
+          toggle={this.proposal_toggle}
+          modal={this.state.proposal_popup_is_open}
+          selected_task={this.state.selected_task}
+          proposal_text={this.state.proposal_text}
+          changeProposalText={this.changeProposalText}
+          sendProposal={this.sendProposal}
+          proposalLoading={this.state.proposal_loading}
+        />
+      </div>
+    );
+  }
+}
 
 RecommendedTasks.propTypes = {
-  task: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  getAllTasks: PropTypes.func.isRequired,
-  toggleLike: PropTypes.func.isRequired
+  fetch_workplace_tasks: PropTypes.func.isRequired,
+  toggleLike: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  task: state.task,
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  tasks: state.task.workplace_tasks,
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getAllTasks, toggleLike })(
-  RecommendedTasks
-);
+export default connect(mapStateToProps, {
+  fetch_workplace_tasks,
+  toggleLike,
+  sendProposal,
+})(RecommendedTasks);

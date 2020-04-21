@@ -47,21 +47,17 @@ const DescriptionEditor = props => {
     }
   }, [quill]);
 
-  const handleChange = e => {
-    console.log(e);
-  };
-
   if (quill) {
     // quill.on('text-change', function(delta, oldDelta, source) {
     //   props.handleChange(quill.root.innerHTML, '');
     // });
   }
 
-  if (quill) console.log(quill.getText());
-  console.log(quillRef);
+  //if (quill) console.log(quill.getText());
+  //console.log(quillRef);
   return (
     <div className='form-control description-editor'>
-      <div onChange={handleChange} ref={quillRef} />
+      <div ref={quillRef} />
     </div>
   );
 };

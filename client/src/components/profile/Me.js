@@ -60,7 +60,11 @@ class Me extends Component {
   };
 
   componentDidMount() {
-    this.props.getCurrentProfile();
+    this.props.getCurrentProfile().then(() => {
+      this.setState({
+        current_dob: this.props.profile.profile.dob,
+      });
+    });
   }
 
   toggleCurrentlyWorking = () => {
@@ -79,6 +83,7 @@ class Me extends Component {
     } else {
       this.setState({
         isFirstEditDialogOpenned: true,
+        current_dob: new Date(this.props.profile.profile.dob),
       });
     }
   };

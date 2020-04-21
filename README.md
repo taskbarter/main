@@ -15,7 +15,9 @@ Back-end developer; handling core parts of the App including Workspace, Messagin
 3. **[Ahmed Hasan](https://github.com/ahmadx16)**
 Full Stack developer handling profile system and task management system in the app.
 4. **[Muhammad Nouman](https://github.com/Muhammad1Nouman)**
-Back-end developer responsible for user accounts, profiles and account security.
+Back-end developer responsible for miscellaneous tasks.
+5. **[Daniyal Ikhlaq](https://github.com/IMDaniyal)**
+Fullstack developer responsible for user accounts, profiles and account security.
 
 ### Main Modules of the App
 * **Dashboard**

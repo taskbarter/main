@@ -7,14 +7,16 @@ import {
   GET_TASKS_COUNT,
   TASKS_COUNT_LOADING,
   APPEND_TASKS,
-  EMPTY_TASKS
+  EMPTY_TASKS,
+  SET_WORKPLACE_TASKS
 } from '../actions/types';
 
 const initialState = {
   tasksCount: 0,
   tasks: [],
   task: {},
-  loading: false
+  loading: false,
+  workplace_tasks: []
 };
 
 export default function(state = initialState, action) {
@@ -49,6 +51,12 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         tasks: state.tasks.concat(action.payload)
+      };
+
+    case SET_WORKPLACE_TASKS:
+      return {
+        ...state,
+        workplace_tasks: action.payload
       };
 
     case GET_TASKS_COUNT:

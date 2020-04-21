@@ -109,6 +109,7 @@ class AddTask extends Component {
     } = this.state;
 
     const description = this.state.quillObj.getText();
+
     let err = '';
     err =
       validate('headline', headline) || validate('description', description);

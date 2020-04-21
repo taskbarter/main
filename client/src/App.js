@@ -18,6 +18,13 @@ import UserProfileNew from './components/profile/steps/UserProfileNew';
 import Header from './components/layout/Header';
 import Messages from './components/message/Messages';
 import Me from './components/profile/Me';
+import Notifications from './components/notifications/Notifications';
+import Footer from './components/layout/Footer';
+import MyTasks from './components/task/MyTasks';
+import TaskMain from './components/task/TaskMain';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './style/header.css';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -51,13 +58,25 @@ class App extends Component {
             <Route exact path='/landing' component={Landing} />
             <Route exact path='/UserInfo' component={UserInfo} />
             <Route exact path='/user-new' component={UserProfileNew} />
+            <Route exact path='/t/:id' component={TaskMain} />
             <Switch>
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/add' component={AddTask} />
               <PrivateRoute exact path='/explore' component={Explore} />
+              {/* <PrivateRoute path='/messages' component={Messages}>
+                <PrivateRoute path='/messages/:id' component={Messages} />
+              </PrivateRoute> */}
               <PrivateRoute exact path='/messages' component={Messages} />
+              <PrivateRoute exact path='/messages/:id' component={Messages} />
+              <PrivateRoute
+                exact
+                path='/notifications'
+                component={Notifications}
+              />
               <PrivateRoute exact path='/me' component={Me} />
+              <PrivateRoute exact path='/mytasks' component={MyTasks} />
             </Switch>
+            <ToastContainer />
           </div>
         </Router>
       </Provider>
