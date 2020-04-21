@@ -19,7 +19,7 @@ const tasks = require('./routes/api/tasks');
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: false
   })
 );
 app.use(bodyParser.json());
@@ -29,7 +29,7 @@ const db = require('./config/keys').mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log('MongoDB successfully connected'))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
@@ -42,7 +42,7 @@ app.use('/api/users', users);
 app.get('/confirmation/:token', async (request, response) => {
   try {
     const {
-      user: { id },
+      user: { id }
     } = jwt.verify(request.params.token, keys.jwtSecret);
     let nUser = await User.findOneAndUpdate(
       { _id: id },
@@ -80,7 +80,7 @@ var io = require('socket.io')(server);
 
 let socket_connections = new Socket_Connections();
 
-io.on('connection', function (socket) {
+io.on('connection', function(socket) {
   console.log('user connected..');
   require('./sockets/user_socket')(socket, io, socket_connections);
   require('./sockets/messages_socket')(socket, io, socket_connections);
