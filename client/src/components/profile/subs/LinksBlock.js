@@ -8,6 +8,7 @@ const LinksBlock = (props) => {
   if (!profile) {
     return <div>Loading...</div>;
   }
+
   return (
     <div className='card card-body redeem-points mb-2'>
       <div className='redeem-heading'>
@@ -17,13 +18,51 @@ const LinksBlock = (props) => {
           style={{ marginLeft: '-23px' }}
           className='btn notification-btn float-right'
         >
-          +
+          Edit
         </button>
       </div>
       <div
-        className='redeem-text'
-        style={{ textAlign: 'left', fontSize: '10px' }}
-      ></div>
+        className='profile-badge-categories mt-3'
+        style={{ color: 'red', fontSize: '20px' }}
+      >
+        {profile.social.youtube ? (
+          <a className='mx-2' href={profile.social.youtube} target='_blank'>
+            <i class='fab fa-youtube'></i>
+          </a>
+        ) : (
+          <i></i>
+        )}
+
+        {profile.social.twitter ? (
+          <a className='mx-2' href={profile.social.twitter} target='_blank'>
+            <i class='fab fa-twitter'></i>
+          </a>
+        ) : (
+          <i></i>
+        )}
+
+        {profile.social.facebook ? (
+          <a className='mx-2' href={profile.social.facebook} target='_blank'>
+            <i class='fab fa-facebook'></i>
+          </a>
+        ) : (
+          <i></i>
+        )}
+        {profile.social.linkedin ? (
+          <a className='mx-2' href={profile.social.linkedin} target='_blank'>
+            <i class='fab fa-linkedin'></i>
+          </a>
+        ) : (
+          <i></i>
+        )}
+        {profile.social.instagram ? (
+          <a className='mx-2' href={profile.social.instagram} target='_blank'>
+            <i class='fab fa-instagram-square'></i>
+          </a>
+        ) : (
+          <i></i>
+        )}
+      </div>
     </div>
   );
 };
