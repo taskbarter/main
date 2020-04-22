@@ -20,6 +20,19 @@ const ThirdBlock = (props) => {
           {' | '} &nbsp;
           <a href={pro.link}>Project Link</a>
         </div>
+        <button
+          onClick={() => props.editModal(i)}
+          className='btn notification-btn float-right'
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => props.deleteModal(i)}
+          className='btn delete-btn float-right'
+        >
+          Delete
+        </button>
+        <div className='clearfix'></div>
         <div className='experience-date'>
           from {month[new Date(pro.from).getMonth()]}{' '}
           {new Date(pro.from).getFullYear()} to{' '}

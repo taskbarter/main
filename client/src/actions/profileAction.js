@@ -134,6 +134,47 @@ export const addExperience = (newExperience) => async (dispatch) => {
   }
 };
 
+export const editExperience = (newExperience, index) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  console.log(newExperience);
+  try {
+    const res = await axios.post(
+      '/api/profile/experience/' + index,
+      newExperience,
+      config
+    );
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const deleteExperience = (index) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const res = await axios.delete('/api/profile/experience/' + index, config);
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const addProject = (newProject) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -153,6 +194,47 @@ export const addProject = (newProject) => async (dispatch) => {
   }
 };
 
+export const editProjects = (newProjects, index) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  console.log(newProjects);
+  try {
+    const res = await axios.post(
+      '/api/profile/project/' + index,
+      newProjects,
+      config
+    );
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const deleteProject = (index) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const res = await axios.delete('/api/profile/project/' + index, config);
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const addSkill = (newSkill) => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -166,6 +248,25 @@ export const addSkill = (newSkill) => async (dispatch) => {
   console.log(newSkill);
   try {
     const res = await axios.put('/api/profile/skill', newSkill, config);
+    dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const addLink = (newLink) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  console.log(newLink);
+  try {
+    const res = await axios.post('/api/profile/link', newLink, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);

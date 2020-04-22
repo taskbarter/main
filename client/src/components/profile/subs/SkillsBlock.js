@@ -33,10 +33,16 @@ const SkillsBlock = (props) => {
         Skills
         <button
           onClick={props.addModal}
-          style={{ marginLeft: '-23px' }}
           className='btn notification-btn float-right'
         >
           +
+        </button>
+        <button
+          onClick={props.deleteModal}
+          style={{ marginLeft: '-23px' }}
+          className='btn notification-btn float-right'
+        >
+          <i class='fas fa-pen'></i>
         </button>
       </div>
       <br />

@@ -278,14 +278,51 @@ router.put('/experience', [auth], async (req, res) => {
   }
 });
 
+router.post('/experience/:exp_id', [auth], async (req, res) => {
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+  }
+
+  const { title, company, location, from, to, current, description } = req.body;
+
+  const newExp = {
+    // it will even have id (perks of nosql document database)
+    //rather having saperate relation table and diong keys relation
+    title,
+    company,
+    location,
+    from,
+    to,
+    current,
+    description,
+  };
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    if (profile) {
+      profile.experience[req.params.exp_id] = newExp;
+      let tprofile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: { experience: profile.experience } },
+        { new: true }
+      );
+      console.log(profile.experience);
+      res.json(tprofile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   DELETE api/profile/experience/:epx_id
 // @desc    Delete experience from profile
 // @access  Private
 
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id });
-
+    const profile = await PersonalDetails.findOne({ user: req.user.id });
     // get remove index
     const removeIndex = profile.experience
       .map((item) => item.id)
@@ -457,6 +494,64 @@ router.put('/project', [auth], async (req, res) => {
   }
 });
 
+router.post('/project/:exp_id', [auth], async (req, res) => {
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+  }
+
+  const { title, link, location, from, to, current, description } = req.body;
+
+  const newProject = {
+    // it will even have id (perks of nosql document database)
+    //rather having saperate relation table and diong keys relation
+    title,
+    link,
+    location,
+    from,
+    to,
+    current,
+    description,
+  };
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    console.log(profile.projects);
+    if (profile) {
+      profile.projects[req.params.exp_id] = newProject;
+      let tprofile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: { projects: profile.projects } },
+        { new: true }
+      );
+      console.log(profile.projects);
+      res.json(tprofile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.delete('/project/:exp_id', auth, async (req, res) => {
+  try {
+    const profile = await PersonalDetails.findOne({ user: req.user.id });
+    // get remove index
+    const removeIndex = profile.projects
+      .map((item) => item.id)
+      .indexOf(req.params.exp_id);
+    // may need check if not found
+    profile.projects.splice(removeIndex, 1);
+    console.log(removeIndex);
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 router.put('/skill', [auth], async (req, res) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -483,6 +578,38 @@ router.put('/skill', [auth], async (req, res) => {
       );
       console.log(profile.skills);
       res.json(tprofile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.post('/link', [auth], async (req, res) => {
+  const { youtube, twitter, facebook, linkedin, instagram } = req.body;
+
+  const links = {}; // empty object?  // runtime object??
+  const temLinks = {
+    youtube: youtube,
+    twitter: twitter,
+    facebook: facebook,
+    linkedin: linkedin,
+    instagram: instagram,
+  };
+  console.log('updating links...' + req.user.id);
+  links.user = req.user.id;
+  links.social = temLinks;
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    if (profile) {
+      // update profile
+      profile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: links },
+        { new: true }
+      );
+      return res.json(profile);
     }
   } catch (err) {
     console.error(err.message);

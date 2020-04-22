@@ -17,13 +17,13 @@ const SecondBlock = (props) => {
       <div className='experience-row' key={i}>
         <span className='experience-title'>{exp.title}</span>
         <button
-          onClick={props.editModal}
+          onClick={() => props.editModal(i)}
           className='btn notification-btn float-right'
         >
           Edit
         </button>
         <button
-          onClick={props.editModal}
+          onClick={() => props.deleteModal(i)}
           className='btn delete-btn float-right'
         >
           Delete

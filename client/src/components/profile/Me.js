@@ -7,8 +7,13 @@ import {
   updateProfile,
   updateStatus,
   addExperience,
+  editExperience,
+  deleteExperience,
+  deleteProject,
+  editProjects,
   addProject,
   addSkill,
+  addLink,
 } from '../../actions/profileAction';
 import '../../style/profile/profile_page.css';
 import FirstBlock from './subs/FirstBlock';
@@ -19,8 +24,12 @@ import SkillsBlock from './subs/SkillsBlock';
 import LinksBlock from './subs/LinksBlock';
 import EditFirst from './edit/EditFirst';
 import AddSecond from './edit/AddSecond';
+import EditSecond from './edit/EditSecond';
 import AddThird from './edit/AddThird';
+import EditThird from './edit/EditThird';
 import AddSkills from './edit/AddSkills';
+import DeleteSkills from './edit/DeleteSkills';
+import AddLinks from './edit/AddLinks';
 
 class Me extends Component {
   constructor(props) {
@@ -28,14 +37,28 @@ class Me extends Component {
     this.state = {
       isFirstEditDialogOpenned: false,
       isSecondAddDialogOpenned: false,
+      isSecondEditDialogOpenned: false,
       isThirdAddDialogOpenned: false,
+      isThirdEditDialogOpenned: false,
       isSkillAddDialogOpenned: false,
+      isSkillDeleteDialogOpenned: false,
+      isLinkAddDialogOpenned: false,
       current_dob: new Date('October 4, 1997 11:13:00'),
       isCurrentlyWorking: false,
       current_from: new Date('October 4, 2019 11:13:00'),
       current_to: new Date(),
+      selectedIndex: 0,
+      tempSkills: [],
     };
   }
+
+  deleteSKillFunc = (i) => {
+    this.state.tempSkills.splice(i, 1);
+    const temp = this.state.tempSkills;
+    this.setState({ tempSkills: temp });
+    // alert('delete ' + i);
+  };
+
   componentDidMount() {
     this.props.getCurrentProfile().then(() => {
       this.setState({
@@ -65,6 +88,50 @@ class Me extends Component {
     }
   };
 
+  secondEditToggle = () => {
+    this.setState({
+      isSecondEditDialogOpenned: true,
+    });
+  };
+
+  editSecondModal = (index) => {
+    this.setState({ selectedIndex: index }, () => {
+      this.secondEditToggle();
+    });
+  };
+
+  deleteSecondModal = (index) => {
+    this.setState({ selectedIndex: index }, () => {
+      this.onProfileDeleteSecond();
+    });
+  };
+
+  onProfileDeleteSecond = () => {
+    this.props.deleteExperience(this.state.selectedIndex);
+  };
+
+  deleteThirdModal = (index) => {
+    this.setState({ selectedIndex: index }, () => {
+      this.onProfileDeleteThird();
+    });
+  };
+
+  onProfileDeleteThird = () => {
+    this.props.deleteProject(this.state.selectedIndex);
+  };
+
+  thirdEditToggle = () => {
+    this.setState({
+      isThirdEditDialogOpenned: true,
+    });
+  };
+
+  editThirdModal = (index) => {
+    this.setState({ selectedIndex: index }, () => {
+      this.thirdEditToggle();
+    });
+  };
+
   addSecondModal = () => {
     this.setState({
       isSecondAddDialogOpenned: true,
@@ -83,9 +150,33 @@ class Me extends Component {
     });
   };
 
+  deleteSkillModal = (skills) => {
+    this.setState({
+      isSkillDeleteDialogOpenned: true,
+    });
+    console.log(skills);
+  };
+
+  setTempSkills = (skills) => {
+    this.setState({
+      tempSkills: skills,
+    });
+  };
+
+  addLinkModal = () => {
+    this.setState({
+      isLinkAddDialogOpenned: true,
+    });
+  };
+
   onProfileUpdateSecond = (data) => {
     this.props.addExperience(data);
     this.closeSecondAddDialog();
+  };
+
+  onProfileEditSecond = (data) => {
+    this.props.editExperience(data, this.state.selectedIndex);
+    this.closeSecondEditDialog();
   };
 
   onProfileUpdateThird = (data) => {
@@ -93,9 +184,25 @@ class Me extends Component {
     this.closeThirdAddDialog();
   };
 
+  onProfileEditThird = (data) => {
+    this.props.editProjects(data, this.state.selectedIndex);
+    this.closeThirdEditDialog();
+  };
+
   onProfileUpdateSkill = (data) => {
     this.props.addSkill(data);
     this.closeSkillAddDialog();
+  };
+
+  onProfileDeleteSkill = () => {
+    // this.props.addSkill(data);
+    this.closeSkillDeleteDialog();
+    // alert('Closing the skill dialog box from submit');
+  };
+
+  onProfileUpdateLink = (data) => {
+    this.props.addLink(data);
+    this.closeLinkAddDialog();
   };
 
   closeFirstEditDialog = () => {
@@ -106,12 +213,29 @@ class Me extends Component {
     this.setState({ isSecondAddDialogOpenned: false });
   };
 
+  closeSecondEditDialog = () => {
+    this.setState({ isSecondEditDialogOpenned: false });
+  };
+
   closeThirdAddDialog = () => {
     this.setState({ isThirdAddDialogOpenned: false });
   };
 
+  closeThirdEditDialog = () => {
+    this.setState({ isThirdEditDialogOpenned: false });
+  };
+
   closeSkillAddDialog = () => {
     this.setState({ isSkillAddDialogOpenned: false });
+  };
+
+  closeSkillDeleteDialog = () => {
+    this.setState({ isSkillDeleteDialogOpenned: false });
+    // alert('Closing the skill dialog box from close');
+  };
+
+  closeLinkAddDialog = () => {
+    this.setState({ isLinkAddDialogOpenned: false });
   };
 
   onDoBChange = (d) => {
@@ -146,6 +270,7 @@ class Me extends Component {
     const profile = this.props.profile.profile;
     const user = this.props.user;
     const { isFirstEditDialogOpenned, current_dob } = this.state;
+
     return (
       <div>
         <main role='main' className='container mt-4'>
@@ -155,8 +280,12 @@ class Me extends Component {
                 changeStatus={this.onStatusChange}
                 profile={profile}
               />
-              <SkillsBlock addModal={this.addSkillModal} profile={profile} />
-              <LinksBlock profile={profile} />
+              <SkillsBlock
+                addModal={this.addSkillModal}
+                deleteModal={this.deleteSkillModal}
+                profile={profile}
+              />
+              <LinksBlock addModal={this.addLinkModal} profile={profile} />
             </div>
             <div className='col-md-8 order-md-1'>
               <FirstBlock
@@ -164,8 +293,19 @@ class Me extends Component {
                 profile={profile}
                 user={user}
               />
-              <SecondBlock addModal={this.addSecondModal} profile={profile} />
-              <ThirdBlock addModal={this.addThirdModal} profile={profile} />
+              <SecondBlock
+                addModal={this.addSecondModal}
+                editModal={this.editSecondModal}
+                deleteModal={this.deleteSecondModal}
+                profile={profile}
+                user={user}
+              />
+              <ThirdBlock
+                addModal={this.addThirdModal}
+                editModal={this.editThirdModal}
+                deleteModal={this.deleteThirdModal}
+                profile={profile}
+              />
             </div>
           </div>
         </main>
@@ -191,6 +331,20 @@ class Me extends Component {
           onToChanged={this.onToChanged}
         />
 
+        <EditSecond
+          modalIsOpen={this.state.isSecondEditDialogOpenned}
+          closeModal={this.closeSecondEditDialog}
+          profile={profile}
+          submitForm={this.onProfileEditSecond}
+          toggleCurrentlyWorking={this.toggleCurrentlyWorking}
+          isCurrentlyWorking={this.state.isCurrentlyWorking}
+          currentFrom={this.state.current_from}
+          currentTo={this.state.current_to}
+          onFromChanged={this.onFromChanged}
+          onToChanged={this.onToChanged}
+          selectedIndex={this.state.selectedIndex}
+        />
+
         <AddThird
           modalIsOpen={this.state.isThirdAddDialogOpenned}
           closeModal={this.closeThirdAddDialog}
@@ -204,11 +358,54 @@ class Me extends Component {
           onToChanged={this.onToChanged}
         />
 
+        <EditThird
+          modalIsOpen={this.state.isThirdEditDialogOpenned}
+          closeModal={this.closeThirdEditDialog}
+          profile={profile}
+          submitForm={this.onProfileEditThird}
+          toggleCurrentlyWorking={this.toggleCurrentlyWorking}
+          isCurrentlyWorking={this.state.isCurrentlyWorking}
+          currentFrom={this.state.current_from}
+          currentTo={this.state.current_to}
+          onFromChanged={this.onFromChanged}
+          onToChanged={this.onToChanged}
+          selectedIndex={this.state.selectedIndex}
+        />
+
         <AddSkills
           modalIsOpen={this.state.isSkillAddDialogOpenned}
           closeModal={this.closeSkillAddDialog}
           profile={profile}
           submitForm={this.onProfileUpdateSkill}
+          toggleCurrentlyWorking={this.toggleCurrentlyWorking}
+          isCurrentlyWorking={this.state.isCurrentlyWorking}
+          currentFrom={this.state.current_from}
+          currentTo={this.state.current_to}
+          onFromChanged={this.onFromChanged}
+          onToChanged={this.onToChanged}
+        />
+
+        <DeleteSkills
+          modalIsOpen={this.state.isSkillDeleteDialogOpenned}
+          closeModal={this.closeSkillDeleteDialog}
+          profile={profile}
+          submitForm={this.onProfileDeleteSkill}
+          toggleCurrentlyWorking={this.toggleCurrentlyWorking}
+          isCurrentlyWorking={this.state.isCurrentlyWorking}
+          currentFrom={this.state.current_from}
+          currentTo={this.state.current_to}
+          onFromChanged={this.onFromChanged}
+          onToChanged={this.onToChanged}
+          tempSkills={this.state.tempSkills}
+          setSkills={this.setTempSkills}
+          deleteSKillFunc={this.deleteSKillFunc}
+        />
+
+        <AddLinks
+          modalIsOpen={this.state.isLinkAddDialogOpenned}
+          closeModal={this.closeLinkAddDialog}
+          profile={profile}
+          submitForm={this.onProfileUpdateLink}
           toggleCurrentlyWorking={this.toggleCurrentlyWorking}
           isCurrentlyWorking={this.state.isCurrentlyWorking}
           currentFrom={this.state.current_from}
@@ -231,6 +428,11 @@ export default connect(mapStateToProps, {
   updateProfile,
   updateStatus,
   addExperience,
+  editExperience,
+  deleteExperience,
+  deleteProject,
+  editProjects,
   addProject,
   addSkill,
+  addLink,
 })(Me);
