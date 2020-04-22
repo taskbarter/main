@@ -84,12 +84,12 @@ const AddLinks = (props) => {
             <div className='form-group col-md-12'>
               <label htmlFor='inputFirstName'>Youtube</label>
               <input
-                className='form-control profile-edit-col fa fa-search'
+                className='form-control profile-edit-col fa-search'
                 type='text'
                 placeholder='Youtube Channel Link'
                 id='inputFirstName'
                 name='youtube'
-                defaultValue={profile.social.youtube}
+                defaultValue={profile.social ? profile.social.youtube : ''}
               />
             </div>
           </div>
@@ -97,12 +97,12 @@ const AddLinks = (props) => {
             <div className='form-group col-md-12'>
               <label htmlFor='inputFirstName'>Twitter</label>
               <input
-                className='form-control profile-edit-col fa fa-search'
+                className='form-control profile-edit-col fa-search'
                 type='text'
                 placeholder='Twitter Profile Link'
                 id='inputFirstName'
                 name='twitter'
-                defaultValue={profile.social.twitter}
+                defaultValue={profile.social ? profile.social.twitter : ''}
               />
             </div>
           </div>
@@ -110,12 +110,12 @@ const AddLinks = (props) => {
             <div className='form-group col-md-12'>
               <label htmlFor='inputFirstName'>Linkedin</label>
               <input
-                className='form-control profile-edit-col fa fa-search'
+                className='form-control profile-edit-col fa-search'
                 type='text'
                 placeholder='Linkedin profile Link'
                 id='inputFirstName'
                 name='linkedin'
-                defaultValue={profile.social.linkedin}
+                defaultValue={profile.social ? profile.social.linkedin : ''}
               />
             </div>
           </div>
@@ -123,12 +123,12 @@ const AddLinks = (props) => {
             <div className='form-group col-md-12'>
               <label htmlFor='inputFirstName'>Facebook</label>
               <input
-                className='form-control profile-edit-col fa fa-search'
+                className='form-control profile-edit-col fa-search'
                 type='text'
                 placeholder='Facebook profile Link'
                 id='inputFirstName'
                 name='facebook'
-                defaultValue={profile.social.facebook}
+                defaultValue={profile.social ? profile.social.facebook : ''}
               />
             </div>
           </div>
@@ -136,12 +136,12 @@ const AddLinks = (props) => {
             <div className='form-group col-md-12'>
               <label htmlFor='inputFirstName'>Instagram</label>
               <input
-                className='form-control profile-edit-col fa fa-search'
+                className='form-control profile-edit-col fa-search'
                 type='text'
                 placeholder='Instagram profile Link'
                 id='inputFirstName'
                 name='instagram'
-                defaultValue={profile.social.instagram}
+                defaultValue={profile.social ? profile.social.instagram : ''}
               />
             </div>
           </div>
