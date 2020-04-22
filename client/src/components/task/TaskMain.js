@@ -10,6 +10,7 @@ import {
   sendProposal,
   fetchTask,
   fetchProposals,
+  changeProposalState,
 } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
@@ -84,6 +85,16 @@ class TaskMain extends Component {
         proposal_text: '',
       });
     }
+  };
+
+  onChangeProposalState = (prop_id, new_state) => {
+    this.props.changeProposalState(prop_id, new_state).then(() => {
+      this.props.fetchProposals(this.state.selected_task).then((proposals) => {
+        this.setState({
+          proposals: proposals.proposal_data,
+        });
+      });
+    });
   };
 
   sendProposal = () => {
@@ -222,6 +233,7 @@ class TaskMain extends Component {
           modal={this.state.proposallist_popup_is_open}
           toggle={this.proposallist_toggle}
           proposals={this.state.proposals}
+          onChangeProposalState={this.onChangeProposalState}
         />
       </React.Fragment>
     );
@@ -241,4 +253,5 @@ export default connect(mapStateToProps, {
   fetchTask,
   sendProposal,
   fetchProposals,
+  changeProposalState,
 })(TaskMain);

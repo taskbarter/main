@@ -18,7 +18,15 @@ import { Link } from 'react-router-dom';
 const ProposalList = (props) => {
   const { modal, toggle } = props;
 
-  const handleChange = (newTask) => {};
+  const [filter, setFilter] = useState({
+    showRejected: true,
+  });
+
+  const toggleReject = () => {
+    setFilter({
+      showRejected: !filter.showRejected,
+    });
+  };
   const modalOpened = () => {};
   const modalClosed = () => {};
 
@@ -34,15 +42,37 @@ const ProposalList = (props) => {
         <div className='dt-title'>All Proposals</div>
       </ModalHeader>
       <ModalBody className='dt-body'>
+        <button onClick={toggleReject} className='btn btn-primary filter-btn'>
+          {filter.showRejected ? (
+            <span>
+              <i class='fa fa-eye-slash' aria-hidden='true'></i>{' '}
+              &nbsp;&nbsp;Hide Rejected
+            </span>
+          ) : (
+            <span>
+              <i class='fa fa-eye' aria-hidden='true'></i> &nbsp;&nbsp;Show
+              Rejected
+            </span>
+          )}
+        </button>
         {props.proposals.map((pros, id) => {
+          if (!filter.showRejected && pros.status === 2) {
+            return <div key={pros._id}></div>;
+          }
           return (
-            <React.Fragment>
-              <div className='pro-list-container' key={pros.id}>
+            <div key={pros._id}>
+              <div
+                className={
+                  pros.status
+                    ? 'pro-list-container low-opacity'
+                    : 'pro-list-container'
+                }
+              >
                 <div className='task-list-title dt-title'>Proposal</div>
                 <div>{pros.text}</div>
                 <div className='feed-card--footer'>
                   <div className='pro-list-user feed-card--footer-left'>
-                    Sent by: &nbsp;
+                    Sent by:&nbsp;
                     <span className='user-name'>
                       {pros.userdetails[0].first_name}{' '}
                       {pros.userdetails[0].second_name}
@@ -55,19 +85,52 @@ const ProposalList = (props) => {
               </div>
               <div className='pro-list-action'>
                 <Link to={`/messages/`}>
-                  <button className='btn act-btn _negotiate'>
+                  <button
+                    className={
+                      pros.status
+                        ? 'btn act-btn hide'
+                        : 'btn act-btn _negotiate'
+                    }
+                    disabled={pros.status}
+                  >
                     <i class='fa fa-paper-plane' aria-hidden='true'></i>{' '}
-                    &nbsp;Negotiate
+                    &nbsp;&nbsp;Negotiate
                   </button>
                 </Link>
-                <button className='btn act-btn _accept'>
-                  <i class='fa fa-check' aria-hidden='true'></i> &nbsp; Accept
+                <button
+                  className={
+                    pros.status === 0
+                      ? 'btn act-btn _accept'
+                      : pros.status === 1
+                      ? 'btn act-btn _accept _accepted'
+                      : 'btn act-btn hide'
+                  }
+                  onClick={() => {
+                    props.onChangeProposalState(pros._id, 1);
+                  }}
+                  disabled={pros.status}
+                >
+                  <i className='fa fa-check' aria-hidden='true'></i> &nbsp;
+                  {pros.status === 1 ? 'Accepted' : 'Accept'}
                 </button>
-                <button className='btn act-btn _reject'>
-                  <i class='fa fa-times' aria-hidden='true'></i> &nbsp; Reject
+                <button
+                  className={
+                    pros.status === 0
+                      ? 'btn act-btn _reject'
+                      : pros.status === 2
+                      ? 'btn act-btn _reject _rejected'
+                      : 'btn act-btn hide'
+                  }
+                  onClick={() => {
+                    props.onChangeProposalState(pros._id, 2);
+                  }}
+                  disabled={pros.status}
+                >
+                  <i className='fa fa-times' aria-hidden='true'></i> &nbsp;
+                  {pros.status === 2 ? 'Rejected' : 'Reject'}
                 </button>
               </div>
-            </React.Fragment>
+            </div>
           );
         })}
       </ModalBody>

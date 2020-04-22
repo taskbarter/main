@@ -355,8 +355,6 @@ router.post('/sendproposal', auth, async (req, res) => {
     });
     const prop = await newProposal.save();
     const ptask = await Task.findById(req.body.task_id);
-    console.log(ptask.user);
-    console.log(req.user.id);
     if (ptask.user.toString() === req.user.id.toString()) {
       return res
         .status(500)
@@ -414,7 +412,6 @@ router.get('/proposals/', async (req, res) => {
     if (task_id === '') {
       throw { msg: 'no id provided' };
     }
-    console.log(task_id);
     const proposal_data = await Proposal.aggregate([
       {
         $match: { task: mongoose.Types.ObjectId(task_id) },
@@ -437,5 +434,33 @@ router.get('/proposals/', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route   POST api/tasks/proposal_state
+// @desc    Change proposal state. Accept or Reject.
+// @access  Private
+
+router.post(
+  '/proposal_state',
+  [auth, [check('new_state', 'You must send new state.').not().isEmpty()]],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const pros = await Proposal.findById(req.body.proposal_id);
+
+      pros.status = req.body.new_state;
+
+      await pros.save();
+      res.json(pros);
+    } catch (err) {
+      console.error(err.message);
+
+      res.status(500).send('Server Error .');
+    }
+  }
+);
 
 module.exports = router;

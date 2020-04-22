@@ -223,3 +223,33 @@ export const fetchProposals = (task_id) => async (dispatch) => {
     addToast('Oops! Some error has occurred! ' + err.message);
   }
 };
+
+export const changeProposalState = (proposal_id, new_state) => async (
+  dispatch
+) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.post(
+      '/api/tasks/proposal_state',
+      { proposal_id, new_state },
+      config
+    );
+    if (new_state === 0) {
+      addToast('Proposal has been accepted successfully.');
+    } else {
+      addToast('Proposal has been rejected.');
+    }
+
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};

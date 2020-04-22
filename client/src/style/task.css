@@ -581,17 +581,35 @@
   padding: 4px 10px;
 }
 
-.pro-list-action .act-btn._accept {
+.pro-list-action .act-btn._accept,
+.pro-list-action .act-btn._accepted:disabled {
   background-color: #50c76d;
   color: white;
+  opacity: 1;
 }
 
-.pro-list-action .act-btn._reject {
+.pro-list-action .act-btn.hide {
+  display: none;
+}
+
+.pro-list-action .act-btn._reject,
+.pro-list-action .act-btn._rejected:disabled {
   background-color: #c75050;
   color: white;
+  opacity: 1;
 }
 
 .pro-list-action .act-btn._negotiate {
   background-color: #507dc7;
   color: white;
+}
+
+.low-opacity {
+  opacity: 0.5;
+}
+
+.filter-btn {
+  margin-bottom: 14px;
+  font-size: 11px;
+  padding: 5px 8px;
 }
