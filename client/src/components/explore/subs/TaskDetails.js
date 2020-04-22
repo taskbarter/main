@@ -8,6 +8,7 @@ import {
   Tooltip,
   Spinner,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import bookmark_icon from '../../../style/inc/bookmark.svg';
 import share_icon from '../../../style/inc/share.svg';
 import { fetchTask } from '../../../actions/taskAction';
@@ -108,12 +109,20 @@ const TaskDetails = (props) => {
             ></img>
           </div>
           <div className='feed-card--footer-right '>
-            <button
-              onClick={props.proposal_toggle}
-              className='feed-card-learn-more dt-action-btn'
-            >
-              Send Proposal
-            </button>
+            {props.current_user === task.user ? (
+              <Link style={{ textDecoration: 'none' }} to={`/t/${task._id}`}>
+                <button className='feed-card-learn-more dt-action-btn'>
+                  View Your Task
+                </button>
+              </Link>
+            ) : (
+              <button
+                onClick={props.proposal_toggle}
+                className='feed-card-learn-more dt-action-btn'
+              >
+                Send Proposal
+              </button>
+            )}
           </div>
         </div>
       </div>

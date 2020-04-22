@@ -55,9 +55,10 @@ const TaskAction = (props) => {
         You can send proposal to this task and negotiate and chat with the task
         owner.
       </div>
-      <Link to='/add'>
-        <button className='btn redeem-btn'>Send Proposal</button>
-      </Link>
+
+      <button onClick={props.proposalform_toggle} className='btn redeem-btn'>
+        Send Proposal
+      </button>
     </div>
   );
 };

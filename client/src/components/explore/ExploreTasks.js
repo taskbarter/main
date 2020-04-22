@@ -203,6 +203,7 @@ class ExploreTasks extends Component {
           modal={this.state.detail_popup_is_open}
           selected_task={this.state.selected_task}
           proposal_toggle={this.proposal_toggle}
+          current_user={this.props.auth.user.id}
         />
         <ProposalForm
           toggle={this.proposal_toggle}

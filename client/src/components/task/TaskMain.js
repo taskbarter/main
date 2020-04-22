@@ -30,6 +30,7 @@ class TaskMain extends Component {
       proposal_popup_is_open: false,
       proposallist_popup_is_open: false,
       proposal_text: '',
+      proposal_loading: false,
       loading: true,
       task: {},
       proposals: [],
@@ -90,7 +91,20 @@ class TaskMain extends Component {
       text: this.state.proposal_text,
       task_id: this.state.selected_task,
     };
-    this.props.sendProposal(payload);
+    this.setState(
+      {
+        proposal_loading: true,
+      },
+      () => {
+        this.props.sendProposal(payload).then(() => {
+          this.setState({
+            proposal_popup_is_open: false,
+            proposal_text: '',
+            proposal_loading: false,
+          });
+        });
+      }
+    );
   };
 
   skillsbadges2 = (skills) => {
@@ -131,6 +145,7 @@ class TaskMain extends Component {
                 current_user={this.props.auth.user.id}
                 proposals={this.state.proposals}
                 proposallist_toggle={this.proposallist_toggle}
+                proposalform_toggle={this.proposal_toggle}
               />
             </div>
             <div className='col-md-8 order-md-1'>
@@ -201,6 +216,7 @@ class TaskMain extends Component {
           proposal_text={this.state.proposal_text}
           changeProposalText={this.changeProposalText}
           sendProposal={this.sendProposal}
+          proposalLoading={this.state.proposal_loading}
         />
         <ProposalList
           modal={this.state.proposallist_popup_is_open}
