@@ -18,11 +18,15 @@ const TaskAction = (props) => {
         <div className='card card-body redeem-points mb-2'>
           <div className='redeem-heading'>Task Performance</div>
           <div className='redeem-text'>
-            12 People have visited this task and 1 people sent a proposal.
+            1 People have visited this task and {props.proposals.length} people
+            sent a proposal.
           </div>
-          <Link to='/add'>
-            <button className='btn redeem-btn'>See Proposals</button>
-          </Link>
+          <button
+            onClick={props.proposallist_toggle}
+            className='btn redeem-btn'
+          >
+            See Proposals ({props.proposals.length})
+          </button>
         </div>
       </React.Fragment>
     );

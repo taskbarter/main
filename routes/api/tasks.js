@@ -225,27 +225,6 @@ router.get('/all/:user_id/:skip_tasks/:limit_tasks', async (req, res) => {
   }
 });
 
-// @route   GET api/tasks/:task_id
-// @desc    get single task with the specified ID.
-// @access  Public
-router.get('/:task_id', async (req, res) => {
-  try {
-    const required_task = await Task.findById(req.params.task_id);
-
-    if (!required_task) {
-      return res.status(400).json({ msg: 'No tasks found' });
-    }
-
-    res.json(required_task);
-  } catch (err) {
-    if (err.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Could not find the specified task' });
-    }
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
 // @route   PUT api/tasks/like/:id
 // @desc    Like task
 // @access  Private         // login to see tasks
@@ -421,6 +400,40 @@ router.post('/sendproposal', auth, async (req, res) => {
     res.json(prop);
   } catch (err) {
     console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/tasks/proposals
+// @desc    Get all proposals of task
+// @access  Private
+
+router.get('/proposals/', async (req, res) => {
+  try {
+    const task_id = req.query.id || '';
+    if (task_id === '') {
+      throw { msg: 'no id provided' };
+    }
+    console.log(task_id);
+    const proposal_data = await Proposal.aggregate([
+      {
+        $match: { task: mongoose.Types.ObjectId(task_id) },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $lookup: {
+          from: 'personaldetails',
+          localField: 'user',
+          foreignField: 'user',
+          as: 'userdetails',
+        },
+      },
+    ]);
+    res.json({ proposal_data });
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
