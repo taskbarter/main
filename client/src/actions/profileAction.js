@@ -53,6 +53,20 @@ export const createProfile = (profileData, history) => async (dispatch) => {
   }
 };
 
+//Search Profile
+export const searchUser = (id) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+  try {
+    const res = await axios.get('/api/profile/user/' + id);
+    // addToast('Welcome back ' + res.data.user.name);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 //Profile Loading
 
 export const setProfileLoading = () => {
