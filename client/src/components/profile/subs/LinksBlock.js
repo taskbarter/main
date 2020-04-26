@@ -25,7 +25,8 @@ const LinksBlock = (props) => {
         className='profile-badge-categories mt-3'
         style={{ color: 'red', fontSize: '20px' }}
       >
-        {profile.social.youtube ? (
+        {profile.social.youtube !== undefined &&
+        profile.social.youtube !== '' ? (
           <a className='mx-2' href={profile.social.youtube} target='_blank'>
             <i class='fab fa-youtube'></i>
           </a>
@@ -33,7 +34,8 @@ const LinksBlock = (props) => {
           <i></i>
         )}
 
-        {profile.social.twitter ? (
+        {profile.social.twitter !== undefined &&
+        profile.social.twitter !== '' ? (
           <a className='mx-2' href={profile.social.twitter} target='_blank'>
             <i class='fab fa-twitter'></i>
           </a>
@@ -41,21 +43,24 @@ const LinksBlock = (props) => {
           <i></i>
         )}
 
-        {profile.social.facebook ? (
+        {profile.social.facebook !== undefined &&
+        profile.social.facebook !== '' ? (
           <a className='mx-2' href={profile.social.facebook} target='_blank'>
             <i class='fab fa-facebook'></i>
           </a>
         ) : (
           <i></i>
         )}
-        {profile.social.linkedin ? (
+        {profile.social.linkedin !== undefined &&
+        profile.social.linkedin !== '' ? (
           <a className='mx-2' href={profile.social.linkedin} target='_blank'>
             <i class='fab fa-linkedin'></i>
           </a>
         ) : (
           <i></i>
         )}
-        {profile.social.instagram ? (
+        {profile.social.instagram !== undefined &&
+        profile.social.instagram !== '' ? (
           <a className='mx-2' href={profile.social.instagram} target='_blank'>
             <i class='fab fa-instagram-square'></i>
           </a>

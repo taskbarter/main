@@ -539,3 +539,59 @@
 .dt-title-anchor:hover {
   color: inherit;
 }
+
+.pro-list-container {
+  border: #e0dbdb solid 1px;
+  padding: 9px 8px;
+  border-radius: 4px 4px 0px 0px;
+  background: #fefeff;
+}
+
+.pro-list-user {
+  font-size: 11px;
+  margin-top: 9px;
+  color: #5a5a5a;
+}
+
+.pro-list-user .user-name {
+  color: #433881;
+  font-weight: 500;
+}
+
+.pro-list-container .posted-on {
+  text-align: right;
+  font-size: 11px;
+  color: #8e8e8e;
+  margin-top: 9px;
+}
+
+.pro-list-action {
+  margin-bottom: 16px;
+  text-align: right;
+  padding: 7px 5px;
+  border: #dedede solid 1px;
+  border-top: none;
+  border-radius: 0px 0px 4px 4px;
+  background: #f9f9f9;
+}
+
+.pro-list-action .act-btn {
+  font-size: 10px;
+  margin-left: 6px;
+  padding: 4px 10px;
+}
+
+.pro-list-action .act-btn._accept {
+  background-color: #50c76d;
+  color: white;
+}
+
+.pro-list-action .act-btn._reject {
+  background-color: #c75050;
+  color: white;
+}
+
+.pro-list-action .act-btn._negotiate {
+  background-color: #507dc7;
+  color: white;
+}

@@ -9,6 +9,7 @@ import {
   doExplore,
   sendProposal,
   fetchTask,
+  fetchProposals,
 } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
@@ -19,6 +20,7 @@ import ProposalForm from '../explore/subs/ProposalForm';
 import 'quill/dist/quill.snow.css';
 import TaskAction from './subs/TaskAction';
 import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
+import ProposalList from './subs/ProposalList';
 
 class TaskMain extends Component {
   constructor(props) {
@@ -26,9 +28,12 @@ class TaskMain extends Component {
     this.state = {
       selected_task: 0,
       proposal_popup_is_open: false,
+      proposallist_popup_is_open: false,
       proposal_text: '',
+      proposal_loading: false,
       loading: true,
       task: {},
+      proposals: [],
     };
   }
 
@@ -45,6 +50,13 @@ class TaskMain extends Component {
             task: fetched_task,
             loading: false,
           });
+          if (this.props.auth.user.id === fetched_task.taskData[0].user) {
+            this.props.fetchProposals(id).then((proposals) => {
+              this.setState({
+                proposals: proposals.proposal_data,
+              });
+            });
+          }
         });
       }
     );
@@ -53,6 +65,12 @@ class TaskMain extends Component {
   proposal_toggle = () => {
     this.setState({
       proposal_popup_is_open: !this.state.proposal_popup_is_open,
+    });
+  };
+
+  proposallist_toggle = () => {
+    this.setState({
+      proposallist_popup_is_open: !this.state.proposallist_popup_is_open,
     });
   };
 
@@ -73,7 +91,20 @@ class TaskMain extends Component {
       text: this.state.proposal_text,
       task_id: this.state.selected_task,
     };
-    this.props.sendProposal(payload);
+    this.setState(
+      {
+        proposal_loading: true,
+      },
+      () => {
+        this.props.sendProposal(payload).then(() => {
+          this.setState({
+            proposal_popup_is_open: false,
+            proposal_text: '',
+            proposal_loading: false,
+          });
+        });
+      }
+    );
   };
 
   skillsbadges2 = (skills) => {
@@ -112,6 +143,9 @@ class TaskMain extends Component {
               <TaskAction
                 task_owner={task.user}
                 current_user={this.props.auth.user.id}
+                proposals={this.state.proposals}
+                proposallist_toggle={this.proposallist_toggle}
+                proposalform_toggle={this.proposal_toggle}
               />
             </div>
             <div className='col-md-8 order-md-1'>
@@ -182,6 +216,12 @@ class TaskMain extends Component {
           proposal_text={this.state.proposal_text}
           changeProposalText={this.changeProposalText}
           sendProposal={this.sendProposal}
+          proposalLoading={this.state.proposal_loading}
+        />
+        <ProposalList
+          modal={this.state.proposallist_popup_is_open}
+          toggle={this.proposallist_toggle}
+          proposals={this.state.proposals}
         />
       </React.Fragment>
     );
@@ -200,4 +240,5 @@ export default connect(mapStateToProps, {
   doExplore,
   fetchTask,
   sendProposal,
+  fetchProposals,
 })(TaskMain);
