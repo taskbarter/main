@@ -618,4 +618,30 @@ router.post('/link', [auth], async (req, res) => {
   }
 });
 
+router.post('/removeskill', [auth], async (req, res) => {
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+  }
+
+  const { skill_id } = req.body;
+
+  try {
+    let profile = await PersonalDetails.findOne({ user: req.user.id });
+    if (profile) {
+      profile.skills.splice(skill_id, 1);
+      let tprofile = await PersonalDetails.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: { skills: profile.skills } },
+        { new: true }
+      );
+      console.log(profile.skills);
+      res.json(tprofile);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

@@ -14,8 +14,13 @@ const SkillsBlock = (props) => {
       let fsix = skills;
 
       return fsix.map((skl, i) => (
-        <div className='profile-skills' key={i}>
-          {skl}
+        <div className='profile-skills w-remove-btn' key={i}>
+          {skl}{' '}
+          <i
+            onClick={props.onRemoveSkill}
+            className='fas fa-times remove-btn'
+            id={i}
+          ></i>
         </div>
       ));
     }
@@ -34,15 +39,13 @@ const SkillsBlock = (props) => {
         <button
           onClick={props.addModal}
           className='btn notification-btn float-right'
+          style={{ marginLeft: '-22px' }}
         >
-          +
-        </button>
-        <button
-          onClick={props.deleteModal}
-          style={{ marginLeft: '-23px' }}
-          className='btn notification-btn float-right'
-        >
-          <i class='fas fa-pen'></i>
+          <i
+            className='fa fa-plus'
+            aria-hidden='true'
+            style={{ fontSize: '8px' }}
+          ></i>
         </button>
       </div>
       <br />

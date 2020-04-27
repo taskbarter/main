@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from './types';
+import {
+  GET_PROFILE,
+  PROFILE_LOADING,
+  CLEAR_CURRENT_PROFILE,
+  REMOVE_SKILL,
+} from './types';
 import setAuthToken from '../utils/setAuthToken';
 import { createConnection } from './socketActions';
 import jwt_decode from 'jwt-decode';
@@ -281,6 +286,31 @@ export const addLink = (newLink) => async (dispatch) => {
   try {
     const res = await axios.post('/api/profile/link', newLink, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const removeSkill = (id) => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  dispatch({
+    type: REMOVE_SKILL,
+    payload: id,
+  });
+  try {
+    const res = await axios.post(
+      '/api/profile/removeskill',
+      { skill_id: id },
+      config
+    );
+    dispatch(getCurrentProfile());
   } catch (err) {
     console.error(err);
   }

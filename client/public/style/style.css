@@ -1510,3 +1510,19 @@ fieldset > legend + * {
 body {
   padding-right: 0 !important;
 }
+
+.profile-skills .remove-btn {
+  font-size: 11px;
+  padding: 6px 6px 3px 4px;
+  margin-right: 2px;
+  opacity: 0.5;
+}
+
+.profile-skills .remove-btn:hover {
+  opacity: 1;
+  background-color: #6055a0;
+}
+
+.profile-skills.w-remove-btn {
+  padding-right: 0px;
+}

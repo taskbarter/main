@@ -14,6 +14,7 @@ import {
   addProject,
   addSkill,
   addLink,
+  removeSkill,
 } from '../../actions/profileAction';
 import '../../style/profile/profile_page.css';
 import FirstBlock from './subs/FirstBlock';
@@ -41,7 +42,6 @@ class Me extends Component {
       isThirdAddDialogOpenned: false,
       isThirdEditDialogOpenned: false,
       isSkillAddDialogOpenned: false,
-      isSkillDeleteDialogOpenned: false,
       isLinkAddDialogOpenned: false,
       current_dob: new Date('October 4, 1997 11:13:00'),
       isCurrentlyWorking: false,
@@ -150,13 +150,6 @@ class Me extends Component {
     });
   };
 
-  deleteSkillModal = (skills) => {
-    this.setState({
-      isSkillDeleteDialogOpenned: true,
-    });
-    console.log(skills);
-  };
-
   setTempSkills = (skills) => {
     this.setState({
       tempSkills: skills,
@@ -194,12 +187,6 @@ class Me extends Component {
     this.closeSkillAddDialog();
   };
 
-  onProfileDeleteSkill = () => {
-    // this.props.addSkill(data);
-    this.closeSkillDeleteDialog();
-    // alert('Closing the skill dialog box from submit');
-  };
-
   onProfileUpdateLink = (data) => {
     this.props.addLink(data);
     this.closeLinkAddDialog();
@@ -227,11 +214,6 @@ class Me extends Component {
 
   closeSkillAddDialog = () => {
     this.setState({ isSkillAddDialogOpenned: false });
-  };
-
-  closeSkillDeleteDialog = () => {
-    this.setState({ isSkillDeleteDialogOpenned: false });
-    // alert('Closing the skill dialog box from close');
   };
 
   closeLinkAddDialog = () => {
@@ -266,6 +248,11 @@ class Me extends Component {
     this.props.updateStatus(s);
   };
 
+  onRemoveSkill = (e) => {
+    console.log(e.target.id);
+    this.props.removeSkill(e.target.id);
+  };
+
   render() {
     const profile = this.props.profile.profile;
     const user = this.props.user;
@@ -282,8 +269,8 @@ class Me extends Component {
               />
               <SkillsBlock
                 addModal={this.addSkillModal}
-                deleteModal={this.deleteSkillModal}
                 profile={profile}
+                onRemoveSkill={this.onRemoveSkill}
               />
               <LinksBlock addModal={this.addLinkModal} profile={profile} />
             </div>
@@ -385,22 +372,6 @@ class Me extends Component {
           onToChanged={this.onToChanged}
         />
 
-        <DeleteSkills
-          modalIsOpen={this.state.isSkillDeleteDialogOpenned}
-          closeModal={this.closeSkillDeleteDialog}
-          profile={profile}
-          submitForm={this.onProfileDeleteSkill}
-          toggleCurrentlyWorking={this.toggleCurrentlyWorking}
-          isCurrentlyWorking={this.state.isCurrentlyWorking}
-          currentFrom={this.state.current_from}
-          currentTo={this.state.current_to}
-          onFromChanged={this.onFromChanged}
-          onToChanged={this.onToChanged}
-          tempSkills={this.state.tempSkills}
-          setSkills={this.setTempSkills}
-          deleteSKillFunc={this.deleteSKillFunc}
-        />
-
         <AddLinks
           modalIsOpen={this.state.isLinkAddDialogOpenned}
           closeModal={this.closeLinkAddDialog}
@@ -435,4 +406,5 @@ export default connect(mapStateToProps, {
   addProject,
   addSkill,
   addLink,
+  removeSkill,
 })(Me);
