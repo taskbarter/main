@@ -18,6 +18,7 @@ router.get('/me', auth, async (req, res) => {
     const profile = await PersonalDetails.findOne({
       user: req.user.id,
     }).populate('user', ['name', 'fname', 'sname']);
+
     if (!profile) {
       return res.status(400).json({ msg: 'There is no Profile for this user' });
     }
@@ -86,7 +87,6 @@ router.post(
 
     try {
       let profile = await Profile.findOne({ user: req.user.id });
-
       if (profile) {
         // update profile
         profile = await Profile.findOneAndUpdate(
@@ -130,9 +130,10 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/user/:user_id', async (req, res) => {
   try {
-    const profile = await Profile.findOne({
+    const profile = await PersonalDetails.findOne({
       user: req.params.user_id,
     }).populate('user', ['name', 'fname', 'sname']);
+
     if (!profile) {
       return res.status(400).json({ msg: 'Profile not found' });
     }

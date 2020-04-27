@@ -18,6 +18,7 @@ import UserProfileNew from './components/profile/steps/UserProfileNew';
 import Header from './components/layout/Header';
 import Messages from './components/message/Messages';
 import Me from './components/profile/Me';
+import userDetail from './components/viewProfile/UserDetails';
 import Notifications from './components/notifications/Notifications';
 import Footer from './components/layout/Footer';
 import MyTasks from './components/task/MyTasks';
@@ -68,6 +69,7 @@ class App extends Component {
               </PrivateRoute> */}
               <PrivateRoute exact path='/messages' component={Messages} />
               <PrivateRoute exact path='/messages/:id' component={Messages} />
+
               <PrivateRoute
                 exact
                 path='/notifications'
@@ -75,6 +77,7 @@ class App extends Component {
               />
               <PrivateRoute exact path='/me' component={Me} />
               <PrivateRoute exact path='/mytasks' component={MyTasks} />
+              <PrivateRoute exact path='/u/:id' component={userDetail} />
             </Switch>
             <ToastContainer />
           </div>
