@@ -1,6 +1,6 @@
 import { toast, Slide } from 'react-toastify';
 
-export const addToast = (content) => {
+export const addToast = (content) => async () => {
   toast.info(content, {
     position: 'bottom-right',
     autoClose: 5000,
@@ -10,4 +10,5 @@ export const addToast = (content) => {
     draggable: true,
     transition: Slide,
   });
+  return true;
 };

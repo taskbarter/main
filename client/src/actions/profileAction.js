@@ -16,7 +16,6 @@ export const getCurrentProfile = () => async (dispatch) => {
       setAuthToken(mtok);
     }
     const res = await axios.get('/api/profile/me');
-    addToast('Welcome back ' + res.data.user.name);
     createConnection(res.data.user);
     dispatch({
       type: GET_PROFILE,

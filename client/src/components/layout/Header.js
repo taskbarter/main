@@ -14,6 +14,7 @@ import workspace_filled_icon from '../../style/inc/work_filled.svg';
 import notif_filled_icon from '../../style/inc/notif_filled.svg';
 import msg_filled_icon from '../../style/inc/msg_filled.svg';
 import explore_filled_icon from '../../style/inc/explore_filled.svg';
+import { addToast } from '../../actions/toasterActions';
 
 class Header extends Component {
   constructor(props) {
@@ -44,6 +45,9 @@ class Header extends Component {
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.getCurrentProfile().then(() => {
+        this.props.addToast(
+          `Welcome back ${this.props.profile.profile.first_name} ${this.props.profile.profile.second_name}`
+        );
         //this.props.createConnection(this.props.auth);
       });
     }
@@ -224,7 +228,10 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 export default withRouter(
-  connect(mapStateToProps, { logoutUser, getCurrentProfile, createConnection })(
-    Header
-  )
+  connect(mapStateToProps, {
+    logoutUser,
+    getCurrentProfile,
+    createConnection,
+    addToast,
+  })(Header)
 );
