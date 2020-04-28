@@ -10,6 +10,7 @@ import {
   EMPTY_TASKS,
   SET_WORKPLACE_TASKS,
   ADD_PUBLISHED_TASKS,
+  ADD_WORKING_TASKS,
 } from '../actions/types';
 
 const initialState = {
@@ -72,10 +73,14 @@ export default function (state = initialState, action) {
         loading: true,
       };
     case ADD_PUBLISHED_TASKS:
-      console.log('published: ', action.payload);
       return {
         ...state,
         published_tasks: action.payload,
+      };
+    case ADD_WORKING_TASKS:
+      return {
+        ...state,
+        working_tasks: action.payload,
       };
     default:
       return state;

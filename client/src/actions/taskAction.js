@@ -13,6 +13,7 @@ import {
   EMPTY_TASKS,
   SET_WORKPLACE_TASKS,
   ADD_PUBLISHED_TASKS,
+  ADD_WORKING_TASKS,
 } from '../actions/types';
 
 import { addToast } from './toasterActions';
@@ -281,6 +282,25 @@ export const fetchPublishedTasks = (limit = -1) => async (dispatch) => {
     });
     dispatch({
       type: ADD_PUBLISHED_TASKS,
+      payload: res.data,
+    });
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
+export const fetchWorkingTasks = (limit = -1) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/working', {
+      params: { lim: limit },
+    });
+    dispatch({
+      type: ADD_WORKING_TASKS,
       payload: res.data,
     });
     return res.data;

@@ -5,7 +5,7 @@ const TasksPublished = (props) => {
   const onViewAllBtn = () => {
     props.history.push('/notifications');
   };
-  if (!props.published_tasks) {
+  if (!props.published_tasks || props.published_tasks.tasks_data.length === 0) {
     return <React.Fragment></React.Fragment>;
   }
   return (

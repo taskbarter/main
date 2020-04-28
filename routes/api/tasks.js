@@ -506,7 +506,6 @@ router.post(
 router.get('/published/', [auth], async (req, res) => {
   try {
     const limit = parseInt(req.query.lim) || -1;
-    console.log(limit);
     const tasks_data = await Task.aggregate([
       {
         $match: { user: mongoose.Types.ObjectId(req.user.id) },
@@ -519,6 +518,39 @@ router.get('/published/', [auth], async (req, res) => {
       },
     ]);
     res.json({ tasks_data });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/tasks/working
+// @desc    Get all tasks the user is working on
+// @access  Private
+
+router.get('/working/', [auth], async (req, res) => {
+  try {
+    const limit = parseInt(req.query.lim) || -1;
+    const work_data = await Work.aggregate([
+      {
+        $match: { assignedTo: mongoose.Types.ObjectId(req.user.id) },
+      },
+      {
+        $lookup: {
+          from: 'tasks',
+          localField: 'task',
+          foreignField: '_id',
+          as: 'taskDetails',
+        },
+      },
+      {
+        $sort: { updatedAt: -1 },
+      },
+      {
+        $limit: limit,
+      },
+    ]);
+    res.json({ work_data });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
