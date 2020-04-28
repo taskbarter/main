@@ -155,8 +155,8 @@
 .feed-card--how-it-works-header {
   color: #fff;
   width: 80%;
-  margin-bottom: 1.25rem;
-  font-size: 1.25rem;
+  margin-bottom: 1.3rem;
+  font-size: 1.1rem;
   line-height: 1.6875rem;
   font-weight: 500;
 }
@@ -192,12 +192,13 @@
 .feed-card--how-it-works-body {
   color: #fff;
   margin-bottom: 25px;
+  font-size: 1rem;
 }
 
 .feed-card--header {
   font-size: 1.2rem;
   line-height: 1.375rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .up-headline {

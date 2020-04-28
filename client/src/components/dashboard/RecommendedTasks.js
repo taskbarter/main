@@ -102,7 +102,6 @@ class RecommendedTasks extends Component {
     return (
       <div className='card card-body'>
         <div className='tasks-heading'>Recently Added Tasks</div>
-        <br />
         <div className='task-list-container task-list-dashboard'>
           {this.state.workplaceTasks.map((task, i) => (
             <TaskCard task={task} key={i} onClick={this.onTaskSelect} />

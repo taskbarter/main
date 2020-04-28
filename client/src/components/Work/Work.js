@@ -20,6 +20,7 @@ import TLoader from '../utils/TLoader';
 import 'quill/dist/quill.snow.css';
 import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
 import DescriptionEditor from '../task/subs/DescriptionEditor';
+import WorkAction from './subs/WorkAction';
 
 class Work extends Component {
   constructor(props) {
@@ -81,9 +82,11 @@ class Work extends Component {
     const task = this.state.task.taskData[0];
     return (
       <React.Fragment>
-        <main role='main' className='container mt-4'>
+        <main role='main' className='container mt-4 mb-4'>
           <div className='row'>
-            <div className='col-md-4 order-md-2 mb-2'></div>
+            <div className='col-md-4 order-md-2 mb-2'>
+              <WorkAction current_user={this.props.auth.user.id} />
+            </div>
             <div className='col-md-8 order-md-1'>
               <div className='card card-body mb-2 dt-header'>
                 <div className='dt-sub-title'>I want someone to</div>
@@ -106,8 +109,6 @@ class Work extends Component {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className='col-md-8 order-md-1'>
               <div className=''>
                 <div className='tu-heading'>Post an Update</div>
                 <DescriptionEditor

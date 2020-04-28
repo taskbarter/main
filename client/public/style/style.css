@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 html {
   overflow-y: scroll;
   overflow-x: hidden;
@@ -5,7 +7,10 @@ html {
 
 body {
   overflow-x: hidden;
-
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+    Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
   /* Prevent scroll on narrow devices */
 }
 
@@ -924,6 +929,8 @@ header nav.navbar {
 
 .tasks-heading {
   font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 10px;
 }
 
 .task-entry {
@@ -1117,23 +1124,26 @@ header nav.navbar {
 .redeem-heading {
   color: #433881;
   font-weight: 600;
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .redeem-text {
   margin-top: 6px;
   margin-bottom: 20px;
+  font-size: 13px;
 }
 
 .redeem-btn {
   color: white;
   background: #433881;
   width: 100%;
+  font-size: 14px;
 }
 
 .notification-heading {
   font-weight: 600;
   margin-bottom: 10px;
+  font-size: 13px;
 }
 
 .notification-block-first {
@@ -1171,8 +1181,7 @@ header nav.navbar {
   font-size: 10px;
   padding: 3px 7px 3px 7px;
   font-weight: 400;
-  vertical-align: text-top;
-  margin-left: 5px;
+  margin-left: 8px;
 }
 
 .delete-btn {
@@ -1200,7 +1209,7 @@ header nav.navbar {
 }
 
 .profile-badge-headline {
-  font-size: 14px;
+  font-size: 12px;
   margin-bottom: 10px;
 }
 
