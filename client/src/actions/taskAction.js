@@ -224,6 +224,21 @@ export const fetchProposals = (task_id) => async (dispatch) => {
   }
 };
 
+export const fetchWork = (work_id) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/work/fetch', {
+      params: { id: work_id },
+    });
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
 export const changeProposalState = (proposal_id, new_state) => async (
   dispatch
 ) => {
@@ -242,7 +257,7 @@ export const changeProposalState = (proposal_id, new_state) => async (
       { proposal_id, new_state },
       config
     );
-    if (new_state === 0) {
+    if (new_state === 1) {
       addToast('Proposal has been accepted successfully.');
     } else {
       addToast('Proposal has been rejected.');

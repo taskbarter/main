@@ -1,4 +1,3 @@
-//TODO: Add more relevant fields such as 'Block Conversation' or 'Disable Notification' etc.
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const WorkSchema = new Schema(
@@ -8,10 +7,19 @@ const WorkSchema = new Schema(
       ref: 'users',
       required: true,
     },
+    assignee: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
+      required: true,
+    },
     task: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'tasks',
       required: true,
+    },
+    state: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

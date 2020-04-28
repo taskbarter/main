@@ -9,6 +9,7 @@ import {
   doExplore,
   sendProposal,
   fetchTask,
+  fetchWork,
   fetchProposals,
   changeProposalState,
 } from '../../actions/taskAction';
@@ -48,18 +49,12 @@ class Work extends Component {
         loading: true,
       },
       () => {
-        this.props.fetchTask(id).then((fetched_task) => {
+        this.props.fetchWork(id).then((fetched_work) => {
           this.setState({
-            task: fetched_task,
+            work: fetched_work,
             loading: false,
+            task: fetched_work.work_data[0].taskDetails[0],
           });
-          if (this.props.auth.user.id === fetched_task.taskData[0].user) {
-            this.props.fetchProposals(id).then((proposals) => {
-              this.setState({
-                proposals: proposals.proposal_data,
-              });
-            });
-          }
         });
       }
     );
@@ -79,7 +74,8 @@ class Work extends Component {
         </div>
       );
     }
-    const task = this.state.task.taskData[0];
+    const task = this.state.task;
+    const assignee = this.state.work.work_data[0].assignee[0];
     return (
       <React.Fragment>
         <main role='main' className='container mt-4 mb-4'>
@@ -94,8 +90,7 @@ class Work extends Component {
                 <div className='dt-added-on'>
                   Posted{' '}
                   <span className='dt-date'>{moment(task.date).fromNow()}</span>{' '}
-                  by {task.userdetails[0].first_name}{' '}
-                  {task.userdetails[0].second_name}
+                  by {assignee.first_name} {assignee.second_name}
                 </div>
 
                 <div className='mt-3'>
@@ -143,4 +138,5 @@ export default connect(mapStateToProps, {
   sendProposal,
   fetchProposals,
   changeProposalState,
+  fetchWork,
 })(Work);

@@ -89,6 +89,23 @@ class TaskMain extends Component {
 
   onChangeProposalState = (prop_id, new_state) => {
     this.props.changeProposalState(prop_id, new_state).then(() => {
+      if (new_state === 1) {
+        this.setState(
+          {
+            proposallist_popup_is_open: false,
+          },
+          () => {
+            this.props
+              .fetchTask(this.state.selected_task)
+              .then((fetched_task) => {
+                this.setState({
+                  task: fetched_task,
+                  loading: false,
+                });
+              });
+          }
+        );
+      }
       this.props.fetchProposals(this.state.selected_task).then((proposals) => {
         this.setState({
           proposals: proposals.proposal_data,
@@ -157,6 +174,8 @@ class TaskMain extends Component {
                 proposals={this.state.proposals}
                 proposallist_toggle={this.proposallist_toggle}
                 proposalform_toggle={this.proposal_toggle}
+                task_state={task.state}
+                task_work={task.workdetails[0]}
               />
             </div>
             <div className='col-md-8 order-md-1'>

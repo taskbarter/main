@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const auth = require('./routes/api/auth');
 const profile = require('./routes/api/profile');
 const messages = require('./routes/api/messages');
+const task_work = require('./routes/api/work');
 const search = require('./routes/api/search');
 const app = express();
 const socket = require('socket.io');
@@ -19,7 +20,7 @@ const tasks = require('./routes/api/tasks');
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 app.use(bodyParser.json());
@@ -29,7 +30,7 @@ const db = require('./config/keys').mongoURI;
 mongoose
   .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log('MongoDB successfully connected'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
@@ -42,7 +43,7 @@ app.use('/api/users', users);
 app.get('/confirmation/:token', async (request, response) => {
   try {
     const {
-      user: { id }
+      user: { id },
     } = jwt.verify(request.params.token, keys.jwtSecret);
     let nUser = await User.findOneAndUpdate(
       { _id: id },
@@ -63,6 +64,8 @@ app.use('/api/auth', auth);
 app.use('/api/profile', profile);
 app.use('/api/messages', messages);
 app.use('/api/search', search);
+app.use('/api/work', task_work);
+
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
@@ -80,7 +83,7 @@ var io = require('socket.io')(server);
 
 let socket_connections = new Socket_Connections();
 
-io.on('connection', function(socket) {
+io.on('connection', function (socket) {
   console.log('user connected..');
   require('./sockets/user_socket')(socket, io, socket_connections);
   require('./sockets/messages_socket')(socket, io, socket_connections);

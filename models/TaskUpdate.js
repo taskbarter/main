@@ -8,9 +8,9 @@ const TaskUpdateSchema = new Schema(
       ref: 'users',
       required: true,
     },
-    task_id: {
+    work_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'tasks',
+      ref: 'works',
       required: true,
     },
     text: {

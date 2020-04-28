@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { TASK_PENDING } = require('../constants/state');
 const TaskSchema = new Schema(
   {
     user: {
@@ -48,6 +49,11 @@ const TaskSchema = new Schema(
         },
       },
     ],
+    state: {
+      type: Number,
+      required: true,
+      default: TASK_PENDING,
+    },
   },
   { timestamps: true }
 );

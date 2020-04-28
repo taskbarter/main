@@ -19,7 +19,7 @@ const ProposalList = (props) => {
   const { modal, toggle } = props;
 
   const [filter, setFilter] = useState({
-    showRejected: true,
+    showRejected: false,
   });
 
   const toggleReject = () => {

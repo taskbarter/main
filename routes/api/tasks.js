@@ -4,10 +4,17 @@ const auth = require('../../middleware/auth');
 const Task = require('../../models/Task');
 const User = require('../../models/User');
 const Proposal = require('../../models/Proposal');
+const Work = require('../../models/Work');
 const Conversation = require('../../models/Conversation');
 const PersonalDetails = require('../../models/PersonalDetails');
 const { check, validationResult } = require('express-validator');
 const { MESSAGETYPE_PROPOSAL } = require('../../constants/types');
+const {
+  PROPOSAL_ACCEPTED,
+  PROPOSAL_REJECTED,
+  TASK_PENDING,
+  TASK_ASSIGNED,
+} = require('../../constants/state');
 const mongoose = require('mongoose');
 
 // @route POST api/tasks/add
@@ -79,7 +86,12 @@ router.get('/explore', async (req, res) => {
     }
     const tasks = await Task.aggregate([
       {
-        $match: search_filter,
+        $match: {
+          $and: [
+            search_filter,
+            { $or: [{ state: null }, { state: TASK_PENDING }] },
+          ],
+        },
       },
       {
         $lookup: {
@@ -137,6 +149,14 @@ router.get('/fetch', async (req, res) => {
           localField: 'user',
           foreignField: 'user',
           as: 'userdetails',
+        },
+      },
+      {
+        $lookup: {
+          from: 'works',
+          localField: '_id',
+          foreignField: 'task',
+          as: 'workdetails',
         },
       },
     ]);
@@ -452,6 +472,22 @@ router.post(
       const pros = await Proposal.findById(req.body.proposal_id);
 
       pros.status = req.body.new_state;
+
+      if (pros.status === PROPOSAL_ACCEPTED) {
+        //once proposal is accepted:
+
+        const pTask = await Task.findById(pros.task);
+        pTask.state = TASK_ASSIGNED;
+        await pTask.save();
+
+        const newWork = new Work({
+          assignedTo: pros.user,
+          task: pros.task,
+          assignee: req.user.id,
+        });
+
+        const tempWork = await newWork.save();
+      }
 
       await pros.save();
       res.json(pros);
