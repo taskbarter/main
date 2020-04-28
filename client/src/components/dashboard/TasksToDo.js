@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import moment from 'moment';
 const TasksToDo = (props) => {
   const onViewAllBtn = () => {
     props.history.push('/notifications');
@@ -25,6 +25,10 @@ const TasksToDo = (props) => {
                 <div className='notification-item'>
                   <div className='sm-task-top'>I want someone to</div>
                   <div className='notif-text'>{task.headline}</div>
+                  <div className='dt-added-on sm-task-footer'>
+                    Updated {moment(task.updatedAt).fromNow()} •{' '}
+                    {task.taskpoints} pts
+                  </div>
                 </div>
               </Link>
             </div>

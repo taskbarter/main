@@ -21,8 +21,8 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchPublishedTasks(4);
-    this.props.fetchWorkingTasks(4);
+    this.props.fetchPublishedTasks(3);
+    this.props.fetchWorkingTasks(3);
   }
 
   render() {

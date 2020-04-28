@@ -650,5 +650,25 @@
 
 .sm-task-top {
   font-size: 10px;
-  color: gray;
+}
+
+.sm-task-footer {
+  border-top: #efefef solid 1px;
+  padding-top: 4px;
+  margin-top: 10px;
+}
+
+.task-state {
+  font-size: 9px;
+  background: #424242;
+  width: fit-content;
+  padding: 2px 9px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  float: right;
+}
+
+.task-state.--assigned {
+  background: #009688;
 }
