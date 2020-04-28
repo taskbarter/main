@@ -23,6 +23,7 @@ import Notifications from './components/notifications/Notifications';
 import Footer from './components/layout/Footer';
 import MyTasks from './components/task/MyTasks';
 import TaskMain from './components/task/TaskMain';
+import Work from './components/Work/Work';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './style/header.css';
@@ -78,6 +79,7 @@ class App extends Component {
               <PrivateRoute exact path='/me' component={Me} />
               <PrivateRoute exact path='/mytasks' component={MyTasks} />
               <PrivateRoute exact path='/u/:id' component={userDetail} />
+              <PrivateRoute exact path='/w/:id' component={Work} />
             </Switch>
             <ToastContainer />
           </div>

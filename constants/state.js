@@ -1,7 +1,7 @@
 module.exports = {
   //For Proposals:
-  PROPOSAL_ACCEPTED: 1,
   PROPOSAL_PENDING: 0,
+  PROPOSAL_ACCEPTED: 1,
   PROPOSAL_REJECTED: 2,
 
   //For Tasks:
