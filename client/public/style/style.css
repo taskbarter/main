@@ -1535,3 +1535,9 @@ body {
 .profile-skills.w-remove-btn {
   padding-right: 0px;
 }
+
+.clear-a,
+.clear-a:hover {
+  text-decoration: none !important;
+  color: inherit !important;
+}

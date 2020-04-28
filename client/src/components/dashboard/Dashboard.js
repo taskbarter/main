@@ -2,17 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
+import { fetchPublishedTasks } from '../../actions/taskAction';
 import AddTaskCTA from './AddTaskCTA';
 import Notifications from './Notifications';
 import RecommendedTasks from './RecommendedTasks';
 import ProfileBadge from './ProfileBadge';
 import Footer from '../layout/Footer';
+import TasksPublished from './TasksPublished';
 
 class Dashboard extends Component {
   onLogoutClick = (e) => {
     e.preventDefault();
     this.props.logoutUser();
   };
+
+  componentDidMount() {
+    this.props.fetchPublishedTasks(4);
+  }
+
   render() {
     const { user } = this.props.auth;
     return (
@@ -22,10 +29,15 @@ class Dashboard extends Component {
           <div className='row'>
             <div className='col-md-4 order-md-2 mb-2'>
               <AddTaskCTA />
+
               <ProfileBadge />
             </div>
             <div className='col-md-8 order-md-1'>
               <Notifications history={this.props.history} />
+              <TasksPublished
+                published_tasks={this.props.published_tasks}
+                history={this.props.history}
+              />
               <RecommendedTasks />
             </div>
           </div>
@@ -41,5 +53,8 @@ Dashboard.propTypes = {
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  published_tasks: state.task.published_tasks,
 });
-export default connect(mapStateToProps, { logoutUser })(Dashboard);
+export default connect(mapStateToProps, { logoutUser, fetchPublishedTasks })(
+  Dashboard
+);

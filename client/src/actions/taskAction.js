@@ -12,6 +12,7 @@ import {
   APPEND_TASKS,
   EMPTY_TASKS,
   SET_WORKPLACE_TASKS,
+  ADD_PUBLISHED_TASKS,
 } from '../actions/types';
 
 import { addToast } from './toasterActions';
@@ -263,6 +264,25 @@ export const changeProposalState = (proposal_id, new_state) => async (
       addToast('Proposal has been rejected.');
     }
 
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
+export const fetchPublishedTasks = (limit = -1) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/published', {
+      params: { lim: limit },
+    });
+    dispatch({
+      type: ADD_PUBLISHED_TASKS,
+      payload: res.data,
+    });
     return res.data;
   } catch (err) {
     addToast('Oops! Some error has occurred! ' + err.message);

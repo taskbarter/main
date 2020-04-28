@@ -499,4 +499,30 @@ router.post(
   }
 );
 
+// @route   GET api/tasks/published
+// @desc    Get all published tasks by the user
+// @access  Private
+
+router.get('/published/', [auth], async (req, res) => {
+  try {
+    const limit = parseInt(req.query.lim) || -1;
+    console.log(limit);
+    const tasks_data = await Task.aggregate([
+      {
+        $match: { user: mongoose.Types.ObjectId(req.user.id) },
+      },
+      {
+        $sort: { updatedAt: -1 },
+      },
+      {
+        $limit: limit,
+      },
+    ]);
+    res.json({ tasks_data });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

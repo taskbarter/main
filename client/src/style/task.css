@@ -647,3 +647,8 @@
   border-top: #dadada solid 1px;
   padding-top: 7px;
 }
+
+.sm-task-top {
+  font-size: 10px;
+  color: gray;
+}
