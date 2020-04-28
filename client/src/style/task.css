@@ -441,6 +441,7 @@
 
 .description-editor {
   padding: 0px;
+  border: none;
 }
 
 .task-list-dashboard {
@@ -612,4 +613,36 @@
   margin-bottom: 14px;
   font-size: 11px;
   padding: 5px 8px;
+}
+
+.description-editor .ql-editor {
+  min-height: 80px !important;
+}
+
+.description-editor .ql-toolbar.ql-snow {
+  background: whitesmoke !important;
+}
+
+.tu-btn {
+  float: right;
+  margin-top: 10px;
+  font-size: 15px;
+  padding: 5px 20px;
+}
+
+.tu-info {
+  float: left;
+  font-size: 10px;
+  max-width: 40vw;
+  margin-top: 8px;
+  margin-left: 2px;
+}
+
+.tu-heading {
+  color: #433881;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  border-top: #dadada solid 1px;
+  padding-top: 7px;
 }

@@ -6,7 +6,7 @@ import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css'; // Add css for snow theme
 // or import 'quill/dist/quill.bubble.css'; // Add css for bubble theme
 
-const DescriptionEditor = props => {
+const DescriptionEditor = (props) => {
   const theme = 'snow';
   const modules = {
     toolbar: [
@@ -16,11 +16,11 @@ const DescriptionEditor = props => {
         { list: 'ordered' },
         { list: 'bullet' },
         { indent: '-1' },
-        { indent: '+1' }
+        { indent: '+1' },
       ],
       ['link'],
-      ['clean']
-    ]
+      ['clean'],
+    ],
   };
   const formats = [
     'font',
@@ -31,14 +31,16 @@ const DescriptionEditor = props => {
     'list',
     'bullet',
     'indent',
-    'link'
+    'link',
   ];
-  const placeholder = 'Write your requirements in detail...';
+  const placeholder = !props.placeholder
+    ? 'Write your requirements in detail...'
+    : props.placeholder;
   const { quill, quillRef } = useQuill({
     theme,
     modules,
     formats,
-    placeholder
+    placeholder,
   });
 
   React.useEffect(() => {

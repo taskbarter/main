@@ -19,6 +19,7 @@ import '../../style/task.css';
 import TLoader from '../utils/TLoader';
 import 'quill/dist/quill.snow.css';
 import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
+import DescriptionEditor from '../task/subs/DescriptionEditor';
 
 class Work extends Component {
   constructor(props) {
@@ -32,6 +33,9 @@ class Work extends Component {
       loading: true,
       task: {},
       proposals: [],
+
+      quillObj: {},
+      description: '',
     };
   }
 
@@ -60,78 +64,11 @@ class Work extends Component {
     );
   }
 
-  proposal_toggle = () => {
+  onAssignQuillObj = (quillObj) => {
     this.setState({
-      proposal_popup_is_open: !this.state.proposal_popup_is_open,
+      quillObj: quillObj,
     });
   };
-
-  proposallist_toggle = () => {
-    this.setState({
-      proposallist_popup_is_open: !this.state.proposallist_popup_is_open,
-    });
-  };
-
-  changeProposalText = (t) => {
-    if (t) {
-      this.setState({
-        proposal_text: t.target.value,
-      });
-    } else {
-      this.setState({
-        proposal_text: '',
-      });
-    }
-  };
-
-  onChangeProposalState = (prop_id, new_state) => {
-    this.props.changeProposalState(prop_id, new_state).then(() => {
-      this.props.fetchProposals(this.state.selected_task).then((proposals) => {
-        this.setState({
-          proposals: proposals.proposal_data,
-        });
-      });
-    });
-  };
-
-  sendProposal = () => {
-    const payload = {
-      text: this.state.proposal_text,
-      task_id: this.state.selected_task,
-    };
-    this.setState(
-      {
-        proposal_loading: true,
-      },
-      () => {
-        this.props.sendProposal(payload).then(() => {
-          this.setState({
-            proposal_popup_is_open: false,
-            proposal_text: '',
-            proposal_loading: false,
-          });
-        });
-      }
-    );
-  };
-
-  skillsbadges2 = (skills) => {
-    if (skills) {
-      let fsix = skills;
-      console.log(fsix);
-      return fsix.map((skl, i) => (
-        <div className='profile-skills dt-skills' key={i}>
-          {skl}
-        </div>
-      ));
-    }
-  };
-
-  skillSection = () => (
-    <div className='profile-badge-categories'>
-      {this.skillsbadges2(this.state.task.taskData[0].skills)}
-    </div>
-  );
 
   render() {
     if (this.state.loading) {
@@ -168,6 +105,20 @@ class Work extends Component {
                     ></div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className='col-md-8 order-md-1'>
+              <div className=''>
+                <div className='tu-heading'>Post an Update</div>
+                <DescriptionEditor
+                  placeholder='Type in the latest update for the task.'
+                  onAssignQuillObj={this.onAssignQuillObj}
+                />
+                <div className='tu-info'>
+                  To attach files, please use a cloud service such as DropBox or
+                  Google Drive and use their link in the update.
+                </div>
+                <button className='btn btn-primary tu-btn'>Post</button>
               </div>
             </div>
           </div>
