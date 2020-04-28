@@ -21,7 +21,7 @@ const mongoose = require('mongoose');
 // @desc    Get all work details
 // @access  Private
 
-router.get('/fetch/', async (req, res) => {
+router.get('/fetch/', auth, async (req, res) => {
   try {
     const work_id = req.query.id || '';
     if (work_id === '') {
@@ -29,7 +29,21 @@ router.get('/fetch/', async (req, res) => {
     }
     const work_data = await Work.aggregate([
       {
-        $match: { _id: mongoose.Types.ObjectId(work_id) },
+        $match: {
+          $and: [
+            { _id: mongoose.Types.ObjectId(work_id) },
+            {
+              $or: [
+                {
+                  assignee: mongoose.Types.ObjectId(req.user.id),
+                },
+                {
+                  assignedTo: mongoose.Types.ObjectId(req.user.id),
+                },
+              ],
+            },
+          ],
+        },
       },
       {
         $lookup: {

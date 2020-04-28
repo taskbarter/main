@@ -1541,3 +1541,10 @@ body {
   text-decoration: none !important;
   color: inherit !important;
 }
+
+.error-msg-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}

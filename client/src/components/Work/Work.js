@@ -53,7 +53,9 @@ class Work extends Component {
           this.setState({
             work: fetched_work,
             loading: false,
-            task: fetched_work.work_data[0].taskDetails[0],
+            task: fetched_work.work_data.length
+              ? fetched_work.work_data[0].taskDetails[0]
+              : [],
           });
         });
       }
@@ -71,6 +73,13 @@ class Work extends Component {
       return (
         <div className='taskv-loader'>
           <TLoader colored={true} />
+        </div>
+      );
+    }
+    if (this.state.task.length === 0) {
+      return (
+        <div className='taskv-loader error-msg-center'>
+          You are not allowed to view this page.
         </div>
       );
     }
