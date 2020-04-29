@@ -725,3 +725,12 @@
     right: inherit;
   }
 }
+
+@media only screen and (min-width: 64em) {
+  .sticky-columns {
+    position: fixed;
+    max-width: 400px;
+    right: inherit;
+    left: 61%;
+  }
+}
