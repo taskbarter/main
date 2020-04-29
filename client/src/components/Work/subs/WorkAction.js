@@ -56,13 +56,45 @@ const WorkAction = (props) => {
         <div className='redeem-heading'>Everything complete?</div>
         <div className='redeem-text'>
           {isOwner
-            ? 'You can mark this as complete if the work is completed by the user.'
+            ? props.last_status === 1
+              ? 'The user has submitted the work. Review the work and then accordingly click on the button below.'
+              : 'You can mark this as complete if the work is completed by the user.'
+            : props.last_status === 1
+            ? 'You have already submitted the work. Please wait for the task owner to review the task.'
             : 'Once you have done the required work, mark it as complete.'}
         </div>
-
-        <button onClick={props.proposalform_toggle} className='btn redeem-btn'>
-          {isOwner ? 'Mark as Complete' : 'Submit Work'}
-        </button>
+        {props.last_status === 1 && isOwner ? (
+          <div className='act-rej'>
+            <button
+              onClick={props.onSubmitWork}
+              disabled={props.submitting_state}
+              className='col-6 btn redeem-btn accept-btn'
+            >
+              <i className='fa fa-check' aria-hidden='true'></i> &nbsp; Accept
+            </button>
+            <button
+              onClick={props.onRejectWork}
+              disabled={props.submitting_state}
+              className='col-6 btn redeem-btn reject-btn'
+            >
+              <i className='fa fa-times' aria-hidden='true'></i> &nbsp; Reject
+            </button>
+          </div>
+        ) : (
+          <button
+            disabled={props.submitting_state || props.last_status === 1}
+            onClick={props.onSubmitWork}
+            className='btn redeem-btn'
+          >
+            {isOwner
+              ? 'Mark as Complete'
+              : props.submitting_state
+              ? 'Submitting...'
+              : props.last_status === 1
+              ? 'Submitted'
+              : 'Submit Work'}
+          </button>
+        )}
       </div>
 
       {user_info}

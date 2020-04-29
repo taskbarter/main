@@ -42,6 +42,9 @@ class Work extends Component {
       description: '',
 
       sending_state: false,
+      submitting_state: false,
+
+      last_status: 0,
     };
   }
 
@@ -58,13 +61,21 @@ class Work extends Component {
 
   refreshData = (id) => {
     this.props.fetchWork(id).then((fetched_work) => {
-      this.setState({
-        work: fetched_work,
-        loading: false,
-        task: fetched_work.work_data.length
-          ? fetched_work.work_data[0].taskDetails[0]
-          : [],
-      });
+      this.setState(
+        {
+          work: fetched_work,
+          loading: false,
+          task: fetched_work.work_data.length
+            ? fetched_work.work_data[0].taskDetails[0]
+            : [],
+        },
+        () => {
+          let status = this.getLatestStatus();
+          this.setState({
+            last_status: status,
+          });
+        }
+      );
     });
   };
 
@@ -87,6 +98,7 @@ class Work extends Component {
         const obj = {
           work_id: this.state.selected_task,
           text: this.state.quillObj.root.innerHTML,
+          type: 0,
         };
         await this.props.sendWorkUpdate(obj);
         this.refreshData(this.state.selected_task);
@@ -97,6 +109,41 @@ class Work extends Component {
         });
       }
     );
+  };
+
+  onSubmitWork = (new_type = 1) => {
+    this.setState(
+      {
+        submitting_state: true,
+      },
+      async () => {
+        const obj = {
+          work_id: this.state.selected_task,
+          text: '',
+          type: new_type,
+        };
+        await this.props.sendWorkUpdate(obj);
+        this.refreshData(this.state.selected_task);
+        this.setState({
+          submitting_state: false,
+        });
+      }
+    );
+  };
+
+  onRejectWork = () => {
+    this.onSubmitWork(2);
+  };
+
+  getLatestStatus = () => {
+    let temp_status = 0;
+    let arr = this.state.work.work_data[0].taskUpdates;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].type !== 0) {
+        temp_status = arr[i].type;
+      }
+    }
+    return temp_status;
   };
 
   render() {
@@ -127,6 +174,10 @@ class Work extends Component {
                 current_user={this.props.auth.user.id}
                 assignee={assignee}
                 assignedTo={assignedTo}
+                onSubmitWork={this.onSubmitWork}
+                submitting_state={this.state.submitting_state}
+                last_status={this.state.last_status}
+                onRejectWork={this.onRejectWork}
               />
             </div>
             <div className='col-md-8 order-md-1'>

@@ -15,7 +15,7 @@ const TaskUpdateSchema = new Schema(
     },
     text: {
       type: String,
-      required: true,
+      default: '',
     },
     //Boolean representing whether the receiver has seen this update or not
     seen: {

@@ -116,6 +116,7 @@ router.post('/update', auth, async (req, res) => {
     work_id: work_id,
     sender: req.user.id,
     text: req.body.text,
+    type: req.body.type,
   });
   newTaskUpdate
     .save()

@@ -726,11 +726,37 @@
   }
 }
 
-@media only screen and (min-width: 64em) {
+@media only screen and (min-width: 90em) {
   .sticky-columns {
     position: fixed;
     max-width: 400px;
     right: inherit;
     left: 61%;
   }
+}
+
+.tu-icon {
+  font-size: 25px;
+}
+
+.tu-border-highlight {
+  border: #9388cd solid 1px;
+}
+
+.act-rej {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.reject-btn,
+.accept-btn {
+  max-width: 45%;
+}
+
+.accept-btn {
+  background: #0ac53b;
+}
+.reject-btn {
+  background: #c50a0a;
 }

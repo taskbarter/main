@@ -1,4 +1,11 @@
 module.exports = {
+  //for Messages:
   MESSAGETYPE_TEXT: 0,
   MESSAGETYPE_PROPOSAL: 1,
+
+  //for Task updates:
+  TASKUPDATE_TEXT: 0,
+  TASKUPDATE_SUBMIT: 1,
+  TASKUPDATE_REJECT: 2,
+  TASKUPDATE_COMPLETE: 3,
 };
