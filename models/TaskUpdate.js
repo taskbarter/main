@@ -27,6 +27,10 @@ const TaskUpdateSchema = new Schema(
       ref: 'taskupdates',
       default: null,
     },
+    type: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const Task = require('../../models/Task');
+const TaskUpdate = require('../../models/TaskUpdate');
 const User = require('../../models/User');
 const Proposal = require('../../models/Proposal');
 const Work = require('../../models/Work');
@@ -64,7 +65,7 @@ router.get('/fetch/', auth, async (req, res) => {
       {
         $lookup: {
           from: 'taskupdates',
-          localField: 'task',
+          localField: '_id',
           foreignField: 'work_id',
           as: 'taskUpdates',
         },
@@ -83,6 +84,46 @@ router.get('/fetch/', auth, async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
+});
+
+// @route POST api/work/update
+// @desc Add new update to the task
+// @access Private
+
+router.post('/update', auth, async (req, res) => {
+  const work_id = req.body.work_id;
+  //Those who are involved in the work can post update.
+  const Work_Obj = await Work.find({
+    $and: [
+      { _id: mongoose.Types.ObjectId(work_id) },
+      {
+        $or: [
+          {
+            assignee: mongoose.Types.ObjectId(req.user.id),
+          },
+          {
+            assignedTo: mongoose.Types.ObjectId(req.user.id),
+          },
+        ],
+      },
+    ],
+  });
+  if (!Work_Obj) {
+    return res.status(500).send('Not authorized for this action.');
+  }
+
+  const newTaskUpdate = new TaskUpdate({
+    work_id: work_id,
+    sender: req.user.id,
+    text: req.body.text,
+  });
+  newTaskUpdate
+    .save()
+    .then((tasku) => res.json(tasku))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Server Error');
+    });
 });
 
 module.exports = router;

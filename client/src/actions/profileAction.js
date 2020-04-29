@@ -139,7 +139,6 @@ export const addExperience = (newExperience) => async (dispatch) => {
       'Content-Type': 'application/json',
     },
   };
-  console.log(newExperience);
   try {
     const res = await axios.put(
       '/api/profile/experience',
@@ -162,7 +161,6 @@ export const editExperience = (newExperience, index) => async (dispatch) => {
       'Content-Type': 'application/json',
     },
   };
-  console.log(newExperience);
   try {
     const res = await axios.post(
       '/api/profile/experience/' + index,
@@ -203,7 +201,6 @@ export const addProject = (newProject) => async (dispatch) => {
       'Content-Type': 'application/json',
     },
   };
-  console.log(newProject);
   try {
     const res = await axios.put('/api/profile/project', newProject, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now

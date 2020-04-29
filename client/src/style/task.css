@@ -416,6 +416,7 @@
   max-height: 68vh;
   min-height: 35vh;
   transition: min-height 0.7s linear;
+  font-size: 14px;
 }
 
 .dt-body.loading {
@@ -648,6 +649,25 @@
   padding-top: 7px;
 }
 
+.tu-update-top {
+  padding: 5px 10px;
+  background: #f0edff;
+  font-size: 11px;
+}
+.tu-owner-pill {
+  float: right;
+  border: #433880 solid 0.5px;
+  border-radius: 4px;
+  padding: 0px 3px;
+  font-size: 10px;
+  font-weight: 500;
+  background: #f9f8ff;
+}
+
+.tu-update-name {
+  font-weight: 600;
+}
+
 .sm-task-top {
   font-size: 10px;
 }
@@ -671,4 +691,11 @@
 
 .task-state.--assigned {
   background: #009688;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  color: #fff;
+  background-color: #433881;
+  border-color: #433881;
 }

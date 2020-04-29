@@ -12,6 +12,7 @@ import {
   fetchWork,
   fetchProposals,
   changeProposalState,
+  sendWorkUpdate,
 } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
@@ -22,6 +23,7 @@ import 'quill/dist/quill.snow.css';
 import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
 import DescriptionEditor from '../task/subs/DescriptionEditor';
 import WorkAction from './subs/WorkAction';
+import TaskUpdateItem from './subs/TaskUpdateItem';
 
 class Work extends Component {
   constructor(props) {
@@ -38,6 +40,8 @@ class Work extends Component {
 
       quillObj: {},
       description: '',
+
+      sending_state: false,
     };
   }
 
@@ -48,24 +52,51 @@ class Work extends Component {
         selected_task: id,
         loading: true,
       },
-      () => {
-        this.props.fetchWork(id).then((fetched_work) => {
-          this.setState({
-            work: fetched_work,
-            loading: false,
-            task: fetched_work.work_data.length
-              ? fetched_work.work_data[0].taskDetails[0]
-              : [],
-          });
-        });
-      }
+      this.refreshData(id)
     );
   }
+
+  refreshData = (id) => {
+    this.props.fetchWork(id).then((fetched_work) => {
+      this.setState({
+        work: fetched_work,
+        loading: false,
+        task: fetched_work.work_data.length
+          ? fetched_work.work_data[0].taskDetails[0]
+          : [],
+      });
+    });
+  };
 
   onAssignQuillObj = (quillObj) => {
     this.setState({
       quillObj: quillObj,
     });
+  };
+
+  onSendUpdate = async () => {
+    if (this.state.quillObj.getText().trim() === '') {
+      return false;
+    }
+    this.state.quillObj.enable(false);
+    this.setState(
+      {
+        sending_state: true,
+      },
+      async () => {
+        const obj = {
+          work_id: this.state.selected_task,
+          text: this.state.quillObj.root.innerHTML,
+        };
+        await this.props.sendWorkUpdate(obj);
+        this.refreshData(this.state.selected_task);
+        this.state.quillObj.enable(true);
+        this.state.quillObj.setText('');
+        this.setState({
+          sending_state: false,
+        });
+      }
+    );
   };
 
   render() {
@@ -85,6 +116,8 @@ class Work extends Component {
     }
     const task = this.state.task;
     const assignee = this.state.work.work_data[0].assignee[0];
+    const assignedTo = this.state.work.work_data[0].assignedTo[0];
+    const task_updates = this.state.work.work_data[0].taskUpdates;
     return (
       <React.Fragment>
         <main role='main' className='container mt-4 mb-4'>
@@ -113,17 +146,39 @@ class Work extends Component {
                   </div>
                 </div>
               </div>
+
+              <div>
+                <div className='tu-heading'>Task Updates</div>
+                {task_updates.map((task_update, id) => {
+                  return (
+                    <div key={id}>
+                      <TaskUpdateItem
+                        task_update={task_update}
+                        assignee={assignee}
+                        assignedTo={assignedTo}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
               <div className=''>
                 <div className='tu-heading'>Post an Update</div>
                 <DescriptionEditor
                   placeholder='Type in the latest update for the task.'
                   onAssignQuillObj={this.onAssignQuillObj}
+                  disabled={this.state.sending_state}
                 />
                 <div className='tu-info'>
                   To attach files, please use a cloud service such as DropBox or
                   Google Drive and use their link in the update.
                 </div>
-                <button className='btn btn-primary tu-btn'>Post</button>
+                <button
+                  disabled={this.state.sending_state}
+                  className='btn btn-primary tu-btn'
+                  onClick={this.onSendUpdate}
+                >
+                  {this.state.sending_state ? 'Posting...' : 'Post'}
+                </button>
               </div>
             </div>
           </div>
@@ -148,4 +203,5 @@ export default connect(mapStateToProps, {
   fetchProposals,
   changeProposalState,
   fetchWork,
+  sendWorkUpdate,
 })(Work);

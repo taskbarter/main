@@ -25,12 +25,10 @@ class UserDetails extends Component {
     if (id !== undefined) {
       this.setState({ userID: id, loading: true }, () => {
         this.props.searchUser(id).then((profile) => {
-          console.log(profile);
           this.setState({
             myprofile: profile,
             loading: false,
           });
-          console.log(this.props.myprofile);
         });
       });
     } else {
@@ -49,7 +47,6 @@ class UserDetails extends Component {
         </div>
       );
     }
-    console.log(profile);
     const user = this.props.user;
     return (
       <div>
