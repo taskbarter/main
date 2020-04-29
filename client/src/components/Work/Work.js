@@ -216,6 +216,8 @@ class Work extends Component {
                         task_update={task_update}
                         assignee={assignee}
                         assignedTo={assignedTo}
+                        task_points={task.taskpoints}
+                        current_user={this.props.auth.user.id}
                       />
                     </div>
                   );

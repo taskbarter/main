@@ -69,7 +69,17 @@ const TaskUpdateItem = (props) => {
             <i class='fa fa-check' aria-hidden='true'></i>
           </div>
           <div class='tu-accept-text mb-1'>Work Accepted!</div>
-          <div>Congrats, your work has been accepted!</div>
+          <div>
+            Congrats, your work has been accepted!
+            {props.assignedTo.user === props.current_user ? (
+              <span className=''>
+                {' '}
+                You earned <strong>{props.task_points} points</strong>.
+              </span>
+            ) : (
+              <span></span>
+            )}
+          </div>
         </div>
       </div>
     );
