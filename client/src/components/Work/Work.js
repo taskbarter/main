@@ -123,7 +123,11 @@ class Work extends Component {
         <main role='main' className='container mt-4 mb-4'>
           <div className='row'>
             <div className='col-md-4 order-md-2 mb-2'>
-              <WorkAction current_user={this.props.auth.user.id} />
+              <WorkAction
+                current_user={this.props.auth.user.id}
+                assignee={assignee}
+                assignedTo={assignedTo}
+              />
             </div>
             <div className='col-md-8 order-md-1'>
               <div className='card card-body mb-2 dt-header'>

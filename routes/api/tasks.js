@@ -282,7 +282,6 @@ router.put('/like/:task_id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
 // @route   POST api/tasks/proposal/:task_id
 // @desc    Proposal on a task
 // @access  Private

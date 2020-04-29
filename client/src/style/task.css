@@ -699,3 +699,15 @@
   background-color: #433881;
   border-color: #433881;
 }
+
+.task-card-text {
+  font-size: 13px;
+}
+
+.tu-profile .profile-badge-dp > img {
+  width: 64px;
+}
+
+.tu-profile .profile-badge-name {
+  font-size: 14px;
+}
