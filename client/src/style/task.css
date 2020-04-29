@@ -743,6 +743,20 @@
   border: #9388cd solid 1px;
 }
 
+.tu-accept-box {
+  border: #02c836 solid 1px;
+}
+
+.tu-accept-box .tu-accept-text,
+.tu-accept-box .tu-icon {
+  color: #1ca440;
+  font-weight: 500;
+}
+
+.tu-accept-box .tu-update-top {
+  background: #edfff0;
+}
+
 .act-rej {
   display: flex;
   flex-direction: row;

@@ -111,7 +111,7 @@ class Work extends Component {
     );
   };
 
-  onSubmitWork = (new_type = 1) => {
+  onSubmitWork = (e, new_type = 1) => {
     this.setState(
       {
         submitting_state: true,
@@ -131,8 +131,12 @@ class Work extends Component {
     );
   };
 
-  onRejectWork = () => {
-    this.onSubmitWork(2);
+  onRejectWork = (e) => {
+    this.onSubmitWork(e, 2);
+  };
+
+  onAcceptWork = (e) => {
+    this.onSubmitWork(e, 3);
   };
 
   getLatestStatus = () => {
@@ -178,6 +182,7 @@ class Work extends Component {
                 submitting_state={this.state.submitting_state}
                 last_status={this.state.last_status}
                 onRejectWork={this.onRejectWork}
+                onAcceptWork={this.onAcceptWork}
               />
             </div>
             <div className='col-md-8 order-md-1'>
@@ -216,25 +221,29 @@ class Work extends Component {
                   );
                 })}
               </div>
-              <div className=''>
-                <div className='tu-heading'>Post an Update</div>
-                <DescriptionEditor
-                  placeholder='Type in the latest update for the task.'
-                  onAssignQuillObj={this.onAssignQuillObj}
-                  disabled={this.state.sending_state}
-                />
-                <div className='tu-info'>
-                  To attach files, please use a cloud service such as DropBox or
-                  Google Drive and use their link in the update.
+              {this.state.last_status !== 3 ? (
+                <div className=''>
+                  <div className='tu-heading'>Post an Update</div>
+                  <DescriptionEditor
+                    placeholder='Type in the latest update for the task.'
+                    onAssignQuillObj={this.onAssignQuillObj}
+                    disabled={this.state.sending_state}
+                  />
+                  <div className='tu-info'>
+                    To attach files, please use a cloud service such as DropBox
+                    or Google Drive and use their link in the update.
+                  </div>
+                  <button
+                    disabled={this.state.sending_state}
+                    className='btn btn-primary tu-btn'
+                    onClick={this.onSendUpdate}
+                  >
+                    {this.state.sending_state ? 'Posting...' : 'Post'}
+                  </button>
                 </div>
-                <button
-                  disabled={this.state.sending_state}
-                  className='btn btn-primary tu-btn'
-                  onClick={this.onSendUpdate}
-                >
-                  {this.state.sending_state ? 'Posting...' : 'Post'}
-                </button>
-              </div>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </main>

@@ -52,6 +52,29 @@ const TaskUpdateItem = (props) => {
     );
   }
 
+  //if task owner has rejected the work:
+  if (props.task_update.type === 3) {
+    return (
+      <div className='card card-body mb-3 p-0 tu-accept-box'>
+        <div className='tu-update-top'>
+          <div>
+            <span className='tu-update-name'>
+              {updated_by.first_name} {updated_by.second_name}
+            </span>{' '}
+            accepted the work {moment(props.task_update.createdAt).fromNow()}
+          </div>
+        </div>
+        <div className='ql-editor dt-description align-middle text-center'>
+          <div className='tu-icon'>
+            <i class='fa fa-check' aria-hidden='true'></i>
+          </div>
+          <div class='tu-accept-text mb-1'>Work Accepted!</div>
+          <div>Congrats, your work has been accepted!</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='card card-body mb-3 p-0'>
       <div className='tu-update-top'>

@@ -49,6 +49,23 @@ const WorkAction = (props) => {
     </div>
   );
 
+  //if the work is completed.
+  if (props.last_status === 3) {
+    return (
+      <React.Fragment>
+        {status}
+        <div className='card card-body redeem-points mb-2'>
+          <div className='redeem-heading mb-2'>Task Completed</div>
+          <div className='task-card-text'>
+            The task has been finalized and the work has been successfully
+            delivered to the task owner.
+          </div>
+        </div>
+        {user_info}
+      </React.Fragment>
+    );
+  }
+
   return (
     <React.Fragment>
       {status}
@@ -66,7 +83,7 @@ const WorkAction = (props) => {
         {props.last_status === 1 && isOwner ? (
           <div className='act-rej'>
             <button
-              onClick={props.onSubmitWork}
+              onClick={props.onAcceptWork}
               disabled={props.submitting_state}
               className='col-6 btn redeem-btn accept-btn'
             >
