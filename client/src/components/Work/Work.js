@@ -122,7 +122,7 @@ class Work extends Component {
       <React.Fragment>
         <main role='main' className='container mt-4 mb-4'>
           <div className='row'>
-            <div className='col-md-4 order-md-2 mb-2'>
+            <div className='col-md-4 order-md-2 mb-2 sticky-columns'>
               <WorkAction
                 current_user={this.props.auth.user.id}
                 assignee={assignee}

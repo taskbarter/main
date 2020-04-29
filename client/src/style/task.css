@@ -711,3 +711,17 @@
 .tu-profile .profile-badge-name {
   font-size: 14px;
 }
+
+.sticky-columns {
+  position: fixed;
+  width: 30%;
+  right: 6%;
+}
+
+@media only screen and (max-width: 48em) {
+  .sticky-columns {
+    position: inherit;
+    width: 100%;
+    right: inherit;
+  }
+}
