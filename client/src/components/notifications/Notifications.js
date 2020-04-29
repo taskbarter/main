@@ -9,52 +9,30 @@ import '../../style/notifications.css';
 import { Input } from 'reactstrap';
 import socketIOClient from 'socket.io-client';
 import NotificationItem from './subs/NotificationItem';
-
-const notifs = [
-  {
-    text: `Your task 'create new website' has been completed by Anas Usman.`,
-    time: Date.now(),
-    link_to: '/tasks/312',
-    _id: '123456'
-  },
-  {
-    text: `Your task 'proofread this text' has been deleted as it violates our terms and conditions`,
-    time: Date.now(),
-    link_to: '/tasks/612',
-    _id: '123457'
-  },
-  {
-    text: `You haven't updated your profile yet. Update it to get matched jobs on Taskbarter`,
-    time: Date.now(),
-    link_to: '/tasks/21',
-    _id: '123458'
-  },
-  {
-    text: `35 people have bookmarked your task recently.`,
-    time: Date.now(),
-    link_to: '/tasks/512',
-    _id: '123459'
-  }
-];
+import { getNotifications } from '../../actions/notifActions';
 
 class Notifications extends Component {
   constructor() {
     super();
     this.state = {
       selected_convo: '',
-      current_notifications: notifs
     };
   }
-  componentDidMount() {}
-  onConvoClick = id => {};
+  componentDidMount() {
+    this.props.getNotifications();
+  }
+  onConvoClick = (id) => {};
 
   render() {
+    if (!this.props.notifications) {
+      return <div className='container notif-container'>Loading...</div>;
+    }
     return (
       <div className='container notif-container'>
         <div className='notif-section'>
           <div className='task-list-title'>Your recent notifications</div>
           <div className='notif-list'>
-            {this.state.current_notifications.map((notif, key) => {
+            {this.props.notifications.notifications.map((notif, key) => {
               return <NotificationItem notif={notif} key={key} />;
             })}
           </div>
@@ -64,9 +42,10 @@ class Notifications extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   socket_connection: state.socket.socket_connection,
-  auth: state.auth
+  auth: state.auth,
+  notifications: state.notifications,
 });
 
-export default connect(mapStateToProps, {})(Notifications);
+export default connect(mapStateToProps, { getNotifications })(Notifications);

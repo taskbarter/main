@@ -13,6 +13,7 @@ import ProfileBadge from './ProfileBadge';
 import Footer from '../layout/Footer';
 import TasksPublished from './TasksPublished';
 import TasksToDo from './TasksToDo';
+import { getNotifications } from '../../actions/notifActions';
 
 class Dashboard extends Component {
   onLogoutClick = (e) => {
@@ -23,6 +24,7 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.fetchPublishedTasks(3);
     this.props.fetchWorkingTasks(3);
+    this.props.getNotifications();
   }
 
   render() {
@@ -38,7 +40,10 @@ class Dashboard extends Component {
               <ProfileBadge />
             </div>
             <div className='col-md-8 order-md-1'>
-              <Notifications history={this.props.history} />
+              <Notifications
+                notifs={this.props.notifications.notifications}
+                history={this.props.history}
+              />
               <TasksPublished
                 published_tasks={this.props.published_tasks}
                 history={this.props.history}
@@ -65,9 +70,11 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   published_tasks: state.task.published_tasks,
   working_tasks: state.task.working_tasks,
+  notifications: state.notifications,
 });
 export default connect(mapStateToProps, {
   logoutUser,
   fetchPublishedTasks,
   fetchWorkingTasks,
+  getNotifications,
 })(Dashboard);

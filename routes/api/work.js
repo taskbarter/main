@@ -17,7 +17,13 @@ const {
   TASK_ASSIGNED,
   TASK_COMPLETED,
 } = require('../../constants/state');
-const { TASKUPDATE_COMPLETE } = require('../../constants/types');
+const {
+  TASKUPDATE_SUBMIT,
+  TASKUPDATE_TEXT,
+  TASKUPDATE_REJECT,
+  TASKUPDATE_COMPLETE,
+} = require('../../constants/types');
+const { addNotification } = require('../../functions/notifications');
 const mongoose = require('mongoose');
 
 // @route   GET api/work/fetch
@@ -114,6 +120,10 @@ router.post('/update', auth, async (req, res) => {
     if (!Work_Obj) {
       return res.status(500).send('Not authorized for this action.');
     }
+    const other_user =
+      req.user.id.toString() === Work_Obj[0].assignee.toString()
+        ? Work_Obj[0].assignedTo
+        : Work_Obj[0].assignee;
 
     const newTaskUpdate = new TaskUpdate({
       work_id: work_id,
@@ -122,19 +132,59 @@ router.post('/update', auth, async (req, res) => {
       type: req.body.type,
     });
     await newTaskUpdate.save();
+    const pTask = await Task.findById(Work_Obj[0].task);
+
+    const pUserDetails = await PersonalDetails.findOne({
+      user: Work_Obj[0].assignedTo,
+    });
+
+    const user_info = await PersonalDetails.findOne({
+      user: req.user.id,
+    });
 
     if (req.body.type === TASKUPDATE_COMPLETE) {
       //if task is accepted.
-      const pTask = await Task.findById(Work_Obj[0].task);
       pTask.state = TASK_COMPLETED;
       await pTask.save();
 
-      const pUserDetails = await PersonalDetails.findOne({
-        user: Work_Obj[0].assignedTo,
-      });
-
       pUserDetails.pointsEarned = pUserDetails.pointsEarned + pTask.taskpoints;
       await pUserDetails.save();
+
+      addNotification(
+        `${user_info.first_name} ${user_info.second_name} has accepted your work for the task '${pTask.headline}'`,
+        other_user,
+        `/w/${Work_Obj[0]._id}`
+      );
+
+      addNotification(
+        `Congrats, you earned ${pTask.taskpoints} points for completing a task.`,
+        other_user,
+        `/w/${Work_Obj[0]._id}`
+      );
+    }
+
+    if (req.body.type === TASKUPDATE_REJECT) {
+      addNotification(
+        `${user_info.first_name} ${user_info.second_name} has rejected your work for the task '${pTask.headline}'`,
+        other_user,
+        `/w/${Work_Obj[0]._id}`
+      );
+    }
+
+    if (req.body.type === TASKUPDATE_SUBMIT) {
+      addNotification(
+        `${user_info.first_name} ${user_info.second_name} just submitted a new update for the task '${pTask.headline}'`,
+        other_user,
+        `/w/${Work_Obj[0]._id}`
+      );
+    }
+
+    if (req.body.type === TASKUPDATE_TEXT) {
+      addNotification(
+        `${user_info.first_name} ${user_info.second_name} posted a new update to the task '${pTask.headline}'`,
+        other_user,
+        `/w/${Work_Obj[0]._id}`
+      );
     }
 
     res.json(newTaskUpdate);

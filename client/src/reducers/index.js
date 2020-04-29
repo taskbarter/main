@@ -5,6 +5,7 @@ import profileReducer from './profileReducer';
 import taskReducer from './taskReducer';
 import socketReducer from './socketReducer';
 import messageReducer from './messageReducer';
+import notifReducer from './notifReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   profile: profileReducer,
   task: taskReducer,
   socket: socketReducer,
-  message: messageReducer
+  message: messageReducer,
+  notifications: notifReducer,
 });

@@ -32,6 +32,35 @@ const TaskAction = (props) => {
       );
     }
 
+    //if it is completed and the owner is viewing:
+    if (props.task_state === 1 && props.task_work) {
+      return (
+        <React.Fragment>
+          <div className='card card-body redeem-points mb-2'>
+            <div className='redeem-heading'>See Updates on Task</div>
+            <div className='redeem-text'>
+              This task is already completed. You can view the work done by the
+              hired user.
+            </div>
+            <Link to={`/w/${props.task_work._id}`}>
+              <button className='btn redeem-btn'>See Updates</button>
+            </Link>
+          </div>
+
+          <div className='card card-body redeem-points mb-2'>
+            <div className='redeem-heading'>Task Performance</div>
+            <div className='redeem-text'>
+              1 People have visited this task and {props.proposals.length}{' '}
+              people sent a proposal.
+            </div>
+            <button className='btn redeem-btn' disabled>
+              See Proposals ({props.proposals.length})
+            </button>
+          </div>
+        </React.Fragment>
+      );
+    }
+
     return (
       <React.Fragment>
         <div className='card card-body redeem-points mb-2'>
