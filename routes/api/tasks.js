@@ -22,12 +22,28 @@ const mongoose = require('mongoose');
 // @access Private
 
 // only those having account must add task to ensure security ?
-router.post('/add', auth, (req, res) => {
+router.post('/add', auth, async (req, res) => {
   if (!req.body.headline) {
     return res
       .status(404)
       .json({ headlineNotFound: 'Headline cannot be empty!' });
   }
+
+  const profile = await PersonalDetails.findOne({
+    user: req.user.id,
+  });
+
+  const currentPoints = profile.pointsEarned - profile.pointsSpent;
+
+  if (currentPoints < req.body.points) {
+    return res.status(500).send('Insufficient balance.');
+  }
+
+  profile.pointsSpent =
+    parseInt(profile.pointsSpent) + parseInt(req.body.points);
+
+  await profile.save();
+
   const newTask = new Task({
     headline: req.body.headline,
     description: req.body.description,
@@ -42,7 +58,7 @@ router.post('/add', auth, (req, res) => {
     .then((task) => res.json(task))
     .catch((err) => {
       console.error(err);
-      res.status(500).send('Server Error');
+      return res.status(500).send('Server Error');
     });
 });
 

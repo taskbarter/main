@@ -6,6 +6,7 @@ import CurrentBalanceCard from '../profile/CurrentBalanceCard';
 import AddTaskHints from './AddTaskHints';
 import Footer from '../layout/Footer';
 import { addTask } from '../../actions/taskAction';
+import { getCurrentProfile } from '../../actions/profileAction';
 import validate from '../../config/rules';
 import AlertMsg from '../utils/AlertMsg';
 import { useQuill } from 'react-quilljs';
@@ -27,15 +28,16 @@ class AddTask extends Component {
       points_for_task: 1,
       error: {
         msg: '',
-        type: 0
+        type: 0,
       },
       areTermsAccepted: false,
       isAccepted: false,
-      description: ''
+      description: '',
+      sending_state: false,
     };
   }
 
-  onChange = e => {
+  onChange = (e) => {
     // if (validate(e.target.id, e.target.value) !== '') {
     //   document.getElementById(e.target.id).classList.add('is-invalid');
     // } else {
@@ -52,8 +54,8 @@ class AddTask extends Component {
     if (e.target.id === 'skills') {
       let select = e.target;
       let values = [].filter
-        .call(select.options, o => o.selected)
-        .map(o => o.value);
+        .call(select.options, (o) => o.selected)
+        .map((o) => o.value);
       this.setState({ skills: values });
       if (values.length > 3) {
         document.getElementById(e.target.id).classList.add('is-invalid');
@@ -66,11 +68,11 @@ class AddTask extends Component {
     if (e.target.id === 'gridCheck1') {
       if (e.target.checked) {
         this.setState({
-          areTermsAccepted: true
+          areTermsAccepted: true,
         });
       } else {
         this.setState({
-          error: { msg: 'You must agree to the terms to continue', type: 0 }
+          error: { msg: 'You must agree to the terms to continue', type: 0 },
         });
       }
       return;
@@ -81,8 +83,8 @@ class AddTask extends Component {
       this.setState({
         error: {
           msg: err,
-          type: 0
-        }
+          type: 0,
+        },
       });
       if (err !== '') {
         document.getElementById(e.target.id).classList.add('is-invalid');
@@ -92,20 +94,20 @@ class AddTask extends Component {
     }
   };
 
-  onAssignQuillObj = quillObj => {
+  onAssignQuillObj = (quillObj) => {
     this.setState({
-      quillObj: quillObj
+      quillObj: quillObj,
     });
   };
 
-  onSubmit = async e => {
+  onSubmit = async (e) => {
     e.preventDefault();
     const {
       headline,
       skills,
       areTermsAccepted,
       category,
-      duration
+      duration,
     } = this.state;
 
     const description = this.state.quillObj.getText();
@@ -116,21 +118,38 @@ class AddTask extends Component {
 
     if (err !== '') {
       this.setState({
-        error: { msg: err, type: 0 }
+        error: { msg: err, type: 0 },
       });
     }
 
     if (skills.length > 3) {
       err = 'You can only select 3 skills at max.';
       this.setState({
-        error: { msg: err, type: 0 }
+        error: { msg: err, type: 0 },
       });
     }
 
     if (skills.length === 0) {
       err = 'You must select at least one skill to continue.';
       this.setState({
-        error: { msg: err, type: 0 }
+        error: { msg: err, type: 0 },
+      });
+    }
+
+    let currentPoints = 0;
+    if (this.props.profile.profile) {
+      currentPoints =
+        this.props.profile.profile.pointsEarned -
+        this.props.profile.profile.pointsSpent;
+    }
+
+    if (this.state.points > currentPoints) {
+      err = `You do no have sufficient points to add this task.`;
+      this.setState({
+        error: {
+          msg: err,
+          type: 0,
+        },
       });
     }
 
@@ -140,8 +159,8 @@ class AddTask extends Component {
       this.setState({
         error: {
           msg: err,
-          type: 0
-        }
+          type: 0,
+        },
       });
     }
 
@@ -150,8 +169,8 @@ class AddTask extends Component {
       this.setState({
         error: {
           msg: err,
-          type: 0
-        }
+          type: 0,
+        },
       });
     }
 
@@ -160,8 +179,8 @@ class AddTask extends Component {
       this.setState({
         error: {
           msg: err,
-          type: 0
-        }
+          type: 0,
+        },
       });
     }
 
@@ -171,30 +190,54 @@ class AddTask extends Component {
       window.scrollTo(0, 0);
       return false;
     } else {
-      window.scrollTo(0, 0);
       const newTask = {
         headline: this.state.headline,
         description: this.state.quillObj.root.innerHTML,
         duration: this.state.duration,
         category: this.state.category,
         skills: this.state.skills,
-        points: this.state.points
+        points: this.state.points,
       };
-
-      if (this.props.addTask(newTask, this.props.history)) {
-        this.setState({
-          isAccepted: true,
-          error: {
-            msg:
-              'Your task has been successfully added and is public for everyone on Taskbarter.',
-            type: 2
-          }
-        });
-      }
+      this.setState(
+        {
+          sending_state: true,
+        },
+        () => {
+          this.props
+            .addTask(newTask, this.props.history)
+            .then((isSuccessful) => {
+              if (isSuccessful) {
+                window.scrollTo(0, 0);
+                this.setState({
+                  isAccepted: true,
+                  error: {
+                    msg:
+                      'Your task has been successfully added and is public for everyone on Taskbarter.',
+                    type: 2,
+                  },
+                });
+                this.props.getCurrentProfile();
+              } else {
+                this.setState({
+                  error: {
+                    msg: 'Some error occurred in the backend.',
+                    type: 0,
+                  },
+                });
+              }
+            });
+        }
+      );
     }
   };
   render() {
     const { user } = this.props.auth;
+    let currentPoints = 0;
+    if (this.props.profile.profile) {
+      currentPoints =
+        this.props.profile.profile.pointsEarned -
+        this.props.profile.profile.pointsSpent;
+    }
     // console.log(this.state);
     return (
       <div>
@@ -209,7 +252,7 @@ class AddTask extends Component {
               ) : (
                 ''
               )}
-              <CurrentBalanceCard />
+              <CurrentBalanceCard profile={this.props.profile} />
               <AddTaskHints />
             </div>
 
@@ -228,7 +271,7 @@ class AddTask extends Component {
                         width='100px'
                         value={this.state.headline}
                         id='headline'
-                        onChange={e => this.onChange(e)}
+                        onChange={(e) => this.onChange(e)}
                       />
                       <span className='max-chars'>* (Max 50 characters)</span>
                     </div>
@@ -250,7 +293,7 @@ class AddTask extends Component {
                         id='state'
                         required=''
                         id='duration'
-                        onChange={e => this.onChange(e)}
+                        onChange={(e) => this.onChange(e)}
                       >
                         <option value=''>Choose...</option>
                         <option value='.3'>one to ten hours</option>
@@ -269,7 +312,7 @@ class AddTask extends Component {
                       <select
                         className='custom-select my-1 mr-sm-2'
                         id='category'
-                        onChange={e => this.onChange(e)}
+                        onChange={(e) => this.onChange(e)}
                       >
                         <option defaultValue>Choose...</option>
                         <option>Computer Programming</option>
@@ -292,7 +335,7 @@ class AddTask extends Component {
                         multiple
                         className='form-control'
                         id='skills'
-                        onChange={e => this.onChange(e)}
+                        onChange={(e) => this.onChange(e)}
                       >
                         <option>Adobe Photoshop</option>
                         <option>C++</option>
@@ -319,8 +362,9 @@ class AddTask extends Component {
                         id='points'
                         className='form-control'
                         aria-describedby='taskPointsHelp'
-                        onChange={e => this.onChange(e)}
+                        onChange={(e) => this.onChange(e)}
                         value={this.state.points_for_task}
+                        disabled={!currentPoints}
                       />
                       <small id='taskPointsHelp' className='text-muted'>
                         Must depict the requirements you mentioned
@@ -332,7 +376,7 @@ class AddTask extends Component {
                         className='form-check-input'
                         type='checkbox'
                         id='gridCheck1'
-                        onChange={e => this.onChange(e)}
+                        onChange={(e) => this.onChange(e)}
                       />
                       <label className='form-check-label' htmlFor='gridCheck1'>
                         I confirm that the information provided in this task
@@ -342,8 +386,14 @@ class AddTask extends Component {
                     </div>
 
                     <div className='task-button-submit'>
-                      <button type='submit' className='btn add-task-btn'>
-                        Add Task
+                      <button
+                        disabled={!currentPoints || this.state.sending_state}
+                        type='submit'
+                        className='btn add-task-btn'
+                      >
+                        {this.state.sending_state
+                          ? 'Adding Task...'
+                          : 'Add Task'}
                       </button>
                     </div>
                   </form>
@@ -373,10 +423,11 @@ class AddTask extends Component {
 }
 AddTask.propTypes = {
   auth: PropTypes.object.isRequired,
-  addTask: PropTypes.func.isRequired
+  addTask: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
 });
 
 AddTask.modules = {
@@ -388,15 +439,15 @@ AddTask.modules = {
       { list: 'ordered' },
       { list: 'bullet' },
       { indent: '-1' },
-      { indent: '+1' }
+      { indent: '+1' },
     ],
     ['link', 'image', 'video'],
-    ['clean']
+    ['clean'],
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false
-  }
+    matchVisual: false,
+  },
 };
 AddTask.formats = [
   'header',
@@ -413,7 +464,9 @@ AddTask.formats = [
   'link',
   'image',
   'video',
-  'formula'
+  'formula',
 ];
 
-export default connect(mapStateToProps, { addTask })(AddTask);
+export default connect(mapStateToProps, { addTask, getCurrentProfile })(
+  AddTask
+);
