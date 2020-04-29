@@ -19,7 +19,7 @@ const PersonalDetails = new mongoose.Schema({
   },
   pointsEarned: {
     type: Number,
-    default: 0,
+    default: 15,
   },
   pointsSpent: {
     type: Number,
