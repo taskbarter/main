@@ -14,6 +14,7 @@ const User = require('../../models/User');
 const PersonalDetails = require('../../models/PersonalDetails');
 
 const htmlForConfirmation = require('../../emails/confirmation');
+const { addNotification } = require('../../functions/notifications');
 
 var sendEmailVerification = function (newUser) {
   //Generate Token For email verification
@@ -114,6 +115,19 @@ router.post('/register', (req, res) => {
               ...userPersonalDetails,
               id: user._id,
             });
+
+            addNotification(
+              `Welcome to Taskbarter! We suggest that you complete your profile before applying to jobs.`,
+              user._id,
+              `/me`
+            );
+
+            addNotification(
+              `Congrats you just got 15 points as a welcome bonus`,
+              user._id,
+              `/`
+            );
+
             return res.json(user);
           })
           .catch((err) => {

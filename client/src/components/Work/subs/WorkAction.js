@@ -7,7 +7,7 @@ const WorkAction = (props) => {
   const user_info = (
     <div>
       <div className='card card-body redeem-points mb-2 tu-profile'>
-        <div className='redeem-heading mb-2'>
+        <div className='redeem-heading mb-3'>
           {' '}
           {isOwner ? 'Assigned To' : 'Task Owner'}
         </div>

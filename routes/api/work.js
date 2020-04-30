@@ -148,7 +148,7 @@ router.post('/update', auth, async (req, res) => {
       await pTask.save();
 
       pUserDetails.pointsEarned = pUserDetails.pointsEarned + pTask.taskpoints;
-      pUserDetails.tasksDone = parseInt(profile.tasksDone) + 1;
+      pUserDetails.tasksDone = parseInt(pUserDetails.tasksDone) + 1;
       await pUserDetails.save();
 
       addNotification(
@@ -174,7 +174,7 @@ router.post('/update', auth, async (req, res) => {
 
     if (req.body.type === TASKUPDATE_SUBMIT) {
       addNotification(
-        `${user_info.first_name} ${user_info.second_name} just submitted a new update for the task '${pTask.headline}'`,
+        `${user_info.first_name} ${user_info.second_name} just submitted a the work for the task '${pTask.headline}'. Please review.`,
         other_user,
         `/w/${Work_Obj[0]._id}`
       );

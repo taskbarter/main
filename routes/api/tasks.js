@@ -16,6 +16,7 @@ const {
   TASK_ASSIGNED,
 } = require('../../constants/state');
 const mongoose = require('mongoose');
+const { addNotification } = require('../../functions/notifications');
 
 // @route POST api/tasks/add
 // @desc Add new Task
@@ -57,7 +58,15 @@ router.post('/add', auth, async (req, res) => {
   });
   newTask
     .save()
-    .then((task) => res.json(task))
+    .then((task) => {
+      addNotification(
+        `Your task '${task.headline}' is now live for public.`,
+        profile._id,
+        `/t/${task._id}`
+      );
+
+      return res.json(task);
+    })
     .catch((err) => {
       console.error(err);
       return res.status(500).send('Server Error');
@@ -432,6 +441,17 @@ router.post('/sendproposal', auth, async (req, res) => {
       content_payload: JSON.stringify(payload),
     });
     const completed = await newMsg.save();
+
+    let prof = await PersonalDetails.findOne({
+      user: req.user.id,
+    });
+
+    addNotification(
+      `You received a proposal from ${prof.first_name} ${prof.second_name} for your task '${ptask.headline}'.`,
+      ptask.user,
+      `/t/${ptask._id}`
+    );
+
     res.json(prop);
   } catch (err) {
     console.error(err);
@@ -487,13 +507,13 @@ router.post(
       }
 
       const pros = await Proposal.findById(req.body.proposal_id);
-
       pros.status = req.body.new_state;
+
+      const pTask = await Task.findById(pros.task);
 
       if (pros.status === PROPOSAL_ACCEPTED) {
         //once proposal is accepted:
 
-        const pTask = await Task.findById(pros.task);
         pTask.state = TASK_ASSIGNED;
         await pTask.save();
 
@@ -504,6 +524,25 @@ router.post(
         });
 
         const tempWork = await newWork.save();
+
+        addNotification(
+          `Congrats, your proposal for the task '${pTask.headline}' has been accepted. Start working now!`,
+          pros.user,
+          `/w/${tempWork._id}`
+        );
+        addNotification(
+          `Work for the task '${pTask.headline}' is on its way.`,
+          req.user.id,
+          `/w/${tempWork._id}`
+        );
+      }
+
+      if (pros.status === PROPOSAL_REJECTED) {
+        addNotification(
+          `Your proposal for the task '${pTask.headline}' was rejected by the task owner.`,
+          pros.user,
+          `/t/${pTask._id}`
+        );
       }
 
       await pros.save();
