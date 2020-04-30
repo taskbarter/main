@@ -15,7 +15,7 @@ export const createConnection = (auth) => async (dispatch) => {
     type: SET_SOCKET_CONNECTION,
     payload: socket,
   });
-  dispatch(listenForEvents(socket));
+  //dispatch(listenForEvents(socket));
 };
 
 export const listenForEvents = (socket) => async (dispatch) => {

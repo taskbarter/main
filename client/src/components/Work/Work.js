@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
 import { getTasksCount } from '../../actions/taskAction';
+import { getCurrentProfile } from '../../actions/profileAction';
 import moment from 'moment';
 import {
   toggleLike,
@@ -24,6 +25,7 @@ import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
 import DescriptionEditor from '../task/subs/DescriptionEditor';
 import WorkAction from './subs/WorkAction';
 import TaskUpdateItem from './subs/TaskUpdateItem';
+import { createConnection } from '../../actions/socketActions';
 
 class Work extends Component {
   constructor(props) {
@@ -57,7 +59,20 @@ class Work extends Component {
       },
       this.refreshData(id)
     );
+    this.waitForSocket();
   }
+
+  waitForSocket = async () => {
+    if (!this.props.socket_connection.id) {
+      await this.props.createConnection(this.props.auth);
+    }
+
+    this.props.socket_connection.on('refresh_work_page', (data) => {
+      if (data.work_id === this.state.selected_task) {
+        this.refreshData(this.state.selected_task);
+      }
+    });
+  };
 
   refreshData = (id) => {
     this.props.fetchWork(id).then((fetched_work) => {
@@ -71,6 +86,9 @@ class Work extends Component {
         },
         () => {
           let status = this.getLatestStatus();
+          if (status === 3) {
+            this.props.getCurrentProfile();
+          }
           this.setState({
             last_status: status,
           });
@@ -257,6 +275,7 @@ class Work extends Component {
 const mapStateToProps = (state) => ({
   task: state.task,
   auth: state.auth,
+  socket_connection: state.socket.socket_connection,
 });
 
 export default connect(mapStateToProps, {
@@ -270,4 +289,6 @@ export default connect(mapStateToProps, {
   changeProposalState,
   fetchWork,
   sendWorkUpdate,
+  createConnection,
+  getCurrentProfile,
 })(Work);

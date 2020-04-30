@@ -26,6 +26,8 @@ const {
 const { addNotification } = require('../../functions/notifications');
 const mongoose = require('mongoose');
 
+const { refreshOtherUser } = require('../../functions/notifications');
+
 // @route   GET api/work/fetch
 // @desc    Get all work details
 // @access  Private
@@ -187,6 +189,8 @@ router.post('/update', auth, async (req, res) => {
         `/w/${Work_Obj[0]._id}`
       );
     }
+
+    refreshOtherUser(work_id, other_user);
 
     res.json(newTaskUpdate);
   } catch (err) {

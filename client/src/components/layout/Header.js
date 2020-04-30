@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { getCurrentProfile } from '../../actions/profileAction';
-import { createConnection } from '../../actions/socketActions';
+import { createConnection, listenForEvents } from '../../actions/socketActions';
 import workspace_icon from '../../style/inc/work.svg';
 import notif_icon from '../../style/inc/notif.svg';
 import msg_icon from '../../style/inc/msg.svg';
@@ -48,7 +48,9 @@ class Header extends Component {
         this.props.addToast(
           `Welcome back ${this.props.profile.profile.first_name} ${this.props.profile.profile.second_name}`
         );
-        this.props.createConnection(this.props.auth);
+        this.props.createConnection(this.props.auth).then(() => {
+          this.props.listenForEvents(this.props.socket_connection);
+        });
       });
     }
   }
@@ -226,6 +228,7 @@ Header.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
+  socket_connection: state.socket.socket_connection,
 });
 export default withRouter(
   connect(mapStateToProps, {
@@ -233,5 +236,6 @@ export default withRouter(
     getCurrentProfile,
     createConnection,
     addToast,
+    listenForEvents,
   })(Header)
 );
