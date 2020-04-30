@@ -174,7 +174,7 @@ router.post('/update', auth, async (req, res) => {
 
     if (req.body.type === TASKUPDATE_SUBMIT) {
       addNotification(
-        `${user_info.first_name} ${user_info.second_name} just submitted a the work for the task '${pTask.headline}'. Please review.`,
+        `${user_info.first_name} ${user_info.second_name} just submitted the work for the task '${pTask.headline}'. Please review.`,
         other_user,
         `/w/${Work_Obj[0]._id}`
       );
