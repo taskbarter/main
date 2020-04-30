@@ -117,6 +117,8 @@ class AddTask extends Component {
     }
   };
 
+  handleFocus = (event) => event.target.select();
+
   onSubmit = async (e) => {
     e.preventDefault();
     const {
@@ -382,6 +384,7 @@ class AddTask extends Component {
                         onChange={(e) => this.onChange(e)}
                         value={this.state.points_for_task}
                         disabled={!currentPoints}
+                        onFocus={this.handleFocus}
                       />
                       <div className='points-change-btns'>
                         <button
