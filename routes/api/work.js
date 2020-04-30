@@ -148,6 +148,7 @@ router.post('/update', auth, async (req, res) => {
       await pTask.save();
 
       pUserDetails.pointsEarned = pUserDetails.pointsEarned + pTask.taskpoints;
+      pUserDetails.tasksDone = parseInt(profile.tasksDone) + 1;
       await pUserDetails.save();
 
       addNotification(

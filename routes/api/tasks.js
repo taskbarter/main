@@ -42,6 +42,8 @@ router.post('/add', auth, async (req, res) => {
   profile.pointsSpent =
     parseInt(profile.pointsSpent) + parseInt(req.body.points);
 
+  profile.tasksPosted = parseInt(profile.tasksPosted) + 1;
+
   await profile.save();
 
   const newTask = new Task({
