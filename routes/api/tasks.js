@@ -61,7 +61,7 @@ router.post('/add', auth, async (req, res) => {
     .then((task) => {
       addNotification(
         `Your task '${task.headline}' is now live for public.`,
-        profile._id,
+        profile.user,
         `/t/${task._id}`
       );
 

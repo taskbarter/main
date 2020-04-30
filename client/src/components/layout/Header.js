@@ -48,7 +48,7 @@ class Header extends Component {
         this.props.addToast(
           `Welcome back ${this.props.profile.profile.first_name} ${this.props.profile.profile.second_name}`
         );
-        //this.props.createConnection(this.props.auth);
+        this.props.createConnection(this.props.auth);
       });
     }
   }

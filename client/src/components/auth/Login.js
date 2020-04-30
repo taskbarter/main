@@ -13,7 +13,7 @@ class Login extends Component {
       password: '',
       errors: {},
       errMsg: '',
-      isLoading: false
+      isLoading: false,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -24,14 +24,14 @@ class Login extends Component {
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors,
-        isLoading: false
+        isLoading: false,
       });
     }
   }
   getParams(location) {
     const searchParams = new URLSearchParams(location.search);
     return {
-      v: searchParams.get('v') || ''
+      v: searchParams.get('v') || '',
     };
   }
   componentDidMount() {
@@ -42,37 +42,37 @@ class Login extends Component {
     document.getElementById('html').className = 'login-html';
     this.setState({
       errors: {
-        empty: 'The fields are empty'
-      }
+        empty: 'The fields are empty',
+      },
     });
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
     document.getElementById('html').className = '';
   }
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     if (this.state.email.length < 1) {
       this.setState({
-        errMsg: 'You must enter Username or Email'
+        errMsg: 'You must enter Username or Email',
       });
       return;
     }
     if (this.state.password.length < 6) {
       this.setState({
-        errMsg: 'Your password seems invalid'
+        errMsg: 'Your password seems invalid',
       });
       return;
     }
     const userData = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
     this.props.loginUser(userData);
   };
@@ -175,7 +175,7 @@ class Login extends Component {
             <Link to='/register'>Create an account</Link>
           </div>
           <p className='mt-4 mb-1 text-muted text-center'>
-            Taskbarter &copy; 2019
+            Taskbarter &copy; 2020
           </p>
           <p className='mt-0 mb-3 text-muted text-center'>
             Your information is ensured to be kept in the most secure way
@@ -191,10 +191,10 @@ class Login extends Component {
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 export default connect(mapStateToProps, { loginUser })(Login);

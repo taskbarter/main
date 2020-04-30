@@ -3,7 +3,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import socketIOClient from 'socket.io-client';
 
-export const getNotifications = (user_id) => async (dispatch) => {
+export const getNotifications = () => async (dispatch) => {
   try {
     const mtok = localStorage.jwtToken;
     if (mtok) {

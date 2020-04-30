@@ -17,14 +17,14 @@ class Register extends Component {
       password: '',
       password2: '',
       errors: {},
-      errMsg: ''
+      errMsg: '',
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.errors,
       });
     }
   }
@@ -36,15 +36,15 @@ class Register extends Component {
     document.getElementById('html').className = 'login-html';
     this.setState({
       errors: {
-        empty: 'The fields are empty'
-      }
+        empty: 'The fields are empty',
+      },
     });
   }
   componentWillUnmount() {
     document.getElementById('body').className = '';
     document.getElementById('html').className = '';
   }
-  onChange = e => {
+  onChange = (e) => {
     if (validate(e.target.id, e.target.value) !== '') {
       document.getElementById(e.target.id).classList.add('is-invalid');
     } else {
@@ -53,28 +53,28 @@ class Register extends Component {
     }
     this.setState({ [e.target.id]: e.target.value });
   };
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     var regex = '';
 
     regex = /^[a-zA-Z]{3,32}$/;
     if (!regex.test(this.state.fname) || !regex.test(this.state.sname)) {
       this.setState({
-        errMsg: 'Your first or last name is not correct.'
+        errMsg: 'Your first or last name is not correct.',
       });
       return;
     }
     regex = /^[a-z0-9_-]{3,16}$/;
     if (!regex.test(this.state.name)) {
       this.setState({
-        errMsg: 'Your username is not correct.'
+        errMsg: 'Your username is not correct.',
       });
       return;
     }
     regex = /.+@.+\.[A-Za-z]+$/;
     if (!regex.test(this.state.email)) {
       this.setState({
-        errMsg: 'Your email address is not correct.'
+        errMsg: 'Your email address is not correct.',
       });
       return;
     }
@@ -84,13 +84,13 @@ class Register extends Component {
       this.state.password.length < 6
     ) {
       this.setState({
-        errMsg: 'Type in password of more than 6 characters to continue.'
+        errMsg: 'Type in password of more than 6 characters to continue.',
       });
       return;
     }
     if (this.state.password.localeCompare(this.state.password2) !== 0) {
       this.setState({
-        errMsg: 'Your both passwords must match.'
+        errMsg: 'Your both passwords must match.',
       });
       document.getElementById('password2').classList.add('is-invalid');
       return;
@@ -99,7 +99,7 @@ class Register extends Component {
     document.getElementById('password2').classList.add('is-valid');
     //ON SUCCESS:
     this.setState({
-      errMsg: ''
+      errMsg: '',
     });
     const newUser = {
       name: this.state.name,
@@ -107,10 +107,10 @@ class Register extends Component {
       sname: this.state.sname,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2
+      password2: this.state.password2,
     };
     this.setState({
-      errors: {}
+      errors: {},
     });
     this.props.registerUser(newUser, this.props.history);
   };
@@ -252,7 +252,7 @@ class Register extends Component {
             <Link to='/login'>Already have an account?</Link>
           </div>
           <p className='mt-4 mb-1 text-muted text-center'>
-            Taskbarter &copy; 2019
+            Taskbarter &copy; 2020
           </p>
           <p className='mt-0 mb-3 text-muted text-center'>
             Your information is ensured to be kept in the most secure way
@@ -268,12 +268,12 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, { registerUser })(withRouter(Register));
