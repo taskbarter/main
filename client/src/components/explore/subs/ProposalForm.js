@@ -20,9 +20,7 @@ const ProposalForm = (props) => {
 
   const [task, setTask] = useState({});
 
-  useEffect(() => {
-    console.log(task);
-  }, [task]);
+  useEffect(() => {}, [task]);
   const handleChange = (newTask) => {
     setTask(newTask);
   };

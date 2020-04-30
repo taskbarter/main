@@ -105,6 +105,7 @@ class AddTask extends Component {
     if (this.state.points_for_task < 40) {
       this.setState({
         points_for_task: this.state.points_for_task + 1,
+        points: this.state.points_for_task + 1,
       });
     }
   };
@@ -113,6 +114,7 @@ class AddTask extends Component {
     if (this.state.points_for_task > 1) {
       this.setState({
         points_for_task: this.state.points_for_task - 1,
+        points: this.state.points_for_task - 1,
       });
     }
   };

@@ -7,9 +7,6 @@ import {
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 import { createConnection } from './socketActions';
-import jwt_decode from 'jwt-decode';
-import { set } from 'mongoose';
-import { addToast } from './toasterActions';
 
 // get profile
 
@@ -48,7 +45,7 @@ export const createProfile = (profileData, history) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post('/api/profile', profileData, config);
+    await axios.post('/api/profile', profileData, config);
 
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
     history.push('/dashboard');
@@ -99,7 +96,7 @@ export const updateProfile = (profileData) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post('/api/profile/update', profileData, config);
+    await axios.post('/api/profile/update', profileData, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -118,7 +115,7 @@ export const updateStatus = (newStatus) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post(
+    await axios.post(
       '/api/profile/updatestatus',
       { status: newStatus },
       config
@@ -140,11 +137,7 @@ export const addExperience = (newExperience) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.put(
-      '/api/profile/experience',
-      newExperience,
-      config
-    );
+    await axios.put('/api/profile/experience', newExperience, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -162,11 +155,7 @@ export const editExperience = (newExperience, index) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.post(
-      '/api/profile/experience/' + index,
-      newExperience,
-      config
-    );
+    await axios.post('/api/profile/experience/' + index, newExperience, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -184,7 +173,7 @@ export const deleteExperience = (index) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.delete('/api/profile/experience/' + index, config);
+    await axios.delete('/api/profile/experience/' + index, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -202,7 +191,7 @@ export const addProject = (newProject) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.put('/api/profile/project', newProject, config);
+    await axios.put('/api/profile/project', newProject, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -221,11 +210,7 @@ export const editProjects = (newProjects, index) => async (dispatch) => {
   };
   console.log(newProjects);
   try {
-    const res = await axios.post(
-      '/api/profile/project/' + index,
-      newProjects,
-      config
-    );
+    await axios.post('/api/profile/project/' + index, newProjects, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -243,7 +228,7 @@ export const deleteProject = (index) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.delete('/api/profile/project/' + index, config);
+    await axios.delete('/api/profile/project/' + index, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -262,7 +247,7 @@ export const addSkill = (newSkill) => async (dispatch) => {
   };
   console.log(newSkill);
   try {
-    const res = await axios.put('/api/profile/skill', newSkill, config);
+    await axios.put('/api/profile/skill', newSkill, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -279,9 +264,8 @@ export const addLink = (newLink) => async (dispatch) => {
       'Content-Type': 'application/json',
     },
   };
-  console.log(newLink);
   try {
-    const res = await axios.post('/api/profile/link', newLink, config);
+    await axios.post('/api/profile/link', newLink, config);
     dispatch(getCurrentProfile()); // yup working dispatch syncronized now
   } catch (err) {
     console.error(err);
@@ -302,11 +286,7 @@ export const removeSkill = (id) => async (dispatch) => {
     payload: id,
   });
   try {
-    const res = await axios.post(
-      '/api/profile/removeskill',
-      { skill_id: id },
-      config
-    );
+    await axios.post('/api/profile/removeskill', { skill_id: id }, config);
     dispatch(getCurrentProfile());
   } catch (err) {
     console.error(err);

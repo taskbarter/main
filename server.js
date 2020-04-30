@@ -51,8 +51,6 @@ app.get('/confirmation/:token', async (request, response) => {
       { $set: { isEmailVerified: true } },
       { new: true }
     );
-    console.log('Verified', nUser);
-    console.log('id', id);
     return response.redirect('/login?v=2');
   } catch (e) {
     console.log(e);

@@ -60,7 +60,6 @@ const ExploreTasks = props => {
           current_segment: prevData.current_segment + 1,
           first_time: false
         }));
-        console.log(data.current_segment);
       })
       .then(() => {
         document.addEventListener('scroll', trackScrolling);
@@ -70,7 +69,6 @@ const ExploreTasks = props => {
   let trackScrolling = () => {
     const wrappedElement = document.getElementById('explore-container');
     if (isBottom(wrappedElement)) {
-      console.log('explore bottom reached');
       document.removeEventListener('scroll', trackScrolling);
       updateFeed();
     }
@@ -161,7 +159,6 @@ const ExploreTasks = props => {
     } else {
       setData({ ...data, pageNo: e.target.value });
       props.getAllTasks(10, (e.target.value - 1) * 10);
-      console.log(data.pageNo);
     }
   };
 

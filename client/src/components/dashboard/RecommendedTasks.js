@@ -40,7 +40,6 @@ class RecommendedTasks extends Component {
     this.props
       .fetch_workplace_tasks()
       .then(() => {
-        console.log(this.props.tasks);
         this.setState({
           workplaceTasks: this.props.tasks,
         });

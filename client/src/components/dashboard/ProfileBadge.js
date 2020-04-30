@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profileAction';
 import { Link } from 'react-router-dom';
 
-const ProfileBadge = props => {
+const ProfileBadge = (props) => {
   const [data, setData] = useState({
     fname: '',
     sname: '',
@@ -16,7 +16,7 @@ const ProfileBadge = props => {
     taskDone: 0,
     taskCanceled: 0,
     catched: false,
-    headline: ''
+    headline: '',
   });
 
   const {
@@ -29,10 +29,9 @@ const ProfileBadge = props => {
     tasksPosted,
     tasksDone,
     tasksCanceled,
-    catched
+    catched,
   } = data;
 
-  console.log(props.profile.profile);
   if (props.profile.profile == null && !props.profile.loading) {
     props.getCurrentProfile();
   }
@@ -57,7 +56,7 @@ const ProfileBadge = props => {
           tasksPosted: props.profile.profile.tasksPosted,
           tasksDone: props.profile.profile.tasksDone,
           tasksCanceled: props.profile.profile.tasksCanceled,
-          catched: false
+          catched: false,
         });
       skilos = [
         'Web Development',
@@ -69,7 +68,7 @@ const ProfileBadge = props => {
         'Databases',
         'React Development',
         'Content Wrting',
-        'Designing'
+        'Designing',
       ];
     }
   } catch (err) {
@@ -80,14 +79,14 @@ const ProfileBadge = props => {
         sname: 'Name',
         status: '(please create profile)',
         skills: ['Create Profile to Add skills'],
-        catched: true
+        catched: true,
       });
 
     console.log('There is no profile currently');
   }
   // FOR SKILLS
 
-  const skillsbadges2 = skils => {
+  const skillsbadges2 = (skils) => {
     if (skils) {
       if (skils.length > 6) {
         let fsix = skils.slice(0, 6);
@@ -156,11 +155,11 @@ const ProfileBadge = props => {
 
 ProfileBadge.propTypes = {
   profile: PropTypes.object.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired
+  getCurrentProfile: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  profile: state.profile
+const mapStateToProps = (state) => ({
+  profile: state.profile,
 });
 
 export default connect(mapStateToProps, { getCurrentProfile })(ProfileBadge);

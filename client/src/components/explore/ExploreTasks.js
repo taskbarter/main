@@ -39,7 +39,6 @@ class ExploreTasks extends Component {
 
   componentDidMount() {
     this.updateFeed(false);
-    console.log('component mounted');
     //console.log(filters);
     //document.addEventListener('scroll', this.trackScrolling);
   }
@@ -61,7 +60,6 @@ class ExploreTasks extends Component {
   trackScrolling = () => {
     const wrappedElement = document.getElementById('explore-container');
     if (this.isBottom(wrappedElement)) {
-      console.log('explore bottom reached');
       document.removeEventListener('scroll', this.trackScrolling);
       this.updateFeed();
     }
