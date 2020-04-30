@@ -774,3 +774,11 @@
 .reject-btn {
   background: #c50a0a;
 }
+.points-change-btns {
+  display: inline;
+}
+
+.points-change-btns .btn {
+  font-size: 9px;
+  margin-right: 9px;
+}

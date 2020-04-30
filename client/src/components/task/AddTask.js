@@ -100,6 +100,23 @@ class AddTask extends Component {
     });
   };
 
+  onAddPoints = (e) => {
+    e.preventDefault();
+    if (this.state.points_for_task < 40) {
+      this.setState({
+        points_for_task: this.state.points_for_task + 1,
+      });
+    }
+  };
+  onSubPoints = (e) => {
+    e.preventDefault();
+    if (this.state.points_for_task > 1) {
+      this.setState({
+        points_for_task: this.state.points_for_task - 1,
+      });
+    }
+  };
+
   onSubmit = async (e) => {
     e.preventDefault();
     const {
@@ -360,12 +377,35 @@ class AddTask extends Component {
                       <input
                         type='number'
                         id='points'
-                        className='form-control'
+                        className='form-control mb-2'
                         aria-describedby='taskPointsHelp'
                         onChange={(e) => this.onChange(e)}
                         value={this.state.points_for_task}
                         disabled={!currentPoints}
                       />
+                      <div className='points-change-btns'>
+                        <button
+                          onClick={this.onAddPoints}
+                          className='btn btn-primary'
+                        >
+                          {' '}
+                          <i
+                            className='fa fa-plus little-text-shadow'
+                            aria-hidden='true'
+                          />
+                        </button>
+                        <button
+                          onClick={this.onSubPoints}
+                          className='btn btn-primary'
+                        >
+                          {' '}
+                          <i
+                            className='fa fa-minus little-text-shadow'
+                            aria-hidden='true'
+                          />
+                        </button>
+                      </div>
+
                       <small id='taskPointsHelp' className='text-muted'>
                         Must depict the requirements you mentioned
                       </small>
