@@ -100,7 +100,7 @@ const WorkAction = (props) => {
         ) : (
           <button
             disabled={props.submitting_state || props.last_status === 1}
-            onClick={props.onSubmitWork}
+            onClick={isOwner ? props.onAcceptWork : props.onSubmitWork}
             className='btn redeem-btn'
           >
             {isOwner
