@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import FilterItem from './FilterItem';
 import { Input } from 'reactstrap';
 
-const FilterMenu = props => {
+const FilterMenu = (props) => {
   const item1 = {
     title: 'Skills',
     id: 1,
@@ -17,8 +17,8 @@ const FilterMenu = props => {
       { name: 'MongoDB' },
       { name: 'Firebase' },
       { name: 'Angular' },
-      { name: 'Redux' }
-    ]
+      { name: 'Redux' },
+    ],
   };
 
   const item2 = {
@@ -32,8 +32,8 @@ const FilterMenu = props => {
       { name: 'Rome, Italy' },
       { name: 'Paris, France' },
       { name: 'Washington DC, US' },
-      { name: 'London, UK' }
-    ]
+      { name: 'London, UK' },
+    ],
   };
 
   const item3 = {
@@ -49,8 +49,8 @@ const FilterMenu = props => {
       { name: 'Voiceover Art' },
       { name: 'Sound Editing' },
       { name: 'Computer Programming' },
-      { name: 'Virtual Assistant' }
-    ]
+      { name: 'Virtual Assistant' },
+    ],
   };
   return (
     <React.Fragment>
@@ -60,9 +60,9 @@ const FilterMenu = props => {
           <FilterItem item={item3} />
           <FilterItem item={item2} />
 
-          <Input type='select' className='sort-dropdown'>
-            <option>Recommended</option>
+          <Input disabled='true' type='select' className='sort-dropdown'>
             <option>Newest</option>
+            <option>Recommended</option>
             <option>Saved</option>
             <option>Applied</option>
           </Input>
