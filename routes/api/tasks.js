@@ -195,6 +195,16 @@ router.get('/fetch', async (req, res) => {
           as: 'workdetails',
         },
       },
+      {
+        $lookup: {
+          from: 'proposals',
+          localField: '_id',
+          foreignField: 'task',
+          as: 'proposals',
+        },
+      },
+      { $addFields: { totalApplicants: { $size: '$proposals' } } },
+      { $project: { proposals: 0 } },
     ]);
     res.json({ taskData });
   } catch (err) {

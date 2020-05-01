@@ -1,4 +1,4 @@
-import { SET_SOCKET_CONNECTION } from './types';
+import { SET_SOCKET_CONNECTION, RESET_SOCKET_CONNECTION } from './types';
 import socketIOClient from 'socket.io-client';
 import { getNotifications } from './notifActions';
 import { addToast } from './toasterActions';

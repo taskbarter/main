@@ -8,6 +8,7 @@ import { toggleLike, sendProposal } from '../../actions/taskAction';
 import TaskCard from '../explore/subs/TaskCard';
 import TaskDetails from '../explore/subs/TaskDetails';
 import ProposalForm from '../explore/subs/ProposalForm';
+import TaskCardSkeleton from '../task/subs/TaskCardSkeleton';
 
 class RecommendedTasks extends Component {
   constructor(props) {
@@ -98,6 +99,18 @@ class RecommendedTasks extends Component {
     });
   };
   render() {
+    if (!this.state.workplaceTasks[0]) {
+      return (
+        <div className='card card-body'>
+          <div className='tasks-heading'>Recently Added Tasks</div>
+          <div className='task-list-container task-list-dashboard'>
+            <TaskCardSkeleton />
+            <TaskCardSkeleton />
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className='card card-body'>
         <div className='tasks-heading'>Recently Added Tasks</div>

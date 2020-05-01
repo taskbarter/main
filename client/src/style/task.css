@@ -132,6 +132,11 @@
   -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
+
+.feed-card.card-skeleton {
+  border: 1px solid #f5f5f5;
+}
+
 .how-it-works-card {
   border: none;
   display: -webkit-box;
@@ -276,6 +281,17 @@
   padding-top: 1px;
   padding-bottom: 1px;
 }
+
+.card-skeleton .feed-card--category {
+  background: #eeeeee;
+  width: 69px;
+}
+
+.card-skeleton .feed-card-person-details,
+.feed-card-person-details .from {
+  width: 83px;
+}
+
 .feed-card--points {
   background: #433881;
   color: white;
@@ -286,6 +302,12 @@
   border-radius: 7px;
   margin-left: auto;
   margin-top: 2.4px;
+}
+
+.card-skeleton .feed-card--points {
+  background: #f1f1f1;
+  height: 24px;
+  width: 30px;
 }
 
 .feed-card--points .pts {
@@ -354,6 +376,17 @@
   cursor: pointer;
 }
 
+.card-skeleton .feed-card-learn-more {
+  cursor: inherit;
+  border: none;
+  width: 70px;
+  background: #efefef;
+}
+
+.card-skeleton .feed-card-learn-more:hover {
+  background: none;
+}
+
 .feed-card-learn-more:hover {
   color: #fff;
   background: #433881;
@@ -367,6 +400,11 @@
 .feed-card:hover {
   box-shadow: 0 0 11px #ddd9d9;
   cursor: pointer;
+}
+
+.card-skeleton:hover {
+  box-shadow: none;
+  cursor: inherit;
 }
 
 .dt-header .dt-sub-title {
@@ -781,4 +819,16 @@
 .points-change-btns .btn {
   font-size: 9px;
   margin-right: 9px;
+}
+
+.end-explore {
+  text-align: center;
+  color: #433881;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height: 1.125rem;
+  margin-top: 0.9375rem;
+  border-top: #dfdbf5 solid 1px;
+  padding-top: 11px;
 }

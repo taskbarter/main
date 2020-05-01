@@ -87,7 +87,7 @@ const TaskDetails = (props) => {
         </a>
         <div className='dt-added-on'>
           Posted <span className='dt-date'>{moment(task.date).fromNow()}</span>{' '}
-          • 0 applicants
+          • {task.totalApplicants} applicants
         </div>
       </ModalHeader>
       <div className='dt-action-box'>

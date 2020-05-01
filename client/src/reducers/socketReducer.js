@@ -1,4 +1,7 @@
-import { SET_SOCKET_CONNECTION } from '../actions/types';
+import {
+  SET_SOCKET_CONNECTION,
+  RESET_SOCKET_CONNECTION,
+} from '../actions/types';
 const initialState = {
   socket_connection: {},
 };
@@ -16,7 +19,11 @@ export default function (state = initialState, action) {
           ...state,
         };
       }
-
+    case RESET_SOCKET_CONNECTION:
+      return {
+        ...state,
+        socket_connection: {},
+      };
     default:
       return state;
   }

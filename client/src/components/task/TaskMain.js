@@ -185,7 +185,7 @@ class TaskMain extends Component {
                 <div className='dt-added-on'>
                   Posted{' '}
                   <span className='dt-date'>{moment(task.date).fromNow()}</span>{' '}
-                  • 0 applicants
+                  • {task.totalApplicants} applicants
                 </div>
 
                 <div className='mt-3'>

@@ -12,9 +12,11 @@ const Notification = require('../../models/Notification');
 
 router.get('/', auth, async (req, res) => {
   try {
-    const tNotifications = await Notification.find({ for: req.user.id }).sort({
-      createdAt: -1,
-    });
+    const tNotifications = await Notification.find({ for: req.user.id })
+      .sort({
+        createdAt: -1,
+      })
+      .limit(50);
     res.json(tNotifications);
   } catch (err) {
     return res

@@ -10,6 +10,7 @@ import { Input } from 'reactstrap';
 import socketIOClient from 'socket.io-client';
 import NotificationItem from './subs/NotificationItem';
 import { getNotifications } from '../../actions/notifActions';
+import TLoader from '../utils/TLoader';
 
 class Notifications extends Component {
   constructor() {
@@ -24,9 +25,22 @@ class Notifications extends Component {
   onConvoClick = (id) => {};
 
   render() {
-    if (!this.props.notifications) {
-      return <div className='container notif-container'>Loading...</div>;
+    if (
+      !this.props.notifications ||
+      this.props.notifications.notifications.length < 1
+    ) {
+      return (
+        <div className='container notif-container'>
+          <div className='notif-section'>
+            <div className='task-list-title'>Your recent notifications</div>
+            <div className='taskv-loader' style={{ height: '25vh' }}>
+              <TLoader colored={true} />
+            </div>
+          </div>
+        </div>
+      );
     }
+
     return (
       <div className='container notif-container'>
         <div className='notif-section'>

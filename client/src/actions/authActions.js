@@ -4,7 +4,12 @@ import jwt_decode from 'jwt-decode';
 import { clearCurrentProfile } from './profileAction';
 import { addToast } from './toasterActions';
 
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from './types';
+import {
+  GET_ERRORS,
+  SET_CURRENT_USER,
+  USER_LOADING,
+  RESET_SOCKET_CONNECTION,
+} from './types';
 
 const url = ''; //'http://' + CURRENT_URL + ':' + CURRENT_PORT;
 // Register User
@@ -73,6 +78,9 @@ export const logoutUser = () => (dispatch) => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
   dispatch(clearCurrentProfile());
+  dispatch({
+    type: RESET_SOCKET_CONNECTION,
+  });
   addToast('Logged out successfully!');
 };
 

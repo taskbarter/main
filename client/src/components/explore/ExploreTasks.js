@@ -15,6 +15,7 @@ import TaskCard from './subs/TaskCard';
 import TaskDetails from './subs/TaskDetails';
 import ProposalForm from './subs/ProposalForm';
 import 'quill/dist/quill.snow.css';
+import TaskCardSkeleton from '../task/subs/TaskCardSkeleton';
 
 class ExploreTasks extends Component {
   constructor(props) {
@@ -34,6 +35,8 @@ class ExploreTasks extends Component {
       proposal_popup_is_open: false,
       proposal_text: '',
       proposal_loading: false,
+      fetching_tasks: false,
+      isEndReached: false,
     };
   }
 
@@ -72,17 +75,35 @@ class ExploreTasks extends Component {
   };
 
   updateFeed = (shouldAppend = true) => {
+    if (this.state.isEndReached) {
+      return false;
+    }
     let filters = this.fetchFilters();
-    this.props
-      .doExplore(filters, shouldAppend)
-      .then(() => {
-        this.setState({
-          current_segment: this.state.current_segment + 1,
-        });
-      })
-      .then(() => {
-        document.addEventListener('scroll', this.trackScrolling);
-      });
+    this.setState(
+      {
+        fetching_tasks: true,
+      },
+      () => {
+        this.props
+          .doExplore(filters, shouldAppend)
+          .then((fetched_tasks) => {
+            if (fetched_tasks.length < 8) {
+              this.setState({
+                isEndReached: true,
+              });
+            }
+            this.setState({
+              current_segment: this.state.current_segment + 1,
+            });
+          })
+          .then(() => {
+            this.setState({
+              fetching_tasks: false,
+            });
+            document.addEventListener('scroll', this.trackScrolling);
+          });
+      }
+    );
   };
 
   fetchFilters = () => {
@@ -193,7 +214,24 @@ class ExploreTasks extends Component {
               {allTasks.map((task, i) => (
                 <TaskCard task={task} key={i} onClick={this.onTaskSelect} />
               ))}
+
+              {this.state.fetching_tasks ? (
+                <React.Fragment>
+                  <TaskCardSkeleton />
+                  <TaskCardSkeleton />
+                  <TaskCardSkeleton />
+                  <TaskCardSkeleton />
+                  <TaskCardSkeleton />
+                </React.Fragment>
+              ) : (
+                ''
+              )}
             </div>
+            {this.state.isEndReached ? (
+              <div className='end-explore'>End of feed</div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
         <TaskDetails
@@ -203,6 +241,7 @@ class ExploreTasks extends Component {
           proposal_toggle={this.proposal_toggle}
           current_user={this.props.auth.user.id}
         />
+
         <ProposalForm
           toggle={this.proposal_toggle}
           modal={this.state.proposal_popup_is_open}

@@ -73,6 +73,7 @@ export const doExplore = (filters = {}, append = true) => async (dispatch) => {
         payload: res.data,
       });
     }
+    return res.data;
   } catch (err) {
     dispatch({
       type: GET_TASKS, //   get errors might be more graceful
