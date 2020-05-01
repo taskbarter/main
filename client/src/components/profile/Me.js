@@ -62,7 +62,9 @@ class Me extends Component {
   componentDidMount() {
     this.props.getCurrentProfile().then(() => {
       this.setState({
-        current_dob: this.props.profile.profile.dob,
+        current_dob: this.props.profile.profile.dob
+          ? this.props.profile.profile.dob
+          : new Date('1997-10-04T06:13:00.000Z'),
       });
     });
   }
@@ -75,7 +77,7 @@ class Me extends Component {
   };
 
   openFirstModal = () => {
-    if (!isNaN(this.props.profile.profile.dob)) {
+    if (this.props.profile.profile.dob) {
       this.setState({
         isFirstEditDialogOpenned: true,
         current_dob: new Date(this.props.profile.profile.dob),
@@ -83,7 +85,6 @@ class Me extends Component {
     } else {
       this.setState({
         isFirstEditDialogOpenned: true,
-        current_dob: new Date(this.props.profile.profile.dob),
       });
     }
   };

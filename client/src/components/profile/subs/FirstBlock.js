@@ -1,7 +1,7 @@
 import React from 'react';
 import month from '../../../config/months_name';
 import status_type from '../../utils/Status_Type';
-const FirstBlock = props => {
+const FirstBlock = (props) => {
   const profile = props.profile;
   const user = props.user;
   let date_memberSince = Date.now();
@@ -46,7 +46,10 @@ const FirstBlock = props => {
           Location: <strong>{profile.location}</strong>
         </div>
         <div className='col-md-4'>
-          Date of Birth: <strong>{new Date(profile.dob).getFullYear()}</strong>
+          Date of Birth:{' '}
+          <strong>
+            {profile.dob ? new Date(profile.dob).getFullYear() : 'Not Set'}
+          </strong>
         </div>
       </div>
       <div className='row' style={{ fontSize: '13px', marginBottom: '3px' }}>
