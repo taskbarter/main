@@ -5,7 +5,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Tooltip
+  Tooltip,
 } from 'reactstrap';
 
 import bookmark_icon from '../../../style/inc/bookmark.svg';
@@ -13,18 +13,18 @@ import share_icon from '../../../style/inc/share.svg';
 
 import { Link } from 'react-router-dom';
 
-const TaskCard = props => {
+const TaskCard = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState({
     num1: false,
     num2: false,
-    num3: false
+    num3: false,
   });
 
   const toggleTooltip1 = () => setTooltipOpen({ num1: !tooltipOpen.num1 });
   const toggleTooltip2 = () => setTooltipOpen({ num3: !tooltipOpen.num2 });
   const toggleTooltip3 = () => setTooltipOpen({ num3: !tooltipOpen.num3 });
 
-  const skillsbadges2 = skills => {
+  const skillsbadges2 = (skills) => {
     if (skills) {
       let fsix = skills;
 
@@ -57,7 +57,8 @@ const TaskCard = props => {
           {' '}
           <div className='feed-card--category'>{props.task.category}</div>
           <div className='feed-card--applicants'>
-            {props.task.applicants ? props.task.applicants : '0'} applicants
+            {props.task.totalApplicants ? props.task.totalApplicants : '0'}{' '}
+            applicants
           </div>
           <div className='up-headline'>I want someone to</div>
           <div className='feed-card--header'>{props.task.headline}</div>

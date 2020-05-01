@@ -129,6 +129,14 @@ router.get('/explore', async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: 'proposals',
+          localField: '_id',
+          foreignField: 'task',
+          as: 'proposals',
+        },
+      },
+      {
         $sort: { date: -1 },
       },
       {
@@ -145,6 +153,7 @@ router.get('/explore', async (req, res) => {
           date: 1,
           skills: 1,
           userdetails: { first_name: 1, second_name: 1, location: 1 },
+          totalApplicants: { $size: '$proposals' },
         },
       },
     ]);
