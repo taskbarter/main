@@ -75,7 +75,7 @@ class ExploreTasks extends Component {
   };
 
   updateFeed = (shouldAppend = true) => {
-    if (this.state.isEndReached) {
+    if (shouldAppend && this.state.isEndReached) {
       return false;
     }
     let filters = this.fetchFilters();
@@ -124,6 +124,7 @@ class ExploreTasks extends Component {
       this.setState(
         {
           current_segment: 0,
+          isEndReached: false,
         },
         () => {
           this.updateFeed(false);
