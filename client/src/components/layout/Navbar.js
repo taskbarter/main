@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 
 class Navbar extends Component {
-  onLogoutClick = e => {
+  onLogoutClick = (e) => {
     e.preventDefault();
     this.props.logoutUser();
   };
@@ -19,6 +19,7 @@ class Navbar extends Component {
             <img
               src={logo}
               className='logo navbar-brand mr-auto mr-lg-0'
+              alt='Taskbarter Logo'
             />{' '}
           </a>
           <button
@@ -294,12 +295,9 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(Navbar);
+export default connect(mapStateToProps, { logoutUser })(Navbar);

@@ -1548,3 +1548,21 @@ body {
   justify-content: center;
   text-align: center;
 }
+
+.add-task-skill {
+  border: #c7c7c7 solid 1px;
+  border-radius: 0px 0px 4px 4px;
+  padding: 10px;
+  padding-top: 17px;
+  max-height: 260px !important;
+  height: 260px !important;
+  border-top: none;
+}
+
+.add-task-skill-search {
+  border-radius: 4px 4px 0px 0px;
+}
+
+.mb-8 {
+  margin-bottom: 2.2rem;
+}

@@ -14,6 +14,7 @@ import AlertMsg from '../utils/AlertMsg';
 import { useQuill } from 'react-quilljs';
 import DescriptionEditor from './subs/DescriptionEditor';
 import filter from 'lodash/filter';
+import find from 'lodash/find';
 
 class AddTask extends Component {
   constructor() {
@@ -39,6 +40,7 @@ class AddTask extends Component {
       sending_state: false,
       search_skills_text: '',
       filtered_skills: [],
+      selected_skills: [],
     };
   }
 
@@ -47,6 +49,29 @@ class AddTask extends Component {
       filtered_skills: skills,
     });
   }
+
+  onSelectSkill = (e) => {
+    if (this.state.selected_skills.length > 2) {
+      this.setState({
+        search_skills_text: '',
+      });
+    }
+
+    if (!this.state.selected_skills.includes(parseInt(e.target.id))) {
+      this.state.selected_skills.push(parseInt(e.target.id));
+      this.setState({
+        selected_skills: this.state.selected_skills,
+      });
+    } else {
+      this.state.selected_skills.splice(
+        this.state.selected_skills.indexOf(parseInt(e.target.id)),
+        1
+      );
+      this.setState({
+        selected_skills: this.state.selected_skills,
+      });
+    }
+  };
 
   onChange = (e) => {
     // if (validate(e.target.id, e.target.value) !== '') {
@@ -145,15 +170,18 @@ class AddTask extends Component {
     });
   };
 
+  getSelectedSkills = () => {
+    let arr = [];
+    for (let i in this.state.selected_skills) {
+      let temp1 = find(skills, { id: this.state.selected_skills[i] });
+      arr.push(temp1.name);
+    }
+    return arr;
+  };
+
   onSubmit = async (e) => {
     e.preventDefault();
-    const {
-      headline,
-      skills,
-      areTermsAccepted,
-      category,
-      duration,
-    } = this.state;
+    const { headline, areTermsAccepted, category, duration } = this.state;
 
     const description = this.state.quillObj.getText();
 
@@ -167,14 +195,14 @@ class AddTask extends Component {
       });
     }
 
-    if (skills.length > 3) {
+    if (this.state.selected_skills.length > 3) {
       err = 'You can only select 3 skills at max.';
       this.setState({
         error: { msg: err, type: 0 },
       });
     }
 
-    if (skills.length === 0) {
+    if (this.state.selected_skills.length === 0) {
       err = 'You must select at least one skill to continue.';
       this.setState({
         error: { msg: err, type: 0 },
@@ -240,7 +268,7 @@ class AddTask extends Component {
         description: this.state.quillObj.root.innerHTML,
         duration: this.state.duration,
         category: this.state.category,
-        skills: this.state.skills,
+        skills: this.getSelectedSkills(),
         points: this.state.points,
       };
       this.setState(
@@ -366,25 +394,51 @@ class AddTask extends Component {
                         })}
                       </select>
                     </div>
-                    <div className='add-task-categories form-group'>
+
+                    <div className='add-task-categories form-group filter-dropdown-container mb-8'>
                       <label htmlFor='skills'>Select Skills</label>
                       <input
-                        className='form-control'
+                        className='form-control add-task-skill-search'
                         placeholder='search skills'
                         value={this.state.search_skills_text}
                         onChange={this.onSearchSkillsSearch}
                       />
-                      <select
-                        multiple
-                        className='form-control'
-                        id='skills'
-                        onChange={(e) => this.onChange(e)}
-                        style={{ height: '136px' }}
-                      >
+                      <div className='filter-dropdown__options filter-list add-task-skill'>
                         {skills_arr.map((skill, id) => {
-                          return <option key={id}>{skill.name}</option>;
+                          return (
+                            <label
+                              className='checkbox__label'
+                              key={id}
+                              style={
+                                !this.state.selected_skills.includes(
+                                  skill.id
+                                ) && this.state.selected_skills.length > 2
+                                  ? { opacity: '0.5' }
+                                  : {}
+                              }
+                            >
+                              {skill.name}
+                              <input
+                                data-v-68624b48=''
+                                type='checkbox'
+                                name='filter-dropdown-experience'
+                                value={skill.name}
+                                id={skill.id}
+                                onClick={this.onSelectSkill}
+                                checked={this.state.selected_skills.includes(
+                                  skill.id
+                                )}
+                                disabled={
+                                  !this.state.selected_skills.includes(
+                                    skill.id
+                                  ) && this.state.selected_skills.length > 2
+                                }
+                              />{' '}
+                              <span className='checkmark'></span>
+                            </label>
+                          );
                         })}
-                      </select>
+                      </div>
                       <span className='max-chars'>
                         * Choose upto 3 most related skills{' '}
                       </span>

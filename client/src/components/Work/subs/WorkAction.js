@@ -12,7 +12,11 @@ const WorkAction = (props) => {
           {isOwner ? 'Assigned To' : 'Task Owner'}
         </div>
         <div className='profile-badge-dp'>
-          <img src='/inc/Mohsin_DP.jpg' className='rounded img-thumbnail' />
+          <img
+            src='/inc/Mohsin_DP.jpg'
+            alt='profile picture'
+            className='rounded img-thumbnail'
+          />
         </div>
         <div className='profile-badge-name'>
           {other_user.first_name} {other_user.second_name}
