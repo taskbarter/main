@@ -19,7 +19,7 @@ const MyTasksTable = (props) => {
           <td>I want someone to {task.headline}</td>
           <th>{task.taskpoints}</th>
           <td>
-            <a href='#'>View ({task.proposals.length})</a>
+            <a href='#'>View ({task.proposals ? task.proposals.length : 0})</a>
           </td>
           <td>
             <a href='#'>Edit</a> | <a href='#'>Delete</a>
