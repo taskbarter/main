@@ -20,7 +20,7 @@ const MyTasksTable = (props) => {
           <th>{task.taskpoints}</th>
           <td>
             <a href='#'>
-              View ({task.proposals.length ? task.proposals.length : 0})
+              View ({task.proposals ? task.proposals.length : 0})
             </a>
           </td>
           <td>
