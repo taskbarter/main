@@ -183,7 +183,7 @@ router.post('/login', (req, res) => {
   }
 
   const password = req.body.password;
-  const name = req.body.email.toLowerCase;
+  const name = req.body.email.toLowerCase();
 
   checkUserForLogin({ name, password })
     .then((user) => {
