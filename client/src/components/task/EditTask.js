@@ -57,7 +57,7 @@ class EditTask extends Component {
       },
       () => {
         this.props.fetchTask(id).then((fetched_task) => {
-          const task_data = fetched_task.taskData[0];
+          const task_data = fetched_task ? fetched_task.taskData[0] : {};
           this.setState(
             {
               task: fetched_task,
@@ -132,9 +132,40 @@ class EditTask extends Component {
     let arr = [];
     for (let i in this.state.skills) {
       let temp1 = find(skills, { name: this.state.skills[i] });
-      arr.push(temp1.id);
+      if (temp1) arr.push(temp1.id);
     }
     return arr;
+  };
+
+  onChange = (e) => {
+    this.setState({ [e.target.id]: e.target.value }); // same is req to work
+    if (e.target.id === 'gridCheck1') {
+      if (e.target.checked) {
+        this.setState({
+          areTermsAccepted: true,
+        });
+      } else {
+        this.setState({
+          error: { msg: 'You must agree to the terms to continue', type: 0 },
+        });
+      }
+      return;
+    }
+
+    if (this.state[e.target.id] !== '') {
+      let err = validate(e.target.id, this.state[e.target.id]);
+      this.setState({
+        error: {
+          msg: err,
+          type: 0,
+        },
+      });
+      if (err !== '') {
+        document.getElementById(e.target.id).classList.add('is-invalid');
+      } else {
+        document.getElementById(e.target.id).classList.remove('is-invalid');
+      }
+    }
   };
 
   render() {
@@ -142,6 +173,13 @@ class EditTask extends Component {
       return (
         <div className='taskv-loader'>
           <TLoader colored={true} />
+        </div>
+      );
+    }
+    if (!this.state.task) {
+      return (
+        <div className='taskv-loader error-msg-center'>
+          You are not allowed to view this page.
         </div>
       );
     }
