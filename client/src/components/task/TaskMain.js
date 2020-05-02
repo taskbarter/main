@@ -176,6 +176,7 @@ class TaskMain extends Component {
                 proposalform_toggle={this.proposal_toggle}
                 task_state={task.state}
                 task_work={task.workdetails[0]}
+                task_id={task._id}
               />
             </div>
             <div className='col-md-8 order-md-1'>

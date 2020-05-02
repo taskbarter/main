@@ -66,10 +66,11 @@ const TaskAction = (props) => {
         <div className='card card-body redeem-points mb-2'>
           <div className='redeem-heading'>Want to change some terms?</div>
           <div className='redeem-text'>
-            You can update the content or remove it from public feed.
+            You can update the content or remove the task completely from public
+            feed.
           </div>
-          <Link to='/add'>
-            <button className='btn redeem-btn'>Update Task</button>
+          <Link to={`/e/${props.task_id}`}>
+            <button className='btn redeem-btn'>Edit Task</button>
           </Link>
         </div>
 
