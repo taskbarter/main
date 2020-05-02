@@ -615,6 +615,14 @@ router.get('/myavailable/', [auth], async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: 'proposals',
+          localField: '_id',
+          foreignField: 'task',
+          as: 'proposals',
+        },
+      },
+      {
         $sort: { updatedAt: -1 },
       },
     ]);
@@ -636,6 +644,14 @@ router.get('/mytasks/', [auth], async (req, res) => {
             { user: mongoose.Types.ObjectId(req.user.id) },
             { state: state },
           ],
+        },
+      },
+      {
+        $lookup: {
+          from: 'proposals',
+          localField: '_id',
+          foreignField: 'task',
+          as: 'proposals',
         },
       },
       {
