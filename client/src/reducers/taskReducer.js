@@ -11,6 +11,11 @@ import {
   SET_WORKPLACE_TASKS,
   ADD_PUBLISHED_TASKS,
   ADD_WORKING_TASKS,
+  ADD_AVAILABLE_TASKS,
+  ADD_COMPLETED_TASKS,
+  ADD_ARCHIVED_TASKS,
+  ADD_ASSIGNED_TASKS,
+  ADD_PAUSED_TASKS,
 } from '../actions/types';
 
 const initialState = {
@@ -82,6 +87,32 @@ export default function (state = initialState, action) {
         ...state,
         working_tasks: action.payload,
       };
+    case ADD_AVAILABLE_TASKS:
+      return {
+        ...state,
+        my_available_tasks: action.payload,
+      };
+    case ADD_COMPLETED_TASKS:
+      return {
+        ...state,
+        completed_tasks: action.payload,
+      };
+    case ADD_ARCHIVED_TASKS:
+      return {
+        ...state,
+        archived_tasks: action.payload,
+      };
+    case ADD_ASSIGNED_TASKS:
+      return {
+        ...state,
+        assigned_tasks: action.payload,
+      };
+    case ADD_PAUSED_TASKS:
+      return {
+        ...state,
+        paused_tasks: action.payload,
+      };
+
     default:
       return state;
   }

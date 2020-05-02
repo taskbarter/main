@@ -1,7 +1,33 @@
 import React from 'react';
 import { Table } from 'reactstrap';
+import { compareSync } from 'bcryptjs';
 
 const MyTasksTable = (props) => {
+  const mytemptasks = props.tasks;
+
+  const taskSection = () => {
+    if (!mytemptasks) {
+      return '';
+    }
+    console.log(mytemptasks);
+    return mytemptasks.tasks_data.map((task, id) => (
+      <tbody>
+        <tr key={id}>
+          <td scope='row' className='mytasks-date'>
+            {new Date(task.date).toDateString()}
+          </td>
+          <td>I want someone to {task.headline}</td>
+          <th>{task.taskpoints}</th>
+          <td>
+            <a href='#'>View ({task.proposals.length})</a>
+          </td>
+          <td>
+            <a href='#'>Edit</a> | <a href='#'>Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    ));
+  };
   return (
     <div className=''>
       <Table className='mytasks-table'>
@@ -14,21 +40,7 @@ const MyTasksTable = (props) => {
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td scope='row' className='mytasks-date'>
-              6th June
-            </td>
-            <td>I want someone to write a new cover letter for me</td>
-            <th>65</th>
-            <td>
-              <a href='#'>View (5)</a>
-            </td>
-            <td>
-              <a href='#'>Edit</a> | <a href='#'>Delete</a>
-            </td>
-          </tr>
-        </tbody>
+        {taskSection()}
       </Table>
     </div>
   );

@@ -14,6 +14,9 @@ const {
   PROPOSAL_REJECTED,
   TASK_PENDING,
   TASK_ASSIGNED,
+  TASK_COMPLETED,
+  TASK_PAUSED,
+  TASK_ARCHIVED,
 } = require('../../constants/state');
 const mongoose = require('mongoose');
 const { addNotification } = require('../../functions/notifications');
@@ -592,6 +595,54 @@ router.get('/published/', [auth], async (req, res) => {
         $limit: limit,
       },
     ]);
+    res.json({ tasks_data });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/myavailable/', [auth], async (req, res) => {
+  try {
+    const state = parseInt(req.query.state);
+    const tasks_data = await Task.aggregate([
+      {
+        $match: {
+          $and: [
+            { user: mongoose.Types.ObjectId(req.user.id) },
+            { $or: [{ state: null }, { state: state }] },
+          ],
+        },
+      },
+      {
+        $sort: { updatedAt: -1 },
+      },
+    ]);
+    console.log(tasks_data);
+    res.json({ tasks_data });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/mytasks/', [auth], async (req, res) => {
+  try {
+    const state = parseInt(req.query.state);
+    const tasks_data = await Task.aggregate([
+      {
+        $match: {
+          $and: [
+            { user: mongoose.Types.ObjectId(req.user.id) },
+            { state: state },
+          ],
+        },
+      },
+      {
+        $sort: { updatedAt: -1 },
+      },
+    ]);
+    console.log(tasks_data);
     res.json({ tasks_data });
   } catch (err) {
     console.error(err.message);

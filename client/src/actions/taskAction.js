@@ -14,6 +14,11 @@ import {
   SET_WORKPLACE_TASKS,
   ADD_PUBLISHED_TASKS,
   ADD_WORKING_TASKS,
+  ADD_AVAILABLE_TASKS,
+  ADD_COMPLETED_TASKS,
+  ADD_ARCHIVED_TASKS,
+  ADD_ASSIGNED_TASKS,
+  ADD_PAUSED_TASKS,
 } from '../actions/types';
 
 import { addToast } from './toasterActions';
@@ -283,6 +288,101 @@ export const fetchPublishedTasks = (limit = -1) => async (dispatch) => {
     });
     dispatch({
       type: ADD_PUBLISHED_TASKS,
+      payload: res.data,
+    });
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
+export const fetchMyAvailableTasks = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/myavailable', {
+      params: { state: 0 },
+    });
+    dispatch({
+      type: ADD_AVAILABLE_TASKS,
+      payload: res.data,
+    });
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
+export const fetchCompletedTasks = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/mytasks', {
+      params: { state: 1 },
+    });
+    dispatch({
+      type: ADD_COMPLETED_TASKS,
+      payload: res.data,
+    });
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
+export const fetchArchivedTasks = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/mytasks', {
+      params: { state: 3 },
+    });
+    dispatch({
+      type: ADD_ARCHIVED_TASKS,
+      payload: res.data,
+    });
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
+export const fetchAssignedTasks = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/mytasks', {
+      params: { state: 4 },
+    });
+    dispatch({
+      type: ADD_ASSIGNED_TASKS,
+      payload: res.data,
+    });
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
+export const fetchPausedTasks = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/mytasks', {
+      params: { state: 2 },
+    });
+    dispatch({
+      type: ADD_PAUSED_TASKS,
       payload: res.data,
     });
     return res.data;

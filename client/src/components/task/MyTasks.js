@@ -12,6 +12,13 @@ import {
   Row,
   Col,
 } from 'reactstrap';
+import {
+  fetchMyAvailableTasks,
+  fetchCompletedTasks,
+  fetchArchivedTasks,
+  fetchAssignedTasks,
+  fetchPausedTasks,
+} from '../../actions/taskAction';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import MyTasksTabs from './subs/MyTasksTabs';
@@ -25,6 +32,13 @@ class MyTasks extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.fetchMyAvailableTasks();
+    this.props.fetchCompletedTasks();
+    this.props.fetchArchivedTasks();
+    this.props.fetchAssignedTasks();
+    this.props.fetchPausedTasks();
+  }
   onTabChange = (tab) => {
     if (tab !== this.state.selectedTab) this.setState({ selectedTab: tab });
   };
@@ -47,7 +61,7 @@ class MyTasks extends Component {
                       Following are the tasks that you added and are publicly
                       available.
                     </div>
-                    <MyTasksTable />
+                    <MyTasksTable tasks={this.props.my_available_tasks} />
                   </Col>
                 </Row>
               </TabPane>
@@ -58,7 +72,7 @@ class MyTasks extends Component {
                       Following are the tasks that you added and are currently
                       being done by some user.
                     </div>
-                    <MyTasksTable />
+                    <MyTasksTable tasks={this.props.assigned_tasks} />
                   </Col>
                 </Row>
               </TabPane>
@@ -69,7 +83,7 @@ class MyTasks extends Component {
                       Following are the tasks that you added and are currently
                       not available for proposals.
                     </div>
-                    <MyTasksTable />
+                    <MyTasksTable tasks={this.props.paused_tasks} />
                   </Col>
                 </Row>
               </TabPane>
@@ -80,7 +94,7 @@ class MyTasks extends Component {
                       Following are the tasks that you added and are completed.
                       These tasks will not be available for further proposals.
                     </div>
-                    <MyTasksTable />
+                    <MyTasksTable tasks={this.props.completed_tasks} />
                   </Col>
                 </Row>
               </TabPane>
@@ -92,7 +106,7 @@ class MyTasks extends Component {
                       removed them or the customer support deleted them from
                       Taskbarter.
                     </div>
-                    <MyTasksTable />
+                    <MyTasksTable tasks={this.props.archived_tasks} />
                   </Col>
                 </Row>
               </TabPane>
@@ -106,6 +120,18 @@ class MyTasks extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  published_tasks: state.task.published_tasks,
+  my_available_tasks: state.task.my_available_tasks,
+  completed_tasks: state.task.completed_tasks,
+  archived_tasks: state.task.archived_tasks,
+  assigned_tasks: state.task.assigned_tasks,
+  paused_tasks: state.task.paused_tasks,
 });
 
-export default connect(mapStateToProps, {})(MyTasks);
+export default connect(mapStateToProps, {
+  fetchMyAvailableTasks,
+  fetchCompletedTasks,
+  fetchArchivedTasks,
+  fetchAssignedTasks,
+  fetchPausedTasks,
+})(MyTasks);
