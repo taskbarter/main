@@ -13,6 +13,7 @@ import skills from '../../config/skills';
 import AlertMsg from '../utils/AlertMsg';
 import { useQuill } from 'react-quilljs';
 import DescriptionEditor from './subs/DescriptionEditor';
+import filter from 'lodash/filter';
 
 class AddTask extends Component {
   constructor() {
@@ -36,7 +37,15 @@ class AddTask extends Component {
       isAccepted: false,
       description: '',
       sending_state: false,
+      search_skills_text: '',
+      filtered_skills: [],
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      filtered_skills: skills,
+    });
   }
 
   onChange = (e) => {
@@ -122,6 +131,19 @@ class AddTask extends Component {
   };
 
   handleFocus = (event) => event.target.select();
+
+  onSearchSkillsSearch = (e) => {
+    let tempArr = [];
+    tempArr = filter(skills, (skill) => {
+      return (
+        skill.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
+      );
+    });
+    this.setState({
+      search_skills_text: e.target.value,
+      filtered_skills: tempArr,
+    });
+  };
 
   onSubmit = async (e) => {
     e.preventDefault();
@@ -261,6 +283,7 @@ class AddTask extends Component {
         this.props.profile.profile.pointsEarned -
         this.props.profile.profile.pointsSpent;
     }
+    let skills_arr = this.state.filtered_skills;
     // console.log(this.state);
     return (
       <div>
@@ -345,7 +368,12 @@ class AddTask extends Component {
                     </div>
                     <div className='add-task-categories form-group'>
                       <label htmlFor='skills'>Select Skills</label>
-
+                      <input
+                        className='form-control'
+                        placeholder='search skills'
+                        value={this.state.search_skills_text}
+                        onChange={this.onSearchSkillsSearch}
+                      />
                       <select
                         multiple
                         className='form-control'
@@ -353,7 +381,7 @@ class AddTask extends Component {
                         onChange={(e) => this.onChange(e)}
                         style={{ height: '136px' }}
                       >
-                        {skills.map((skill, id) => {
+                        {skills_arr.map((skill, id) => {
                           return <option key={id}>{skill.name}</option>;
                         })}
                       </select>
