@@ -8,6 +8,8 @@ import Footer from '../layout/Footer';
 import { addTask } from '../../actions/taskAction';
 import { getCurrentProfile } from '../../actions/profileAction';
 import validate from '../../config/rules';
+import categories from '../../config/categories';
+import skills from '../../config/skills';
 import AlertMsg from '../utils/AlertMsg';
 import { useQuill } from 'react-quilljs';
 import DescriptionEditor from './subs/DescriptionEditor';
@@ -336,43 +338,27 @@ class AddTask extends Component {
                         onChange={(e) => this.onChange(e)}
                       >
                         <option defaultValue>Choose...</option>
-                        <option>Computer Programming</option>
-                        <option>Content Writing</option>
-                        <option>Search Engine Optimization</option>
-                        <option>Web Development</option>
-                        <option>Arts & Design</option>
-                        <option>Research Work</option>
-                        <option>Engineering</option>
-                        <option>Data Entry</option>
-                        <option>Web Design</option>
-                        <option>Gaming</option>
-                        <option>Social Media Marketing</option>
-                        <option>Logo/Banner Design</option>
+                        {categories.map((cat, id) => {
+                          return <option key={id}>{cat.name}</option>;
+                        })}
                       </select>
                     </div>
                     <div className='add-task-categories form-group'>
                       <label htmlFor='skills'>Select Skills</label>
+
                       <select
                         multiple
                         className='form-control'
                         id='skills'
                         onChange={(e) => this.onChange(e)}
+                        style={{ height: '136px' }}
                       >
-                        <option>Adobe Photoshop</option>
-                        <option>C++</option>
-                        <option>Javascript</option>
-                        <option>ASP.NET</option>
-                        <option>Powerpoint</option>
-                        <option>MS Excel</option>
-                        <option>Oracle DB</option>
-                        <option>Theme Design</option>
-                        <option>HTML/CSS</option>
-                        <option>MERN Developer</option>
-                        <option>Search Engine Optimization</option>
-                        <option>Wordpress Development</option>
+                        {skills.map((skill, id) => {
+                          return <option key={id}>{skill.name}</option>;
+                        })}
                       </select>
                       <span className='max-chars'>
-                        * Choose 3 most related skills{' '}
+                        * Choose upto 3 most related skills{' '}
                       </span>
                     </div>
 

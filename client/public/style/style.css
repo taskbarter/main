@@ -1305,7 +1305,7 @@ header nav.navbar {
 
 .add-task-input-headline > input {
   display: inline;
-  width: 80%;
+  width: 100%;
 }
 
 .add-task-input-headline .max-chars {
@@ -1313,7 +1313,7 @@ header nav.navbar {
   position: absolute;
   font-size: 11px;
   right: 22px;
-  margin-top: 45px;
+  margin-top: 50px;
   color: #433881;
 }
 
@@ -1548,4 +1548,3 @@ body {
   justify-content: center;
   text-align: center;
 }
-
