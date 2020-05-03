@@ -7,7 +7,7 @@
 * [Introduction](about-taskbarter/intro.md)
 * [FAQ](about-taskbarter/faq.md)
 
-## Production
+## About Release
 
-* [Changelog](production/changelog.md)
+* [Changelog](about-release/changelog.md)
 
