@@ -1566,3 +1566,7 @@ body {
 .mb-8 {
   margin-bottom: 2.2rem;
 }
+
+.btn-sm {
+  font-size: 13px !important;
+}

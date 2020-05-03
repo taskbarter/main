@@ -83,6 +83,11 @@ const TaskAction = (props) => {
       );
     }
 
+    //if it is removed and the owner is viewing:
+    if (props.task_state === 3) {
+      return <React.Fragment>{status_comp}</React.Fragment>;
+    }
+
     return (
       <React.Fragment>
         {status_comp}

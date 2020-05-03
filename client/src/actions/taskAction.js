@@ -113,12 +113,27 @@ export const fetch_workplace_tasks = () => async (dispatch) => {
 
 export const fetchTask = (task_id) => async (dispatch) => {
   try {
-    console.log('fetchTask -> task_id', task_id);
     const mtok = localStorage.jwtToken;
     if (mtok) {
       setAuthToken(mtok);
     }
     const res = await axios.get(`/api/tasks/fetch`, {
+      params: { id: task_id },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// fetch task for unauth users
+export const fetchTaskPublic = (task_id) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get(`/api/tasks/fetchPublic`, {
       params: { id: task_id },
     });
     return res.data;
@@ -265,10 +280,10 @@ export const sendProposal = (payload) => async (dispatch) => {
       setAuthToken(mtok);
     }
     const res = await axios.post('/api/tasks/sendproposal', payload, config);
-    addToast('Proposal has been sent');
+    dispatch(addToast('Proposal has been sent'));
   } catch (err) {
     console.log(err);
-    addToast('Oops! ' + err.message);
+    dispatch(addToast('Oops! ' + err.message));
   }
 };
 

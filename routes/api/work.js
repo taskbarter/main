@@ -117,6 +117,7 @@ router.post('/update', auth, async (req, res) => {
             },
           ],
         },
+        { state: { $ne: TASKUPDATE_COMPLETE } },
       ],
     });
     if (!Work_Obj) {

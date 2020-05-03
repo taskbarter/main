@@ -341,13 +341,18 @@ class EditTask extends Component {
         </div>
       );
     }
+
     if (!this.state.task) {
       return (
         <div className='taskv-loader error-msg-center'>
           You are not allowed to view this page.
+          <Link className='clear-a mt-4' to='/'>
+            <button className='btn btn-primary btn-sm'>Go back</button>
+          </Link>
         </div>
       );
     }
+
     const task = this.state.task.taskData[0];
     let skills_arr = this.state.filtered_skills;
     return (
