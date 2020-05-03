@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Changelog](README.md)
+* [Taskbarter.com](README.md)
 
 ## About Taskbarter
 
