@@ -1,10 +1,8 @@
-# Taskbarter.com
+# Taskbarter
 
 
 
-![Taskbarter Logo](https://camo.githubusercontent.com/2aa82fae88cd3a19c7132c6a50cf894ace778315/68747470733a2f2f7461736b6261727465722e6769746875622e696f2f696e632f6c6f676f2e706e67)
-
-**Taskbarter.com** is a platform where you can exchange skills for free. Its under development and will be released when the production build is finalized.
+[![](https://camo.githubusercontent.com/2aa82fae88cd3a19c7132c6a50cf894ace778315/68747470733a2f2f7461736b6261727465722e6769746875622e696f2f696e632f6c6f676f2e706e67)](https://camo.githubusercontent.com/2aa82fae88cd3a19c7132c6a50cf894ace778315/68747470733a2f2f7461736b6261727465722e6769746875622e696f2f696e632f6c6f676f2e706e67)is a platform where you can exchange skills for free. Its under development and will be released when the production build is finalized.
 
 Contribution by:
 
@@ -14,7 +12,7 @@ Contribution by:
 4. [**Muhammad Nouman**](https://github.com/Muhammad1Nouman) Back-end developer responsible for miscellaneous tasks.
 5. [**Daniyal Ikhlaq**](https://github.com/IMDaniyal) Fullstack developer responsible for user accounts, profiles and account security.
 
-**Changelog:** [**https://docs.taskbarter.com/about-release/changelog**](https://docs.taskbarter.com/production/changelog)\*\*\*\*
+**Changelog:** [**Link**](https://docs.taskbarter.com/about-release/changelog)\*\*\*\*
 
 #### Want to contribute?
 

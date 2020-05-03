@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Taskbarter.com](README.md)
+* [Taskbarter](README.md)
 
 ## About Taskbarter
 
