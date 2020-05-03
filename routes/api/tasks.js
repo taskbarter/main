@@ -177,7 +177,6 @@ router.get('/fetch', auth, async (req, res) => {
     if (task_id === '') {
       throw { msg: 'no id provided' };
     }
-
     const taskData = await Task.aggregate([
       {
         $match: {

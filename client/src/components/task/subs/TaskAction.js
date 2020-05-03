@@ -2,11 +2,32 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const TaskAction = (props) => {
+  const status_comp = (
+    <React.Fragment>
+      <div className='card card-body redeem-points mb-2'>
+        <div className='task-card-text'>
+          {props.task_state === 4
+            ? 'This task is assigned to a user.'
+            : props.task_state === 0
+            ? 'This task is available for proposals.'
+            : props.task_state === 1
+            ? 'This task is already completed.'
+            : props.task_state === 2
+            ? 'This task is currently paused.'
+            : props.task_state === 3
+            ? 'This task is currently removed.'
+            : 'This task is not available.'}
+        </div>
+      </div>
+    </React.Fragment>
+  );
+
   if (props.current_user === props.task_owner) {
     //if it is assigned and the owner is viewing:
     if (props.task_state === 4 && props.task_work) {
       return (
         <React.Fragment>
+          {status_comp}
           <div className='card card-body redeem-points mb-2'>
             <div className='redeem-heading'>See Updates on Task</div>
             <div className='redeem-text'>
@@ -36,6 +57,7 @@ const TaskAction = (props) => {
     if (props.task_state === 1 && props.task_work) {
       return (
         <React.Fragment>
+          {status_comp}
           <div className='card card-body redeem-points mb-2'>
             <div className='redeem-heading'>See Updates on Task</div>
             <div className='redeem-text'>
@@ -63,6 +85,7 @@ const TaskAction = (props) => {
 
     return (
       <React.Fragment>
+        {status_comp}
         <div className='card card-body redeem-points mb-2'>
           <div className='redeem-heading'>Want to change some terms?</div>
           <div className='redeem-text'>
@@ -98,6 +121,7 @@ const TaskAction = (props) => {
   ) {
     return (
       <React.Fragment>
+        {status_comp}
         <div className='card card-body redeem-points mb-2'>
           <div className='redeem-heading'>Assigned to You</div>
           <div className='redeem-text'>
@@ -115,6 +139,7 @@ const TaskAction = (props) => {
   if (!props.current_user) {
     return (
       <React.Fragment>
+        {status_comp}
         <div className='card card-body redeem-points mb-2'>
           <div className='redeem-heading'>Want to do this task?</div>
           <div className='redeem-text'>
@@ -129,17 +154,20 @@ const TaskAction = (props) => {
   }
 
   return (
-    <div className='card card-body redeem-points mb-2'>
-      <div className='redeem-heading'>Want to do this task?</div>
-      <div className='redeem-text'>
-        You can send proposal to this task and negotiate and chat with the task
-        owner.
-      </div>
+    <React.Fragment>
+      {status_comp}
+      <div className='card card-body redeem-points mb-2'>
+        <div className='redeem-heading'>Want to do this task?</div>
+        <div className='redeem-text'>
+          You can send proposal to this task and negotiate and chat with the
+          task owner.
+        </div>
 
-      <button onClick={props.proposalform_toggle} className='btn redeem-btn'>
-        Send Proposal
-      </button>
-    </div>
+        <button onClick={props.proposalform_toggle} className='btn redeem-btn'>
+          Send Proposal
+        </button>
+      </div>
+    </React.Fragment>
   );
 };
 
