@@ -1570,3 +1570,7 @@ body {
 .btn-sm {
   font-size: 13px !important;
 }
+
+.form-label-group > label {
+  cursor: text !important;
+}
