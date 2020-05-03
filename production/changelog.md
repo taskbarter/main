@@ -76,5 +76,3 @@ description: This page shows the changes we made in the Taskbarter.com website.
 
 
 
-
-
