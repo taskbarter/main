@@ -127,6 +127,67 @@ export const fetchTask = (task_id) => async (dispatch) => {
   }
 };
 
+// fetch task for edit. Different because of validation checks.
+
+export const fetchTaskForEdit = (task_id) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get(`/api/tasks/edit`, {
+      params: { id: task_id },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Edit task status.
+
+export const editTaskStatus = (payload) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.post('/api/tasks/editstatus', payload, config);
+    dispatch(addToast('Task status is now changed.'));
+  } catch (err) {
+    console.log(err);
+    dispatch(addToast('Oops! ' + err.message));
+  }
+};
+
+//Edit Task content:
+
+export const editTaskContent = (payload) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.post('/api/tasks/edit', payload, config);
+    dispatch(addToast('Task has been successfully updated.'));
+    return true;
+  } catch (err) {
+    console.log(err);
+    dispatch(addToast('Oops! ' + err.message));
+    return false;
+  }
+};
+
 // get profile
 
 export const getAllTasks = (t = 0, s = 0) => async (dispatch) => {

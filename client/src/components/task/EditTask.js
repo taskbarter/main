@@ -5,7 +5,12 @@ import Navbar from '../layout/Navbar';
 import CurrentBalanceCard from '../profile/CurrentBalanceCard';
 import AddTaskHints from './AddTaskHints';
 import Footer from '../layout/Footer';
-import { addTask, fetchTask } from '../../actions/taskAction';
+import {
+  addTask,
+  fetchTaskForEdit,
+  editTaskStatus,
+  editTaskContent,
+} from '../../actions/taskAction';
 import { getCurrentProfile } from '../../actions/profileAction';
 import validate from '../../config/rules';
 import categories from '../../config/categories';
@@ -16,6 +21,8 @@ import DescriptionEditor from './subs/DescriptionEditor';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
 import TLoader from '../utils/TLoader';
+import EditTaskAction from './subs/EditTaskAction';
+import { Link } from 'react-router-dom';
 
 class EditTask extends Component {
   constructor() {
@@ -52,35 +59,67 @@ class EditTask extends Component {
     this.setState(
       {
         selected_task: id,
-        loading: true,
         filtered_skills: skills,
       },
       () => {
-        this.props.fetchTask(id).then((fetched_task) => {
-          const task_data = fetched_task ? fetched_task.taskData[0] : {};
-          this.setState(
-            {
-              task: fetched_task,
-              loading: false,
-              headline: task_data.headline,
-              points: task_data.taskpoints,
-              requirement: task_data.description,
-              duration: task_data.duration,
-              category: task_data.category,
-              points_for_task: task_data.taskpoints,
-              skills: task_data.skills,
-            },
-            () => {
-              const selected_skills_temp = this.getSelectedSkillsIds();
-              this.setState({
-                selected_skills: selected_skills_temp,
-              });
-            }
-          );
-        });
+        this.refreshData();
       }
     );
   }
+
+  refreshData = () => {
+    this.setState(
+      {
+        loading: true,
+      },
+      () => {
+        this.props
+          .fetchTaskForEdit(this.state.selected_task)
+          .then((fetched_task) => {
+            const valid_data =
+              fetched_task &&
+              fetched_task.taskData[0] &&
+              fetched_task.taskData[0].headline
+                ? fetched_task
+                : null;
+            if (valid_data === null) {
+              return this.setState({
+                task: valid_data,
+                loading: false,
+              });
+            }
+
+            const task_data =
+              fetched_task &&
+              fetched_task.taskData[0] &&
+              fetched_task.taskData[0].headline
+                ? fetched_task.taskData[0]
+                : null;
+            this.setState(
+              {
+                task: valid_data,
+                loading: false,
+                headline: task_data.headline,
+                points: task_data.taskpoints,
+                requirement: task_data.description,
+                duration: task_data.duration,
+                category: task_data.category,
+                points_for_task: task_data.taskpoints,
+                skills: task_data.skills,
+                task_status: task_data.state,
+              },
+              () => {
+                const selected_skills_temp = this.getSelectedSkillsIds();
+                this.setState({
+                  selected_skills: selected_skills_temp,
+                });
+              }
+            );
+          });
+      }
+    );
+  };
+
   onAssignQuillObj = (quillObj) => {
     this.setState(
       {
@@ -168,6 +207,132 @@ class EditTask extends Component {
     }
   };
 
+  onStatusChange = (new_status) => {
+    const payload = {
+      new_status: new_status,
+      task_id: this.state.selected_task,
+    };
+    this.props.editTaskStatus(payload).then(() => {
+      this.refreshData();
+      this.props.getCurrentProfile();
+    });
+  };
+
+  getSelectedSkills = () => {
+    let arr = [];
+    for (let i in this.state.selected_skills) {
+      let temp1 = find(skills, { id: this.state.selected_skills[i] });
+      arr.push(temp1.name);
+    }
+    return arr;
+  };
+
+  onSubmit = async (e) => {
+    e.preventDefault();
+    const { headline, areTermsAccepted, category, duration } = this.state;
+
+    const description = this.state.quillObj.getText();
+
+    let err = '';
+    err =
+      validate('headline', headline) || validate('description', description);
+
+    if (err !== '') {
+      this.setState({
+        error: { msg: err, type: 0 },
+      });
+    }
+
+    if (this.state.selected_skills.length > 3) {
+      err = 'You can only select 3 skills at max.';
+      this.setState({
+        error: { msg: err, type: 0 },
+      });
+    }
+
+    if (this.state.selected_skills.length === 0) {
+      err = 'You must select at least one skill to continue.';
+      this.setState({
+        error: { msg: err, type: 0 },
+      });
+    }
+
+    if (!areTermsAccepted) {
+      err =
+        'You must agree to our terms and condition before you can submit a task.';
+      this.setState({
+        error: {
+          msg: err,
+          type: 0,
+        },
+      });
+    }
+
+    if (duration === '') {
+      err = 'You must select a duration to proceed.';
+      this.setState({
+        error: {
+          msg: err,
+          type: 0,
+        },
+      });
+    }
+
+    if (category === '') {
+      err = 'You must select a category to continue';
+      this.setState({
+        error: {
+          msg: err,
+          type: 0,
+        },
+      });
+    }
+
+    //err = this.state.error.msg;
+
+    if (err !== '') {
+      window.scrollTo(0, 0);
+      return false;
+    } else {
+      const taskChanges = {
+        description: this.state.quillObj.root.innerHTML,
+        duration: this.state.duration,
+        category: this.state.category,
+        skills: this.getSelectedSkills(),
+        task_id: this.state.selected_task,
+      };
+      this.setState(
+        {
+          sending_state: true,
+        },
+        () => {
+          this.props
+            .editTaskContent(taskChanges, this.props.history)
+            .then((isSuccessful) => {
+              if (isSuccessful) {
+                window.scrollTo(0, 0);
+                this.setState({
+                  isAccepted: true,
+                  error: {
+                    msg: 'Your task has been successfully updated.',
+                    type: 2,
+                  },
+                });
+                this.props.getCurrentProfile();
+              } else {
+                this.setState({
+                  error: {
+                    msg: 'Some error occurred in the backend.',
+                    type: 0,
+                  },
+                });
+              }
+            });
+        }
+      );
+    }
+  };
+
   render() {
     if (this.state.loading) {
       return (
@@ -198,7 +363,22 @@ class EditTask extends Component {
               ) : (
                 ''
               )}
-              <AddTaskHints />
+              {!this.state.isAccepted ? (
+                <React.Fragment>
+                  {' '}
+                  <EditTaskAction
+                    status={task.state}
+                    onStatusChange={this.onStatusChange}
+                  />
+                  <AddTaskHints status={task.state} />
+                </React.Fragment>
+              ) : (
+                <div className='card card-body redeem-points mb-2'>
+                  <div className='task-card-text'>
+                    <Link to='/explore'>Explore Tasks</Link>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className='col-md-8 order-md-1'>
@@ -418,7 +598,8 @@ class EditTask extends Component {
                     </span>
                   </div>
                   <div className='text-center fs-20 '>
-                    Your task has been updated!
+                    Your task has been updated!{' '}
+                    <Link to={`/t/${this.state.selected_task}`}>View</Link>
                   </div>
                 </div>
               )}
@@ -479,6 +660,8 @@ EditTask.formats = [
 
 export default connect(mapStateToProps, {
   addTask,
-  fetchTask,
+  fetchTaskForEdit,
   getCurrentProfile,
+  editTaskStatus,
+  editTaskContent,
 })(EditTask);

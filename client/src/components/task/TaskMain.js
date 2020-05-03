@@ -47,11 +47,20 @@ class TaskMain extends Component {
       },
       () => {
         this.props.fetchTask(id).then((fetched_task) => {
+          const task_data =
+            fetched_task &&
+            fetched_task.taskData[0] &&
+            fetched_task.taskData[0].headline
+              ? fetched_task
+              : null;
           this.setState({
-            task: fetched_task,
+            task: task_data,
             loading: false,
           });
-          if (this.props.auth.user.id === fetched_task.taskData[0].user) {
+          if (
+            task_data &&
+            this.props.auth.user.id === task_data.taskData[0].user
+          ) {
             this.props.fetchProposals(id).then((proposals) => {
               this.setState({
                 proposals: proposals.proposal_data,
@@ -158,6 +167,13 @@ class TaskMain extends Component {
       return (
         <div className='taskv-loader'>
           <TLoader colored={true} />
+        </div>
+      );
+    }
+    if (!this.state.task) {
+      return (
+        <div className='taskv-loader error-msg-center'>
+          You are not allowed to view this page.
         </div>
       );
     }
