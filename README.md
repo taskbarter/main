@@ -20,6 +20,7 @@ Back-end developer responsible for miscellaneous tasks.
 Fullstack developer responsible for user accounts, profiles and account security.
 
 **Docs**: [Link](https://docs.taskbarter.com/)
+
 **Changelog**: [Link](https://docs.taskbarter.com/about-release/changelog)
 
 ### Want to contribute?
