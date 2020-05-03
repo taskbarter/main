@@ -19,23 +19,9 @@ Back-end developer responsible for miscellaneous tasks.
 5. **[Daniyal Ikhlaq](https://github.com/IMDaniyal)**
 Fullstack developer responsible for user accounts, profiles and account security.
 
-### Main Modules of the App
-* **Dashboard**
-* **Profile**
-* **Account Settings**
-* **Messaging**
-* **Notifications**
-* **Workspace**
-* **Rating/Review System**
-* **Task Add/Remove/Update**
-* **Project Add/Remove/Update**
-* **Report/Suggest Feature**
-* **Admin Panel**
-* **Search Page**
-* **Explore/Recommendation System**
-* **Testing and Quality Assurance**
-* **Marketing and Designing**
-* **Production Build & Optimization**
+**Docs**: [Link](https://docs.taskbarter.com/)
+
+**Changelog**: [Link](https://docs.taskbarter.com/about-release/changelog)
 
 ### Want to contribute?
 If you want to be a part of our production team, email us at **taskbarter@gmail.com**
