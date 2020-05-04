@@ -58,7 +58,7 @@ class Settings extends Component {
               />
             </div>
           </div>
-          <div className='row mt-4'>
+          <div className='row mt-4 mb-4'>
             <div className='col-sm-2' style={{ marginTop: '7px' }}>
               {' '}
               Username{' '}

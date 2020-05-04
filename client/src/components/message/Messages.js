@@ -34,6 +34,8 @@ class Messages extends Component {
       conv_obj: {},
       isTyping: false,
       isCurrentUserTyping: false,
+      search_convos_text: '',
+      filtered_convos: [],
     };
   }
   componentDidMount() {
@@ -223,6 +225,12 @@ class Messages extends Component {
       this.state.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
+  onSearchConvos = (e) => {
+    this.setState({
+      search_convos_text: e.target.value,
+    });
+  };
+
   render() {
     return (
       <div className='msg-container messages'>
@@ -235,6 +243,8 @@ class Messages extends Component {
                 id='exampleSearch'
                 placeholder='search conversations'
                 className='task-search-box'
+                value={this.state.search_convos_text}
+                onChange={this.onSearchConvos}
               />
             </div>
           </div>
@@ -249,6 +259,7 @@ class Messages extends Component {
               onConvoClick={this.onConvoClick}
               history={this.props.history}
               current_user_id={this.props.auth.user.id}
+              search_convos_text={this.state.search_convos_text}
             />
           </div>
         </div>

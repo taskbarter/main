@@ -34,6 +34,20 @@ const UserList = (props) => {
           conv.user1 === props.current_user_id
             ? conv.user2_details[0]
             : conv.user1_details[0];
+        if (
+          props.search_convos_text !== '' &&
+          !(
+            user.first_name +
+            ' ' +
+            user.second_name +
+            ' ' +
+            conv.last_message[0].text
+          )
+            .toLowerCase()
+            .includes(props.search_convos_text.toLowerCase())
+        ) {
+          return <div></div>;
+        }
         return (
           <div
             onClick={() => handleCardClick(conv._id)}

@@ -1203,7 +1203,7 @@ header nav.navbar {
 }
 
 .profile-badge-name {
-  margin: 4px 10px 0px 10px;
+  margin: 12px 10px 4px 10px;
   color: #433881;
   font-weight: 500;
 }

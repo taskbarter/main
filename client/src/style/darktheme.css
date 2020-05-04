@@ -12,7 +12,8 @@
 
 .darktheme .card,
 .darktheme .feed-card--sep,
-.darktheme .tu-owner-pill {
+.darktheme .tu-owner-pill,
+.darktheme .profile-status-select {
   background: #383b40;
   color: #d1d1d2;
 }
