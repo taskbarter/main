@@ -605,7 +605,7 @@ router.delete('/proposal/:task_id/:proposal_id', auth, async (req, res) => {
 
 router.post('/sendproposal', auth, async (req, res) => {
   try {
-    const ptask = await Task.find({
+    const ptask = await Task.findOne({
       $and: [
         { _id: mongoose.Types.ObjectId(req.body.task_id) },
         { state: TASK_PENDING },
@@ -614,19 +614,19 @@ router.post('/sendproposal', auth, async (req, res) => {
     if (!ptask) {
       return res.status(500).send(`You can't update this task.`);
     }
-
     const newProposal = new Proposal({
       task: req.body.task_id,
       text: req.body.text,
       user: req.user.id,
     });
-    const prop = await newProposal.save();
 
     if (ptask.user.toString() === req.user.id.toString()) {
       return res
         .status(500)
         .json({ message: 'you cannot apply to your own task.' });
     }
+
+    const prop = await newProposal.save();
     let conv = await Conversation.findOne({
       $or: [
         {
