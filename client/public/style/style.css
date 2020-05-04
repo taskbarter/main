@@ -1574,3 +1574,8 @@ body {
 .form-label-group > label {
   cursor: text !important;
 }
+
+.silented-text {
+  font-size: 11px;
+  margin-top: 45px;
+}
