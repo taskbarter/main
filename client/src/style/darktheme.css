@@ -87,7 +87,8 @@
 .darktheme .add-task-heading,
 .darktheme .add-task-points-heading,
 .darktheme .convo-card .personal-info .name,
-.darktheme .tu-heading {
+.darktheme .tu-heading,
+.darktheme .close {
   color: #ffffff;
 }
 
