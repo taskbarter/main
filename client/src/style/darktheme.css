@@ -124,7 +124,8 @@
 }
 
 .darktheme .task-list-section,
-.darktheme .form-control {
+.darktheme .form-control,
+.darktheme .notif-section {
   border: 1px solid #4c4c4c;
 }
 
@@ -186,8 +187,17 @@
 }
 .darktheme .chat-header-container,
 .darktheme .conversations .action-box,
-.darktheme .chat-messages-container {
+.darktheme .chat-messages-container,
+.darktheme .dt-action-box,
+.darktheme .modal-header {
   border-bottom: 1px solid #474747;
+}
+.darktheme .modal-footer {
+  border-top: 1px solid #474747;
+}
+
+.darktheme .footer {
+  border-top-color: #474747;
 }
 
 .darktheme .css-1x45xix-skeletonStyles-Skeleton {
