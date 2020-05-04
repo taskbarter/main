@@ -47,7 +47,11 @@ class Login extends Component {
     });
   }
   componentWillUnmount() {
-    document.getElementById('body').className = '';
+    if (localStorage.darkTheme) {
+      document.getElementById('body').className = 'darktheme';
+    } else {
+      document.getElementById('body').className = '';
+    }
     document.getElementById('html').className = '';
   }
   onChange = (e) => {

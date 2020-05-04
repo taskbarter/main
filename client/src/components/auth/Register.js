@@ -32,6 +32,7 @@ class Register extends Component {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
+
     document.getElementById('body').className = 'login-body';
     document.getElementById('html').className = 'login-html';
     this.setState({
@@ -41,7 +42,12 @@ class Register extends Component {
     });
   }
   componentWillUnmount() {
-    document.getElementById('body').className = '';
+    if (localStorage.darkTheme) {
+      document.getElementById('body').className = 'darktheme';
+    } else {
+      document.getElementById('body').className = '';
+    }
+
     document.getElementById('html').className = '';
   }
   onChange = (e) => {

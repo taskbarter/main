@@ -7,7 +7,7 @@ class Forgot extends Component {
     super();
     this.state = {
       email: '',
-      errMsg: ''
+      errMsg: '',
     };
   }
   componentDidMount() {
@@ -15,16 +15,20 @@ class Forgot extends Component {
     document.getElementById('html').className = 'login-html';
   }
   componentWillUnmount() {
-    document.getElementById('body').className = '';
+    if (localStorage.darkTheme) {
+      document.getElementById('body').className = 'darktheme';
+    } else {
+      document.getElementById('body').className = '';
+    }
     document.getElementById('html').className = '';
   }
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     const userData = {
-      email: this.state.email
+      email: this.state.email,
     };
     console.log(userData);
   };

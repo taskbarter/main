@@ -23,7 +23,11 @@ class Landingv2 extends Component {
     document.getElementById('body').className = 'landing-body';
   }
   componentWillUnmount() {
-    document.getElementById('body').className = '';
+    if (localStorage.darkTheme) {
+      document.getElementById('body').className = 'darktheme';
+    } else {
+      document.getElementById('body').className = '';
+    }
   }
   onMobMenuOpen = () => {
     let newS = 'nav-items';
