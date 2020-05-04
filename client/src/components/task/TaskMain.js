@@ -11,6 +11,7 @@ import {
   fetchTask,
   fetchProposals,
   changeProposalState,
+  fetchTaskPublic,
 } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
@@ -46,19 +47,43 @@ class TaskMain extends Component {
         loading: true,
       },
       () => {
-        this.props.fetchTask(id).then((fetched_task) => {
-          this.setState({
-            task: fetched_task,
-            loading: false,
-          });
-          if (this.props.auth.user.id === fetched_task.taskData[0].user) {
-            this.props.fetchProposals(id).then((proposals) => {
-              this.setState({
-                proposals: proposals.proposal_data,
-              });
+        if (this.props.auth.user.id) {
+          this.props.fetchTask(id).then((fetched_task) => {
+            const task_data =
+              fetched_task &&
+              fetched_task.taskData[0] &&
+              fetched_task.taskData[0].headline
+                ? fetched_task
+                : null;
+            this.setState({
+              task: task_data,
+              loading: false,
             });
-          }
-        });
+            if (
+              task_data &&
+              this.props.auth.user.id === task_data.taskData[0].user
+            ) {
+              this.props.fetchProposals(id).then((proposals) => {
+                this.setState({
+                  proposals: proposals.proposal_data,
+                });
+              });
+            }
+          });
+        } else {
+          this.props.fetchTaskPublic(id).then((fetched_task) => {
+            const task_data =
+              fetched_task &&
+              fetched_task.taskData[0] &&
+              fetched_task.taskData[0].headline
+                ? fetched_task
+                : null;
+            this.setState({
+              task: task_data,
+              loading: false,
+            });
+          });
+        }
       }
     );
   }
@@ -161,6 +186,16 @@ class TaskMain extends Component {
         </div>
       );
     }
+    if (!this.state.task) {
+      return (
+        <div className='taskv-loader error-msg-center'>
+          You are not allowed to view this page.
+          <Link className='clear-a mt-4' to='/'>
+            <button className='btn btn-primary btn-sm'>Go back</button>
+          </Link>
+        </div>
+      );
+    }
     const task = this.state.task.taskData[0];
     return (
       <React.Fragment>
@@ -175,7 +210,8 @@ class TaskMain extends Component {
                 proposallist_toggle={this.proposallist_toggle}
                 proposalform_toggle={this.proposal_toggle}
                 task_state={task.state}
-                task_work={task.workdetails[0]}
+                task_work={task.workdetails ? task.workdetails[0] : []}
+                task_id={task._id}
               />
             </div>
             <div className='col-md-8 order-md-1'>
@@ -273,4 +309,5 @@ export default connect(mapStateToProps, {
   sendProposal,
   fetchProposals,
   changeProposalState,
+  fetchTaskPublic,
 })(TaskMain);

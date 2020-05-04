@@ -169,18 +169,32 @@ router.get('/explore', async (req, res) => {
 
 // @route   GET api/tasks/fetch
 // @desc    Get single task using ID
-// @access  Public         // login to see tasks
+// @access  Public
 
-router.get('/fetch', async (req, res) => {
+router.get('/fetch', auth, async (req, res) => {
   try {
     const task_id = req.query.id || '';
     if (task_id === '') {
       throw { msg: 'no id provided' };
     }
-
     const taskData = await Task.aggregate([
       {
-        $match: { _id: mongoose.Types.ObjectId(task_id) },
+        $match: {
+          $or: [
+            {
+              $and: [
+                { _id: mongoose.Types.ObjectId(task_id) },
+                { $or: [{ state: null }, { state: TASK_PENDING }] },
+              ],
+            },
+            {
+              $and: [
+                { _id: mongoose.Types.ObjectId(task_id) },
+                { user: mongoose.Types.ObjectId(req.user.id) },
+              ],
+            },
+          ],
+        },
       },
       {
         $lookup: {
@@ -210,6 +224,181 @@ router.get('/fetch', async (req, res) => {
       { $project: { proposals: 0 } },
     ]);
     res.json({ taskData });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/tasks/fetchPublic
+// @desc    Get single task using ID
+// @access  Public         // login to see tasks
+
+router.get('/fetchPublic', async (req, res) => {
+  try {
+    const task_id = req.query.id || '';
+    if (task_id === '') {
+      throw { msg: 'no id provided' };
+    }
+    const taskData = await Task.aggregate([
+      {
+        $match: {
+          $and: [
+            { _id: mongoose.Types.ObjectId(task_id) },
+            { $or: [{ state: null }, { state: TASK_PENDING }] },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: 'personaldetails',
+          localField: 'user',
+          foreignField: 'user',
+          as: 'userdetails',
+        },
+      },
+    ]);
+    res.json({ taskData });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/tasks/edit
+// @desc    Get task for editing
+// @access  Private
+
+router.get('/edit', auth, async (req, res) => {
+  try {
+    const task_id = req.query.id || '';
+    if (task_id === '') {
+      throw { msg: 'no id provided' };
+    }
+
+    const taskData = await Task.aggregate([
+      {
+        $match: {
+          $and: [
+            { _id: mongoose.Types.ObjectId(task_id) },
+            { user: mongoose.Types.ObjectId(req.user.id) },
+            { state: { $ne: TASK_COMPLETED } },
+            { state: { $ne: TASK_ASSIGNED } },
+            { state: { $ne: TASK_ARCHIVED } },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: 'personaldetails',
+          localField: 'user',
+          foreignField: 'user',
+          as: 'userdetails',
+        },
+      },
+      {
+        $lookup: {
+          from: 'proposals',
+          localField: '_id',
+          foreignField: 'task',
+          as: 'proposals',
+        },
+      },
+      { $addFields: { totalApplicants: { $size: '$proposals' } } },
+      { $project: { proposals: 0 } },
+    ]);
+    res.json({ taskData });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   POST api/tasks/editstatus
+// @desc    Change task status
+// @access  Private
+
+router.post('/editstatus', auth, async (req, res) => {
+  try {
+    const task_id = req.body.task_id || '';
+    if (task_id === '') {
+      throw { msg: 'no id provided' };
+    }
+    const taskData = await Task.findOne({
+      $and: [
+        { _id: mongoose.Types.ObjectId(task_id) },
+        { user: mongoose.Types.ObjectId(req.user.id) },
+        { state: { $ne: TASK_COMPLETED } },
+        { state: { $ne: TASK_ASSIGNED } },
+        { state: { $ne: TASK_ARCHIVED } },
+      ],
+    });
+
+    if (!taskData) {
+      return res.status(500).send(`You can't update this task.`);
+    }
+
+    taskData.state = req.body.new_status;
+
+    await taskData.save();
+
+    if (parseInt(req.body.new_status) === TASK_ARCHIVED) {
+      const profile = await PersonalDetails.findOne({
+        user: taskData.user,
+      });
+
+      profile.pointsEarned =
+        parseInt(profile.pointsEarned) + parseInt(taskData.taskpoints);
+
+      profile.tasksCanceled = parseInt(profile.tasksCanceled) + 1;
+
+      await profile.save();
+
+      addNotification(
+        `Your task '${taskData.headline}' has been removed. ${taskData.taskpoints} points have been refunded to your account.`,
+        taskData.user,
+        `/t/${taskData._id}`
+      );
+    }
+
+    res.json({ taskData: taskData[0] });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   POST api/tasks/edit
+// @desc    Update task content
+// @access  Private
+
+router.post('/edit', auth, async (req, res) => {
+  try {
+    const task_id = req.body.task_id || '';
+    if (task_id === '') {
+      throw { msg: 'no id provided' };
+    }
+    const taskData = await Task.findOne({
+      $and: [
+        { _id: mongoose.Types.ObjectId(task_id) },
+        { user: mongoose.Types.ObjectId(req.user.id) },
+        { state: { $ne: TASK_COMPLETED } },
+        { state: { $ne: TASK_ASSIGNED } },
+        { state: { $ne: TASK_ARCHIVED } },
+      ],
+    });
+
+    if (!taskData) {
+      return res.status(500).send(`You can't update this task.`);
+    }
+
+    taskData.description = req.body.description;
+    taskData.skills = req.body.skills;
+    taskData.category = req.body.category;
+    taskData.duration = req.body.duration;
+
+    await taskData.save();
+    res.json({ taskData: taskData[0] });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -416,18 +605,28 @@ router.delete('/proposal/:task_id/:proposal_id', auth, async (req, res) => {
 
 router.post('/sendproposal', auth, async (req, res) => {
   try {
+    const ptask = await Task.findOne({
+      $and: [
+        { _id: mongoose.Types.ObjectId(req.body.task_id) },
+        { state: TASK_PENDING },
+      ],
+    });
+    if (!ptask) {
+      return res.status(500).send(`You can't update this task.`);
+    }
     const newProposal = new Proposal({
       task: req.body.task_id,
       text: req.body.text,
       user: req.user.id,
     });
-    const prop = await newProposal.save();
-    const ptask = await Task.findById(req.body.task_id);
+
     if (ptask.user.toString() === req.user.id.toString()) {
       return res
         .status(500)
         .json({ message: 'you cannot apply to your own task.' });
     }
+
+    const prop = await newProposal.save();
     let conv = await Conversation.findOne({
       $or: [
         {

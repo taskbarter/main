@@ -180,6 +180,9 @@ class Work extends Component {
       return (
         <div className='taskv-loader error-msg-center'>
           You are not allowed to view this page.
+          <Link className='clear-a mt-4' to='/'>
+            <button className='btn btn-primary btn-sm'>Go back</button>
+          </Link>
         </div>
       );
     }

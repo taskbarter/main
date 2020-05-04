@@ -341,3 +341,8 @@ body {
 #sname {
   padding-left: 7px;
 }
+
+.silented-text {
+  font-size: 11px;
+  margin-top: 45px;
+}

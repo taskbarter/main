@@ -179,11 +179,6 @@
 }
 
 .landingv2 .hero-img {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  max-width: 37.5rem;
 }
 
 .landingv2 .hero-img > img {

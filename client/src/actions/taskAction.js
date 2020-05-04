@@ -113,7 +113,6 @@ export const fetch_workplace_tasks = () => async (dispatch) => {
 
 export const fetchTask = (task_id) => async (dispatch) => {
   try {
-    console.log('fetchTask -> task_id', task_id);
     const mtok = localStorage.jwtToken;
     if (mtok) {
       setAuthToken(mtok);
@@ -124,6 +123,83 @@ export const fetchTask = (task_id) => async (dispatch) => {
     return res.data;
   } catch (err) {
     console.error(err);
+  }
+};
+
+// fetch task for unauth users
+export const fetchTaskPublic = (task_id) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get(`/api/tasks/fetchPublic`, {
+      params: { id: task_id },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// fetch task for edit. Different because of validation checks.
+
+export const fetchTaskForEdit = (task_id) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get(`/api/tasks/edit`, {
+      params: { id: task_id },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Edit task status.
+
+export const editTaskStatus = (payload) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.post('/api/tasks/editstatus', payload, config);
+    dispatch(addToast('Task status is now changed.'));
+  } catch (err) {
+    console.log(err);
+    dispatch(addToast('Oops! ' + err.message));
+  }
+};
+
+//Edit Task content:
+
+export const editTaskContent = (payload) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.post('/api/tasks/edit', payload, config);
+    dispatch(addToast('Task has been successfully updated.'));
+    return true;
+  } catch (err) {
+    console.log(err);
+    dispatch(addToast('Oops! ' + err.message));
+    return false;
   }
 };
 
@@ -204,10 +280,10 @@ export const sendProposal = (payload) => async (dispatch) => {
       setAuthToken(mtok);
     }
     const res = await axios.post('/api/tasks/sendproposal', payload, config);
-    addToast('Proposal has been sent');
+    dispatch(addToast('Proposal has been sent'));
   } catch (err) {
     console.log(err);
-    addToast('Oops! ' + err.message);
+    dispatch(addToast('Oops! ' + err.message));
   }
 };
 

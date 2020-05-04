@@ -24,6 +24,8 @@ import Notifications from './components/notifications/Notifications';
 import Footer from './components/layout/Footer';
 import MyTasks from './components/task/MyTasks';
 import TaskMain from './components/task/TaskMain';
+import EditTask from './components/task/EditTask';
+import Settings from './components/settings/Settings';
 import Work from './components/Work/Work';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -72,7 +74,7 @@ class App extends Component {
               </PrivateRoute> */}
               <PrivateRoute exact path='/messages' component={Messages} />
               <PrivateRoute exact path='/messages/:id' component={Messages} />
-
+              <PrivateRoute exact path='/settings' component={Settings} />
               <PrivateRoute
                 exact
                 path='/notifications'
@@ -82,6 +84,7 @@ class App extends Component {
               <PrivateRoute exact path='/mytasks' component={MyTasks} />
               <PrivateRoute exact path='/u/:id' component={userDetail} />
               <PrivateRoute exact path='/w/:id' component={Work} />
+              <PrivateRoute exact path='/e/:id' component={EditTask} />
             </Switch>
             <ToastContainer />
           </div>
