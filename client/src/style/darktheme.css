@@ -6,8 +6,13 @@
   color: white;
 }
 
+.darktheme a {
+  color: #6fb4ff;
+}
+
 .darktheme .card,
-.darktheme .feed-card--sep {
+.darktheme .feed-card--sep,
+.darktheme .tu-owner-pill {
   background: #383b40;
   color: #d1d1d2;
 }
@@ -66,7 +71,12 @@
 .darktheme .footer .footer-links > a,
 .darktheme .dt-title,
 .darktheme .dt-body,
-.darktheme .modal-content {
+.darktheme .modal-content,
+.darktheme .bio-text,
+.darktheme .experience-date,
+.darktheme .experience-desc,
+.darktheme .profile-tagline,
+.darktheme .profile-member-since {
   color: #d3d3d3;
 }
 
@@ -152,7 +162,8 @@
   background: #333538;
 }
 
-.darktheme .dt-added-on {
+.darktheme .dt-added-on,
+.darktheme .notification-item .notif-time {
   color: #b9bec6;
 }
 
@@ -177,7 +188,8 @@
   background: #383b40;
 }
 
-.darktheme .tu-update-top {
+.darktheme .tu-update-top,
+.darktheme .profile-menu-item:hover {
   background: #474747;
 }
 
@@ -203,9 +215,14 @@
   border-top-color: #474747;
 }
 
-.darktheme .css-1x45xix-skeletonStyles-Skeleton {
+.darktheme .react-loading-skeleton {
   background-color: #373a3f;
-  background-image: linear-gradient(90deg, #27292d, #27292d, #414449);
+  background-image: linear-gradient(
+    90deg,
+    #27292d,
+    #27292d,
+    #414449
+  ) !important;
 }
 
 .darktheme .lds-ring.colored div {
@@ -217,4 +234,9 @@
   .darktheme .header-container .nav-items {
     background: #292b2e;
   }
+}
+
+.darktheme .profile-menu.show {
+  background: #25272b;
+  color: white;
 }

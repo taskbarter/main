@@ -21,6 +21,7 @@
   box-shadow: 0 0 10px 0px #fbfbfb;
   border-top: none;
   transition: all 0.1s ease-in-out;
+  margin-bottom: 7px;
 }
 
 .notification-item .notif-text {

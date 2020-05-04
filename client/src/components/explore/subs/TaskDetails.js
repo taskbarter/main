@@ -83,7 +83,7 @@ const TaskDetails = (props) => {
           className='dt-title-anchor'
         >
           <div className='dt-sub-title'>I want someone to</div>
-          <div className='dt-title'>{task.headline}</div>
+          <div className='dt-title'>{task.headline} </div>
         </a>
         <div className='dt-added-on'>
           Posted <span className='dt-date'>{moment(task.date).fromNow()}</span>{' '}
@@ -126,16 +126,16 @@ const TaskDetails = (props) => {
       </div>
       <ModalBody className='dt-body'>
         <div className='task-list-title dt-title'>Reward</div>
-        <div className='mb-2'>
+        <div className='mb-3'>
           You will earn{' '}
           <span className='dt-points'>{task.taskpoints} points</span>
         </div>
         <div className='task-list-title dt-title'>Category</div>
-        <div className='mb-2'>{task.category}</div>
+        <div className='mb-3'>{task.category}</div>
         <div className='task-list-title dt-title mb-1'>Skills</div>
-        <div className='mb-2 mt-1'>{skillSection}</div>
-        <div className='task-list-title dt-title'>Description</div>
-        <div className='mb-2 mt-1 ql-editor dt-description'>
+        <div className='mb-3 mt-1'>{skillSection}</div>
+        <div className='task-list-title dt-title mb-2'>Description</div>
+        <div className='mb-4 mt-1 ql-editor dt-description'>
           <div
             dangerouslySetInnerHTML={{
               __html: task.description,
@@ -144,7 +144,7 @@ const TaskDetails = (props) => {
         </div>
         <div className='task-list-title dt-title'>Posted By</div>
         {task.userdetails && task.userdetails[0] ? (
-          <div className='mb-2'>
+          <div className='mb-3'>
             <span className='dt-points'>
               {task.userdetails[0].first_name} {task.userdetails[0].second_name}
             </span>

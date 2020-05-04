@@ -229,7 +229,7 @@ class Work extends Component {
               </div>
 
               <div>
-                <div className='tu-heading'>Task Updates</div>
+                <div className='tu-heading mt-3'>Task Updates</div>
                 {task_updates.map((task_update, id) => {
                   return (
                     <div key={id}>

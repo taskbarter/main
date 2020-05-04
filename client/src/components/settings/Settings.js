@@ -9,6 +9,7 @@ class Settings extends Component {
     this.state = {
       selected_convo: '',
       isDarkThemeOn: localStorage.darkTheme,
+      darkModeChangingState: false,
     };
   }
   componentDidMount() {
@@ -20,16 +21,22 @@ class Settings extends Component {
     console.log(e.target.checked);
     if (e.target.checked) {
       console.log('Dark theme turned on');
-      this.setState({ isDarkThemeOn: 'true' }, () => {
-        localStorage.setItem('darkTheme', true);
-        window.location.reload();
-      });
+      this.setState(
+        { isDarkThemeOn: 'true', darkModeChangingState: true },
+        () => {
+          localStorage.setItem('darkTheme', true);
+          window.location.reload();
+        }
+      );
     } else {
       console.log('Dark theme turned off');
-      this.setState({ isDarkThemeOn: 'false' }, () => {
-        localStorage.removeItem('darkTheme');
-        window.location.reload();
-      });
+      this.setState(
+        { isDarkThemeOn: 'false', darkModeChangingState: true },
+        () => {
+          localStorage.removeItem('darkTheme');
+          window.location.reload();
+        }
+      );
     }
   };
   render() {
@@ -66,7 +73,8 @@ class Settings extends Component {
           </div>
 
           <label className='checkbox__label mt-4'>
-            Dark Mode (Experimental)
+            Dark Mode (Experimental){' '}
+            {this.state.darkModeChangingState ? 'Changing...' : ''}
             <input
               data-v-68624b48=''
               type='checkbox'
@@ -74,6 +82,7 @@ class Settings extends Component {
               value='d98c139f-5a36-4848-9230-02777a668e33'
               checked={this.state.isDarkThemeOn === 'true'}
               onChange={this.changeDarkMode}
+              disabled={this.state.darkModeChangingState}
             />{' '}
             <span className='checkmark' style={{ top: '2px' }}></span>
           </label>

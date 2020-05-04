@@ -226,14 +226,14 @@ class TaskMain extends Component {
 
                 <div className='mt-3'>
                   <div className='task-list-title dt-title'>Reward</div>
-                  <div className='mb-2'>
+                  <div className='mb-3'>
                     You will earn{' '}
                     <span className='dt-points'>{task.taskpoints} points</span>
                   </div>
                   <div className='task-list-title dt-title'>Category</div>
-                  <div className='mb-2'>{task.category}</div>
+                  <div className='mb-3'>{task.category}</div>
                   <div className='task-list-title dt-title mb-1'>Skills</div>
-                  <div className='mb-2 mt-1'>
+                  <div className='mb-3 mt-1'>
                     <div className='profile-badge-categories'>
                       {this.state.task.taskData[0].skills.map((skl, i) => {
                         return (
@@ -244,8 +244,10 @@ class TaskMain extends Component {
                       })}
                     </div>
                   </div>
-                  <div className='task-list-title dt-title'>Description</div>
-                  <div className='mb-2 mt-1 ql-editor dt-description'>
+                  <div className='task-list-title dt-title mb-2'>
+                    Description
+                  </div>
+                  <div className='mb-4 mt-1 ql-editor dt-description'>
                     <div
                       dangerouslySetInnerHTML={{
                         __html: task.description,
@@ -254,7 +256,7 @@ class TaskMain extends Component {
                   </div>
                   <div className='task-list-title dt-title'>Posted By</div>
                   {task.userdetails && task.userdetails[0] ? (
-                    <div className='mb-2'>
+                    <div className='mb-3'>
                       <span className='dt-points'>
                         {task.userdetails[0].first_name}{' '}
                         {task.userdetails[0].second_name}
