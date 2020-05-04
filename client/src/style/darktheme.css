@@ -63,7 +63,8 @@
 .darktheme .profile-skills,
 .darktheme .footer .footer-links > a,
 .darktheme .dt-title,
-.darktheme .dt-body {
+.darktheme .dt-body,
+.darktheme .modal-content {
   color: #d3d3d3;
 }
 
@@ -73,7 +74,8 @@
 .feed-card--points,
 .darktheme .profile-skills:hover,
 .darktheme .feed-card-learn-more:hover,
-.darktheme .msg-right .message-bubble {
+.darktheme .msg-right .message-bubble,
+.darktheme .btn-primary {
   background: #6558b1;
 }
 
@@ -196,4 +198,10 @@
 .darktheme .lds-ring.colored div {
   border: 3px solid #fff;
   border-color: #fff transparent transparent transparent;
+}
+
+@media only screen and (max-width: 63.9375em) {
+  .header-container .nav-items {
+    background: #292b2e;
+  }
 }
