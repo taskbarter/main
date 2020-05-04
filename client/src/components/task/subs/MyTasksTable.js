@@ -1,13 +1,22 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 import { compareSync } from 'bcryptjs';
+import { Link } from 'react-router-dom';
+import TLoader from '../../utils/TLoader';
 
 const MyTasksTable = (props) => {
   const mytemptasks = props.tasks;
 
   const taskSection = () => {
     if (!mytemptasks) {
-      return '';
+      return (
+        <div className='taskv-loader mx-auto' style={{ height: '20vh' }}>
+          <TLoader colored={true} />
+        </div>
+      );
+    }
+    if (mytemptasks.tasks_data.length == 0) {
+      return <div className='mx-auto'>No Tasks Available</div>;
     }
     console.log(mytemptasks);
     return mytemptasks.tasks_data.map((task, id) => (
@@ -16,13 +25,25 @@ const MyTasksTable = (props) => {
           <td scope='row' className='mytasks-date'>
             {new Date(task.date).toDateString()}
           </td>
-          <td>I want someone to {task.headline}</td>
+          <Link className='clear-a' to={`/t/${task._id}`}>
+            <td>
+              <a href='#'>I want someone to {task.headline}</a>
+            </td>
+          </Link>
           <th>{task.taskpoints}</th>
           <td>
-            <a href='#'>View ({task.proposals ? task.proposals.length : 0})</a>
+            <a href='#' onClick={() => props.setProposal(task)}>
+              View ({task.proposals ? task.proposals.length : 0})
+            </a>
           </td>
           <td>
-            <a href='#'>Edit</a> | <a href='#'>Delete</a>
+            <Link to='/add'>
+              <a href='#'>Edit</a>
+            </Link>{' '}
+            |{' '}
+            <a href='#' onClick={() => props.onDeleteTask(task._id)}>
+              Delete
+            </a>
           </td>
         </tr>
       </tbody>

@@ -391,6 +391,25 @@ export const fetchPausedTasks = () => async (dispatch) => {
   }
 };
 
+export const deleteTask = (id) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    console.log(id);
+    const res = await axios.delete('/api/tasks/' + id);
+    dispatch({
+      type: DELETE_TASK,
+      payload: res.data,
+    });
+    console.log(res);
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
 export const fetchWorkingTasks = (limit = -1) => async (dispatch) => {
   try {
     const mtok = localStorage.jwtToken;
