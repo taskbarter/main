@@ -1,7 +1,9 @@
 .darktheme,
 .darktheme .description-editor .ql-toolbar.ql-snow,
-.darktheme .msg-container {
+.darktheme .msg-container,
+.darktheme .ReactModal__Content {
   background: #27292d !important;
+  color: white;
 }
 
 .darktheme .card,
