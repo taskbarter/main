@@ -192,3 +192,8 @@
   background-color: #373a3f;
   background-image: linear-gradient(90deg, #27292d, #27292d, #414449);
 }
+
+.darktheme .lds-ring.colored div {
+  border: 3px solid #fff;
+  border-color: #fff transparent transparent transparent;
+}
