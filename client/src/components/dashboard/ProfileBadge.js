@@ -143,12 +143,9 @@ const ProfileBadge = (props) => {
           | Points Spent: <span id='profile-points-spent'>{pointsSpent}</span>
         </div>
       </div>
-
-      <span className='profile-badge-edit'>
-        <Link exact='true' to='/me'>
-          edit
-        </Link>
-      </span>
+      <Link className='clear-a' exact='true' to='/me'>
+        <span className='profile-badge-edit'>edit</span>
+      </Link>
     </div>
   );
 };

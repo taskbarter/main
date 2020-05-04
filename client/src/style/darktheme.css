@@ -1,0 +1,194 @@
+.darktheme,
+.darktheme .description-editor .ql-toolbar.ql-snow,
+.darktheme .msg-container {
+  background: #27292d !important;
+}
+
+.darktheme .card,
+.darktheme .feed-card--sep {
+  background: #383b40;
+  color: #d1d1d2;
+}
+
+.darktheme .notification-item,
+.darktheme .feed-card,
+.darktheme .modal-content,
+.convo-card:hover {
+  box-shadow: 0 0 10px 0px #27292d3d;
+  background: #26282b;
+  border: #505359 solid 1px;
+}
+
+.darktheme .notif-list {
+  border-top: #505359 solid 1px;
+}
+
+.darktheme .notification-item .notif-text {
+  color: #bcbcbd;
+}
+
+.darktheme .sm-task-footer {
+  border-top: #444444 solid 1px;
+}
+
+.darktheme .main-header-v2,
+.darktheme .notif-section,
+.darktheme .filter-bar,
+.darktheme .task-list-section {
+  background: #383b40;
+  color: #d3d3d3;
+}
+
+.darktheme .nav-items .icon_inactive,
+.darktheme .feed-card--footer-left .svg_icon,
+.darktheme .nav-items .active .icon_active {
+  filter: brightness(0) invert(1);
+}
+
+.darktheme .header-container .nav-items .nav-item .nav-item-text,
+.darktheme .add-task-input-headline .max-chars,
+.darktheme .add-task-input-details .max-chars,
+.darktheme .add-task-duration .max-chars,
+.darktheme .add-task-categories .max-chars {
+  color: #bcbcbd;
+}
+
+.darktheme .nav-profile .name,
+.darktheme .nav-profile .name-sub,
+.darktheme .profile-badge-name,
+.darktheme .profile-badge-rating,
+.darktheme .profile-badge-stats,
+.darktheme .profile-badge-category,
+.darktheme .profile-badge-edit,
+.darktheme .profile-skills,
+.darktheme .footer .footer-links > a,
+.darktheme .dt-title,
+.darktheme .dt-body {
+  color: #d3d3d3;
+}
+
+.darktheme .notification-btn,
+.darktheme .redeem-btn,
+.darktheme .feed-card--category,
+.feed-card--points,
+.darktheme .profile-skills:hover,
+.darktheme .feed-card-learn-more:hover,
+.darktheme .msg-right .message-bubble {
+  background: #6558b1;
+}
+
+.darktheme .redeem-heading,
+.darktheme .profile-badge-name,
+.darktheme .dt-points,
+.darktheme .add-task-heading,
+.darktheme .add-task-points-heading,
+.darktheme .convo-card .personal-info .name,
+.darktheme .tu-heading {
+  color: #ffffff;
+}
+
+.darktheme .profile-badge-category {
+  background: #d8d8d81f;
+}
+
+.darktheme .feed-card {
+  border: 1px solid #424242;
+}
+
+.darktheme .how-it-works-card {
+  background: #d00865;
+  background: center no-repeat;
+  background-size: cover;
+  background-image: url(https://images.jumpstart.me/frontend/illustrations/feed/wave-card.svg);
+}
+
+.darktheme .feed-card:hover {
+  box-shadow: 0 0 11px #27292d3d;
+  cursor: pointer;
+}
+
+.darktheme .profile-skills {
+  background: #373158;
+}
+
+.darktheme .feed-card-person-details .loc,
+.darktheme .convo-card .personal-info .lastmsg {
+  color: #bdbcbc;
+}
+
+.darktheme .feed-card-learn-more {
+  background: #414449;
+  color: #c3c3c3;
+}
+
+.darktheme .task-list-section,
+.darktheme .form-control {
+  border: 1px solid #4c4c4c;
+}
+
+.darktheme .task-list-title,
+.darktheme .end-explore,
+.darktheme .dt-header .dt-sub-title {
+  color: #d4d5d8;
+}
+
+.darktheme .main-header-v2 {
+  border-bottom: 1px solid #6d6d6d;
+}
+
+.darktheme .form-control {
+  background-color: #383b40;
+  color: #d4d5d8;
+}
+
+.darktheme .dt-description {
+  border: #454545 solid 1px;
+  background: #333538;
+}
+
+.darktheme .dt-added-on {
+  color: #b9bec6;
+}
+
+.darktheme .conversations .is-selected {
+  border-right: #d7d0ff solid 5px;
+}
+
+.search-container {
+  background: none;
+}
+
+.darktheme .conversations .is-selected {
+  box-shadow: 0 0 20px #00000036;
+}
+
+.darktheme .convo-card .personal-info,
+.darktheme .date-icon-block {
+  border-bottom: 1px solid #383838;
+}
+
+.darktheme .chat-messages-container {
+  background: #383b40;
+}
+
+.darktheme .tu-update-top {
+  background: #474747;
+}
+
+.darktheme .tu-border-highlight {
+  border: #ffffff solid 1px;
+}
+
+.darktheme .msg-container .conversations {
+  border-right: 1px solid #474747;
+}
+.darktheme .chat-header-container,
+.darktheme .conversations .action-box,
+.darktheme .chat-messages-container {
+  border-bottom: 1px solid #474747;
+}
+
+.darktheme .css-1x45xix-skeletonStyles-Skeleton {
+  background-color: #373a3f;
+  background-image: linear-gradient(90deg, #27292d, #27292d, #414449);
+}

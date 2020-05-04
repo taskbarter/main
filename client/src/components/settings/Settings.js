@@ -1,17 +1,37 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FormGroup, CustomInput } from 'reactstrap';
 
 class Settings extends Component {
   constructor() {
     super();
     this.state = {
       selected_convo: '',
+      isDarkThemeOn: localStorage.darkTheme,
     };
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({ isDarkThemeOn: localStorage.darkTheme });
+  }
   onConvoClick = (id) => {};
 
+  changeDarkMode = (e) => {
+    console.log(e.target.checked);
+    if (e.target.checked) {
+      console.log('Dark theme turned on');
+      this.setState({ isDarkThemeOn: 'true' }, () => {
+        localStorage.setItem('darkTheme', true);
+        window.location.reload();
+      });
+    } else {
+      console.log('Dark theme turned off');
+      this.setState({ isDarkThemeOn: 'false' }, () => {
+        localStorage.removeItem('darkTheme');
+        window.location.reload();
+      });
+    }
+  };
   render() {
     return (
       <div className='container notif-container'>
@@ -44,6 +64,19 @@ class Settings extends Component {
               />
             </div>
           </div>
+
+          <label className='checkbox__label mt-4'>
+            Dark Mode (Experimental)
+            <input
+              data-v-68624b48=''
+              type='checkbox'
+              name='filter-dropdown-experience'
+              value='d98c139f-5a36-4848-9230-02777a668e33'
+              checked={this.state.isDarkThemeOn === 'true'}
+              onChange={this.changeDarkMode}
+            />{' '}
+            <span className='checkmark' style={{ top: '2px' }}></span>
+          </label>
 
           <div className='silented-text'>
             Changing this info is not yet available.

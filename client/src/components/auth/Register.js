@@ -45,7 +45,7 @@ class Register extends Component {
     document.getElementById('html').className = '';
   }
   onChange = (e) => {
-    if (validate(e.target.id, e.target.value) !== '') {
+    if (validate(e.target.id, e.target.value.toLowerCase()) !== '') {
       document.getElementById(e.target.id).classList.add('is-invalid');
     } else {
       document.getElementById(e.target.id).classList.remove('is-invalid');

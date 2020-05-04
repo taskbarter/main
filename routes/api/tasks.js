@@ -614,6 +614,7 @@ router.post('/sendproposal', auth, async (req, res) => {
     if (!ptask) {
       return res.status(500).send(`You can't update this task.`);
     }
+
     const newProposal = new Proposal({
       task: req.body.task_id,
       text: req.body.text,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import logo from '../../TaskBarterLogo_Transparent.png';
+import logo_white from '../../TaskBarterLogo_Transparent_White.png';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
@@ -65,7 +66,11 @@ class Header extends Component {
       return (
         <header className='main-header-v2'>
           <div className='header-container'>
-            <img onClick={this.onClickOnLogo} src={logo} className='logo' />
+            <img
+              onClick={this.onClickOnLogo}
+              src={localStorage.darkTheme ? logo_white : logo}
+              className='logo'
+            />
             <span className={this.state.itemsStyling}>
               <a onClick={this.onMobMenuOpen} className='menu-toggler-close'>
                 <span className='navbar-toggler-icon'>

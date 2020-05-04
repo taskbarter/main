@@ -49,6 +49,12 @@ if (localStorage.jwtToken) {
     window.location.href = './login';
   }
 }
+
+if (localStorage.darkTheme) {
+  require('./style/darktheme.css');
+  document.getElementById('body').className = 'darktheme';
+}
+
 class App extends Component {
   render() {
     return (
