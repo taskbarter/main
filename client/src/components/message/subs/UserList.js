@@ -18,7 +18,7 @@ const UserList = (props) => {
     }
   };
 
-  if (props.convo_loading) {
+  if (props.convo_loading && !props.conversation_list.length) {
     return (
       <React.Fragment>
         <div className='mt-4'>
