@@ -1,17 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Tooltip,
-} from 'reactstrap';
 
-import bookmark_icon from '../../../style/inc/bookmark.svg';
-import share_icon from '../../../style/inc/share.svg';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import TLoader from '../../utils/TLoader';
 
 const UserList = (props) => {
   const getConvoCardClass = (conv) => {
@@ -27,6 +17,17 @@ const UserList = (props) => {
       props.onConvoClick(id);
     }
   };
+
+  if (props.convo_loading) {
+    return (
+      <React.Fragment>
+        <div className='mt-4'>
+          <TLoader colored={true} />
+        </div>
+      </React.Fragment>
+    );
+  }
+
   return (
     <React.Fragment>
       {props.conversation_list.map((conv, i) => {

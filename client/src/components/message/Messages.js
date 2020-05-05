@@ -36,6 +36,7 @@ class Messages extends Component {
       isCurrentUserTyping: false,
       search_convos_text: '',
       filtered_convos: [],
+      convo_loading: false,
     };
   }
   componentDidMount() {
@@ -79,8 +80,11 @@ class Messages extends Component {
 
   refreshConversations = () => {
     const { id } = this.props.match.params;
-    this.props.getConversations(this.props.auth.user.id).then(() => {
-      this.assignConvObj(id);
+    this.setState({ convo_loading: true }, () => {
+      this.props.getConversations(this.props.auth.user.id).then(() => {
+        this.assignConvObj(id);
+        this.setState({ convo_loading: false });
+      });
     });
   };
 
@@ -260,6 +264,7 @@ class Messages extends Component {
               history={this.props.history}
               current_user_id={this.props.auth.user.id}
               search_convos_text={this.state.search_convos_text}
+              convo_loading={this.state.convo_loading}
             />
           </div>
         </div>
