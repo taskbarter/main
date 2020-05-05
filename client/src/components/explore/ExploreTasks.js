@@ -230,6 +230,7 @@ class ExploreTasks extends Component {
     this.setState(
       {
         current_segment: 0,
+        isEndReached: false,
       },
       () => {
         this.updateFeed(false);
@@ -269,6 +270,7 @@ class ExploreTasks extends Component {
     this.setState(
       {
         current_segment: 0,
+        isEndReached: false,
       },
       () => {
         this.updateFeed(false);
@@ -283,6 +285,7 @@ class ExploreTasks extends Component {
         skills_filter: [],
         search_query: '',
         current_segment: 0,
+        isEndReached: false,
       },
       () => {
         this.updateFeed(false);
