@@ -81,7 +81,8 @@
 .darktheme .profile-member-since,
 .darktheme .ql-snow .ql-picker.ql-expanded .ql-picker-label,
 .darktheme .ql-snow .ql-picker,
-.darktheme .msg-left .message-bubble {
+.darktheme .msg-left .message-bubble,
+.darktheme .profile-menu-item {
   color: #d3d3d3;
 }
 
@@ -125,7 +126,7 @@
 }
 
 .darktheme .feed-card:hover {
-  box-shadow: 0 0 11px #27292d3d;
+  box-shadow: 0 0 11px #0000003d;
   cursor: pointer;
 }
 
@@ -163,9 +164,10 @@
 }
 
 .darktheme .form-control,
-.darktheme .msg-left .task-prop-task:hover {
-  background-color: #383b40;
-  color: #d4d5d8;
+.darktheme .msg-left .task-prop-task:hover,
+.darktheme .custom-select {
+  background-color: #292b2e;
+  color: #d3d3d3;
 }
 
 .darktheme .dt-description {
@@ -281,4 +283,12 @@
 
 .darktheme .ReactModal__Overlay--after-open {
   background-color: rgba(37, 37, 37, 0.75) !important;
+}
+
+.darktheme .ql-editor.ql-blank::before {
+  color: rgba(211, 207, 207, 0.6);
+}
+
+.darktheme .profile-menu hr {
+  border-top: 1px solid rgb(81, 81, 81);
 }
