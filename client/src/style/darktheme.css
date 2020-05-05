@@ -77,7 +77,9 @@
 .darktheme .experience-date,
 .darktheme .experience-desc,
 .darktheme .profile-tagline,
-.darktheme .profile-member-since {
+.darktheme .profile-member-since,
+.darktheme .ql-snow .ql-picker.ql-expanded .ql-picker-label,
+.darktheme .ql-snow .ql-picker {
   color: #d3d3d3;
 }
 
@@ -88,7 +90,8 @@
 .darktheme .profile-skills:hover,
 .darktheme .feed-card-learn-more:hover,
 .darktheme .msg-right .message-bubble,
-.darktheme .btn-primary {
+.darktheme .btn-primary,
+.darktheme .add-task-btn {
   background: #6558b1;
 }
 
@@ -240,4 +243,18 @@
 .darktheme .profile-menu.show {
   background: #25272b;
   color: white;
+}
+
+.darktheme .ql-snow .ql-stroke {
+  stroke: #d3d3d3;
+}
+
+.darktheme .ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+  fill: #d3d3d3;
+}
+
+.darktheme .checkbox__label input:checked ~ .checkmark {
+  background-color: #6558b1;
+  border-color: #6558b1;
 }
