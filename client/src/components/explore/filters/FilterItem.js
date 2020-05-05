@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
 
-const FilterItem = props => {
+const FilterItem = (props) => {
   const getItemList = () => {
     return props.item.options.map((opt, i) => (
       <label className='checkbox__label' key={i}>
@@ -13,7 +13,9 @@ const FilterItem = props => {
           data-v-68624b48=''
           type='checkbox'
           name='filter-dropdown-experience'
-          value='d98c139f-5a36-4848-9230-02777a668e33'
+          value={opt.name}
+          onChange={props.onItemSelect}
+          checked={props.arr && props.arr.includes(opt.name)}
         />{' '}
         <span className='checkmark'></span>
       </label>
@@ -59,10 +61,16 @@ const FilterItem = props => {
             </div>{' '}
             <hr style={{ marginBottom: '5px' }} />
             <div className='dropdown-footer'>
-              <button className='filter-dropdown__button filter-dropdown__button--destructive'>
+              <button
+                onClick={props.onClear}
+                className='filter-dropdown__button filter-dropdown__button--destructive'
+              >
                 Clear filter
               </button>
-              <button className='filter-dropdown__button filter-dropdown__button--apply'>
+              <button
+                onClick={props.onApply}
+                className='filter-dropdown__button filter-dropdown__button--apply'
+              >
                 Apply
               </button>
             </div>

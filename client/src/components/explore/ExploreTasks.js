@@ -16,6 +16,7 @@ import TaskDetails from './subs/TaskDetails';
 import ProposalForm from './subs/ProposalForm';
 import 'quill/dist/quill.snow.css';
 import TaskCardSkeleton from '../task/subs/TaskCardSkeleton';
+import FilterInfo from './filters/FilterInfo';
 
 class ExploreTasks extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class ExploreTasks extends Component {
       sort_by: -1,
       skills_filter: [],
       location_filter: [],
-      industry_filter: [],
+      category_filter: [],
       first_time: true,
       detail_popup_is_open: false,
       selected_task: 0,
@@ -37,6 +38,7 @@ class ExploreTasks extends Component {
       proposal_loading: false,
       fetching_tasks: false,
       isEndReached: false,
+      filter_info: {},
     };
   }
 
@@ -75,13 +77,20 @@ class ExploreTasks extends Component {
   };
 
   updateFeed = (shouldAppend = true) => {
+    console.log('update called');
     if (shouldAppend && this.state.isEndReached) {
       return false;
     }
     let filters = this.fetchFilters();
+    const flti = {
+      sq: this.state.search_query,
+      cf: this.state.category_filter,
+      sf: this.state.skills_filter,
+    };
     this.setState(
       {
         fetching_tasks: true,
+        filter_info: flti,
       },
       () => {
         this.props
@@ -112,9 +121,9 @@ class ExploreTasks extends Component {
       z: this.state.segment_size,
       s: this.state.search_query,
       r: this.state.sort_by,
-      k: this.state.skills_filter,
+      k: JSON.stringify(this.state.skills_filter),
       l: this.state.location_filter,
-      i: this.state.industry_filter,
+      i: JSON.stringify(this.state.category_filter),
     };
     return explored_filters;
   };
@@ -188,11 +197,88 @@ class ExploreTasks extends Component {
     );
   };
 
+  onCategoryFilter = (e) => {
+    if (!this.state.category_filter.includes(e.target.value)) {
+      this.state.category_filter.push(e.target.value);
+      this.setState({
+        category_filter: this.state.category_filter,
+      });
+    } else {
+      this.state.category_filter.splice(
+        this.state.category_filter.indexOf(e.target.value),
+        1
+      );
+      this.setState({
+        category_filter: this.state.category_filter,
+      });
+    }
+  };
+
+  onCategoryFilterClear = () => {
+    this.setState({
+      category_filter: [],
+    });
+  };
+
+  onCategoryFilterApply = () => {
+    this.setState(
+      {
+        current_segment: 0,
+      },
+      () => {
+        this.updateFeed(false);
+      }
+    );
+  };
+
+  onSkillsFilter = (e) => {
+    if (!this.state.skills_filter.includes(e.target.value)) {
+      this.state.skills_filter.push(e.target.value);
+      this.setState({
+        skills_filter: this.state.skills_filter,
+      });
+    } else {
+      this.state.skills_filter.splice(
+        this.state.skills_filter.indexOf(e.target.value),
+        1
+      );
+      this.setState({
+        skills_filter: this.state.skills_filter,
+      });
+    }
+  };
+
+  onSkillsFilterClear = () => {
+    this.setState({
+      skills_filter: [],
+    });
+  };
+
+  onSkillsFilterApply = () => {
+    this.setState(
+      {
+        current_segment: 0,
+      },
+      () => {
+        this.updateFeed(false);
+      }
+    );
+  };
+
   render() {
     const allTasks = this.props.task.tasks;
     return (
       <div>
-        <FilterMenu />
+        <FilterMenu
+          onCategoryFilter={this.onCategoryFilter}
+          category_filter={this.state.category_filter}
+          onCategoryFilterClear={this.onCategoryFilterClear}
+          onCategoryFilterApply={this.onCategoryFilterApply}
+          onSkillsFilter={this.onSkillsFilter}
+          skills_filter={this.state.skills_filter}
+          onSkillsFilterClear={this.onSkillsFilterClear}
+          onSkillsFilterApply={this.onSkillsFilterApply}
+        />
 
         <div className='container explore-container' id='explore-container'>
           <div className='search-container'>
@@ -210,6 +296,9 @@ class ExploreTasks extends Component {
 
           <div className='task-list-section'>
             <div className='task-list-title'>Top new jobs on Taskbarter</div>
+
+            <FilterInfo filter_info={this.state.filter_info} />
+
             <div className='task-list-container'>
               <FeedCard />
               {allTasks.map((task, i) => (

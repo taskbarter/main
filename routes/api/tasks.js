@@ -94,8 +94,8 @@ z=0 (segment size)
 router.get('/explore', async (req, res) => {
   try {
     const search_query = (req.query.s && req.query.s.toString()) || '';
-    const skill_filter = (req.query.k && req.query.k.toString()) || '';
-    const industry_filter = (req.query.i && req.query.i.toString()) || '';
+    const skill_query = (req.query.k && req.query.k.toString()) || '';
+    const category_query = (req.query.i && req.query.i.toString()) || '';
     const location_filter = (req.query.l && req.query.l.toString()) || '';
     const sort_by = (req.query.r && req.query.r.toString()) || '';
     const segment_number = parseInt(req.query.c) || 0;
@@ -114,10 +114,26 @@ router.get('/explore', async (req, res) => {
         ],
       };
     }
+    let category_filter = {};
+    if (category_query !== '[]') {
+      const category_query_arr = JSON.parse(category_query);
+      category_filter = {
+        category: { $in: category_query_arr },
+      };
+    }
+    let skill_filter = {};
+    if (skill_query !== '[]') {
+      const skill_query_arr = JSON.parse(skill_query);
+      skill_filter = {
+        skills: { $in: skill_query_arr },
+      };
+    }
     const tasks = await Task.aggregate([
       {
         $match: {
           $and: [
+            skill_filter,
+            category_filter,
             search_filter,
             { $or: [{ state: null }, { state: TASK_PENDING }] },
           ],
