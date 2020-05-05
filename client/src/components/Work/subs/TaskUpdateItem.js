@@ -70,14 +70,17 @@ const TaskUpdateItem = (props) => {
           </div>
           <div class='tu-accept-text mb-1'>Work Accepted!</div>
           <div>
-            Congrats, your work has been accepted!
             {props.assignedTo.user === props.current_user ? (
               <span className=''>
                 {' '}
-                You earned <strong>{props.task_points} points</strong>.
+                Congrats, your work has been accepted! You earned{' '}
+                <strong>{props.task_points} points</strong>.
               </span>
             ) : (
-              <span></span>
+              <span>
+                You accepted the work done by {props.assignedTo.first_name}{' '}
+                {props.assignedTo.second_name}.
+              </span>
             )}
           </div>
         </div>
