@@ -59,14 +59,15 @@
 .confirm-button {
   color: white;
   background: #433881;
-  width: 130px;
+  min-width: 130px;
   font-size: 16px;
   border: none;
   height: 33px;
   border-radius: 5px;
   vertical-align: bottom;
-  box-shadow: 1px 3px #d5d5d5;
+  box-shadow: 1px 3px 4px #0000001c;
   cursor: pointer;
+  padding: 0px 12px;
 }
 
 .cancel-button {

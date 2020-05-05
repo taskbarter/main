@@ -64,7 +64,7 @@ class Me extends Component {
       this.setState({
         current_dob: this.props.profile.profile.dob
           ? this.props.profile.profile.dob
-          : new Date('1997-10-04T06:13:00.000Z'),
+          : new Date('October 4, 1997 11:13:00'),
       });
     });
   }

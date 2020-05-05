@@ -842,7 +842,6 @@ router.get('/myavailable/', [auth], async (req, res) => {
         $sort: { updatedAt: -1 },
       },
     ]);
-    console.log(tasks_data);
     res.json({ tasks_data });
   } catch (err) {
     console.error(err.message);
@@ -874,7 +873,6 @@ router.get('/mytasks/', [auth], async (req, res) => {
         $sort: { updatedAt: -1 },
       },
     ]);
-    console.log(tasks_data);
     res.json({ tasks_data });
   } catch (err) {
     console.error(err.message);

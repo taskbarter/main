@@ -21,7 +21,7 @@
 .darktheme .notification-item,
 .darktheme .feed-card,
 .darktheme .modal-content,
-.convo-card:hover {
+.darktheme .convo-card:hover {
   box-shadow: 0 0 10px 0px #27292d3d;
   background: #26282b;
   border: #505359 solid 1px;
@@ -93,7 +93,8 @@
 .darktheme .feed-card-learn-more:hover,
 .darktheme .msg-right .message-bubble,
 .darktheme .btn-primary,
-.darktheme .add-task-btn {
+.darktheme .add-task-btn,
+.darktheme .confirm-button {
   background: #6558b1;
 }
 
@@ -141,6 +142,7 @@
 .darktheme .feed-card-learn-more {
   background: #414449;
   color: #c3c3c3;
+  border: 1px solid #414449;
 }
 
 .darktheme .task-list-section,
@@ -260,7 +262,7 @@
 }
 
 .darktheme .ql-snow .ql-fill,
-.ql-snow .ql-stroke.ql-fill {
+.darktheme .ql-snow .ql-stroke.ql-fill {
   fill: #d3d3d3;
 }
 
@@ -275,4 +277,8 @@
 
 .darktheme .mytasks-table {
   border-top: 3px solid #6558b1;
+}
+
+.darktheme .ReactModal__Overlay--after-open {
+  background-color: rgba(37, 37, 37, 0.75) !important;
 }
