@@ -13,7 +13,8 @@
 .darktheme .card,
 .darktheme .feed-card--sep,
 .darktheme .tu-owner-pill,
-.darktheme .profile-status-select {
+.darktheme .profile-status-select,
+.darktheme .task-search-box {
   background: #383b40;
   color: #d1d1d2;
 }
@@ -50,7 +51,8 @@
 
 .darktheme .nav-items .icon_inactive,
 .darktheme .feed-card--footer-left .svg_icon,
-.darktheme .nav-items .active .icon_active {
+.darktheme .nav-items .active .icon_active,
+.darktheme .search-container:before {
   filter: brightness(0) invert(1);
 }
 
