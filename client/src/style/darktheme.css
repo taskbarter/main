@@ -42,7 +42,8 @@
 .darktheme .main-header-v2,
 .darktheme .notif-section,
 .darktheme .filter-bar,
-.darktheme .task-list-section {
+.darktheme .task-list-section,
+.darktheme .mytasks-section {
   background: #383b40;
   color: #d3d3d3;
 }
@@ -144,7 +145,8 @@
 
 .darktheme .task-list-section,
 .darktheme .form-control,
-.darktheme .notif-section {
+.darktheme .notif-section,
+.darktheme .mytasks-section {
   border: 1px solid #4c4c4c;
 }
 
@@ -269,4 +271,8 @@
 
 .darktheme .msg-left .message-bubble {
   background-color: #27292d;
+}
+
+.darktheme .mytasks-table {
+  border-top: 3px solid #6558b1;
 }
