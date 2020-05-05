@@ -19,6 +19,7 @@ const FirstBlock = (props) => {
         <button
           onClick={props.editModal}
           className='btn notification-btn float-right'
+          disabled={props.fetching_profile}
         >
           Edit
         </button>

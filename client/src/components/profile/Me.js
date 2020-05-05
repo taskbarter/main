@@ -29,8 +29,8 @@ import EditSecond from './edit/EditSecond';
 import AddThird from './edit/AddThird';
 import EditThird from './edit/EditThird';
 import AddSkills from './edit/AddSkills';
-import DeleteSkills from './edit/DeleteSkills';
 import AddLinks from './edit/AddLinks';
+import moment from 'moment';
 
 class Me extends Component {
   constructor(props) {
@@ -49,6 +49,7 @@ class Me extends Component {
       current_to: new Date(),
       selectedIndex: 0,
       tempSkills: [],
+      fetching_profile: true,
     };
   }
 
@@ -64,7 +65,8 @@ class Me extends Component {
       this.setState({
         current_dob: this.props.profile.profile.dob
           ? this.props.profile.profile.dob
-          : new Date('October 4, 1997 11:13:00'),
+          : moment('October 4, 1997 11:13:00').toDate(),
+        fetching_profile: false,
       });
     });
   }
@@ -78,9 +80,10 @@ class Me extends Component {
 
   openFirstModal = () => {
     if (this.props.profile.profile.dob) {
+      const temp_date = moment(this.props.profile.profile.dob).toDate();
       this.setState({
         isFirstEditDialogOpenned: true,
-        current_dob: new Date(this.props.profile.profile.dob),
+        current_dob: temp_date,
       });
     } else {
       this.setState({
@@ -280,6 +283,7 @@ class Me extends Component {
                 editModal={this.openFirstModal}
                 profile={profile}
                 user={user}
+                fetching_profile={this.state.fetching_profile}
               />
               <SecondBlock
                 addModal={this.addSecondModal}
