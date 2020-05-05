@@ -79,7 +79,8 @@
 .darktheme .profile-tagline,
 .darktheme .profile-member-since,
 .darktheme .ql-snow .ql-picker.ql-expanded .ql-picker-label,
-.darktheme .ql-snow .ql-picker {
+.darktheme .ql-snow .ql-picker,
+.darktheme .msg-left .message-bubble {
   color: #d3d3d3;
 }
 
@@ -131,7 +132,8 @@
 }
 
 .darktheme .feed-card-person-details .loc,
-.darktheme .convo-card .personal-info .lastmsg {
+.darktheme .convo-card .personal-info .lastmsg,
+.darktheme .msg-time {
   color: #bdbcbc;
 }
 
@@ -156,7 +158,8 @@
   border-bottom: 1px solid #6d6d6d;
 }
 
-.darktheme .form-control {
+.darktheme .form-control,
+.darktheme .msg-left .task-prop-task:hover {
   background-color: #383b40;
   color: #d4d5d8;
 }
@@ -211,8 +214,13 @@
 .darktheme .modal-header {
   border-bottom: 1px solid #474747;
 }
-.darktheme .modal-footer {
+.darktheme .modal-footer,
+.darktheme .msg-left .task-prop-task {
   border-top: 1px solid #474747;
+}
+
+.darktheme .msg-left .task-prop-task {
+  border-left: 1px solid #474747;
 }
 
 .darktheme .footer {
@@ -257,4 +265,8 @@
 .darktheme .checkbox__label input:checked ~ .checkmark {
   background-color: #6558b1;
   border-color: #6558b1;
+}
+
+.darktheme .msg-left .message-bubble {
+  background-color: #27292d;
 }
