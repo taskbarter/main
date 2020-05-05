@@ -17,6 +17,7 @@ import ProposalForm from './subs/ProposalForm';
 import 'quill/dist/quill.snow.css';
 import TaskCardSkeleton from '../task/subs/TaskCardSkeleton';
 import FilterInfo from './filters/FilterInfo';
+import cloneDeep from 'lodash/cloneDeep';
 
 class ExploreTasks extends Component {
   constructor(props) {
@@ -84,8 +85,8 @@ class ExploreTasks extends Component {
     let filters = this.fetchFilters();
     const flti = {
       sq: this.state.search_query,
-      cf: this.state.category_filter,
-      sf: this.state.skills_filter,
+      cf: cloneDeep(this.state.category_filter),
+      sf: cloneDeep(this.state.skills_filter),
     };
     this.setState(
       {
