@@ -216,9 +216,14 @@ class ExploreTasks extends Component {
   };
 
   onCategoryFilterClear = () => {
-    this.setState({
-      category_filter: [],
-    });
+    this.setState(
+      {
+        category_filter: [],
+      },
+      () => {
+        this.onCategoryFilterApply();
+      }
+    );
   };
 
   onCategoryFilterApply = () => {
@@ -250,14 +255,33 @@ class ExploreTasks extends Component {
   };
 
   onSkillsFilterClear = () => {
-    this.setState({
-      skills_filter: [],
-    });
+    this.setState(
+      {
+        skills_filter: [],
+      },
+      () => {
+        this.onSkillsFilterApply();
+      }
+    );
   };
 
   onSkillsFilterApply = () => {
     this.setState(
       {
+        current_segment: 0,
+      },
+      () => {
+        this.updateFeed(false);
+      }
+    );
+  };
+
+  resetFilters = () => {
+    this.setState(
+      {
+        category_filter: [],
+        skills_filter: [],
+        search_query: '',
         current_segment: 0,
       },
       () => {
@@ -298,7 +322,10 @@ class ExploreTasks extends Component {
           <div className='task-list-section'>
             <div className='task-list-title'>Top new jobs on Taskbarter</div>
 
-            <FilterInfo filter_info={this.state.filter_info} />
+            <FilterInfo
+              filter_info={this.state.filter_info}
+              onClear={this.resetFilters}
+            />
 
             <div className='task-list-container'>
               <FeedCard />

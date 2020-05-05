@@ -24,7 +24,7 @@ const FilterInfo = (props) => {
   ) {
     return (
       <React.Fragment>
-        <div className='mb-3'>
+        <div className='filter-info mb-4'>
           Searching tasks
           {search_term}{' '}
           {props.filter_info.cf && props.filter_info.cf.length > 0 ? (
@@ -49,6 +49,10 @@ const FilterInfo = (props) => {
           ) : (
             ''
           )}
+          {'  '}
+          <a href='#' onClick={props.onClear}>
+            Clear Filters
+          </a>
         </div>
       </React.Fragment>
     );

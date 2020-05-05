@@ -115,14 +115,14 @@ router.get('/explore', async (req, res) => {
       };
     }
     let category_filter = {};
-    if (category_query !== '[]') {
+    if (category_query !== '' && category_query !== '[]') {
       const category_query_arr = JSON.parse(category_query);
       category_filter = {
         category: { $in: category_query_arr },
       };
     }
     let skill_filter = {};
-    if (skill_query !== '[]') {
+    if (skill_query !== '' && skill_query !== '[]') {
       const skill_query_arr = JSON.parse(skill_query);
       skill_filter = {
         skills: { $in: skill_query_arr },
