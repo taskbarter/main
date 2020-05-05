@@ -48,7 +48,7 @@ class Settings extends Component {
           <div className='row mt-4'>
             <div className='col-sm-2' style={{ marginTop: '7px' }}>
               {' '}
-              Email{' '}
+              Email*{' '}
             </div>
             <div className='col-sm-10'>
               <input
@@ -61,7 +61,7 @@ class Settings extends Component {
           <div className='row mt-4 mb-4'>
             <div className='col-sm-2' style={{ marginTop: '7px' }}>
               {' '}
-              Username{' '}
+              Username*{' '}
             </div>
             <div className='col-sm-10'>
               <input
@@ -88,7 +88,7 @@ class Settings extends Component {
           </label>
 
           <div className='silented-text'>
-            Changing this info is not yet available.
+            * Changing this info is not yet available.
           </div>
         </div>
       </div>
