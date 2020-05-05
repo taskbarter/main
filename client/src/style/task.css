@@ -303,7 +303,7 @@
   text-align: center;
   border-radius: 7px;
   margin-left: auto;
-  margin-top: 2.4px;
+  margin-top: auto;
 }
 
 .card-skeleton .feed-card--points {
