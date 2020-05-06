@@ -12,6 +12,7 @@ const sendEmail = async (subject, to_email, html, text = '') => {
       text: text,
       html: html,
     };
+    console.log('sending email from ' + msg.from);
     sgMail
       .send(msg)
       .then(() => {
