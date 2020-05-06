@@ -98,7 +98,8 @@
 .darktheme .msg-right .message-bubble,
 .darktheme .btn-primary,
 .darktheme .add-task-btn,
-.darktheme .confirm-button {
+.darktheme .confirm-button,
+.darktheme .chat-typing-container .chat-send-btn {
   background: #6558b1;
 }
 
@@ -272,7 +273,8 @@
   fill: #d3d3d3;
 }
 
-.darktheme .checkbox__label input:checked ~ .checkmark {
+.darktheme .checkbox__label input:checked ~ .checkmark,
+.darktheme .chat-typing-container .chat-send-btn {
   background-color: #6558b1;
   border-color: #6558b1;
 }
