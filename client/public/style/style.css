@@ -1579,3 +1579,40 @@ body {
   font-size: 11px;
   margin-top: 45px;
 }
+
+.barter-steps {
+  margin-left: 0px;
+  margin-right: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.barter-steps .step-heading {
+  font-size: 10px;
+  margin-top: 8px;
+}
+
+.barter-steps .step-text {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .barter-steps .step-section {
+    margin-bottom: 20px;
+  }
+}
+
+.barter-steps .step-img {
+  width: 64px;
+}
+
+.barter-steps .step-count {
+  position: absolute;
+  z-index: 2;
+  font-size: 74px;
+  font-weight: 700;
+  opacity: 0.05;
+  left: 27px;
+  top: 12px;
+}

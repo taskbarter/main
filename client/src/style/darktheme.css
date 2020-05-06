@@ -14,8 +14,9 @@
 .darktheme .feed-card--sep,
 .darktheme .tu-owner-pill,
 .darktheme .profile-status-select,
-.darktheme .task-search-box {
-  background: #383b40;
+.darktheme .task-search-box,
+.darktheme .chat-typing-container .chat-editor {
+  background: #383b40 !important;
   color: #d1d1d2;
 }
 

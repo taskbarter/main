@@ -5,13 +5,13 @@ const ConversationSchema = new Schema({
   user1: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
-    required: true
+    required: true,
   },
   user2: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
-    required: true
-  }
+    required: true,
+  },
 });
 module.exports = Conversation = mongoose.model(
   'conversations',

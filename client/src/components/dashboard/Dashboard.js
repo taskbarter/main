@@ -14,6 +14,7 @@ import Footer from '../layout/Footer';
 import TasksPublished from './TasksPublished';
 import TasksToDo from './TasksToDo';
 import { getNotifications } from '../../actions/notifActions';
+import Barter from './Barter';
 
 class Dashboard extends Component {
   onLogoutClick = (e) => {
@@ -40,6 +41,7 @@ class Dashboard extends Component {
               <ProfileBadge />
             </div>
             <div className='col-md-8 order-md-1'>
+              <Barter />
               <Notifications
                 notifs={this.props.notifications.notifications}
                 history={this.props.history}
