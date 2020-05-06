@@ -12,7 +12,14 @@ const sendEmail = async (subject, to_email, html, text = '') => {
       text: text,
       html: html,
     };
-    sgMail.send(msg);
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Confirmation email sent');
+      })
+      .catch((error) => {
+        console.log(error.response.body);
+      });
   } catch (err) {
     console.log('EMAIL NOT SENT');
     console.log(err);
