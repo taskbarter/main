@@ -9,7 +9,7 @@
   -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   overflow: hidden;
-  height: 1px;
+  height: -webkit-fill-available;
 }
 
 .msg-container .conversations {
@@ -24,7 +24,6 @@
   max-width: 440px;
   padding-bottom: 3.75rem;
   padding-top: 18px;
-  height: 90vh;
   overflow-x: hidden;
 }
 .avatar-image:hover {

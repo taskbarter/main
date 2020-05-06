@@ -179,7 +179,8 @@
 }
 
 .darktheme .dt-added-on,
-.darktheme .notification-item .notif-time {
+.darktheme .notification-item .notif-time,
+.darktheme .chat-typing-container .press-enter {
   color: #b9bec6;
 }
 
