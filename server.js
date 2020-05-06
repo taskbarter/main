@@ -37,6 +37,25 @@ mongoose
 app.use(passport.initialize());
 // Passport config
 require('./config/passport')(passport);
+
+// Google Login:
+require('./config/googlePassport')(passport);
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['openid', 'profile', 'email'] })
+);
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/login?v=3',
+    session: false,
+  }),
+  function (req, res) {
+    var token = req.user.token;
+    res.redirect('/login?token=' + token);
+  }
+);
+
 // Routes
 app.use('/api/users', users);
 

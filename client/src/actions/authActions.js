@@ -98,3 +98,15 @@ export const userPersonalDetails = (userPersonalDetails, history) => (
       })
     );
 };
+
+// Use google token
+export const loginUsingToken = (token) => (dispatch) => {
+  localStorage.setItem('jwtToken', token);
+  // Set token to Auth header
+  setAuthToken(token);
+  // Decode token to get user data
+  const decoded = jwt_decode(token);
+  // Set current user
+  dispatch(setCurrentUser(decoded));
+  dispatch(addToast('Logged in successfully!'));
+};

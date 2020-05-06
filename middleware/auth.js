@@ -15,6 +15,7 @@ module.exports = function (req, res, next) {
   // verify token
   try {
     const artok = token.split(' ');
+    console.log(artok);
     const decoded = jwt.verify(artok[1], keys.secretOrKey);
     req.user = {};
     req.user.id = decoded.id;

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loginUser } from '../../actions/authActions';
+import { loginUser, loginUsingToken } from '../../actions/authActions';
 import logo from '../../TaskBarterLogo_Transparent.png';
+import GoogleLogin from './subs/GoogleLogin';
 
 class Login extends Component {
   constructor() {
@@ -32,9 +33,14 @@ class Login extends Component {
     const searchParams = new URLSearchParams(location.search);
     return {
       v: searchParams.get('v') || '',
+      token: searchParams.get('token') || '',
     };
   }
   componentDidMount() {
+    if (this.getParams(this.props.location).token) {
+      this.props.loginUsingToken(this.getParams(this.props.location).token);
+    }
+
     if (this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
@@ -115,7 +121,7 @@ class Login extends Component {
           </div>
           {errMsg ? (
             <div className='alert alert-danger text-center'>
-              <strong>Error: </strong>{' '}
+              <strong>Failure: </strong>{' '}
               <span dangerouslySetInnerHTML={{ __html: errMsg }} />
             </div>
           ) : null}
@@ -126,6 +132,12 @@ class Login extends Component {
           ) : (
             ''
           )}
+          {this.getParams(this.props.location).v === '3' ? (
+            <div className='alert alert-danger text-center'>
+              <strong>Failure: </strong> Either you don't have an account or
+              there is some issue in your Google login.
+            </div>
+          ) : null}
           {this.getParams(this.props.location).v === '2' ? (
             <div className='alert alert-success text-center'>
               <strong>Success: </strong> Your email has been verified. Please
@@ -173,10 +185,15 @@ class Login extends Component {
           >
             {this.state.isLoading ? loader : 'Login'}
           </button>
+
           <br />
           <div className='mt-2 text-center login-links'>
             <Link to='/forgot'>Forgot Password</Link> |{' '}
             <Link to='/register'>Create an account</Link>
+          </div>
+          <div className='login-sep'>or</div>
+          <div className='google-login'>
+            <GoogleLogin />
           </div>
           <p className='mt-4 mb-1 text-muted text-center'>
             Taskbarter &copy; 2020
@@ -201,4 +218,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors,
 });
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, loginUsingToken })(Login);
