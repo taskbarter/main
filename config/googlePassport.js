@@ -13,8 +13,9 @@ module.exports = (passport) => {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        clientID:
+          '352544795667-8b0opqkhgh1ck707rpcmfot6lcvsad26.apps.googleusercontent.com',
+        clientSecret: 'Jj6wpF5g8pIbyRUWeSKMxNI2',
         callbackURL: '/auth/google/callback',
       },
       async function (accessToken, refreshToken, profile, done) {
@@ -24,7 +25,7 @@ module.exports = (passport) => {
           token: accessToken,
         };
         await User.findOne({ email: userData.email })
-          .then(async (user) => {
+          .then((user) => {
             console.log(user);
             if (user) {
               // when user is found, create a JWT token:
@@ -32,10 +33,10 @@ module.exports = (passport) => {
                 id: user.id,
                 name: user.name,
                 email: user.email,
+                isRegistered: true,
               };
-
               // Sign token
-              await jwt.sign(
+              jwt.sign(
                 payload,
                 keys.secretOrKey,
                 {
@@ -48,7 +49,26 @@ module.exports = (passport) => {
                 }
               );
             } else {
-              return done(null, false);
+              userData.isRegistered = false;
+              // Sign token
+              jwt.sign(
+                { new_email: userData.email },
+                keys.secretOrKey,
+                {
+                  expiresIn: 86400, // 24 hours in seconds
+                },
+                (err, token) => {
+                  const new_user = {
+                    email: userData.email,
+                    name: userData.name,
+                    token: 'Bearer ' + token,
+                    isRegistered: false,
+                  };
+                  console.log(new_user);
+                  return done(null, new_user);
+                }
+              );
+              //return done(null, false);
             }
           })
           .catch((err) => console.log(err));
