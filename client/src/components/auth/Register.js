@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { registerUser } from '../../actions/authActions';
+import {
+  registerUser,
+  registerUserWithGoogle,
+} from '../../actions/authActions';
 import validate from '../../config/rules';
 import logo from '../../TaskBarterLogo_Transparent.png';
+import GoogleLogin from './subs/GoogleLogin';
 
 class Register extends Component {
   constructor() {
@@ -18,6 +22,8 @@ class Register extends Component {
       password2: '',
       errors: {},
       errMsg: '',
+      isGoogleRef: false,
+      authToken: '',
     };
   }
 
@@ -32,6 +38,18 @@ class Register extends Component {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
+    const { name, email, ref, token } = this.getParams(this.props.location);
+    if (ref === 'google') {
+      const fname = name.split(' ')[0];
+      const lname = name.split(' ')[1];
+      this.setState({
+        isGoogleRef: true,
+        fname,
+        sname: lname,
+        email,
+        authToken: token,
+      });
+    }
 
     document.getElementById('body').className = 'login-body';
     document.getElementById('html').className = 'login-html';
@@ -41,6 +59,17 @@ class Register extends Component {
       },
     });
   }
+
+  getParams(location) {
+    const searchParams = new URLSearchParams(location.search);
+    return {
+      name: searchParams.get('n') || '',
+      token: searchParams.get('t') || '',
+      ref: searchParams.get('ref') || '',
+      email: searchParams.get('e') || '',
+    };
+  }
+
   componentWillUnmount() {
     if (localStorage.darkTheme) {
       document.getElementById('body').className = 'darktheme';
@@ -118,7 +147,13 @@ class Register extends Component {
     this.setState({
       errors: {},
     });
-    this.props.registerUser(newUser, this.props.history);
+    if (this.state.isGoogleRef) {
+      newUser.token = this.state.authToken;
+      newUser.isGoogleRef = true;
+      this.props.registerUserWithGoogle(newUser, this.props.history);
+    } else {
+      this.props.registerUser(newUser, this.props.history);
+    }
   };
 
   render() {
@@ -155,6 +190,13 @@ class Register extends Component {
           {errMsg ? (
             <div className='alert alert-danger text-center'>
               <strong>Error: </strong> {errMsg}
+            </div>
+          ) : null}
+
+          {this.state.isGoogleRef ? (
+            <div className='alert alert-success text-center'>
+              <strong>Success: </strong> You used your Google account to
+              register.
             </div>
           ) : null}
 
@@ -215,6 +257,7 @@ class Register extends Component {
               onChange={this.onChange}
               value={this.state.email}
               error={errors.email}
+              disabled={this.state.isGoogleRef}
             />
             <label htmlFor='email'>Email address</label>
           </div>
@@ -251,11 +294,19 @@ class Register extends Component {
             className='btn btn-lg btn-primary btn-block login-btn'
             type='submit'
           >
-            {isLoading ? loader : 'Register'}
+            {this.state.isGoogleRef
+              ? 'Complete Registration'
+              : isLoading
+              ? loader
+              : 'Register'}
           </button>
           <br />
           <div className='mt-2 text-center login-links'>
             <Link to='/login'>Already have an account?</Link>
+          </div>
+          <div className='login-sep'>or</div>
+          <div className='google-login'>
+            <GoogleLogin />
           </div>
           <p className='mt-4 mb-1 text-muted text-center'>
             Taskbarter &copy; 2020
@@ -282,4 +333,7 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default connect(mapStateToProps, {
+  registerUser,
+  registerUserWithGoogle,
+})(withRouter(Register));

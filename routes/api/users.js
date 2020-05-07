@@ -115,6 +115,17 @@ router.post('/register', (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
+
+  if (req.body.isGoogleRef) {
+    const artok = req.body.token.split(' ');
+    const decoded = jwt.verify(artok[1], keys.secretOrKey);
+    if (req.body.email.toString() !== decoded.new_email.toString()) {
+      return res.status(400).json({ email: 'Wrong Token or email' });
+    }
+    console.log('working');
+    //return registerUsingGoogle(req.body, res);
+  }
+
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       return res.status(400).json({ email: 'Email already exists' });
@@ -127,6 +138,7 @@ router.post('/register', (req, res) => {
           name: req.body.name,
           email: req.body.email,
           password: req.body.password,
+          isEmailVerified: req.body.isGoogleRef !== undefined,
         };
         const userPersonalDetails = {
           first_name: req.body.fname,
@@ -134,12 +146,13 @@ router.post('/register', (req, res) => {
         };
         createProfileAuth(newUser, userPersonalDetails)
           .then((user) => {
-            sendEmailVerification({
-              ...newUser,
-              ...userPersonalDetails,
-              id: user._id,
-            });
-
+            if (!req.body.isGoogleRef) {
+              sendEmailVerification({
+                ...newUser,
+                ...userPersonalDetails,
+                id: user._id,
+              });
+            }
             addNotification(
               `Welcome to Taskbarter! We suggest that you complete your profile before applying to jobs.`,
               user._id,
@@ -152,7 +165,28 @@ router.post('/register', (req, res) => {
               `/`
             );
 
-            return res.json(user);
+            if (req.body.isGoogleRef) {
+              const payload = {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+              };
+              // Sign token
+              jwt.sign(
+                payload,
+                keys.secretOrKey,
+                {
+                  expiresIn: 31556926, // 1 year in seconds
+                },
+                (err, token) => {
+                  payload.token = 'Bearer ' + token;
+                  console.log('token sent!', payload);
+                  return res.json(payload);
+                }
+              );
+            } else {
+              return res.json(user);
+            }
           })
           .catch((err) => {
             console.log(err);

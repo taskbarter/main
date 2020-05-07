@@ -110,3 +110,25 @@ export const loginUsingToken = (token) => (dispatch) => {
   dispatch(setCurrentUser(decoded));
   dispatch(addToast('Logged in successfully!'));
 };
+
+// Use Google for Registration
+export const registerUserWithGoogle = (userData, history) => (dispatch) => {
+  axios
+    .post(url + '/api/users/register', userData)
+    .then((res) => {
+      // Set token to Auth header
+      setAuthToken(res.data.token);
+      // Decode token to get user data
+      const decoded = jwt_decode(res.data.token);
+      // Set current user
+      dispatch(setCurrentUser(decoded));
+      dispatch(addToast('Logged in successfully!'));
+      history.push('/dashboard');
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};

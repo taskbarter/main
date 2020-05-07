@@ -38,7 +38,6 @@ app.use(passport.initialize());
 // Passport config
 require('./config/passport')(passport);
 
-//Build FAILING?
 // Google Login:
 require('./config/googlePassport')(passport);
 app.get(
@@ -52,8 +51,14 @@ app.get(
     session: false,
   }),
   function (req, res) {
-    var token = req.user.token;
-    res.redirect('/login?token=' + token);
+    if (req.user.isRegistered) {
+      var token = req.user.token;
+      res.redirect('/login?token=' + token);
+    } else if (!req.user.isRegistered) {
+      res.redirect(
+        `/register?ref=google&t=${req.user.token}&e=${req.user.email}&n=${req.user.name}`
+      );
+    }
   }
 );
 
