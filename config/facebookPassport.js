@@ -1,28 +1,26 @@
 var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
 const keys = require('../config/keys');
 const jwt = require('jsonwebtoken');
 
-const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = keys.secretOrKey;
 module.exports = (passport) => {
   passport.use(
-    new GoogleStrategy(
+    new FacebookStrategy(
       {
-        clientID:
-          '352544795667-8b0opqkhgh1ck707rpcmfot6lcvsad26.apps.googleusercontent.com',
-        clientSecret: 'Jj6wpF5g8pIbyRUWeSKMxNI2',
-        callbackURL: '/auth/google/callback',
+        clientID: process.env.FACEBOOK_CLIENT_ID,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL: '/auth/facebook/callback',
+        profileFields: ['id', 'email', 'displayName'],
       },
       async function (accessToken, refreshToken, profile, done) {
         var userData = {
-          email: profile.emails[0].value,
+          email: profile.emails[0].value || '',
           name: profile.displayName,
           token: accessToken,
+          id: profile.id,
         };
         await User.findOne({ email: userData.email })
           .then((user) => {
@@ -49,6 +47,7 @@ module.exports = (passport) => {
             } else {
               userData.isRegistered = false;
               // Sign token
+
               jwt.sign(
                 { new_email: userData.email },
                 keys.secretOrKey,
