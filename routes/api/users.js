@@ -179,8 +179,6 @@ router.post('/register', (req, res) => {
                   expiresIn: 31556926, // 1 year in seconds
                 },
                 (err, token) => {
-                  payload.token = 'Bearer ' + token;
-                  console.log('token sent!', payload);
                   return res.json(payload);
                 }
               );

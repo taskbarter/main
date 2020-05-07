@@ -22,6 +22,10 @@ router.get('/me', auth, async (req, res) => {
     if (!profile) {
       return res.status(400).json({ msg: 'There is no Profile for this user' });
     }
+
+    const user_obj = await User.findById(req.user.id);
+    user_obj.lastVisitedOn = Date.now();
+    user_obj.save();
     res.json(profile);
   } catch (err) {
     console.error(err.message);
