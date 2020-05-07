@@ -318,8 +318,8 @@ class Register extends Component {
           </p>
           <p className='mt-0 mb-3 text-muted text-center'>
             Your information is ensured to be kept in the most secure way
-            possible. For more, visit our <Link to='#'>Privacy Policy</Link>{' '}
-            page.
+            possible. For more, visit our{' '}
+            <Link to='/privacy-policy'>Privacy Policy</Link> page.
           </p>
         </form>
       </div>

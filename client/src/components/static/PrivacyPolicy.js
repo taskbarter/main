@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import Footer from '../layout/Footer';
+import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
+import { connect } from 'react-redux';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 
-export default class PrivacyPolicy extends Component {
+class PrivacyPolicy extends Component {
   render() {
     return (
       <React.Fragment>
+        {this.props.auth.user ? <HeaderOnlyLogo /> : ''}
         <div className='container explore-container' id='explore-container'>
           <h1>Welcome to our Privacy Policy</h1>
           <h3>Your privacy is critically important to us.</h3>
@@ -190,3 +194,8 @@ export default class PrivacyPolicy extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default withRouter(connect(mapStateToProps, {})(PrivacyPolicy));
