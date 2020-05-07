@@ -12,7 +12,7 @@ module.exports = (passport) => {
       {
         clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL: '/auth/facebook/callback',
+        callbackURL: 'https://www.taskbarter.com/auth/facebook/callback',
         profileFields: ['id', 'email', 'displayName'],
       },
       async function (accessToken, refreshToken, profile, done) {
