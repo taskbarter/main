@@ -156,7 +156,7 @@
   background: #d00865;
   background: center no-repeat;
   background-size: cover;
-  background-image: url(https://images.jumpstart.me/frontend/illustrations/feed/wave-card.svg);
+  background-image: url(/inc/feed-card-bg.png);
 }
 
 .feed-card--how-it-works-header {
@@ -173,7 +173,6 @@
   border: none;
   -webkit-transition: color 125ms;
   transition: color 125ms;
-  background: #873580;
   cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -194,6 +193,8 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  background: none;
+  border: white solid 1px;
 }
 
 .feed-card--how-it-works-body {

@@ -123,10 +123,10 @@
 }
 
 .darktheme .how-it-works-card {
-  background: #d00865;
+  background: #6558b1;
   background: center no-repeat;
   background-size: cover;
-  background-image: url(https://images.jumpstart.me/frontend/illustrations/feed/wave-card.svg);
+  background-image: url(/inc/feed-card-bg.png);
 }
 
 .darktheme .feed-card:hover {

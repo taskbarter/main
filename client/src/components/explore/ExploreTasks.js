@@ -332,9 +332,10 @@ class ExploreTasks extends Component {
 
             <div className='task-list-container'>
               <FeedCard />
-              {allTasks.map((task, i) => (
-                <TaskCard task={task} key={i} onClick={this.onTaskSelect} />
-              ))}
+              {allTasks &&
+                allTasks.map((task, i) => (
+                  <TaskCard task={task} key={i} onClick={this.onTaskSelect} />
+                ))}
 
               {this.state.fetching_tasks ? (
                 <React.Fragment>
