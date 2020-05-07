@@ -112,7 +112,7 @@ export const loginUsingToken = (token) => (dispatch) => {
 };
 
 // Use Google for Registration
-export const registerUserWithGoogle = (userData, history) => (dispatch) => {
+export const registerUserWithService = (userData, history) => (dispatch) => {
   axios
     .post(url + '/api/users/register', userData)
     .then((res) => {

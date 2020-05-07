@@ -185,7 +185,6 @@ router.post('/update', [auth], async (req, res) => {
   } = req.body;
 
   const profileFields = {}; // empty object?  // runtime object??
-  console.log('updating profile...' + req.user.id);
   profileFields.user = req.user.id;
   profileFields.first_name = first_name;
   profileFields.second_name = second_name;
@@ -220,7 +219,6 @@ router.post('/updatestatus', [auth], async (req, res) => {
   const { status } = req.body;
 
   const profileFields = {}; // empty object?  // runtime object??
-  console.log('updating profile...' + req.user.id);
   profileFields.user = req.user.id;
   profileFields.status = status;
 
@@ -274,7 +272,6 @@ router.put('/experience', [auth], async (req, res) => {
         { $set: { experience: profile.experience } },
         { new: true }
       );
-      console.log(profile.experience);
       res.json(tprofile);
     }
   } catch (err) {
@@ -312,7 +309,6 @@ router.post('/experience/:exp_id', [auth], async (req, res) => {
         { $set: { experience: profile.experience } },
         { new: true }
       );
-      console.log(profile.experience);
       res.json(tprofile);
     }
   } catch (err) {
@@ -334,7 +330,6 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
       .indexOf(req.params.exp_id);
     // may need check if not found
     profile.experience.splice(removeIndex, 1);
-    console.log(removeIndex);
     await profile.save();
 
     res.json(profile);
@@ -416,7 +411,6 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
       .indexOf(req.params.edu_id);
 
     profile.education.splice(removeIndex, 1);
-    console.log(removeIndex);
     await profile.save();
 
     res.json(profile);
@@ -482,7 +476,6 @@ router.put('/project', [auth], async (req, res) => {
 
   try {
     let profile = await PersonalDetails.findOne({ user: req.user.id });
-    console.log(profile.projects);
     if (profile) {
       profile.projects.unshift(newProject); // push with new at recent (on top)
       let tprofile = await PersonalDetails.findOneAndUpdate(
@@ -490,7 +483,6 @@ router.put('/project', [auth], async (req, res) => {
         { $set: { projects: profile.projects } },
         { new: true }
       );
-      console.log(profile.projects);
       res.json(tprofile);
     }
   } catch (err) {
@@ -521,7 +513,6 @@ router.post('/project/:exp_id', [auth], async (req, res) => {
 
   try {
     let profile = await PersonalDetails.findOne({ user: req.user.id });
-    console.log(profile.projects);
     if (profile) {
       profile.projects[req.params.exp_id] = newProject;
       let tprofile = await PersonalDetails.findOneAndUpdate(
@@ -529,7 +520,6 @@ router.post('/project/:exp_id', [auth], async (req, res) => {
         { $set: { projects: profile.projects } },
         { new: true }
       );
-      console.log(profile.projects);
       res.json(tprofile);
     }
   } catch (err) {
@@ -547,7 +537,6 @@ router.delete('/project/:exp_id', auth, async (req, res) => {
       .indexOf(req.params.exp_id);
     // may need check if not found
     profile.projects.splice(removeIndex, 1);
-    console.log(removeIndex);
     await profile.save();
 
     res.json(profile);
@@ -573,7 +562,6 @@ router.put('/skill', [auth], async (req, res) => {
 
   try {
     let profile = await PersonalDetails.findOne({ user: req.user.id });
-    console.log(profile.skills);
     if (profile) {
       profile.skills.unshift(newSkill.skill); // push with new at recent (on top)
       let tprofile = await PersonalDetails.findOneAndUpdate(
@@ -581,7 +569,6 @@ router.put('/skill', [auth], async (req, res) => {
         { $set: { skills: profile.skills } },
         { new: true }
       );
-      console.log(profile.skills);
       res.json(tprofile);
     }
   } catch (err) {
@@ -601,7 +588,6 @@ router.post('/link', [auth], async (req, res) => {
     linkedin: linkedin,
     instagram: instagram,
   };
-  console.log('updating links...' + req.user.id);
   links.user = req.user.id;
   links.social = temLinks;
 
@@ -639,7 +625,6 @@ router.post('/removeskill', [auth], async (req, res) => {
         { $set: { skills: profile.skills } },
         { new: true }
       );
-      console.log(profile.skills);
       res.json(tprofile);
     }
   } catch (err) {

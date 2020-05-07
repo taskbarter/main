@@ -31,6 +31,7 @@ import EditThird from './edit/EditThird';
 import AddSkills from './edit/AddSkills';
 import AddLinks from './edit/AddLinks';
 import moment from 'moment';
+import TLoader from '../utils/TLoader';
 
 class Me extends Component {
   constructor(props) {
@@ -258,6 +259,14 @@ class Me extends Component {
   };
 
   render() {
+    if (this.state.fetching_profile && !this.props.profile.profile) {
+      return (
+        <div className='taskv-loader'>
+          <TLoader colored={true} />
+        </div>
+      );
+    }
+
     const profile = this.props.profile.profile;
     const user = this.props.user;
     const { isFirstEditDialogOpenned, current_dob } = this.state;

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { loginUser, loginUsingToken } from '../../actions/authActions';
 import logo from '../../TaskBarterLogo_Transparent.png';
 import GoogleLogin from './subs/GoogleLogin';
+import FacebookLogin from './subs/FacebookLogin';
 
 class Login extends Component {
   constructor() {
@@ -194,6 +195,7 @@ class Login extends Component {
           <div className='login-sep'>or</div>
           <div className='google-login'>
             <GoogleLogin />
+            <FacebookLogin />
           </div>
           <p className='mt-4 mb-1 text-muted text-center'>
             Taskbarter &copy; 2020

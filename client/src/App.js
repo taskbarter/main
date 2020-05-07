@@ -30,6 +30,7 @@ import Work from './components/Work/Work';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './style/header.css';
+import PrivacyPolicy from './components/static/PrivacyPolicy';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -71,6 +72,7 @@ class App extends Component {
             <Route exact path='/UserInfo' component={UserInfo} />
             <Route exact path='/user-new' component={UserProfileNew} />
             <Route exact path='/t/:id' component={TaskMain} />
+            <Route exact path='/privacy-policy' component={PrivacyPolicy} />
             <Switch>
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/add' component={AddTask} />

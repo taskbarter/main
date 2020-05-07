@@ -28,7 +28,7 @@ const FirstBlock = (props) => {
         {profile.headline ? (
           profile.headline
         ) : (
-          <i style={{ color: 'grey', fontWeight: 100 }}>your tagline here...</i>
+          <i style={{ color: 'grey', fontWeight: 300 }}>your tagline here...</i>
         )}
       </div>
       <div className='profile-member-since'>

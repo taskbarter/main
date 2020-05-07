@@ -651,3 +651,11 @@
   font-weight: 600;
   font-size: 11px;
 }
+
+.svg-facebook {
+  margin-top: 5px;
+  margin-left: 5px;
+  padding-left: 3px;
+  padding-right: 4px;
+  fill: #3b5998;
+}

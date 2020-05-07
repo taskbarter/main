@@ -116,13 +116,12 @@ router.post('/register', (req, res) => {
     return res.status(400).json(errors);
   }
 
-  if (req.body.isGoogleRef) {
+  if (req.body.isGoogleRef || req.body.isFacebookRef) {
     const artok = req.body.token.split(' ');
     const decoded = jwt.verify(artok[1], keys.secretOrKey);
     if (req.body.email.toString() !== decoded.new_email.toString()) {
       return res.status(400).json({ email: 'Wrong Token or email' });
     }
-    console.log('working');
     //return registerUsingGoogle(req.body, res);
   }
 
@@ -138,7 +137,9 @@ router.post('/register', (req, res) => {
           name: req.body.name,
           email: req.body.email,
           password: req.body.password,
-          isEmailVerified: req.body.isGoogleRef !== undefined,
+          isEmailVerified:
+            req.body.isGoogleRef !== undefined ||
+            req.body.isFacebookRef !== undefined,
         };
         const userPersonalDetails = {
           first_name: req.body.fname,
@@ -146,7 +147,7 @@ router.post('/register', (req, res) => {
         };
         createProfileAuth(newUser, userPersonalDetails)
           .then((user) => {
-            if (!req.body.isGoogleRef) {
+            if (!(req.body.isGoogleRef || req.body.isFacebookRef)) {
               sendEmailVerification({
                 ...newUser,
                 ...userPersonalDetails,
@@ -164,8 +165,7 @@ router.post('/register', (req, res) => {
               user._id,
               `/`
             );
-
-            if (req.body.isGoogleRef) {
+            if (req.body.isGoogleRef || req.body.isFacebookRef) {
               const payload = {
                 id: user._id,
                 name: user.name,
@@ -179,6 +179,7 @@ router.post('/register', (req, res) => {
                   expiresIn: 31556926, // 1 year in seconds
                 },
                 (err, token) => {
+                  payload.token = 'Bearer ' + token;
                   return res.json(payload);
                 }
               );
@@ -343,7 +344,7 @@ router.post('/userpersonaldetails', (req, res) => {
 
   userpersonaldetails
     .save()
-    .then(console.log('User details inserted'))
+    .then()
     .catch((err) => console.log(err));
 });
 

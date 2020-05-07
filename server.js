@@ -62,6 +62,30 @@ app.get(
   }
 );
 
+// Facebook Login:
+require('./config/facebookPassport')(passport);
+app.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', { scope: 'email' })
+);
+app.get(
+  '/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    failureRedirect: '/login?v=3',
+    session: false,
+  }),
+  function (req, res) {
+    if (req.user.isRegistered) {
+      var token = req.user.token;
+      res.redirect('/login?token=' + token);
+    } else if (!req.user.isRegistered) {
+      res.redirect(
+        `/register?ref=facebook&t=${req.user.token}&e=${req.user.email}&n=${req.user.name}`
+      );
+    }
+  }
+);
+
 // Routes
 app.use('/api/users', users);
 

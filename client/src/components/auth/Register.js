@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   registerUser,
-  registerUserWithGoogle,
+  registerUserWithService,
 } from '../../actions/authActions';
 import validate from '../../config/rules';
 import logo from '../../TaskBarterLogo_Transparent.png';
 import GoogleLogin from './subs/GoogleLogin';
+import FacebookLogin from './subs/FacebookLogin';
 
 class Register extends Component {
   constructor() {
@@ -23,6 +24,7 @@ class Register extends Component {
       errors: {},
       errMsg: '',
       isGoogleRef: false,
+      isFacebookRef: false,
       authToken: '',
     };
   }
@@ -39,11 +41,12 @@ class Register extends Component {
       this.props.history.push('/dashboard');
     }
     const { name, email, ref, token } = this.getParams(this.props.location);
-    if (ref === 'google') {
+    if (ref === 'google' || ref === 'facebook') {
       const fname = name.split(' ')[0];
       const lname = name.split(' ')[1];
       this.setState({
-        isGoogleRef: true,
+        isGoogleRef: ref === 'google',
+        isFacebookRef: ref === 'facebook',
         fname,
         sname: lname,
         email,
@@ -147,10 +150,11 @@ class Register extends Component {
     this.setState({
       errors: {},
     });
-    if (this.state.isGoogleRef) {
+    if (this.state.isGoogleRef || this.state.isFacebookRef) {
       newUser.token = this.state.authToken;
-      newUser.isGoogleRef = true;
-      this.props.registerUserWithGoogle(newUser, this.props.history);
+      newUser.isGoogleRef = this.state.isGoogleRef;
+      newUser.isFacebookRef = this.state.isFacebookRef;
+      this.props.registerUserWithService(newUser, this.props.history);
     } else {
       this.props.registerUser(newUser, this.props.history);
     }
@@ -193,10 +197,10 @@ class Register extends Component {
             </div>
           ) : null}
 
-          {this.state.isGoogleRef ? (
+          {this.state.isGoogleRef || this.state.isFacebookRef ? (
             <div className='alert alert-success text-center'>
-              <strong>Success: </strong> You used your Google account to
-              register.
+              <strong>Success: </strong> Continue with other details to complete
+              your registration.
             </div>
           ) : null}
 
@@ -257,7 +261,7 @@ class Register extends Component {
               onChange={this.onChange}
               value={this.state.email}
               error={errors.email}
-              disabled={this.state.isGoogleRef}
+              disabled={this.state.isGoogleRef || this.state.isFacebookRef}
             />
             <label htmlFor='email'>Email address</label>
           </div>
@@ -294,7 +298,7 @@ class Register extends Component {
             className='btn btn-lg btn-primary btn-block login-btn'
             type='submit'
           >
-            {this.state.isGoogleRef
+            {this.state.isGoogleRef || this.state.isFacebookRef
               ? 'Complete Registration'
               : isLoading
               ? loader
@@ -307,6 +311,7 @@ class Register extends Component {
           <div className='login-sep'>or</div>
           <div className='google-login'>
             <GoogleLogin />
+            <FacebookLogin />
           </div>
           <p className='mt-4 mb-1 text-muted text-center'>
             Taskbarter &copy; 2020
@@ -335,5 +340,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   registerUser,
-  registerUserWithGoogle,
+  registerUserWithService,
 })(withRouter(Register));

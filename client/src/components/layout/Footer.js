@@ -1,5 +1,6 @@
 import React from 'react';
-const Footer = props => {
+import { Link } from 'react-router-dom';
+const Footer = (props) => {
   return (
     <div className='footer container row'>
       <span className='footer-copyrights col-md-4'>
@@ -7,7 +8,7 @@ const Footer = props => {
       </span>
       <span className='footer-links col-md-4 ml-auto'>
         <a href='#'>About</a>
-        <a href='#'>Terms</a>
+        <Link to='/privacy-policy'>Privacy</Link>
         <a href='#' id='report-problem'>
           Report
         </a>
