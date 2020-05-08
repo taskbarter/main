@@ -6,6 +6,7 @@ const TaskUpdate = require('../../models/TaskUpdate');
 const User = require('../../models/User');
 const Proposal = require('../../models/Proposal');
 const Work = require('../../models/Work');
+const Feedback = require('../../models/Feedback');
 const Conversation = require('../../models/Conversation');
 const PersonalDetails = require('../../models/PersonalDetails');
 const { check, validationResult } = require('express-validator');
@@ -86,6 +87,14 @@ router.get('/fetch/', auth, async (req, res) => {
           localField: 'assignee',
           foreignField: 'user',
           as: 'assignee',
+        },
+      },
+      {
+        $lookup: {
+          from: 'feedbacks',
+          localField: '_id',
+          foreignField: 'work_id',
+          as: 'feedback',
         },
       },
     ]);
@@ -198,6 +207,63 @@ router.post('/update', auth, async (req, res) => {
     console.error(err);
     res.status(500).send('Server Error');
   }
+});
+
+// @route POST api/work/feedback
+// @desc Add new feedback to the work
+// @access Private
+
+router.post('/feedback', auth, async (req, res) => {
+  const work_id = req.body.work_id;
+  //Those who are involved in the work can post update.
+  const Work_Obj = await Work.find({
+    $and: [
+      { _id: mongoose.Types.ObjectId(work_id) },
+      {
+        $or: [
+          {
+            assignee: mongoose.Types.ObjectId(req.user.id),
+          },
+          {
+            assignedTo: mongoose.Types.ObjectId(req.user.id),
+          },
+        ],
+      },
+    ],
+  });
+  if (!Work_Obj) {
+    return res.status(400).send('Not authorized for this action.');
+  }
+
+  const pTask = await Task.findById(Work_Obj[0].task);
+  if (pTask.state !== TASK_COMPLETED) {
+    return res.status(400).send('This task is not yet completed.');
+  }
+
+  const prevFeedback = await Feedback.findOne({
+    work_id: mongoose.Types.ObjectId(work_id),
+    from: mongoose.Types.ObjectId(req.user.id),
+  });
+
+  console.log(prevFeedback);
+  if (prevFeedback) {
+    return res.status(400).send('Feedback already submitted.');
+  }
+  const other_user =
+    req.user.id.toString() === Work_Obj[0].assignee.toString()
+      ? Work_Obj[0].assignedTo
+      : Work_Obj[0].assignee;
+
+  const newFeedback = new Feedback({
+    from: req.user.id,
+    work_id: work_id,
+    text: req.body.text,
+    rating: req.body.rating,
+    to: other_user,
+  });
+
+  await newFeedback.save();
+  res.json({ newFeedback });
 });
 
 module.exports = router;

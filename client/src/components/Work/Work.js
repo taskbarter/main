@@ -14,6 +14,7 @@ import {
   fetchProposals,
   changeProposalState,
   sendWorkUpdate,
+  submitFeedback,
 } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
@@ -26,6 +27,8 @@ import DescriptionEditor from '../task/subs/DescriptionEditor';
 import WorkAction from './subs/WorkAction';
 import TaskUpdateItem from './subs/TaskUpdateItem';
 import { createConnection } from '../../actions/socketActions';
+import FeedbackForm from './subs/FeedbackForm';
+import FeedbackUpdateCard from './subs/FeedbackUpdateCard';
 
 class Work extends Component {
   constructor(props) {
@@ -47,6 +50,12 @@ class Work extends Component {
       submitting_state: false,
 
       last_status: 0,
+
+      is_feedback_allowed: false,
+
+      feedback_popup_is_open: false,
+      feedback_stars: 0,
+      feedback_text: '',
     };
   }
 
@@ -74,6 +83,71 @@ class Work extends Component {
     });
   };
 
+  feedback_toggle = () => {
+    this.setState({
+      feedback_popup_is_open: !this.state.feedback_popup_is_open,
+    });
+  };
+
+  onFeedbackStarChange = (d) => {
+    this.setState({
+      feedback_stars: d,
+    });
+  };
+  onFeedbackTextChange = (t) => {
+    this.setState({
+      feedback_text: t.target.value,
+    });
+  };
+  onFeedbackSubmit = () => {
+    const f_b = {
+      work_id: this.state.selected_task,
+      text: this.state.feedback_text,
+      rating: this.state.feedback_stars,
+    };
+    this.props.submitFeedback(f_b).then(() => {
+      this.setState({
+        feedback_popup_is_open: false,
+      });
+      this.refreshData(this.state.selected_task);
+    });
+  };
+  checkIfFeedbackPending = () => {
+    const { work } = this.state;
+    const current_feedback = work.work_data[0].feedback;
+    if (
+      this.getLatestStatus() === 3 &&
+      (!current_feedback.length ||
+        !(
+          (current_feedback[0] &&
+            current_feedback[0].from === this.props.auth.user.id) ||
+          (current_feedback[1] &&
+            current_feedback[1].from === this.props.auth.user.id)
+        ))
+    ) {
+      this.setState({
+        is_feedback_allowed: true,
+        feedback_popup_is_open: true,
+      });
+    } else {
+      this.setState({
+        is_feedback_allowed: false,
+        feedback_popup_is_open: false,
+      });
+    }
+  };
+  /*
+  if status = Completed {
+    if feedback not exists {
+      valid
+    } 
+    else{ 
+      if((feedback[0].from = cu) or (feedback[1].from = cu)){
+        invalid
+      }
+    }
+  }
+*/
   refreshData = (id) => {
     this.props.fetchWork(id).then((fetched_work) => {
       this.setState(
@@ -92,6 +166,8 @@ class Work extends Component {
           this.setState({
             last_status: status,
           });
+
+          this.checkIfFeedbackPending();
         }
       );
     });
@@ -190,6 +266,7 @@ class Work extends Component {
     const assignee = this.state.work.work_data[0].assignee[0];
     const assignedTo = this.state.work.work_data[0].assignedTo[0];
     const task_updates = this.state.work.work_data[0].taskUpdates;
+    const feedbacks = this.state.work.work_data[0].feedback;
     return (
       <React.Fragment>
         <main role='main' className='container mt-4 mb-4'>
@@ -204,6 +281,8 @@ class Work extends Component {
                 last_status={this.state.last_status}
                 onRejectWork={this.onRejectWork}
                 onAcceptWork={this.onAcceptWork}
+                isFeedbackAllowed={this.state.is_feedback_allowed}
+                feedback_toggle={this.feedback_toggle}
               />
             </div>
             <div className='col-md-8 order-md-1'>
@@ -243,6 +322,18 @@ class Work extends Component {
                     </div>
                   );
                 })}
+                {feedbacks.map((feedback, id) => {
+                  return (
+                    <div key={id}>
+                      <FeedbackUpdateCard
+                        feedback={feedback}
+                        assignee={assignee}
+                        assignedTo={assignedTo}
+                        current_user={this.props.auth.user.id}
+                      />
+                    </div>
+                  );
+                })}
               </div>
               {this.state.last_status !== 3 ? (
                 <div className=''>
@@ -270,6 +361,16 @@ class Work extends Component {
             </div>
           </div>
         </main>
+        <FeedbackForm
+          modal={this.state.feedback_popup_is_open}
+          toggle={this.feedback_toggle}
+          work={this.state.work.work_data[0]}
+          onFeedbackStarChange={this.onFeedbackStarChange}
+          onFeedbackTextChange={this.onFeedbackTextChange}
+          feedback_text={this.state.feedback_text}
+          feedback_stars={this.state.feedback_stars}
+          onFeedbackSubmit={this.onFeedbackSubmit}
+        />
       </React.Fragment>
     );
   }
@@ -294,4 +395,5 @@ export default connect(mapStateToProps, {
   sendWorkUpdate,
   createConnection,
   getCurrentProfile,
+  submitFeedback,
 })(Work);

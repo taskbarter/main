@@ -3,12 +3,14 @@ import {
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   REMOVE_SKILL,
+  SET_RATING,
 } from '../actions/types';
 
 const initialState = {
   profile: null,
   profiles: null,
   loading: false,
+  rating: null,
 };
 
 export default function (state = initialState, action) {
@@ -30,6 +32,12 @@ export default function (state = initialState, action) {
         profile: null,
         profiles: null,
         loading: false,
+        rating: {},
+      };
+    case SET_RATING:
+      return {
+        ...state,
+        rating: action.payload,
       };
     case REMOVE_SKILL:
       state.profile.skills.splice(action.payload, 1);

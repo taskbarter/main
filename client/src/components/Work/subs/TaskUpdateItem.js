@@ -22,7 +22,7 @@ const TaskUpdateItem = (props) => {
         </div>
         <div className='ql-editor dt-description align-middle text-center'>
           <div className='tu-icon'>
-            <i class='fa fa-briefcase' aria-hidden='true'></i>
+            <i className='fa fa-briefcase' aria-hidden='true'></i>
           </div>
           <div>Work Submitted!</div>
         </div>
@@ -44,7 +44,7 @@ const TaskUpdateItem = (props) => {
         </div>
         <div className='ql-editor dt-description align-middle text-center'>
           <div className='tu-icon'>
-            <i class='fa fa-times' aria-hidden='true'></i>
+            <i className='fa fa-times' aria-hidden='true'></i>
           </div>
           <div>Work Rejected!</div>
         </div>
@@ -66,9 +66,9 @@ const TaskUpdateItem = (props) => {
         </div>
         <div className='ql-editor dt-description align-middle text-center'>
           <div className='tu-icon'>
-            <i class='fa fa-check' aria-hidden='true'></i>
+            <i className='fa fa-check' aria-hidden='true'></i>
           </div>
-          <div class='tu-accept-text mb-1'>Work Accepted!</div>
+          <div className='tu-accept-text mb-1'>Work Accepted!</div>
           <div>
             {props.assignedTo.user === props.current_user ? (
               <span className=''>

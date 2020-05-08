@@ -482,7 +482,7 @@ export const deleteTask = (id) => async (dispatch) => {
     console.log(res);
     return res.data;
   } catch (err) {
-    addToast('Oops! Some error has occurred! ' + err.message);
+    dispatch(addToast('Oops! Some error has occurred! ' + err.message));
   }
 };
 
@@ -501,7 +501,7 @@ export const fetchWorkingTasks = (limit = -1) => async (dispatch) => {
     });
     return res.data;
   } catch (err) {
-    addToast('Oops! Some error has occurred! ' + err.message);
+    dispatch(addToast('Oops! Some error has occurred! ' + err.message));
   }
 };
 
@@ -517,9 +517,27 @@ export const sendWorkUpdate = (update_obj) => async (dispatch) => {
       setAuthToken(mtok);
     }
     const res = await axios.post('/api/work/update', update_obj, config);
-    addToast('Your update has been posted successfully.');
+    dispatch(addToast('Your update has been posted successfully.'));
     return res.data;
   } catch (err) {
-    addToast('Oops! Some error has occurred! ' + err.message);
+    dispatch(addToast('Oops! Some error has occurred! ' + err.message));
+  }
+};
+
+export const submitFeedback = (newFeedback) => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.post('/api/work/feedback', newFeedback, config);
+    dispatch(addToast('Feedback has been submitted successfully.'));
+  } catch (err) {
+    dispatch(addToast('Oops! Some error has occurred! ' + err.message));
   }
 };

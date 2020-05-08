@@ -14,6 +14,14 @@
   border-color: #3a306d;
 }
 
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #443b74;
+  border-color: #443b74;
+}
+
 .task-search-box {
   font-size: 1rem;
   padding-left: 3rem;
@@ -839,4 +847,90 @@
 .filter-info {
   font-size: 14px;
   font-weight: 500;
+}
+
+.feedback-top {
+  text-align: center;
+}
+
+.feedback-top .done-icon {
+  width: 90px;
+}
+
+.feedback-top .cong-text {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.feedback-mid {
+  font-size: 12px;
+  font-weight: 500;
+  border-top: #00000014 solid 1px;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.feedback-bottom {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 25px;
+}
+
+.feedback-bottom .feedback-box {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 7px;
+}
+
+.feedback-action {
+  text-align: right;
+  margin-top: 12px;
+}
+
+.feedback-action .btn-feedback {
+  font-size: 12px;
+  width: 82px;
+}
+
+.rating {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+  color: #ddd; /* Personal choice */
+}
+.rating input {
+  display: none;
+}
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked + label,
+.rating input:checked + label ~ label {
+  color: #ffc107; /* Personal color choice. Lifted from Bootstrap 4 */
+}
+
+.feedback-rating .rate-icon {
+  width: 23px;
+}
+
+.feedback-mid .rate-work {
+  margin-top: 4px;
+}
+
+.feedback-rating {
+  text-align: right;
+}
+
+.feedback-text {
+  font-style: italic;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 14px;
+}
+
+.feedback-block .feedback-update {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.tu-feedback {
+  background: #fff9ed;
 }

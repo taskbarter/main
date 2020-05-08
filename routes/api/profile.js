@@ -7,7 +7,9 @@ const request = require('request');
 const config = require('config');
 
 const User = require('../../models/User');
+const Feedback = require('../../models/Feedback');
 const PersonalDetails = require('../../models/PersonalDetails');
+const mongoose = require('mongoose');
 
 // @route   GET api/profile/me
 // @desc    My profile
@@ -27,6 +29,33 @@ router.get('/me', auth, async (req, res) => {
     user_obj.lastVisitedOn = Date.now();
     user_obj.save();
     res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('server Error');
+  }
+});
+
+// @route   GET api/profile/ratings
+// @desc    My profile rating
+// @access  Private
+router.get('/ratings', auth, async (req, res) => {
+  try {
+    const feedback_data = await Feedback.aggregate([
+      {
+        $match: {
+          to: mongoose.Types.ObjectId(req.user.id),
+        },
+      },
+      {
+        $group: {
+          _id: '$to',
+          ratings: { $sum: 1 },
+          average: { $avg: '$rating' },
+        },
+      },
+    ]);
+
+    res.json(feedback_data);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('server Error');

@@ -33,8 +33,8 @@ const WorkAction = (props) => {
 
         <Link className='clear-a' to='/messages'>
           <button className='btn redeem-btn'>
-            <i class='fa fa-paper-plane' aria-hidden='true'></i> &nbsp;&nbsp;
-            Send Message
+            <i className='fa fa-paper-plane' aria-hidden='true'></i>{' '}
+            &nbsp;&nbsp; Send Message
           </button>
         </Link>
       </div>
@@ -64,6 +64,16 @@ const WorkAction = (props) => {
             The task has been finalized and the work has been successfully
             delivered to the task owner.
           </div>
+          {props.isFeedbackAllowed ? (
+            <button
+              onClick={props.feedback_toggle}
+              className='btn redeem-btn mt-3'
+            >
+              Submit Feedback
+            </button>
+          ) : (
+            ''
+          )}
         </div>
         {user_info}
       </React.Fragment>

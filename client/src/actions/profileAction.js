@@ -4,6 +4,7 @@ import {
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   REMOVE_SKILL,
+  SET_RATING,
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 import { createConnection } from './socketActions';
@@ -21,6 +22,26 @@ export const getCurrentProfile = () => async (dispatch) => {
     createConnection(res.data.user);
     dispatch({
       type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_PROFILE, //   get errors might be more graceful
+      payload: {},
+    });
+  }
+};
+
+// get ratings info
+export const getCurrentProfileRatings = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/profile/ratings');
+    dispatch({
+      type: SET_RATING,
       payload: res.data,
     });
   } catch (err) {

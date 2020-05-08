@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrentProfile } from '../../actions/profileAction';
+import {
+  getCurrentProfile,
+  getCurrentProfileRatings,
+} from '../../actions/profileAction';
 import { Link } from 'react-router-dom';
+import RatingAvg from './subs/RatingAvg';
 
 const ProfileBadge = (props) => {
   const [data, setData] = useState({
@@ -34,6 +38,9 @@ const ProfileBadge = (props) => {
 
   if (props.profile.profile == null && !props.profile.loading) {
     props.getCurrentProfile();
+  }
+  if (props.profile.rating == null && !props.profile.loading) {
+    props.getCurrentProfileRatings();
   }
 
   let skilos = ['Create Profile to Add skills'];
@@ -122,13 +129,22 @@ const ProfileBadge = (props) => {
       <div className='profile-badge-headline'>{status}</div>
       {skillSection}
       <div className='profile-badge-rating'>
-        <i className='fas fa-star fa-fw' />
-        <i className='fas fa-star fa-fw' />
-        <i className='fas fa-star fa-fw' />
-        <i className='fas fa-star-half-alt' />
-        <i className='far fa-star fa-fw' />
+        <RatingAvg
+          rating={
+            props.profile.rating && props.profile.rating.length
+              ? props.profile.rating[0].average
+              : 0
+          }
+        />
+
         <br />
-        <span className='profile-badge-rating-info'>(25 reviews)</span>
+        <span className='profile-badge-rating-info'>
+          (
+          {props.profile.rating && props.profile.rating.length
+            ? props.profile.rating[0].ratings
+            : 0}{' '}
+          review(s))
+        </span>
       </div>
 
       <div className='profile-badge-stats'>
@@ -159,4 +175,7 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(ProfileBadge);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  getCurrentProfileRatings,
+})(ProfileBadge);
