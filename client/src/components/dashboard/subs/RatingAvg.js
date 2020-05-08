@@ -11,7 +11,6 @@ const RatingAvg = (props) => {
         ) : (
           <i className='far fa-star fa-fw' />
         )}
-
         {props.rating >= 2 ? (
           <i className='fas fa-star fa-fw' />
         ) : props.rating >= 1.5 ? (
@@ -19,7 +18,6 @@ const RatingAvg = (props) => {
         ) : (
           <i className='far fa-star fa-fw' />
         )}
-
         {props.rating >= 3 ? (
           <i className='fas fa-star fa-fw' />
         ) : props.rating >= 2.5 ? (
@@ -27,7 +25,6 @@ const RatingAvg = (props) => {
         ) : (
           <i className='far fa-star fa-fw' />
         )}
-
         {props.rating >= 4 ? (
           <i className='fas fa-star fa-fw' />
         ) : props.rating >= 3.5 ? (
@@ -35,7 +32,6 @@ const RatingAvg = (props) => {
         ) : (
           <i className='far fa-star fa-fw' />
         )}
-
         {props.rating >= 5 ? (
           <i className='fas fa-star fa-fw' />
         ) : props.rating >= 4.5 ? (

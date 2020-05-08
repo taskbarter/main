@@ -24,6 +24,7 @@ export const getCurrentProfile = () => async (dispatch) => {
       type: GET_PROFILE,
       payload: res.data,
     });
+    dispatch(getCurrentProfileRatings());
   } catch (err) {
     dispatch({
       type: GET_PROFILE, //   get errors might be more graceful

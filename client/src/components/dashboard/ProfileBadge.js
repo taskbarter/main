@@ -40,7 +40,7 @@ const ProfileBadge = (props) => {
     props.getCurrentProfile();
   }
   if (props.profile.rating == null && !props.profile.loading) {
-    props.getCurrentProfileRatings();
+    //props.getCurrentProfileRatings();
   }
 
   let skilos = ['Create Profile to Add skills'];
@@ -141,9 +141,11 @@ const ProfileBadge = (props) => {
         <span className='profile-badge-rating-info'>
           (
           {props.profile.rating && props.profile.rating.length
-            ? props.profile.rating[0].ratings
-            : 0}{' '}
-          review(s))
+            ? props.profile.rating[0].ratings === 1
+              ? '1 review'
+              : props.profile.rating[0].ratings + ' reviews'
+            : '0 reviews'}
+          {')'}
         </span>
       </div>
 
