@@ -348,6 +348,17 @@
     font-size: 15px;
     padding: 0.25625rem 0.875rem;
   }
+
+  .bg-when-mobile-menu {
+    height: 100vh;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    background: #1e1e1e;
+    opacity: 0.5;
+    transition: background ease 0.2s;
+  }
 }
 
 @media only screen and (max-width: 576px) {

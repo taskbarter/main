@@ -1616,3 +1616,14 @@ body {
   left: 27px;
   top: 12px;
 }
+
+.menu-toggler-close {
+  height: 50px;
+  width: 282px;
+  cursor: pointer;
+}
+
+.menu-toggler-open {
+  padding-left: 100px;
+  cursor: pointer;
+}

@@ -15,6 +15,7 @@ import TasksPublished from './TasksPublished';
 import TasksToDo from './TasksToDo';
 import { getNotifications } from '../../actions/notifActions';
 import Barter from './Barter';
+import { getCurrentProfileRatings } from '../../actions/profileAction';
 
 class Dashboard extends Component {
   onLogoutClick = (e) => {
@@ -26,6 +27,7 @@ class Dashboard extends Component {
     this.props.fetchPublishedTasks(3);
     this.props.fetchWorkingTasks(3);
     this.props.getNotifications();
+    this.props.getCurrentProfileRatings();
   }
 
   render() {
@@ -79,4 +81,5 @@ export default connect(mapStateToProps, {
   fetchPublishedTasks,
   fetchWorkingTasks,
   getNotifications,
+  getCurrentProfileRatings,
 })(Dashboard);

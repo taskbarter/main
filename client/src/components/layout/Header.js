@@ -24,6 +24,7 @@ class Header extends Component {
     this.state = {
       isMobileMenuOpened: false,
       itemsStyling: 'nav-items',
+      bgStyling: '',
     };
   }
 
@@ -32,14 +33,20 @@ class Header extends Component {
     this.props.logoutUser();
   };
 
-  onMobMenuOpen = () => {
+  onMobMenuOpen = (e) => {
+    if (e) {
+      //e.preventDefault();
+    }
     let newS = 'nav-items';
+    let bgS = '';
     if (!this.state.isMobileMenuOpened) {
       newS += ' mobile-expand';
+      bgS = 'bg-when-mobile-menu';
     }
     this.setState({
       isMobileMenuOpened: !this.state.isMobileMenuOpened,
       itemsStyling: newS,
+      bgStyling: bgS,
     });
   };
 
@@ -65,6 +72,10 @@ class Header extends Component {
     if (this.props.auth.isAuthenticated) {
       return (
         <header className='main-header-v2'>
+          <div
+            onClick={this.onMobMenuOpen}
+            className={this.state.bgStyling}
+          ></div>
           <div className='header-container'>
             <img
               onClick={this.onClickOnLogo}
@@ -82,6 +93,7 @@ class Header extends Component {
                 to='/dashboard'
                 activeClassName='active'
                 className='nav-item'
+                onClick={this.onMobMenuOpen}
               >
                 <span className='nav-item-header'>
                   <img
@@ -100,6 +112,7 @@ class Header extends Component {
                 to='/explore'
                 activeClassName='active'
                 className='nav-item'
+                onClick={this.onMobMenuOpen}
               >
                 <span className='nav-item-header'>
                   <img
@@ -118,6 +131,7 @@ class Header extends Component {
                 to='/messages'
                 activeClassName='active'
                 className='nav-item'
+                onClick={this.onMobMenuOpen}
               >
                 <span className='nav-item-header'>
                   <img src={msg_icon} className='svg_icon icon_inactive'></img>
@@ -134,6 +148,7 @@ class Header extends Component {
                 to='/notifications'
                 activeClassName='active'
                 className='nav-item'
+                onClick={this.onMobMenuOpen}
               >
                 <span className='nav-item-header'>
                   <img
@@ -191,17 +206,37 @@ class Header extends Component {
                   className='dropdown-menu dropdown-menu-right profile-menu'
                   aria-labelledby='dropdown03'
                 >
-                  <Link exact='true' to='/me' className='link-no-style'>
+                  <Link
+                    exact='true'
+                    to='/me'
+                    className='link-no-style'
+                    onClick={this.onMobMenuOpen}
+                  >
                     <span className='profile-menu-item'>My Profile</span>
                   </Link>
-                  <Link exact='true' to='/mytasks' className='link-no-style'>
+                  <Link
+                    exact='true'
+                    to='/mytasks'
+                    className='link-no-style'
+                    onClick={this.onMobMenuOpen}
+                  >
                     <span className='profile-menu-item'>My Added Tasks</span>
                   </Link>
-                  <Link exact='true' to='/mywork' className='link-no-style'>
+                  <Link
+                    exact='true'
+                    to='/mywork'
+                    className='link-no-style'
+                    onClick={this.onMobMenuOpen}
+                  >
                     <span className='profile-menu-item'>My Work</span>
                   </Link>
 
-                  <Link exact='true' to='/settings' className='link-no-style'>
+                  <Link
+                    exact='true'
+                    to='/settings'
+                    className='link-no-style'
+                    onClick={this.onMobMenuOpen}
+                  >
                     <span className='profile-menu-item'>Settings</span>
                   </Link>
                   <hr />
