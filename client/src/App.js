@@ -24,6 +24,7 @@ import userDetail from './components/viewProfile/UserDetails';
 import Notifications from './components/notifications/Notifications';
 import Footer from './components/layout/Footer';
 import MyTasks from './components/task/MyTasks';
+import MyWork from './components/task/MyWork';
 import TaskMain from './components/task/TaskMain';
 import EditTask from './components/task/EditTask';
 import Settings from './components/settings/Settings';
@@ -91,6 +92,7 @@ class App extends Component {
               />
               <PrivateRoute exact path='/me' component={Me} />
               <PrivateRoute exact path='/mytasks' component={MyTasks} />
+              <PrivateRoute exact path='/mywork' component={MyWork} />
               <PrivateRoute exact path='/u/:id' component={userDetail} />
               <PrivateRoute exact path='/w/:id' component={Work} />
               <PrivateRoute exact path='/e/:id' component={EditTask} />

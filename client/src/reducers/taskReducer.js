@@ -16,6 +16,8 @@ import {
   ADD_ARCHIVED_TASKS,
   ADD_ASSIGNED_TASKS,
   ADD_PAUSED_TASKS,
+  ADD_CURRENTLY_WORKING_TASK,
+  ADD_COMPLETED_WORKING_TASK,
 } from '../actions/types';
 
 const initialState = {
@@ -111,6 +113,16 @@ export default function (state = initialState, action) {
       return {
         ...state,
         paused_tasks: action.payload,
+      };
+    case ADD_CURRENTLY_WORKING_TASK:
+      return {
+        ...state,
+        currently_working_tasks: action.payload,
+      };
+    case ADD_COMPLETED_WORKING_TASK:
+      return {
+        ...state,
+        completed_working_tasks: action.payload,
       };
 
     default:

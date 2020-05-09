@@ -880,6 +880,78 @@ router.get('/mytasks/', [auth], async (req, res) => {
   }
 });
 
+router.get('/mytasks/completed', [auth], async (req, res) => {
+  try {
+    const work_data = await Work.aggregate([
+      {
+        $lookup: {
+          from: 'tasks',
+          // localField: 'task',
+          // foreignField: '_id',
+          as: 'taskDetails',
+          let: { mystate: '1', mytask: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$_id', '$$mytask'] },
+                    { $eq: ['$state', '$$mystate'] },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $sort: { updatedAt: -1 },
+      },
+    ]);
+    console.log(work_data);
+    res.json({ work_data });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/mytasks/assigned', [auth], async (req, res) => {
+  try {
+    const work_data = await Work.aggregate([
+      {
+        $lookup: {
+          from: 'tasks',
+          // localField: 'task',
+          // foreignField: '_id',
+          as: 'taskDetails',
+          let: { mystate: '4', mytask: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$_id', '$$mytask'] },
+                    { $eq: ['$state', '$$mystate'] },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $sort: { updatedAt: -1 },
+      },
+    ]);
+    console.log(work_data);
+    res.json({ work_data });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   GET api/tasks/working
 // @desc    Get all tasks the user is working on
 // @access  Private
@@ -904,6 +976,87 @@ router.get('/working/', [auth], async (req, res) => {
       },
       {
         $limit: limit,
+      },
+    ]);
+    res.json({ work_data });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/currentlyworking/', [auth], async (req, res) => {
+  try {
+    const work_data = await Work.aggregate([
+      {
+        $match: {
+          assignedTo: mongoose.Types.ObjectId(req.user.id),
+        },
+      },
+      {
+        $lookup: {
+          from: 'tasks',
+          // localField: 'task',
+          // foreignField: '_id',
+          as: 'taskDetails',
+          let: { mystate: '4', mytask: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$_id', '$$mytask'] },
+                    { $eq: ['$state', '$$mystate'] },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $sort: { updatedAt: -1 },
+      },
+    ]);
+    console.log(work_data);
+    res.json({ work_data });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/completedworking/', [auth], async (req, res) => {
+  try {
+    const work_data = await Work.aggregate([
+      {
+        $match: {
+          assignedTo: mongoose.Types.ObjectId(req.user.id),
+        },
+      },
+      {
+        $lookup: {
+          from: 'tasks',
+          // localField: 'task',
+          // foreignField: '_id',
+          as: 'taskDetails',
+          let: { mystate: '1', mytask: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$_id', '$$mytask'] },
+                    { $eq: ['$state', '$$mystate'] },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        $sort: { updatedAt: -1 },
       },
     ]);
     res.json({ work_data });

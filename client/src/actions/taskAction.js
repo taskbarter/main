@@ -19,6 +19,8 @@ import {
   ADD_ARCHIVED_TASKS,
   ADD_ASSIGNED_TASKS,
   ADD_PAUSED_TASKS,
+  ADD_CURRENTLY_WORKING_TASK,
+  ADD_COMPLETED_WORKING_TASK,
 } from '../actions/types';
 
 import { addToast } from './toasterActions';
@@ -397,9 +399,7 @@ export const fetchCompletedTasks = () => async (dispatch) => {
     if (mtok) {
       setAuthToken(mtok);
     }
-    const res = await axios.get('/api/tasks/mytasks', {
-      params: { state: 1 },
-    });
+    const res = await axios.get('/api/tasks/mytasks/completed');
     dispatch({
       type: ADD_COMPLETED_TASKS,
       payload: res.data,
@@ -435,9 +435,7 @@ export const fetchAssignedTasks = () => async (dispatch) => {
     if (mtok) {
       setAuthToken(mtok);
     }
-    const res = await axios.get('/api/tasks/mytasks', {
-      params: { state: 4 },
-    });
+    const res = await axios.get('/api/tasks/mytasks/assigned');
     dispatch({
       type: ADD_ASSIGNED_TASKS,
       payload: res.data,
@@ -499,6 +497,42 @@ export const fetchWorkingTasks = (limit = -1) => async (dispatch) => {
       type: ADD_WORKING_TASKS,
       payload: res.data,
     });
+    return res.data;
+  } catch (err) {
+    dispatch(addToast('Oops! Some error has occurred! ' + err.message));
+  }
+};
+
+export const fetchCurrentlyWorkingTasks = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/currentlyworking');
+    dispatch({
+      type: ADD_CURRENTLY_WORKING_TASK,
+      payload: res.data,
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    dispatch(addToast('Oops! Some error has occurred! ' + err.message));
+  }
+};
+
+export const fetchCompletedWorkingTasks = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/completedworking');
+    dispatch({
+      type: ADD_COMPLETED_WORKING_TASK,
+      payload: res.data,
+    });
+    console.log(res.data);
     return res.data;
   } catch (err) {
     dispatch(addToast('Oops! Some error has occurred! ' + err.message));
