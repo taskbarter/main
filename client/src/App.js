@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Landing from './components/layout/Landing';
 import Landingv2 from './components/layout/Landingv2';
+import Landingv3 from './components/static/Landingv3';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Explore from './components/explore/ExploreTasks';
@@ -64,7 +65,7 @@ class App extends Component {
           <div className='App'>
             <Header />
             <Route exact path='/v1' component={Landing} />
-            <Route exact path='/' component={Landingv2} />
+            <Route exact path='/' component={Landingv3} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/forgot' component={Forgot} />
