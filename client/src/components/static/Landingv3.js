@@ -88,7 +88,7 @@ class Landingv3 extends Component {
                       </li> */}
                       <li>
                         <Link
-                          to='/register'
+                          to='/login'
                           className='nav-link btn btn-primary get-started-nav'
                         >
                           Login Now
@@ -207,8 +207,8 @@ class Landingv3 extends Component {
                 <p className='mb-4'>
                   Once you add a task using your task points, you will get work
                   proposals and you can short list applicants depending on their
-                  skills and feedback. You can also negotiate the requirements
-                  using our chat service.
+                  skills and reviews. You can also negotiate the requirements
+                  using our messaging service.
                 </p>
               </div>
             </div>
@@ -249,9 +249,19 @@ class Landingv3 extends Component {
             <div className='row'>
               <div className='col-md-12'>
                 <p className='mb-0'>
-                  Taskbarter 2020 Copyright &copy;
-                  <script>document.write(new Date().getFullYear());</script> All
-                  rights reserved
+                  Taskbarter 2020 Copyright &copy; All rights reserved
+                </p>
+                <p className='mb-0 mt-2'>
+                  <Link to='/privacy-policy'>Privacy Policy</Link>
+                  {' | '}
+                  <a
+                    href='https://github.com/taskbarter/main/issues'
+                    target='_blank'
+                  >
+                    Report a Bug
+                  </a>
+                  {' | '}
+                  <a href='mailto:taskbarter@gmail.com'>Contact us</a>
                 </p>
               </div>
             </div>
