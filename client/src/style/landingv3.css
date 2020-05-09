@@ -693,6 +693,16 @@ body {
   .hero-text-main {
     text-align: center;
   }
+  .site-blocks-cover,
+  .site-blocks-cover > .container > .row {
+    height: 120vh;
+  }
+  .not-imp-nav-link {
+    display: none !important;
+  }
+  .mt-5-mobile-none {
+    margin-top: 0px !important;
+  }
 }
 
 .cta-bottom {

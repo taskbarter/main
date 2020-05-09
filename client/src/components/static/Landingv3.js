@@ -81,17 +81,17 @@ class Landingv3 extends Component {
                     role='navigation'
                   >
                     <ul className='site-menu main-menu js-clone-nav mr-auto d-lg-block ml-0 pl-0'>
-                      <li>
-                        <Link to='/login' className='nav-link'>
-                          Login
+                      {/* <li>
+                        <Link to='/login' className='nav-link not-imp-nav-link'>
+                          Create an Account
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           to='/register'
                           className='nav-link btn btn-primary get-started-nav'
                         >
-                          Get Started
+                          Login Now
                         </Link>
                       </li>
                     </ul>
@@ -182,7 +182,7 @@ class Landingv3 extends Component {
                   className='img-fluid barter-icons icon-right'
                 />
               </div>
-              <div className='offset-lg-1 col-lg-7 pr-lg-5 mr-auto mt-5 order-2 order-lg-1'>
+              <div className='offset-lg-1 col-lg-7 pr-lg-5 mr-auto mt-5 order-2 order-lg-1 mt-5-mobile-none'>
                 <span className='step-count-1'>2</span>
                 <h2 className='text-purp mt-4'>Earn Points</h2>
                 <p className='mb-4'>
@@ -221,7 +221,7 @@ class Landingv3 extends Component {
                   className='img-fluid barter-icons icon-right'
                 />
               </div>
-              <div className='offset-lg-1 col-lg-7 pr-lg-5 mr-auto mt-5 order-2 order-lg-1'>
+              <div className='offset-lg-1 col-lg-7 pr-lg-5 mr-auto mt-5 order-2 order-lg-1 mt-5-mobile-none'>
                 <span className='step-count-1'>4</span>
                 <h2 className='text-purp mt-4'>Barter Tasks</h2>
                 <p className='mb-4'>
