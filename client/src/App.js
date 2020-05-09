@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
@@ -8,6 +13,7 @@ import store from './store';
 import Landing from './components/layout/Landing';
 import Landingv2 from './components/layout/Landingv2';
 import Landingv3 from './components/static/Landingv3';
+import NotFound404 from './components/static/NotFound404';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Explore from './components/explore/ExploreTasks';
@@ -65,16 +71,18 @@ class App extends Component {
         <Router basename={process.env.PUBLIC_URL}>
           <div className='App'>
             <Header />
-            <Route exact path='/' component={Landingv3} />
-            <Route exact path='/register' component={Register} />
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/forgot' component={Forgot} />
-            <Route exact path='/landing' component={Landing} />
-            <Route exact path='/UserInfo' component={UserInfo} />
-            <Route exact path='/user-new' component={UserProfileNew} />
-            <Route exact path='/t/:id' component={TaskMain} />
-            <Route exact path='/privacy-policy' component={PrivacyPolicy} />
             <Switch>
+              <Route exact path='/' component={Landingv3} />
+              <Route exact path='/register' component={Register} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/forgot' component={Forgot} />
+              <Route exact path='/landing' component={Landing} />
+              <Route exact path='/UserInfo' component={UserInfo} />
+              <Route exact path='/user-new' component={UserProfileNew} />
+              <Route exact path='/t/:id' component={TaskMain} />
+              <Route exact path='/privacy-policy' component={PrivacyPolicy} />
+              <Route exact path='/404' component={NotFound404} />
+
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/add' component={AddTask} />
               <PrivateRoute exact path='/explore' component={Explore} />
@@ -95,7 +103,9 @@ class App extends Component {
               <PrivateRoute exact path='/u/:id' component={userDetail} />
               <PrivateRoute exact path='/w/:id' component={Work} />
               <PrivateRoute exact path='/e/:id' component={EditTask} />
+              <Route path='*' component={NotFound404} />
             </Switch>
+
             <ToastContainer />
           </div>
         </Router>
