@@ -249,7 +249,7 @@ class Landingv3 extends Component {
             <div className='row'>
               <div className='col-md-12'>
                 <p className='mb-0'>
-                  Taskbarter 2020 Copyright &copy; All rights reserved
+                  Taskbarter Copyright &copy; 2020 All rights reserved
                 </p>
                 <p className='mb-0 mt-2'>
                   <Link to='/privacy-policy'>Privacy Policy</Link>
