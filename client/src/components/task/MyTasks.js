@@ -150,6 +150,7 @@ class MyTasks extends Component {
                       proposallist_toggle={this.proposallist_toggle}
                       setProposal={this.setProposal}
                       onDeleteTask={this.onDeleteTask}
+                      tab={1}
                     />
                   </Col>
                 </Row>
@@ -166,6 +167,7 @@ class MyTasks extends Component {
                       proposallist_toggle={this.proposallist_toggle}
                       setProposal={this.setProposal}
                       onDeleteTask={this.onDeleteTask}
+                      tab={2}
                     />
                   </Col>
                 </Row>
@@ -182,6 +184,7 @@ class MyTasks extends Component {
                       proposallist_toggle={this.proposallist_toggle}
                       setProposal={this.setProposal}
                       onDeleteTask={this.onDeleteTask}
+                      tab={3}
                     />
                   </Col>
                 </Row>
@@ -198,6 +201,7 @@ class MyTasks extends Component {
                       proposallist_toggle={this.proposallist_toggle}
                       setProposal={this.setProposal}
                       onDeleteTask={this.onDeleteTask}
+                      tab={4}
                     />
                   </Col>
                 </Row>
@@ -215,6 +219,7 @@ class MyTasks extends Component {
                       proposallist_toggle={this.proposallist_toggle}
                       setProposal={this.setProposal}
                       onDeleteTask={this.onDeleteTask}
+                      tab={5}
                     />
                   </Col>
                 </Row>
