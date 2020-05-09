@@ -5,7 +5,7 @@ import TaskState from '../task/subs/TaskState';
 
 const TasksPublished = (props) => {
   const onViewAllBtn = () => {
-    props.history.push('/notifications');
+    props.history.push('/mytasks');
   };
   if (!props.published_tasks || props.published_tasks.tasks_data.length === 0) {
     return <React.Fragment></React.Fragment>;

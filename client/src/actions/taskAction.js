@@ -399,7 +399,7 @@ export const fetchCompletedTasks = () => async (dispatch) => {
     if (mtok) {
       setAuthToken(mtok);
     }
-    const res = await axios.get('/api/tasks/mytasks/completed');
+    const res = await axios.get('/api/tasks/completed_tasks');
     dispatch({
       type: ADD_COMPLETED_TASKS,
       payload: res.data,
@@ -435,11 +435,12 @@ export const fetchAssignedTasks = () => async (dispatch) => {
     if (mtok) {
       setAuthToken(mtok);
     }
-    const res = await axios.get('/api/tasks/mytasks/assigned');
+    const res = await axios.get('/api/tasks/assigned_tasks');
     dispatch({
       type: ADD_ASSIGNED_TASKS,
       payload: res.data,
     });
+    console.log('ASSIGNED API CALLED', res.data);
     return res.data;
   } catch (err) {
     addToast('Oops! Some error has occurred! ' + err.message);

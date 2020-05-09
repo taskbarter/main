@@ -4,7 +4,7 @@ import moment from 'moment';
 import TaskState from '../task/subs/TaskState';
 const TasksToDo = (props) => {
   const onViewAllBtn = () => {
-    props.history.push('/notifications');
+    props.history.push('/mywork');
   };
   if (!props.working_tasks || props.working_tasks.work_data.length === 0) {
     return <React.Fragment></React.Fragment>;

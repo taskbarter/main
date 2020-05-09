@@ -8,24 +8,28 @@ const MyWorkTable = (props) => {
   const mytemptasks = props.tasks;
 
   const taskSection = () => {
-    return mytemptasks.work_data.map((task, id) => (
-      <tbody>
-        <tr key={id}>
-          <td scope='row' className='mytasks-date'>
-            {new Date(task.taskDetails[0].date).toDateString()}
-          </td>
+    return mytemptasks.work_data.map((task, id) => {
+      if (task.taskDetails.length)
+        return (
+          <tbody>
+            <tr key={id}>
+              <td scope='row' className='mytasks-date'>
+                {new Date(task.taskDetails[0].date).toDateString()}
+              </td>
 
-          <Link className='clear-a' to={`/w/${task._id}`}>
-            <td>
-              <a href='#'>I want someone to {task.taskDetails[0].headline}</a>
-            </td>
-          </Link>
-
-          <th>{task.taskDetails[0].taskpoints}</th>
-          <td>{new Date(task.taskDetails[0].updatedAT).toDateString()}</td>
-        </tr>
-      </tbody>
-    ));
+              <Link className='clear-a' to={`/w/${task._id}`}>
+                <td>
+                  <a href='#'>
+                    I want someone to {task.taskDetails[0].headline}
+                  </a>
+                </td>
+              </Link>
+              <th>{task.taskDetails[0].taskpoints}</th>
+              <td>{new Date(task.updatedAt).toDateString()}</td>
+            </tr>
+          </tbody>
+        );
+    });
   };
   console.log(mytemptasks);
   if (!mytemptasks) {

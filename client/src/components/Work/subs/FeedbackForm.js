@@ -92,8 +92,15 @@ const FeedbackForm = (props) => {
         </div>
         <div className='feedback-action'>
           <button
+            onClick={toggle}
+            className='btn btn-primary btn-feedback btn-feedback-later mr-2'
+          >
+            Later
+          </button>
+          <button
             onClick={props.onFeedbackSubmit}
             className='btn btn-primary btn-feedback'
+            disabled={props.feedback_text === '' || props.feedback_stars === 0}
           >
             Submit
           </button>

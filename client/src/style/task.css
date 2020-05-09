@@ -892,6 +892,10 @@
   width: 82px;
 }
 
+.feedback-action .btn-feedback-later {
+  background: none !important;
+}
+
 .rating {
   direction: rtl;
   unicode-bidi: bidi-override;

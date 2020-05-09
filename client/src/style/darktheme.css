@@ -6,7 +6,8 @@
   color: white;
 }
 
-.darktheme a {
+.darktheme a,
+.darktheme .pro-list-user .user-name {
   color: #6fb4ff;
 }
 
@@ -15,7 +16,8 @@
 .darktheme .tu-owner-pill,
 .darktheme .profile-status-select,
 .darktheme .task-search-box,
-.darktheme .chat-typing-container .chat-editor {
+.darktheme .chat-typing-container .chat-editor,
+.darktheme .pro-list-container {
   background: #383b40 !important;
   color: #d1d1d2;
 }
@@ -27,6 +29,10 @@
   box-shadow: 0 0 10px 0px #27292d3d;
   background: #26282b;
   border: #505359 solid 1px;
+}
+
+.darktheme .pro-list-action {
+  background: #26282b;
 }
 
 .darktheme .notif-list {
@@ -85,7 +91,8 @@
 .darktheme .ql-snow .ql-picker.ql-expanded .ql-picker-label,
 .darktheme .ql-snow .ql-picker,
 .darktheme .msg-left .message-bubble,
-.darktheme .profile-menu-item {
+.darktheme .profile-menu-item,
+.darktheme .pro-list-container {
   color: #d3d3d3;
 }
 
@@ -140,7 +147,8 @@
 
 .darktheme .feed-card-person-details .loc,
 .darktheme .convo-card .personal-info .lastmsg,
-.darktheme .msg-time {
+.darktheme .msg-time,
+.darktheme .pro-list-user {
   color: #bdbcbc;
 }
 
