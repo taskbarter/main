@@ -1,17 +1,12 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, } from 'react';
 import {
-  Button,
+
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-  Tooltip,
-  Spinner,
+
 } from 'reactstrap';
-import bookmark_icon from '../../../style/inc/bookmark.svg';
-import share_icon from '../../../style/inc/share.svg';
 import { connect } from 'react-redux';
-import TLoader from '../../utils/TLoader';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 
@@ -73,10 +68,12 @@ const ProposalList = (props) => {
                 <div className='feed-card--footer'>
                   <div className='pro-list-user feed-card--footer-left'>
                     Sent by:&nbsp;
+                    { pros.userdetails.length ? 
                     <span className='user-name'>
                       {pros.userdetails[0].first_name}{' '}
                       {pros.userdetails[0].second_name}
-                    </span>
+                    </span> : <span>User Deleted</span>
+        }
                   </div>
                   <div className='posted-on feed-card--footer-right'>
                     sent {moment(pros.createdAt).fromNow()}

@@ -7,10 +7,10 @@ const Footer = (props) => {
         © 2020 Taskbarter. All Rights Reserved.
       </span>
       <span className='footer-links col-md-4 ml-auto'>
-        <a href='#'>About</a>
+        <a href='https://docs.taskbarter.com/'>About</a>
         <Link to='/privacy-policy'>Privacy</Link>
-        <a href='#' id='report-problem'>
-          Report
+        <a href='https://github.com/taskbarter/main/issues' id='report-problem'>
+          Report a bug
         </a>
       </span>
     </div>

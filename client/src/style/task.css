@@ -577,7 +577,7 @@
 
 .taskv-loader {
   display: flex;
-  height: 90vh;
+  height: 82vh;
 }
 
 .dv-title {
@@ -892,6 +892,11 @@
   width: 82px;
 }
 
+.feedback-action .btn-feedback-later {
+  background: none !important;
+  color: #443b74;
+}
+
 .rating {
   direction: rtl;
   unicode-bidi: bidi-override;
@@ -933,4 +938,11 @@
 
 .tu-feedback {
   background: #fff9ed;
+}
+
+.vector-404 {
+  min-width: 200px;
+  max-width: 30vw;
+  margin: 50px;
+  align-self: center;
 }

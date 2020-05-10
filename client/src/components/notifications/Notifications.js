@@ -9,7 +9,10 @@ import '../../style/notifications.css';
 import { Input } from 'reactstrap';
 import socketIOClient from 'socket.io-client';
 import NotificationItem from './subs/NotificationItem';
-import { getNotifications } from '../../actions/notifActions';
+import {
+  getNotifications,
+  readAllNotifications,
+} from '../../actions/notifActions';
 import TLoader from '../utils/TLoader';
 
 class Notifications extends Component {
@@ -32,7 +35,7 @@ class Notifications extends Component {
       return (
         <div className='container notif-container'>
           <div className='notif-section'>
-            <div className='task-list-title'>Your recent notifications</div>
+            <div className='task-list-title'>Your recent notifications </div>
             <div className='taskv-loader' style={{ height: '25vh' }}>
               <TLoader colored={true} />
             </div>
@@ -44,7 +47,15 @@ class Notifications extends Component {
     return (
       <div className='container notif-container'>
         <div className='notif-section'>
-          <div className='task-list-title'>Your recent notifications</div>
+          <div className='task-list-title'>
+            Your recent notifications
+            <button
+              onClick={this.props.readAllNotifications}
+              className='btn notification-btn fl-r'
+            >
+              Mark all as read
+            </button>
+          </div>
           <div className='notif-list'>
             {this.props.notifications.notifications.map((notif, key) => {
               return <NotificationItem notif={notif} key={key} />;
@@ -62,4 +73,7 @@ const mapStateToProps = (state) => ({
   notifications: state.notifications,
 });
 
-export default connect(mapStateToProps, { getNotifications })(Notifications);
+export default connect(mapStateToProps, {
+  getNotifications,
+  readAllNotifications,
+})(Notifications);

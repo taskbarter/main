@@ -670,3 +670,13 @@
   padding-right: 4px;
   fill: #3b5998;
 }
+
+.new-notifs-header {
+  background: red;
+  content: '';
+  padding: 5px;
+  position: absolute;
+  border-radius: 50%;
+  margin-top: -28px;
+  margin-left: 22px;
+}

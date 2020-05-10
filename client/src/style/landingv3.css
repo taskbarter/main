@@ -1,14 +1,12 @@
 /* Base */
-body {
+
+.landingv3 {
+  background: #faf9ff;
+  margin-top: -56px;
   line-height: 1.7;
   color: gray;
   font-weight: 400;
   font-size: 1rem;
-}
-
-.landingv3 {
-  background: #faf9ff;
-  margin-top: -72px;
 }
 
 .landingv3 .footer {

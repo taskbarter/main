@@ -255,6 +255,13 @@ class Landingv3 extends Component {
                   <Link to='/privacy-policy'>Privacy Policy</Link>
                   {' | '}
                   <a
+                    href='https://docs.taskbarter.com/about-taskbarter/faq'
+                    target='_blank'
+                  >
+                    FAQ
+                  </a>
+                  {' | '}
+                  <a
                     href='https://github.com/taskbarter/main/issues'
                     target='_blank'
                   >

@@ -1,8 +1,9 @@
-import { SET_NOTIFICATIONS } from '../actions/types';
+import { SET_NOTIFICATIONS, ALL_NOTIFICATIONS_READ } from '../actions/types';
 import update from 'react-addons-update';
 
 const initialState = {
   notifications: [],
+  read_flag: true,
 };
 
 export default function (state = initialState, action) {
@@ -12,7 +13,11 @@ export default function (state = initialState, action) {
         ...state,
         notifications: action.payload,
       };
-
+    case ALL_NOTIFICATIONS_READ:
+      return {
+        ...state,
+        read_flag: action.payload,
+      };
     default:
       return state;
   }

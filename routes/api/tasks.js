@@ -880,35 +880,38 @@ router.get('/mytasks/', [auth], async (req, res) => {
   }
 });
 
-router.get('/mytasks/completed', [auth], async (req, res) => {
+router.get('/completed_tasks', [auth], async (req, res) => {
   try {
     const work_data = await Work.aggregate([
       {
-        $lookup: {
-          from: 'tasks',
-          // localField: 'task',
-          // foreignField: '_id',
-          as: 'taskDetails',
-          let: { mystate: '1', mytask: '$task' },
-          pipeline: [
+        $match: {
+          $and: [
             {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $eq: ['$_id', '$$mytask'] },
-                    { $eq: ['$state', '$$mystate'] },
-                  ],
-                },
-              },
+              assignee: mongoose.Types.ObjectId(req.user.id),
             },
           ],
         },
       },
       {
-        $sort: { updatedAt: -1 },
+        $lookup: {
+          from: 'tasks',
+          let: { task_id: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$state', TASK_COMPLETED] },
+                    { $eq: ['$_id', '$$task_id'] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'taskDetails',
+        },
       },
     ]);
-    console.log(work_data);
     res.json({ work_data });
   } catch (err) {
     console.error(err.message);
@@ -916,35 +919,38 @@ router.get('/mytasks/completed', [auth], async (req, res) => {
   }
 });
 
-router.get('/mytasks/assigned', [auth], async (req, res) => {
+router.get('/assigned_tasks', [auth], async (req, res) => {
   try {
     const work_data = await Work.aggregate([
       {
-        $lookup: {
-          from: 'tasks',
-          // localField: 'task',
-          // foreignField: '_id',
-          as: 'taskDetails',
-          let: { mystate: '4', mytask: '$task' },
-          pipeline: [
+        $match: {
+          $and: [
             {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $eq: ['$_id', '$$mytask'] },
-                    { $eq: ['$state', '$$mystate'] },
-                  ],
-                },
-              },
+              assignee: mongoose.Types.ObjectId(req.user.id),
             },
           ],
         },
       },
       {
-        $sort: { updatedAt: -1 },
+        $lookup: {
+          from: 'tasks',
+          let: { task_id: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$state', TASK_ASSIGNED] },
+                    { $eq: ['$_id', '$$task_id'] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'taskDetails',
+        },
       },
     ]);
-    console.log(work_data);
     res.json({ work_data });
   } catch (err) {
     console.error(err.message);
@@ -990,35 +996,33 @@ router.get('/currentlyworking/', [auth], async (req, res) => {
     const work_data = await Work.aggregate([
       {
         $match: {
-          assignedTo: mongoose.Types.ObjectId(req.user.id),
-        },
-      },
-      {
-        $lookup: {
-          from: 'tasks',
-          // localField: 'task',
-          // foreignField: '_id',
-          as: 'taskDetails',
-          let: { mystate: '4', mytask: '$task' },
-          pipeline: [
+          $and: [
             {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $eq: ['$_id', '$$mytask'] },
-                    { $eq: ['$state', '$$mystate'] },
-                  ],
-                },
-              },
+              assignedTo: mongoose.Types.ObjectId(req.user.id),
             },
           ],
         },
       },
       {
-        $sort: { updatedAt: -1 },
+        $lookup: {
+          from: 'tasks',
+          let: { task_id: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$state', TASK_ASSIGNED] },
+                    { $eq: ['$_id', '$$task_id'] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'taskDetails',
+        },
       },
     ]);
-    console.log(work_data);
     res.json({ work_data });
   } catch (err) {
     console.error(err.message);
@@ -1031,32 +1035,31 @@ router.get('/completedworking/', [auth], async (req, res) => {
     const work_data = await Work.aggregate([
       {
         $match: {
-          assignedTo: mongoose.Types.ObjectId(req.user.id),
-        },
-      },
-      {
-        $lookup: {
-          from: 'tasks',
-          // localField: 'task',
-          // foreignField: '_id',
-          as: 'taskDetails',
-          let: { mystate: '1', mytask: '$task' },
-          pipeline: [
+          $and: [
             {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $eq: ['$_id', '$$mytask'] },
-                    { $eq: ['$state', '$$mystate'] },
-                  ],
-                },
-              },
+              assignedTo: mongoose.Types.ObjectId(req.user.id),
             },
           ],
         },
       },
       {
-        $sort: { updatedAt: -1 },
+        $lookup: {
+          from: 'tasks',
+          let: { task_id: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$state', TASK_COMPLETED] },
+                    { $eq: ['$_id', '$$task_id'] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'taskDetails',
+        },
       },
     ]);
     res.json({ work_data });
