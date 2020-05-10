@@ -84,6 +84,7 @@
   border: 1px solid #d6dae0;
   background: #fff;
   -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  -o-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
@@ -103,11 +104,15 @@
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
+  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
 
 .task-list-container {
+  display: -ms-grid;
   display: grid;
+  -ms-grid-rows: auto;
+  -ms-grid-columns: 1fr;
   grid-template: auto/1fr [end];
   grid-gap: 0.9375rem;
   justify-items: stretch;
@@ -118,12 +123,16 @@
 
 @media only screen and (min-width: 32em) {
   .task-list-container {
+    -ms-grid-rows: auto;
+    -ms-grid-columns: 1fr 0.9375rem 1fr;
     grid-template: auto/repeat(2, 1fr) [end];
   }
 }
 
 @media only screen and (min-width: 48em) {
   .task-list-container {
+    -ms-grid-rows: auto;
+    -ms-grid-columns: 1fr 0.9375rem 1fr 0.9375rem 1fr;
     grid-template: auto/repeat(3, 1fr) [end];
   }
 }
@@ -138,8 +147,14 @@
   border: 1px solid #d6dae0;
   background: #fff;
   -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  -o-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -180,6 +195,7 @@
   color: rgb(255, 255, 255);
   border: none;
   -webkit-transition: color 125ms;
+  -o-transition: color 125ms;
   transition: color 125ms;
   cursor: pointer;
   display: -webkit-box;
@@ -196,6 +212,7 @@
   font-weight: 600;
   font-size: 0.875rem;
   -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  -o-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -230,6 +247,8 @@
   font-size: 11px;
   font-weight: 500;
   color: #a09cb5;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   float: right;
   margin-top: -16px;
@@ -327,6 +346,8 @@
 }
 .fc-pts {
   font-size: 10px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   margin-left: auto;
   margin-right: 7px;
@@ -370,15 +391,23 @@
   color: #433881;
   border: 1px solid #433881;
   -webkit-transition: color 0s;
+  -o-transition: color 0s;
   transition: color 0s;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   padding: 5px 7px;
   border-radius: 0.3125rem;
   font-weight: 600;
   font-size: 12px;
   -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  -o-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -409,11 +438,13 @@
 }
 
 .feed-card:hover {
+  -webkit-box-shadow: 0 0 11px #ddd9d9;
   box-shadow: 0 0 11px #ddd9d9;
   cursor: pointer;
 }
 
 .card-skeleton:hover {
+  -webkit-box-shadow: none;
   box-shadow: none;
   cursor: inherit;
 }
@@ -436,6 +467,7 @@
 .dt-modal {
   max-width: 80%;
   -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  -o-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
@@ -464,13 +496,21 @@
   overflow-y: scroll;
   max-height: 68vh;
   min-height: 35vh;
+  -webkit-transition: min-height 0.7s linear;
+  -o-transition: min-height 0.7s linear;
   transition: min-height 0.7s linear;
   font-size: 14px;
 }
 
 .dt-body.loading {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   min-height: 74vh;
 }
@@ -496,17 +536,23 @@
 }
 
 .task-list-dashboard {
+  -ms-grid-rows: auto;
+  -ms-grid-columns: 1fr;
   grid-template: auto/1fr [end];
 }
 
 @media only screen and (min-width: 32em) {
   .task-list-dashboard {
+    -ms-grid-rows: auto;
+    -ms-grid-columns: (1fr) [1];
     grid-template: auto/repeat(1, 1fr) [end];
   }
 }
 
 @media only screen and (min-width: 48em) {
   .task-list-dashboard {
+    -ms-grid-rows: auto;
+    -ms-grid-columns: (1fr) [2];
     grid-template: auto/repeat(2, 1fr) [end];
   }
 }
@@ -518,6 +564,8 @@
 
 .profile-skills {
   cursor: pointer;
+  -webkit-transition: ease-in-out;
+  -o-transition: ease-in-out;
   transition: ease-in-out;
 }
 
@@ -539,10 +587,13 @@
   border: 1px solid #d6dae0;
   background: #fff;
   -webkit-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  -o-transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
   transition: all 125ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .mytasks-tabs {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
   display: flex !important;
 }
 
@@ -576,6 +627,8 @@
 }
 
 .taskv-loader {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 82vh;
 }
@@ -730,6 +783,8 @@
 .task-state {
   font-size: 9px;
   background: #424242;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   padding: 2px 9px;
   border-radius: 10px;
@@ -807,8 +862,15 @@
 }
 
 .act-rej {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
   justify-content: space-evenly;
 }
 
@@ -944,5 +1006,7 @@
   min-width: 200px;
   max-width: 30vw;
   margin: 50px;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
   align-self: center;
 }

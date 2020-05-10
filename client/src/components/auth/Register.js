@@ -103,7 +103,7 @@ class Register extends Component {
       return;
     }
     regex = /^[a-z0-9_-]{3,16}$/;
-    if (!regex.test(this.state.name)) {
+    if (!regex.test(this.state.name.toLowerCase())) {
       this.setState({
         errMsg: 'Your username is not correct.',
       });
@@ -140,7 +140,7 @@ class Register extends Component {
       errMsg: '',
     });
     const newUser = {
-      name: this.state.name,
+      name: this.state.name.toLowerCase(),
       fname: this.state.fname,
       sname: this.state.sname,
       email: this.state.email,
