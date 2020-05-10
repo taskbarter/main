@@ -24,6 +24,23 @@
   margin-bottom: 7px;
 }
 
+.notification-item.unread-type {
+  background: #f4f4ff;
+}
+
+.unread-pill {
+  background: #43387f;
+  padding: 2px 5px;
+  content: '';
+  font-size: 5px;
+  border-radius: 50%;
+  position: relative;
+  margin-left: 10px;
+  vertical-align: middle;
+  box-shadow: 0 0 5px #0000002b;
+  opacity: 0.2;
+}
+
 .notification-item .notif-text {
   color: #433881;
   font-size: 13px;

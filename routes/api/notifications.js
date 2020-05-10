@@ -25,4 +25,53 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// @route   Post api/notifications/read
+// @desc    Read a notification
+// @access  Private
+
+router.post('/read', auth, async (req, res) => {
+  try {
+    const Notif = await Notification.findById(req.body.notif_id);
+    const allNotifWithLink = await Notification.bulkWrite([
+      {
+        updateMany: {
+          filter: { link: Notif.link, for: Notif.for },
+          update: { seen: true },
+        },
+      },
+    ]);
+
+    res.json(allNotifWithLink);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(400)
+      .json({ msg: 'Could not find notifications for this user.' });
+  }
+});
+
+// @route   Post api/notifications/read
+// @desc    Read a notification
+// @access  Private
+
+router.post('/readall', auth, async (req, res) => {
+  try {
+    const allNotifWithLink = await Notification.bulkWrite([
+      {
+        updateMany: {
+          filter: { for: Notif.for },
+          update: { seen: true },
+        },
+      },
+    ]);
+
+    res.json(allNotifWithLink);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(400)
+      .json({ msg: 'Could not find notifications for this user.' });
+  }
+});
+
 module.exports = router;

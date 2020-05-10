@@ -31,6 +31,13 @@
   border: #505359 solid 1px;
 }
 
+.darktheme .notification-item.unread-type {
+  background: #1e2022;
+}
+.darktheme .unread-pill {
+  background: #bdb1ff;
+}
+
 .darktheme .pro-list-action {
   background: #26282b;
 }
