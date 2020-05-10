@@ -44,6 +44,20 @@ class MyTasks extends Component {
   }
 
   componentDidMount() {
+    const { id } = this.props.match.params;
+    if (id !== undefined) {
+      if (id == 0) {
+        this.setState({ selectedTab: 1 }, () => this.onTabChange(1));
+      } else if (id == 1) {
+        this.setState({ selectedTab: 4 }, () => this.onTabChange(4));
+      } else if (id == 2) {
+        this.setState({ selectedTab: 3 }, () => this.onTabChange(3));
+      } else if (id == 3) {
+        this.setState({ selectedTab: 5 }, () => this.onTabChange(5));
+      } else if (id == 4) {
+        this.setState({ selectedTab: 2 }, () => this.onTabChange(2));
+      }
+    }
     this.props.fetchMyAvailableTasks();
   }
   onTabChange = (tab) => {
