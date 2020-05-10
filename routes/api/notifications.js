@@ -35,7 +35,7 @@ router.post('/read', auth, async (req, res) => {
     const allNotifWithLink = await Notification.bulkWrite([
       {
         updateMany: {
-          filter: { link: Notif.link, for: Notif.for },
+          filter: { link: Notif.link, for: Notif.for, seen: false },
           update: { seen: true },
         },
       },
@@ -59,7 +59,7 @@ router.post('/readall', auth, async (req, res) => {
     const allNotifWithLink = await Notification.bulkWrite([
       {
         updateMany: {
-          filter: { for: Notif.for },
+          filter: { for: Notif.for, seen: false },
           update: { seen: true },
         },
       },
