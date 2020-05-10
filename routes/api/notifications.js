@@ -41,7 +41,7 @@ router.post('/read', auth, async (req, res) => {
       },
     ]);
 
-    res.json(allNotifWithLink);
+    res.json({});
   } catch (err) {
     console.log(err);
     return res
@@ -50,8 +50,8 @@ router.post('/read', auth, async (req, res) => {
   }
 });
 
-// @route   Post api/notifications/read
-// @desc    Read a notification
+// @route   Post api/notifications/readall
+// @desc    Read all notifications
 // @access  Private
 
 router.post('/readall', auth, async (req, res) => {
@@ -59,13 +59,12 @@ router.post('/readall', auth, async (req, res) => {
     const allNotifWithLink = await Notification.bulkWrite([
       {
         updateMany: {
-          filter: { for: Notif.for, seen: false },
+          filter: { for: req.user.id, seen: false },
           update: { seen: true },
         },
       },
     ]);
-
-    res.json(allNotifWithLink);
+    res.json({});
   } catch (err) {
     console.log(err);
     return res
