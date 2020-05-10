@@ -102,24 +102,46 @@ const MyTasksTable = (props) => {
       </div>
     );
   }
-  // if (mytemptasks.tasks_data.length == 0) {
-  //   return (
-  //     <div className=''>
-  //       <Table className='mytasks-table'>
-  //         <thead>
-  //           <tr>
-  //             <th className='mytasks-date-h'>Date</th>
-  //             <th>Title</th>
-  //             <th>Points</th>
-  //             <th>Proposals</th>
-  //             <th>Actions</th>
-  //           </tr>
-  //         </thead>
-  //       </Table>
-  //       <div className=' mx-auto'>No Tasks Available</div>
-  //     </div>
-  //   );
-  // }
+  if (props.tab == 2 || props.tab == 4) {
+    if (mytemptasks.work_data.length == 0) {
+      return (
+        <div className=''>
+          <Table className='mytasks-table'>
+            <thead>
+              <tr>
+                <th className='mytasks-date-h'>Date</th>
+                <th>Title</th>
+                <th>Points</th>
+                <th>Proposals</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+          </Table>
+          <div className=' mx-auto'>No Tasks Available</div>
+        </div>
+      );
+    }
+  } else {
+    if (mytemptasks.tasks_data.length == 0) {
+      return (
+        <div className=''>
+          <Table className='mytasks-table'>
+            <thead>
+              <tr>
+                <th className='mytasks-date-h'>Date</th>
+                <th>Title</th>
+                <th>Points</th>
+                <th>Proposals</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+          </Table>
+          <div className=' mx-auto'>No Tasks Available</div>
+        </div>
+      );
+    }
+  }
+
   return (
     <div className=''>
       <Table className='mytasks-table'>
