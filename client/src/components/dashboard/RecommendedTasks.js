@@ -7,6 +7,7 @@ import { dateEpx } from '../../actions/taskAction';
 import { toggleLike, sendProposal } from '../../actions/taskAction';
 import TaskCard from '../explore/subs/TaskCard';
 import TaskDetails from '../explore/subs/TaskDetails';
+import ShareTasksPopup from '../explore/subs/ShareTasksPopup';
 import ProposalForm from '../explore/subs/ProposalForm';
 import TaskCardSkeleton from '../task/subs/TaskCardSkeleton';
 
@@ -21,6 +22,12 @@ class RecommendedTasks extends Component {
       proposal_popup_is_open: false,
       proposal_text: '',
       proposal_loading: false,
+      share_popup_is_open: false,
+      task_payload: {
+        task_url: '',
+        task_headline: '',
+        from: '',
+      },
     };
   }
 
@@ -72,6 +79,22 @@ class RecommendedTasks extends Component {
       });
     }
   };
+  share_toggle = () => {
+    this.setState({
+      share_popup_is_open: !this.state.share_popup_is_open,
+    });
+  };
+  onTaskShare = (payload = {}) => {
+    console.log(payload);
+    this.setState(
+      {
+        task_payload: payload,
+      },
+      () => {
+        this.share_toggle();
+      }
+    );
+  };
 
   sendProposal = () => {
     const payload = {
@@ -116,19 +139,24 @@ class RecommendedTasks extends Component {
         <div className='tasks-heading'>Recently Added Tasks</div>
         <div className='task-list-container task-list-dashboard'>
           {this.state.workplaceTasks.map((task, i) => (
-            <TaskCard task={task} key={i} onClick={this.onTaskSelect} />
+            <TaskCard
+              task={task}
+              key={i}
+              onClick={this.onTaskSelect}
+              onTaskShare={this.onTaskShare}
+            />
           ))}
         </div>
         <Link to='/explore'>
           <button className='mt-3 btn redeem-btn'>Explore More Work</button>
         </Link>
-
         <TaskDetails
           toggle={this.task_detail_toggle}
           modal={this.state.detail_popup_is_open}
           selected_task={this.state.selected_task}
           proposal_toggle={this.proposal_toggle}
           current_user={this.props.auth.user.id}
+          onTaskShare={this.onTaskShare}
         />
         <ProposalForm
           toggle={this.proposal_toggle}
@@ -139,6 +167,11 @@ class RecommendedTasks extends Component {
           sendProposal={this.sendProposal}
           proposalLoading={this.state.proposal_loading}
         />
+        <ShareTasksPopup
+          toggle={this.share_toggle}
+          modal={this.state.share_popup_is_open}
+          task={this.state.task_payload}
+        />{' '}
       </div>
     );
   }
