@@ -100,9 +100,10 @@ router.get('/users', auth, async (req, res) => {
       },
       {
         $sort: {
-          updatedAt: -1,
+          lastVisitedOn: -1,
         },
       },
+
       {
         $project: {
           name: 1,
