@@ -14,6 +14,7 @@ import FeedCard from './subs/FeedCard';
 import TaskCard from './subs/TaskCard';
 import TaskDetails from './subs/TaskDetails';
 import ProposalForm from './subs/ProposalForm';
+import ShareTasksPopup from './subs/ShareTasksPopup';
 import 'quill/dist/quill.snow.css';
 import TaskCardSkeleton from '../task/subs/TaskCardSkeleton';
 import FilterInfo from './filters/FilterInfo';
@@ -40,6 +41,12 @@ class ExploreTasks extends Component {
       fetching_tasks: false,
       isEndReached: false,
       filter_info: {},
+      share_popup_is_open: false,
+      task_payload: {
+        task_url: '',
+        task_headline: '',
+        from: '',
+      },
     };
   }
 
@@ -165,6 +172,22 @@ class ExploreTasks extends Component {
     });
   };
 
+  share_toggle = () => {
+    this.setState({
+      share_popup_is_open: !this.state.share_popup_is_open,
+    });
+  };
+  onTaskShare = (payload = {}) => {
+    console.log(payload);
+    this.setState(
+      {
+        task_payload: payload,
+      },
+      () => {
+        this.share_toggle();
+      }
+    );
+  };
   changeProposalText = (t) => {
     if (t) {
       this.setState({
@@ -307,7 +330,6 @@ class ExploreTasks extends Component {
           onSkillsFilterClear={this.onSkillsFilterClear}
           onSkillsFilterApply={this.onSkillsFilterApply}
         />
-
         <div className='container explore-container' id='explore-container'>
           <div className='search-container'>
             <Input
@@ -334,7 +356,13 @@ class ExploreTasks extends Component {
               <FeedCard />
               {allTasks &&
                 allTasks.map((task, i) => (
-                  <TaskCard task={task} key={i} onClick={this.onTaskSelect} />
+                  <TaskCard
+                    task={task}
+                    key={i}
+                    onClick={this.onTaskSelect}
+                    share_toggle={this.share_toggle}
+                    onTaskShare={this.onTaskShare}
+                  />
                 ))}
 
               {this.state.fetching_tasks ? (
@@ -363,7 +391,6 @@ class ExploreTasks extends Component {
           proposal_toggle={this.proposal_toggle}
           current_user={this.props.auth.user.id}
         />
-
         <ProposalForm
           toggle={this.proposal_toggle}
           modal={this.state.proposal_popup_is_open}
@@ -373,6 +400,11 @@ class ExploreTasks extends Component {
           sendProposal={this.sendProposal}
           proposalLoading={this.state.proposal_loading}
         />
+        <ShareTasksPopup
+          toggle={this.share_toggle}
+          modal={this.state.share_popup_is_open}
+          task={this.state.task_payload}
+        />{' '}
       </div>
     );
   }

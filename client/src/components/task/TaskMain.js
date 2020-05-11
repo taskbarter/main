@@ -213,6 +213,8 @@ class TaskMain extends Component {
                 task_state={task.state}
                 task_work={task.workdetails ? task.workdetails[0] : []}
                 task_id={task._id}
+                from={`${task.userdetails[0].first_name} ${task.userdetails[0].second_name}`}
+                task={task}
               />
             </div>
             <div className='col-md-8 order-md-1'>

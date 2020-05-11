@@ -50,6 +50,14 @@ const TaskCard = (props) => {
     props.onClick(props.task._id);
   };
 
+  const onTaskShare = () => {
+    props.onTaskShare({
+      from: `${props.task.userdetails[0].first_name} ${props.task.userdetails[0].second_name}`,
+      task_url: `https://www.taskbarter.com/t/${props.task._id}`,
+      task_headline: props.task.headline,
+    });
+  };
+
   return (
     <React.Fragment>
       <div className='feed-card'>
@@ -88,6 +96,7 @@ const TaskCard = (props) => {
               src={share_icon}
               className='svg_icon icon_inactive'
               id='share-job'
+              onClick={onTaskShare}
             ></img>
           </div>
           <div className='feed-card--footer-right '>

@@ -1012,3 +1012,11 @@
   -ms-grid-row-align: center;
   align-self: center;
 }
+
+.share-popup-body {
+  text-align: center;
+  display: block;
+  overflow: hidden;
+  padding-top: 35px;
+  min-height: 27vh;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import TaskShareIcons from '../../utils/TaskShareIcons';
 
 const TaskAction = (props) => {
   const status_comp = (
@@ -17,6 +18,20 @@ const TaskAction = (props) => {
             : props.task_state === 3
             ? 'This task is currently removed.'
             : 'This task is not available.'}
+        </div>
+      </div>
+    </React.Fragment>
+  );
+
+  const Share_Icons = (
+    <React.Fragment>
+      <div className='card card-body redeem-points mb-2'>
+        <div className='task-card-text'>
+          <TaskShareIcons
+            task_headline={props.task.headline}
+            task_url={`https://www.taskbarter.com/t/${props.task_id}`}
+            from={props.from}
+          />
         </div>
       </div>
     </React.Fragment>
@@ -115,6 +130,7 @@ const TaskAction = (props) => {
             See Proposals ({props.proposals.length})
           </button>
         </div>
+        {Share_Icons}
       </React.Fragment>
     );
   }
@@ -154,6 +170,7 @@ const TaskAction = (props) => {
             <button className='btn redeem-btn'>Login Now</button>
           </Link>
         </div>
+        {Share_Icons}
       </React.Fragment>
     );
   }
@@ -172,6 +189,7 @@ const TaskAction = (props) => {
           Send Proposal
         </button>
       </div>
+      {Share_Icons}
     </React.Fragment>
   );
 };
