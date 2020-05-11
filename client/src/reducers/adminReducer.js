@@ -4,11 +4,13 @@ import {
   GET_ERRORS,
   ADMIN_ACTIVITIES,
   ADMIN_USERS,
+  ADMIN_TASKS,
 } from '../actions/types';
 
 const initialState = {
   activities: [],
   users: [],
+  tasks: [],
 };
 
 export default function (state = initialState, action) {
@@ -22,6 +24,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         users: action.payload,
+      };
+    case ADMIN_TASKS:
+      return {
+        ...state,
+        tasks: action.payload,
       };
     default:
       return state;

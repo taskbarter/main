@@ -6,14 +6,19 @@ const request = require('request');
 const config = require('config');
 const UserActivity = require('../models/UserActivity');
 const User = require('../models/User');
+const Task = require('../models/Task');
 
 // @route   GET api/admin/activities
 // @desc    Get all activities
-// @access  Private
+// @access  Admin
 
 router.get('/activities', auth, async (req, res) => {
   try {
     if (!req.user.isAdmin) {
+      return res.json({ msg: 'you are not admin!' });
+    }
+    const user_obj = await User.findById(req.user.id);
+    if (!user_obj && user_obj.accessLevel !== '2') {
       return res.json({ msg: 'you are not admin!' });
     }
     const acts = await UserActivity.aggregate([
@@ -69,11 +74,15 @@ router.get('/activities', auth, async (req, res) => {
 
 // @route   GET api/admin/users
 // @desc    Get all users
-// @access  Private
+// @access  Admin
 
 router.get('/users', auth, async (req, res) => {
   try {
     if (!req.user.isAdmin) {
+      return res.json({ msg: 'you are not admin!' });
+    }
+    const user_obj = await User.findById(req.user.id);
+    if (!user_obj && user_obj.accessLevel !== '2') {
       return res.json({ msg: 'you are not admin!' });
     }
     const users = await User.aggregate([
@@ -119,6 +128,64 @@ router.get('/users', auth, async (req, res) => {
             tasksCanceled: 1,
           },
           proposal_sent: { $size: '$proposals' },
+        },
+      },
+    ]);
+    res.json(users);
+  } catch (err) {
+    return res.status(400).json({ msg: 'Could not find activities.' });
+  }
+});
+
+// @route   GET api/admin/users
+// @desc    Get all users
+// @access  Admin
+
+router.get('/tasks', auth, async (req, res) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res.json({ msg: 'you are not admin!' });
+    }
+    const user_obj = await User.findById(req.user.id);
+    if (!user_obj && user_obj.accessLevel !== '2') {
+      return res.json({ msg: 'you are not admin!' });
+    }
+    const users = await Task.aggregate([
+      {
+        $lookup: {
+          from: 'personaldetails',
+          localField: 'user',
+          foreignField: 'user',
+          as: 'user_details',
+        },
+      },
+      {
+        $lookup: {
+          from: 'proposals',
+          localField: '_id',
+          foreignField: 'task',
+          as: 'proposals',
+        },
+      },
+      {
+        $sort: {
+          updatedAt: -1,
+        },
+      },
+
+      {
+        $project: {
+          headline: 1,
+          taskpoints: 1,
+          state: 1,
+          user_details: {
+            first_name: 1,
+            second_name: 1,
+          },
+          description: 1,
+          proposals_received: { $size: '$proposals' },
+          createdAt: 1,
+          updatedAt: 1,
         },
       },
     ]);

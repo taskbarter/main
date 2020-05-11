@@ -39,7 +39,7 @@ import Work from './components/Work/Work';
 import Admin from './components/admin/Admin';
 import AdminUsers from './components/admin/AdminUsers';
 import AdminActivities from './components/admin/AdminActivities';
-
+import AdminTasks from './components/admin/AdminTasks';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './style/header.css';
@@ -117,6 +117,7 @@ class App extends Component {
                 path='/admin/activity'
                 component={AdminActivities}
               />
+              <AdminRoute exact path='/admin/tasks' component={AdminTasks} />
               <Route path='*' component={NotFound404} />
             </Switch>
 

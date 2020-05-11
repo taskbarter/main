@@ -22,8 +22,16 @@ const AdminNav = (props) => {
           </button>
         </Link>
         <Link to='/admin/activity'>
-          <button className='btn btn-primary' disabled={props.selected === 2}>
+          <button
+            className='btn btn-primary mr-2'
+            disabled={props.selected === 2}
+          >
             View Users Activity
+          </button>
+        </Link>
+        <Link to='/admin/tasks'>
+          <button className='btn btn-primary' disabled={props.selected === 3}>
+            View Tasks
           </button>
         </Link>
       </div>

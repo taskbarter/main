@@ -378,6 +378,7 @@
   -ms-flex: 1;
   flex: 1;
   margin-right: 0.75rem;
+  align-items: center;
 }
 
 .feed-card--footer-right {
@@ -434,6 +435,7 @@
 
 .feed-card--footer-left .svg_icon {
   width: 16px;
+  height: 16px;
   cursor: pointer;
 }
 
