@@ -35,10 +35,16 @@ import TaskMain from './components/task/TaskMain';
 import EditTask from './components/task/EditTask';
 import Settings from './components/settings/Settings';
 import Work from './components/Work/Work';
+
+import Admin from './components/admin/Admin';
+import AdminUsers from './components/admin/AdminUsers';
+import AdminActivities from './components/admin/AdminActivities';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './style/header.css';
 import PrivacyPolicy from './components/static/PrivacyPolicy';
+import AdminRoute from './components/admin/AdminRoute';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -103,6 +109,14 @@ class App extends Component {
               <PrivateRoute exact path='/u/:id' component={userDetail} />
               <PrivateRoute exact path='/w/:id' component={Work} />
               <PrivateRoute exact path='/e/:id' component={EditTask} />
+
+              <AdminRoute exact path='/admin' component={Admin} />
+              <AdminRoute exact path='/admin/users' component={AdminUsers} />
+              <AdminRoute
+                exact
+                path='/admin/activity'
+                component={AdminActivities}
+              />
               <Route path='*' component={NotFound404} />
             </Switch>
 

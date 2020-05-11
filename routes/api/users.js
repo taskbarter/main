@@ -269,6 +269,7 @@ router.post('/login', (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
+        isAdmin: user.accessLevel === '2',
       };
       // Sign token
       jwt.sign(

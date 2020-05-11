@@ -18,6 +18,7 @@ module.exports = function (req, res, next) {
     const decoded = jwt.verify(artok[1], keys.secretOrKey);
     req.user = {};
     req.user.id = decoded.id;
+    req.user.isAdmin = decoded.isAdmin;
     next();
   } catch (err) {
     res.status(401).json({ errors: [{ msg: 'Token not valid' }] }); // return ??

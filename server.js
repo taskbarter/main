@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const auth = require('./routes/api/auth');
 const profile = require('./routes/api/profile');
 const messages = require('./routes/api/messages');
+const admin = require('./admin/api');
 const task_work = require('./routes/api/work');
 const search = require('./routes/api/search');
 const notifications = require('./routes/api/notifications');
@@ -114,6 +115,7 @@ app.use('/api/messages', messages);
 app.use('/api/search', search);
 app.use('/api/work', task_work);
 app.use('/api/notifications', notifications);
+app.use('/api/admin', admin);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

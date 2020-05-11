@@ -6,6 +6,7 @@ import taskReducer from './taskReducer';
 import socketReducer from './socketReducer';
 import messageReducer from './messageReducer';
 import notifReducer from './notifReducer';
+import adminReducer from './adminReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   socket: socketReducer,
   message: messageReducer,
   notifications: notifReducer,
+  admin_data: adminReducer,
 });
