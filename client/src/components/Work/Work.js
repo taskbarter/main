@@ -150,24 +150,32 @@ class Work extends Component {
 */
   refreshData = (id) => {
     this.props.fetchWork(id).then((fetched_work) => {
+      const isValid = fetched_work
+        ? fetched_work.work_data.length
+          ? fetched_work.work_data[0].taskDetails[0]
+            ? true
+            : false
+          : false
+        : false;
       this.setState(
         {
           work: fetched_work,
           loading: false,
-          task: fetched_work.work_data.length
-            ? fetched_work.work_data[0].taskDetails[0]
-            : [],
+          task: isValid ? fetched_work.work_data[0].taskDetails[0] : [],
+          isValid: isValid,
         },
         () => {
-          let status = this.getLatestStatus();
-          if (status === 3) {
-            this.props.getCurrentProfile();
-          }
-          this.setState({
-            last_status: status,
-          });
+          if (this.state.isValid) {
+            let status = this.getLatestStatus();
+            if (status === 3) {
+              this.props.getCurrentProfile();
+            }
+            this.setState({
+              last_status: status,
+            });
 
-          this.checkIfFeedbackPending();
+            this.checkIfFeedbackPending();
+          }
         }
       );
     });
@@ -252,7 +260,7 @@ class Work extends Component {
         </div>
       );
     }
-    if (this.state.task.length === 0) {
+    if (!this.state.task || this.state.task.length === 0) {
       return (
         <div className='taskv-loader error-msg-center'>
           You are not allowed to view this page.

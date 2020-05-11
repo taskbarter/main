@@ -7,6 +7,7 @@ const Proposal = require('../../models/Proposal');
 const Work = require('../../models/Work');
 const Conversation = require('../../models/Conversation');
 const PersonalDetails = require('../../models/PersonalDetails');
+const UserActivity = require('../../models/UserActivity');
 const { check, validationResult } = require('express-validator');
 const { MESSAGETYPE_PROPOSAL } = require('../../constants/types');
 const {
@@ -67,11 +68,19 @@ router.post('/add', auth, async (req, res) => {
         profile.user,
         `/t/${task._id}`
       );
-
+      new UserActivity({
+        user_id: req.user.id,
+        activity: `User added a new task. '${task.headline}'`,
+      }).save();
       return res.json(task);
     })
     .catch((err) => {
       console.error(err);
+      new UserActivity({
+        user_id: req.user.id,
+        activity: `User ran into a problem while adding task`,
+        payload: JSON.stringify(err.message),
+      }).save();
       return res.status(500).send('Server Error');
     });
 });
@@ -179,6 +188,10 @@ router.get('/explore', async (req, res) => {
     res.json(tasks);
   } catch (err) {
     console.error(err.message);
+    new UserActivity({
+      activity: `User ran into a problem while searching task`,
+      payload: JSON.stringify(err.message),
+    }).save();
     res.status(500).send('Server Error');
   }
 });
@@ -242,6 +255,11 @@ router.get('/fetch', auth, async (req, res) => {
     res.json({ taskData });
   } catch (err) {
     console.error(err.message);
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while fetching task`,
+      payload: JSON.stringify(err.message),
+    }).save();
     res.status(500).send('Server Error');
   }
 });
@@ -326,6 +344,11 @@ router.get('/edit', auth, async (req, res) => {
     res.json({ taskData });
   } catch (err) {
     console.error(err.message);
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while getting edit data of a task`,
+      payload: JSON.stringify(err.message),
+    }).save();
     res.status(500).send('Server Error');
   }
 });
@@ -377,9 +400,20 @@ router.post('/editstatus', auth, async (req, res) => {
       );
     }
 
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User changed status of the task ${taskData.headline}`,
+      payload: JSON.stringify(req.body),
+    }).save();
+
     res.json({ taskData: taskData[0] });
   } catch (err) {
     console.error(err.message);
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while getting status.`,
+      payload: JSON.stringify(err.message),
+    }).save();
     res.status(500).send('Server Error');
   }
 });
@@ -415,8 +449,18 @@ router.post('/edit', auth, async (req, res) => {
 
     await taskData.save();
     res.json({ taskData: taskData[0] });
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User edited a task ${taskData.headline}`,
+      payload: JSON.stringify(req.body),
+    }).save();
   } catch (err) {
     console.error(err.message);
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while editing a task`,
+      payload: JSON.stringify(err.message),
+    }).save();
     res.status(500).send('Server Error');
   }
 });
@@ -435,8 +479,18 @@ router.delete('/:task_id', auth, async (req, res) => {
     await Task.findOneAndRemove({ _id: req.params.task_id });
 
     res.json({ msg: 'Task deleted' });
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User just deleted the task.`,
+      payload: JSON.stringify(err.message),
+    }).save();
   } catch (err) {
     console.error(err.message);
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while deleting a task`,
+      payload: JSON.stringify(err.message),
+    }).save();
     res.status(500).send('Server Error');
   }
 });
@@ -566,6 +620,11 @@ router.post(
       res.json(task.proposals);
     } catch (err) {
       console.error(err.message);
+      new UserActivity({
+        user_id: req.user.id,
+        activity: `User ran into a problem while sending a proposal`,
+        payload: JSON.stringify(err.message),
+      }).save();
       res.status(500).send('Server Error .');
     }
   }
@@ -691,8 +750,19 @@ router.post('/sendproposal', auth, async (req, res) => {
     );
 
     res.json(prop);
+
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User sent a new proposal`,
+      payload: JSON.stringify(req.body),
+    }).save();
   } catch (err) {
     console.error(err);
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while sending a proposal`,
+      payload: JSON.stringify(err.message),
+    }).save();
     res.status(500).send('Server Error');
   }
 });
@@ -785,9 +855,19 @@ router.post(
 
       await pros.save();
       res.json(pros);
+
+      new UserActivity({
+        user_id: req.user.id,
+        activity: `User responded with changed proposal status`,
+        payload: JSON.stringify(req.body),
+      }).save();
     } catch (err) {
       console.error(err.message);
-
+      new UserActivity({
+        user_id: req.user.id,
+        activity: `User ran into a problem while changing state of proposal task`,
+        payload: JSON.stringify(err.message),
+      }).save();
       res.status(500).send('Server Error .');
     }
   }

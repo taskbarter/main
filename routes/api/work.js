@@ -11,6 +11,7 @@ const Conversation = require('../../models/Conversation');
 const PersonalDetails = require('../../models/PersonalDetails');
 const { check, validationResult } = require('express-validator');
 const { MESSAGETYPE_PROPOSAL } = require('../../constants/types');
+const UserActivity = require('../../models/UserActivity');
 const {
   PROPOSAL_ACCEPTED,
   PROPOSAL_REJECTED,
@@ -36,8 +37,8 @@ const { refreshOtherUser } = require('../../functions/notifications');
 router.get('/fetch/', auth, async (req, res) => {
   try {
     const work_id = req.query.id || '';
-    if (work_id === '') {
-      throw { msg: 'no id provided' };
+    if (work_id === '' || !mongoose.Types.ObjectId.isValid(work_id)) {
+      throw { message: 'wrong work id' };
     }
     const work_data = await Work.aggregate([
       {
@@ -100,8 +101,13 @@ router.get('/fetch/', auth, async (req, res) => {
     ]);
     res.json({ work_data });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    console.error(err);
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while fetching work data`,
+      payload: JSON.stringify(err.message),
+    }).save();
+    res.status(500).send({ work_data: [] });
   }
 });
 
@@ -201,10 +207,19 @@ router.post('/update', auth, async (req, res) => {
     }
 
     refreshOtherUser(work_id, other_user);
-
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User submitted a new work update`,
+      payload: JSON.stringify(req.body),
+    }).save();
     res.json(newTaskUpdate);
   } catch (err) {
     console.error(err);
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while adding a work update`,
+      payload: JSON.stringify(err.message),
+    }).save();
     res.status(500).send('Server Error');
   }
 });
@@ -264,6 +279,12 @@ router.post('/feedback', auth, async (req, res) => {
 
   await newFeedback.save();
   res.json({ newFeedback });
+
+  new UserActivity({
+    user_id: req.user.id,
+    activity: `User just posted a new feedback for Task: ${pTask.headline}`,
+    payload: JSON.stringify(req),
+  }).save();
 });
 
 module.exports = router;

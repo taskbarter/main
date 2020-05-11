@@ -16,6 +16,7 @@ const PersonalDetails = require('../../models/PersonalDetails');
 const htmlForConfirmation = require('../../emails/confirmation');
 const textForConfirmation = require('../../emails/confirmation_text');
 const { addNotification } = require('../../functions/notifications');
+const UserActivity = require('../../models/UserActivity');
 const { sendEmail } = require('../../functions/sendEmail');
 
 var sendEmailVerification = function (newUser) {
@@ -34,6 +35,10 @@ var sendEmailVerification = function (newUser) {
       ' => id: ' +
       newUser.id
   );
+  new UserActivity({
+    user_id: newUser.id,
+    activity: `User tried to send confirmation email`,
+  }).save();
   jwt.sign(
     tokenG,
     keys.jwtSecret,
@@ -115,8 +120,15 @@ router.post('/register', (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
+  new UserActivity({
+    activity: `A user tried to register`,
+  }).save();
 
   if (req.body.isGoogleRef || req.body.isFacebookRef) {
+    new UserActivity({
+      activity: `User tried to register using Facebook or Google`,
+    }).save();
+
     const artok = req.body.token.split(' ');
     const decoded = jwt.verify(artok[1], keys.secretOrKey);
     if (req.body.email.toString() !== decoded.new_email.toString()) {
@@ -154,6 +166,11 @@ router.post('/register', (req, res) => {
                 id: user._id,
               });
             }
+            new UserActivity({
+              user_id: user._id,
+              activity: `New user created`,
+              payload: JSON.stringify(userPersonalDetails),
+            }).save();
             addNotification(
               `Welcome to Taskbarter! We suggest that you complete your profile before applying to jobs.`,
               user._id,
@@ -189,6 +206,10 @@ router.post('/register', (req, res) => {
           })
           .catch((err) => {
             console.log(err);
+            new UserActivity({
+              activity: `User ran into a problem while registration`,
+              payload: JSON.stringify(err.message),
+            }).save();
             return res.status(500).json({ errMsg: 'Server did not respond.' });
           });
       }
@@ -263,9 +284,18 @@ router.post('/login', (req, res) => {
           });
         }
       );
+      new UserActivity({
+        user_id: user.id,
+        activity: `User logged in.`,
+        payload: JSON.stringify(payload),
+      }).save();
     })
     .catch((err) => {
       console.log(err);
+      new UserActivity({
+        activity: `User ran into a problem while logging in`,
+        payload: JSON.stringify(err.message),
+      }).save();
       return res.status(404).json(err);
     });
 });

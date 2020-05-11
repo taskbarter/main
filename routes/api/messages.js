@@ -10,7 +10,7 @@ const User = require('../../models/User');
 const Conversation = require('../../models/Conversation');
 const Message = require('../../models/Message');
 const PersonalDetails = require('../../models/PersonalDetails');
-
+const UserActivity = require('../../models/UserActivity');
 var ObjectId = require('mongodb').ObjectId;
 
 // @route POST api/messages/send
@@ -35,6 +35,11 @@ router.post('/send', auth, (req, res) => {
         res.status(500).send('Server Error');
       });
   } catch (e) {
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while sending a message.`,
+      payload: JSON.stringify(e.message),
+    }).save();
     console.log(e);
   }
 });
@@ -53,6 +58,11 @@ router.post('/conversation', auth, (req, res) => {
     .then((conv) => res.json(conv))
     .catch((err) => {
       console.error(err);
+      new UserActivity({
+        user_id: req.user.id,
+        activity: `User ran into a problem while creating a convo`,
+        payload: JSON.stringify(err),
+      }).save();
       res.status(500).send('Server Error');
     });
 });
@@ -165,6 +175,11 @@ router.get('/conversations', async (req, res) => {
         .status(400)
         .json({ msg: 'Could not find conversations for this user.' });
     }
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while fetching convo list`,
+      payload: JSON.stringify(err),
+    }).save();
     console.log(err);
   }
 });
