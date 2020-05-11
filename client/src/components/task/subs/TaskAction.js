@@ -126,6 +126,7 @@ const TaskAction = (props) => {
           <button
             onClick={props.proposallist_toggle}
             className='btn redeem-btn'
+            disabled={props.proposals.length === 0}
           >
             See Proposals ({props.proposals.length})
           </button>

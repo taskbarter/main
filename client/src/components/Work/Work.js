@@ -56,6 +56,7 @@ class Work extends Component {
       feedback_popup_is_open: false,
       feedback_stars: 0,
       feedback_text: '',
+      feedback_submitting_state: false,
     };
   }
 
@@ -105,12 +106,19 @@ class Work extends Component {
       text: this.state.feedback_text,
       rating: this.state.feedback_stars,
     };
-    this.props.submitFeedback(f_b).then(() => {
-      this.setState({
-        feedback_popup_is_open: false,
-      });
-      this.refreshData(this.state.selected_task);
-    });
+    this.setState(
+      {
+        feedback_submitting_state: true,
+      },
+      () => {
+        this.props.submitFeedback(f_b).then(() => {
+          this.setState({
+            feedback_popup_is_open: false,
+          });
+          this.refreshData(this.state.selected_task);
+        });
+      }
+    );
   };
   checkIfFeedbackPending = () => {
     const { work } = this.state;
@@ -378,6 +386,7 @@ class Work extends Component {
           feedback_text={this.state.feedback_text}
           feedback_stars={this.state.feedback_stars}
           onFeedbackSubmit={this.onFeedbackSubmit}
+          feedback_submitting_state={this.state.feedback_submitting_state}
         />
       </React.Fragment>
     );

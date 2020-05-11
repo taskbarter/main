@@ -100,9 +100,13 @@ const FeedbackForm = (props) => {
           <button
             onClick={props.onFeedbackSubmit}
             className='btn btn-primary btn-feedback'
-            disabled={props.feedback_text === '' || props.feedback_stars === 0}
+            disabled={
+              props.feedback_submitting_state ||
+              props.feedback_text === '' ||
+              props.feedback_stars === 0
+            }
           >
-            Submit
+            {props.feedback_submitting_state ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </ModalBody>
