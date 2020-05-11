@@ -23,6 +23,7 @@ import 'quill/dist/quill.snow.css';
 import TaskAction from './subs/TaskAction';
 import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
 import ProposalList from './subs/ProposalList';
+import TaskMetaTags from '../utils/TaskMetaTags';
 
 class TaskMain extends Component {
   constructor(props) {
@@ -291,6 +292,10 @@ class TaskMain extends Component {
           toggle={this.proposallist_toggle}
           proposals={this.state.proposals}
           onChangeProposalState={this.onChangeProposalState}
+        />
+        <TaskMetaTags
+          task={task}
+          from={`${task.userdetails[0].first_name} ${task.userdetails[0].second_name}`}
         />
       </React.Fragment>
     );

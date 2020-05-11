@@ -18,6 +18,7 @@
     "react-datepicker": "^2.14.1",
     "react-dom": "^16.6.3",
     "react-loading-skeleton": "^2.0.1",
+    "react-meta-tags": "^0.7.4",
     "react-modal": "^3.11.2",
     "react-quilljs": "^1.2.10",
     "react-rating": "^2.0.5",
