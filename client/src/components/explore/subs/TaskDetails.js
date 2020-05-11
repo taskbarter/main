@@ -51,6 +51,15 @@ const TaskDetails = (props) => {
     setTask({});
   };
 
+  const onShareIconClick = () => {
+    props.onTaskShare({
+      from: `${task.userdetails[0].first_name} ${task.userdetails[0].second_name}`,
+      task_url: `https://www.taskbarter.com/t/${task._id}`,
+      task_headline: task.headline,
+      task_category: task.category,
+    });
+  };
+
   if (!task.headline) {
     return (
       <Modal
@@ -104,6 +113,7 @@ const TaskDetails = (props) => {
               src={share_icon}
               className='svg_icon icon_inactive'
               id='share-job'
+              onClick={onShareIconClick}
             ></img>
           </div>
           <div className='feed-card--footer-right '>

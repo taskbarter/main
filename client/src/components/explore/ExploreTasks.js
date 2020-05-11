@@ -390,6 +390,7 @@ class ExploreTasks extends Component {
           selected_task={this.state.selected_task}
           proposal_toggle={this.proposal_toggle}
           current_user={this.props.auth.user.id}
+          onTaskShare={this.onTaskShare}
         />
         <ProposalForm
           toggle={this.proposal_toggle}

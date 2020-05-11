@@ -14,7 +14,13 @@ import {
 
 const TaskShareIcons = (props) => {
   const category_text = props.task_category
-    ? props.task_category.replace('/', '').replace(' ', '').replace('&', '')
+    ? props.task_category
+        .split('/')
+        .join('')
+        .split(' ')
+        .join('')
+        .split('&')
+        .join('')
     : '';
   const share_title = `${props.from} wants someone to ${props.task_headline} on Taskbarter. Barter now by applying on the task page at Taskbarter.com`;
   const hashtags = [

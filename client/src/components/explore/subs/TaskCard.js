@@ -55,6 +55,7 @@ const TaskCard = (props) => {
       from: `${props.task.userdetails[0].first_name} ${props.task.userdetails[0].second_name}`,
       task_url: `https://www.taskbarter.com/t/${props.task._id}`,
       task_headline: props.task.headline,
+      task_category: props.task.category,
     });
   };
 

@@ -21,6 +21,7 @@ const ShareTasksPopup = (props) => {
           task_url={props.task.task_url}
           task_headline={props.task.task_headline}
           from={props.task.from}
+          task_category={props.task.task_category}
         />
       </ModalBody>
     </Modal>
