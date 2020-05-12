@@ -10,7 +10,7 @@ import {
 
 import bookmark_icon from '../../../style/inc/bookmark.svg';
 import share_icon from '../../../style/inc/share.svg';
-
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 const TaskCard = (props) => {
@@ -46,6 +46,16 @@ const TaskCard = (props) => {
     return '';
   }
 
+  const checkIfAlreadyApplied = () => {
+    if (props.task._id && props.pending_proposals.length) {
+      for (let k in props.pending_proposals) {
+        if (props.pending_proposals[k].applied_tasks[0]._id === props.task._id)
+          return true;
+      }
+    }
+    return false;
+  };
+
   const onSelectTask = () => {
     props.onClick(props.task._id);
   };
@@ -66,8 +76,14 @@ const TaskCard = (props) => {
           {' '}
           <div className='feed-card--category'>{props.task.category}</div>
           <div className='feed-card--applicants'>
-            {props.task.totalApplicants ? props.task.totalApplicants : '0'}{' '}
-            applicants
+            {checkIfAlreadyApplied() ? (
+              'You Applied'
+            ) : (
+              <span>
+                {props.task.totalApplicants ? props.task.totalApplicants : '0'}{' '}
+                applicants
+              </span>
+            )}
           </div>
           <div className='up-headline'>I want someone to</div>
           <div className='feed-card--header'>{props.task.headline}</div>
@@ -77,7 +93,19 @@ const TaskCard = (props) => {
               {props.task.userdetails[0].first_name}{' '}
               {props.task.userdetails[0].second_name}
             </span>{' '}
-            • <span className='loc'>{props.task.userdetails[0].location}</span>
+            {/* {props.task.userdetails[0].location !== '' ? (
+              <React.Fragment>
+                •{' '}
+                <span className='loc'>
+                  {props.task.userdetails[0].location}
+                </span>
+              </React.Fragment>
+            ) : (
+              ''
+            )} */}
+            <span className='loc'>
+              posted {moment(props.task.createdAt).fromNow()}
+            </span>{' '}
           </div>
           <div className='feed-card--points' id='PointsEarned'>
             {props.task.taskpoints}

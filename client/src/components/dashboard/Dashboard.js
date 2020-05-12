@@ -5,6 +5,7 @@ import { logoutUser } from '../../actions/authActions';
 import {
   fetchPublishedTasks,
   fetchWorkingTasks,
+  fetchPendingProposals,
 } from '../../actions/taskAction';
 import AddTaskCTA from './AddTaskCTA';
 import Notifications from './Notifications';
@@ -28,6 +29,7 @@ class Dashboard extends Component {
     this.props.fetchWorkingTasks(3);
     this.props.getNotifications();
     this.props.getCurrentProfileRatings();
+    this.props.fetchPendingProposals();
   }
 
   render() {
@@ -82,4 +84,5 @@ export default connect(mapStateToProps, {
   fetchWorkingTasks,
   getNotifications,
   getCurrentProfileRatings,
+  fetchPendingProposals,
 })(Dashboard);

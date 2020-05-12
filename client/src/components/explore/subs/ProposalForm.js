@@ -43,12 +43,14 @@ const ProposalForm = (props) => {
       className='dt-modal pro-modal fade-scale'
     >
       <ModalHeader toggle={toggle} className='dt-header'>
-        <div className='dt-title'>Send Proposal</div>
-      </ModalHeader>
-      <ModalBody className='dt-body'>
-        <div className='task-list-title dt-title mb-2'>
+        <div className='task-list-title dt-title pt-1'>
           Message to the task poster
         </div>
+      </ModalHeader>
+      <ModalBody
+        className='dt-body'
+        style={{ overflow: 'hidden', minHeight: 'none' }}
+      >
         <textarea
           placeholder='enter message...'
           rows='6'
@@ -59,11 +61,11 @@ const ProposalForm = (props) => {
       </ModalBody>
       <ModalFooter>
         <button
-          disabled={props.proposalLoading}
+          disabled={props.proposal_text.length < 4 || props.proposalLoading}
           className='btn btn-primary'
           onClick={props.sendProposal}
         >
-          {props.proposalLoading ? 'Sending...' : 'Send'}
+          {props.proposalLoading ? 'Sending...' : 'Send Proposal'}
         </button>
       </ModalFooter>
     </Modal>

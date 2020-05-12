@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { getAllTasks } from '../../actions/taskAction';
 import { getTasksCount } from '../../actions/taskAction';
 import { dateEpx } from '../../actions/taskAction';
-import { toggleLike, doExplore, sendProposal } from '../../actions/taskAction';
+import {
+  toggleLike,
+  doExplore,
+  sendProposal,
+  fetchPendingProposals,
+} from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 import FilterMenu from './filters/FilterMenu';
@@ -52,6 +57,7 @@ class ExploreTasks extends Component {
 
   componentDidMount() {
     this.updateFeed(false);
+    this.props.fetchPendingProposals();
     //console.log(filters);
     //document.addEventListener('scroll', this.trackScrolling);
   }
@@ -362,6 +368,7 @@ class ExploreTasks extends Component {
                     onClick={this.onTaskSelect}
                     share_toggle={this.share_toggle}
                     onTaskShare={this.onTaskShare}
+                    pending_proposals={this.props.pending_proposals}
                   />
                 ))}
 
@@ -391,6 +398,7 @@ class ExploreTasks extends Component {
           proposal_toggle={this.proposal_toggle}
           current_user={this.props.auth.user.id}
           onTaskShare={this.onTaskShare}
+          pending_proposals={this.props.pending_proposals}
         />
         <ProposalForm
           toggle={this.proposal_toggle}
@@ -423,6 +431,7 @@ ExploreTasks.propTypes = {
 const mapStateToProps = (state) => ({
   task: state.task,
   auth: state.auth,
+  pending_proposals: state.task.pending_proposals,
 });
 
 export default connect(mapStateToProps, {
@@ -431,4 +440,5 @@ export default connect(mapStateToProps, {
   getTasksCount,
   doExplore,
   sendProposal,
+  fetchPendingProposals,
 })(ExploreTasks);

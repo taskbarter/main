@@ -21,6 +21,7 @@ import {
   ADD_PAUSED_TASKS,
   ADD_CURRENTLY_WORKING_TASK,
   ADD_COMPLETED_WORKING_TASK,
+  ADD_PENDING_PROPOSALS,
 } from '../actions/types';
 
 import { addToast } from './toasterActions';
@@ -282,7 +283,12 @@ export const sendProposal = (payload) => async (dispatch) => {
       setAuthToken(mtok);
     }
     const res = await axios.post('/api/tasks/sendproposal', payload, config);
-    dispatch(addToast('Proposal has been sent'));
+    if (res.data.msg) {
+      dispatch(addToast('Proposal not sent: ' + res.data.msg));
+    } else {
+      dispatch(addToast('Proposal has been sent'));
+      dispatch(fetchPendingProposals());
+    }
   } catch (err) {
     console.log(err);
     dispatch(addToast('Oops! ' + err.message));
@@ -303,6 +309,30 @@ export const fetchProposals = (task_id) => async (dispatch) => {
     }
     const res = await axios.get('/api/tasks/proposals', {
       params: { id: task_id },
+    });
+    return res.data;
+  } catch (err) {
+    addToast('Oops! Some error has occurred! ' + err.message);
+  }
+};
+
+export const fetchPendingProposals = () => async (dispatch) => {
+  try {
+    const mtok = localStorage.jwtToken;
+    if (mtok) {
+      setAuthToken(mtok);
+    }
+    const res = await axios.get('/api/tasks/proposals_pending', {});
+
+    let arr = [];
+    for (let k in res.data.proposalData) {
+      if (res.data.proposalData[k].applied_tasks.length) {
+        arr.push(res.data.proposalData[k]);
+      }
+    }
+    dispatch({
+      type: ADD_PENDING_PROPOSALS,
+      payload: arr,
     });
     return res.data;
   } catch (err) {

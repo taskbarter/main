@@ -182,6 +182,7 @@ router.get('/explore', async (req, res) => {
           skills: 1,
           userdetails: { first_name: 1, second_name: 1, location: 1 },
           totalApplicants: { $size: '$proposals' },
+          createdAt: 1,
         },
       },
     ]);
@@ -293,6 +294,52 @@ router.get('/fetchPublic', async (req, res) => {
       },
     ]);
     res.json({ taskData });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/tasks/proposals_pending
+// @desc    Get task for editing
+// @access  Private
+
+router.get('/proposals_pending', auth, async (req, res) => {
+  try {
+    const proposalData = await Proposal.aggregate([
+      {
+        $match: {
+          user: mongoose.Types.ObjectId(req.user.id),
+        },
+      },
+      {
+        $lookup: {
+          from: 'tasks',
+          let: { task_id: '$task' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$state', TASK_PENDING] },
+                    { $eq: ['$_id', '$$task_id'] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'applied_tasks',
+        },
+      },
+      {
+        $project: {
+          applied_tasks: {
+            _id: 1,
+          },
+        },
+      },
+    ]);
+    res.json({ proposalData });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -688,6 +735,14 @@ router.post('/sendproposal', auth, async (req, res) => {
     });
     if (!ptask) {
       return res.status(500).send(`You can't update this task.`);
+    }
+    const oldProposal = await Proposal.find({
+      task: mongoose.Types.ObjectId(req.body.task_id),
+      user: mongoose.Types.ObjectId(req.user.id),
+    });
+    if (oldProposal.length) {
+      console.log(oldProposal);
+      return res.json({ msg: 'You have already applied to this task.' });
     }
 
     const newProposal = new Proposal({

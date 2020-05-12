@@ -12,6 +12,7 @@ import {
   fetchProposals,
   changeProposalState,
   fetchTaskPublic,
+  fetchPendingProposals,
 } from '../../actions/taskAction';
 import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
@@ -37,6 +38,7 @@ class TaskMain extends Component {
       loading: true,
       task: {},
       proposals: [],
+      has_applied: false,
     };
   }
 
@@ -56,10 +58,15 @@ class TaskMain extends Component {
               fetched_task.taskData[0].headline
                 ? fetched_task
                 : null;
-            this.setState({
-              task: task_data,
-              loading: false,
-            });
+            this.setState(
+              {
+                task: task_data,
+                loading: false,
+              },
+              () => {
+                this.checkTaskApplicationStatus();
+              }
+            );
             if (
               task_data &&
               this.props.auth.user.id === task_data.taskData[0].user
@@ -178,6 +185,30 @@ class TaskMain extends Component {
       {this.skillsbadges2(this.state.task.taskData[0].skills)}
     </div>
   );
+  checkTaskApplicationStatus = () => {
+    this.props.fetchPendingProposals().then(() => {
+      if (this.checkIfAlreadyApplied()) {
+        this.setState({
+          has_applied: true,
+        });
+      }
+    });
+  };
+  checkIfAlreadyApplied = () => {
+    if (
+      this.state.task.taskData.length &&
+      this.props.pending_proposals.length
+    ) {
+      for (let k in this.props.pending_proposals) {
+        if (
+          this.props.pending_proposals[k].applied_tasks[0]._id ===
+          this.state.selected_task
+        )
+          return true;
+      }
+    }
+    return false;
+  };
 
   render() {
     if (this.state.loading) {
@@ -215,6 +246,7 @@ class TaskMain extends Component {
                 task_id={task._id}
                 from={`${task.userdetails[0].first_name} ${task.userdetails[0].second_name}`}
                 task={task}
+                has_applied={this.state.has_applied}
               />
             </div>
             <div className='col-md-8 order-md-1'>
@@ -307,6 +339,7 @@ class TaskMain extends Component {
 const mapStateToProps = (state) => ({
   task: state.task,
   auth: state.auth,
+  pending_proposals: state.task.pending_proposals,
 });
 
 export default connect(mapStateToProps, {
@@ -319,4 +352,5 @@ export default connect(mapStateToProps, {
   fetchProposals,
   changeProposalState,
   fetchTaskPublic,
+  fetchPendingProposals,
 })(TaskMain);

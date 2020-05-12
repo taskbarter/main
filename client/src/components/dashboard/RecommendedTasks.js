@@ -144,6 +144,7 @@ class RecommendedTasks extends Component {
               key={i}
               onClick={this.onTaskSelect}
               onTaskShare={this.onTaskShare}
+              pending_proposals={this.props.pending_proposals}
             />
           ))}
         </div>
@@ -157,6 +158,7 @@ class RecommendedTasks extends Component {
           proposal_toggle={this.proposal_toggle}
           current_user={this.props.auth.user.id}
           onTaskShare={this.onTaskShare}
+          pending_proposals={this.props.pending_proposals}
         />
         <ProposalForm
           toggle={this.proposal_toggle}
@@ -186,6 +188,7 @@ RecommendedTasks.propTypes = {
 const mapStateToProps = (state) => ({
   tasks: state.task.workplace_tasks,
   auth: state.auth,
+  pending_proposals: state.task.pending_proposals,
 });
 
 export default connect(mapStateToProps, {

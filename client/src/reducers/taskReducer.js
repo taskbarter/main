@@ -18,6 +18,7 @@ import {
   ADD_PAUSED_TASKS,
   ADD_CURRENTLY_WORKING_TASK,
   ADD_COMPLETED_WORKING_TASK,
+  ADD_PENDING_PROPOSALS,
 } from '../actions/types';
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
   task: {},
   loading: false,
   workplace_tasks: [],
+  pending_proposals: [],
 };
 
 export default function (state = initialState, action) {
@@ -123,6 +125,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         completed_working_tasks: action.payload,
+      };
+    case ADD_PENDING_PROPOSALS:
+      return {
+        ...state,
+        pending_proposals: action.payload,
       };
 
     default:

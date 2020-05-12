@@ -51,6 +51,16 @@ const TaskDetails = (props) => {
     setTask({});
   };
 
+  const checkIfAlreadyApplied = () => {
+    if (task._id && props.pending_proposals.length) {
+      for (let k in props.pending_proposals) {
+        if (props.pending_proposals[k].applied_tasks[0]._id === task._id)
+          return true;
+      }
+    }
+    return false;
+  };
+
   const onShareIconClick = () => {
     props.onTaskShare({
       from: `${task.userdetails[0].first_name} ${task.userdetails[0].second_name}`,
@@ -124,12 +134,19 @@ const TaskDetails = (props) => {
                 </button>
               </Link>
             ) : (
-              <button
-                onClick={props.proposal_toggle}
-                className='feed-card-learn-more dt-action-btn'
-              >
-                Send Proposal
-              </button>
+              <React.Fragment>
+                {checkIfAlreadyApplied() ? (
+                  <span style={{ fontSize: '14px' }}>Proposal Sent</span>
+                ) : (
+                  <button
+                    onClick={props.proposal_toggle}
+                    className='feed-card-learn-more dt-action-btn'
+                    disabled={checkIfAlreadyApplied()}
+                  >
+                    Send Proposal
+                  </button>
+                )}
+              </React.Fragment>
             )}
           </div>
         </div>

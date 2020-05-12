@@ -186,8 +186,12 @@ const TaskAction = (props) => {
           task owner.
         </div>
 
-        <button onClick={props.proposalform_toggle} className='btn redeem-btn'>
-          Send Proposal
+        <button
+          onClick={props.proposalform_toggle}
+          className='btn redeem-btn'
+          disabled={props.has_applied}
+        >
+          {props.has_applied ? 'Proposal Sent Already' : 'Send Proposal'}
         </button>
       </div>
       {Share_Icons}
