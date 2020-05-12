@@ -22,7 +22,7 @@ const TaskShareIcons = (props) => {
         .split('&')
         .join('')
     : '';
-  const share_title = `${props.from} wants someone to ${props.task_headline} on Taskbarter. Barter now by applying on the task page at Taskbarter.com`;
+  const share_title = `${props.from} posted 'I want someone to ${props.task_headline}' on Taskbarter. Barter now by applying on the task page at Taskbarter.com`;
   const hashtags = [
     `${category_text}`,
     'Taskbarter',
