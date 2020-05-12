@@ -48,7 +48,7 @@ export const addTask = (taskData, history) => async (dispatch) => {
       payload: res.data,
     });
     //history.push('/dashboard');
-    return true;
+    return res.data;
   } catch (err) {
     console.log(err);
     return false;

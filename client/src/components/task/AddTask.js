@@ -15,6 +15,7 @@ import { useQuill } from 'react-quilljs';
 import DescriptionEditor from './subs/DescriptionEditor';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
+import { Link } from 'react-router-dom';
 
 class AddTask extends Component {
   constructor() {
@@ -34,6 +35,8 @@ class AddTask extends Component {
         msg: '',
         type: 0,
       },
+
+      added_task: {},
       areTermsAccepted: false,
       isAccepted: false,
       description: '',
@@ -276,29 +279,29 @@ class AddTask extends Component {
           sending_state: true,
         },
         () => {
-          this.props
-            .addTask(newTask, this.props.history)
-            .then((isSuccessful) => {
-              if (isSuccessful) {
-                window.scrollTo(0, 0);
-                this.setState({
-                  isAccepted: true,
-                  error: {
-                    msg:
-                      'Your task has been successfully added and is public for everyone on Taskbarter.',
-                    type: 2,
-                  },
-                });
-                this.props.getCurrentProfile();
-              } else {
-                this.setState({
-                  error: {
-                    msg: 'Some error occurred in the backend.',
-                    type: 0,
-                  },
-                });
-              }
-            });
+          this.props.addTask(newTask, this.props.history).then((new_task) => {
+            console.log(new_task);
+            if (new_task._id) {
+              window.scrollTo(0, 0);
+              this.setState({
+                isAccepted: true,
+                error: {
+                  msg:
+                    'Your task has been successfully added and is public for everyone on Taskbarter.',
+                  type: 2,
+                },
+                added_task: new_task,
+              });
+              this.props.getCurrentProfile();
+            } else {
+              this.setState({
+                error: {
+                  msg: 'Some error occurred in the backend.',
+                  type: 0,
+                },
+              });
+            }
+          });
         }
       );
     }
@@ -512,19 +515,29 @@ class AddTask extends Component {
                   </form>
                 </div>
               ) : (
-                <div className='card card-body mb-2'>
-                  <div className='text-center mg-32'>
-                    <span className='tick-mark-completion'>
-                      <i
-                        className='fa fa-check little-text-shadow'
-                        aria-hidden='true'
-                      />
-                    </span>
+                <React.Fragment>
+                  <div className='card card-body mb-2'>
+                    <div className='text-center mg-32'>
+                      <span className='tick-mark-completion'>
+                        <i
+                          className='fa fa-check little-text-shadow'
+                          aria-hidden='true'
+                        />
+                      </span>
+                    </div>
+                    <div className='text-center fs-20 '>
+                      Your task 'I want someone to{' '}
+                      {this.state.added_task.headline}' has been added!
+                      <div className=' mt-4'>
+                        <Link to={`/t/${this.state.added_task._id}`}>
+                          <button className='btn btn-primary'>
+                            View Your Task
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                  <div className='text-center fs-20 '>
-                    Your task has been added!
-                  </div>
-                </div>
+                </React.Fragment>
               )}
             </div>
           </div>

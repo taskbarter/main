@@ -113,7 +113,8 @@
 .darktheme .btn-primary,
 .darktheme .add-task-btn,
 .darktheme .confirm-button,
-.darktheme .chat-typing-container .chat-send-btn {
+.darktheme .chat-typing-container .chat-send-btn,
+.darktheme .tick-mark-completion {
   background: #6558b1;
 }
 
