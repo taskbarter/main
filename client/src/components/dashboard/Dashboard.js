@@ -39,12 +39,12 @@ class Dashboard extends Component {
         {/* <Navbar /> */}
         <main role='main' className='container mt-4'>
           <div className='row'>
-            <div className='col-md-4 order-md-2 mb-2'>
+            <div className='col-lg-4 order-lg-2 mb-2'>
               <AddTaskCTA />
 
               <ProfileBadge />
             </div>
-            <div className='col-md-8 order-md-1'>
+            <div className='col-lg-8 order-lg-1'>
               <Barter />
               <Notifications
                 notifs={this.props.notifications.notifications}
