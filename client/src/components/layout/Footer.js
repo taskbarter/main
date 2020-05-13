@@ -9,7 +9,7 @@ const Footer = (props) => {
       <span className='footer-links col-md-4 ml-auto'>
         <a href='https://docs.taskbarter.com/'>About</a>
         <Link to='/privacy-policy'>Privacy</Link>
-        <a href='https://github.com/taskbarter/main/issues' id='report-problem'>
+        <a href='https://forms.gle/oQUnBDPh9K3x2JWA9' id='report-problem'>
           Report a bug
         </a>
       </span>

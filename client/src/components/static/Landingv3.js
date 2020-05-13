@@ -261,10 +261,7 @@ class Landingv3 extends Component {
                     FAQ
                   </a>
                   {' | '}
-                  <a
-                    href='https://github.com/taskbarter/main/issues'
-                    target='_blank'
-                  >
+                  <a href='https://forms.gle/oQUnBDPh9K3x2JWA9' target='_blank'>
                     Report a Bug
                   </a>
                   {' | '}
