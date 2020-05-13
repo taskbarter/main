@@ -95,7 +95,7 @@ class Register extends Component {
     e.preventDefault();
     var regex = '';
 
-    regex = /^[a-zA-Z]{3,32}$/;
+    regex = /^[a-zA-Z ]{3,64}$/;
     if (!regex.test(this.state.fname) || !regex.test(this.state.sname)) {
       this.setState({
         errMsg: 'Your first or last name is not correct.',

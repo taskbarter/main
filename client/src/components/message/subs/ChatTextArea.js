@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const ChatTextArea = props => {
-  const onKeyPress = e => {
+const ChatTextArea = (props) => {
+  const onKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       props.onMessageSend();
@@ -11,7 +11,7 @@ const ChatTextArea = props => {
     <React.Fragment>
       <div className='chat-typing-container'>
         <div className='row'>
-          <div className='col-9'>
+          <div className='msg-type-area'>
             <textarea
               value={props.current_message}
               onChange={props.onMessageType}
@@ -22,7 +22,7 @@ const ChatTextArea = props => {
               disabled={props.selected_convo === ''}
             />
           </div>
-          <div className='col-3'>
+          <div className='msg-send-container'>
             <button
               className='btn chat-send-btn'
               disabled={props.selected_convo === ''}
