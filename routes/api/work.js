@@ -11,6 +11,7 @@ const Conversation = require('../../models/Conversation');
 const PersonalDetails = require('../../models/PersonalDetails');
 const { check, validationResult } = require('express-validator');
 const { MESSAGETYPE_PROPOSAL } = require('../../constants/types');
+const { sendEmailUsingNode } = require('../../functions/sendEmail');
 const UserActivity = require('../../models/UserActivity');
 const {
   PROPOSAL_ACCEPTED,
@@ -138,6 +139,7 @@ router.post('/update', auth, async (req, res) => {
     if (!Work_Obj) {
       return res.status(500).send('Not authorized for this action.');
     }
+
     const other_user =
       req.user.id.toString() === Work_Obj[0].assignee.toString()
         ? Work_Obj[0].assignedTo
@@ -149,6 +151,7 @@ router.post('/update', auth, async (req, res) => {
       text: req.body.text,
       type: req.body.type,
     });
+
     await newTaskUpdate.save();
     const pTask = await Task.findById(Work_Obj[0].task);
 
@@ -180,6 +183,17 @@ router.post('/update', auth, async (req, res) => {
         other_user,
         `/w/${Work_Obj[0]._id}`
       );
+
+      //SENDING EMAIL NOTIFICATION:
+      const task_owner_user = await User.findById(other_user);
+      const task_owner_prof = pUserDetails;
+      sendEmailUsingNode(
+        'Congrats! Work Accepted',
+        task_owner_user.email,
+        `${user_info.first_name} ${user_info.second_name} has accepted your work for the task '${pTask.headline}'.\n\nCongrats, you earned ${pTask.taskpoints} points for completing this task.`,
+        task_owner_prof.first_name,
+        task_owner_prof.second_name
+      );
     }
 
     if (req.body.type === TASKUPDATE_REJECT) {
@@ -187,6 +201,17 @@ router.post('/update', auth, async (req, res) => {
         `${user_info.first_name} ${user_info.second_name} has rejected your work for the task '${pTask.headline}'`,
         other_user,
         `/w/${Work_Obj[0]._id}`
+      );
+
+      //SENDING EMAIL NOTIFICATION:
+      const task_owner_user = await User.findById(other_user);
+      const task_owner_prof = pUserDetails;
+      sendEmailUsingNode(
+        'Oh No! Work Rejected',
+        task_owner_user.email,
+        `${user_info.first_name} ${user_info.second_name} has rejected your work for the task '${pTask.headline}'.\n\nPost another update to let the user know about current status of the task and try again.`,
+        task_owner_prof.first_name,
+        task_owner_prof.second_name
       );
     }
 
@@ -196,6 +221,17 @@ router.post('/update', auth, async (req, res) => {
         other_user,
         `/w/${Work_Obj[0]._id}`
       );
+
+      //SENDING EMAIL NOTIFICATION:
+      const task_owner_user = await User.findById(other_user);
+      const task_owner_prof = pUserDetails;
+      sendEmailUsingNode(
+        'Work Submitted. Please Review',
+        task_owner_user.email,
+        `${user_info.first_name} ${user_info.second_name} just submitted the work for the task '${pTask.headline}'.\n\nReview the work and accept if it is complete or reject if it isn't.`,
+        task_owner_prof.first_name,
+        task_owner_prof.second_name
+      );
     }
 
     if (req.body.type === TASKUPDATE_TEXT) {
@@ -203,6 +239,17 @@ router.post('/update', auth, async (req, res) => {
         `${user_info.first_name} ${user_info.second_name} posted a new update to the task '${pTask.headline}'`,
         other_user,
         `/w/${Work_Obj[0]._id}`
+      );
+
+      //SENDING EMAIL NOTIFICATION:
+      const task_owner_user = await User.findById(other_user);
+      const task_owner_prof = pUserDetails;
+      sendEmailUsingNode(
+        'New Work Update',
+        task_owner_user.email,
+        `${user_info.first_name} ${user_info.second_name} just posted a new update for the task '${pTask.headline}'.\n\nReview the update and let the user know with a followup update.`,
+        task_owner_prof.first_name,
+        task_owner_prof.second_name
       );
     }
 

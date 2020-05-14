@@ -62,7 +62,7 @@ router.post('/add', auth, async (req, res) => {
   });
   newTask
     .save()
-    .then((task) => {
+    .then(async (task) => {
       addNotification(
         `Your task '${task.headline}' is now live for public.`,
         profile.user,
@@ -72,6 +72,19 @@ router.post('/add', auth, async (req, res) => {
         user_id: req.user.id,
         activity: `User added a new task. '${task.headline}'`,
       }).save();
+
+      //SENDING EMAIL NOTIFICATION:
+      const task_owner_user = await User.findById(req.user.id);
+      const task_owner_prof = profile;
+
+      sendEmailUsingNode(
+        'Task Published',
+        task_owner_user.email,
+        `Congrats, your task with the headline 'I want someone to ${task.headline}' has been published on Taskbarter. Wait for people to send proposals.`,
+        task_owner_prof.first_name,
+        task_owner_prof.second_name
+      );
+
       return res.json(task);
     })
     .catch((err) => {
