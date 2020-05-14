@@ -814,7 +814,7 @@ router.post('/sendproposal', auth, async (req, res) => {
 
     //SENDING EMAIL NOTIFICATION:
     const task_owner_user = await User.findById(ptask.user);
-    const task_owner_prof = await PersonalDetails.find({ user: ptask.user });
+    const task_owner_prof = await PersonalDetails.findOne({ user: ptask.user });
     sendEmailUsingNode(
       'New Proposal',
       task_owner_user.email,
@@ -912,7 +912,7 @@ router.post(
 
         //SENDING EMAIL NOTIFICATION:
         const task_receiver_user = await User.findById(pros.user);
-        const task_receiver_prof = await PersonalDetails.find({
+        const task_receiver_prof = await PersonalDetails.findOne({
           user: pros.user,
         });
         sendEmailUsingNode(

@@ -51,8 +51,10 @@ const sendEmailUsingNode = async (subject, to_email, text, fname, lname) => {
       to: to_email,
       subject: 'Taskbarter | ' + subject,
       text: text,
-      html: generic_template(fname, lname, to_email, text),
+      html: generic_template(subject, fname, lname, to_email, text),
     };
+
+    console.log('sending email to ' + to_email);
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {

@@ -1,4 +1,4 @@
-module.exports = (fname, lname, email, text) => {
+module.exports = (subject, fname, lname, email, text) => {
   return (
     `
     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #f5f8fa; min-width: 350px; font-size: 1px; line-height: normal;">
@@ -38,7 +38,9 @@ module.exports = (fname, lname, email, text) => {
                                   <tr>
                                      <td align="left" valign="top">
                                         <font face="'Source Sans Pro', sans-serif" color="#1a1a1a" style="font-size: 52px; line-height: 54px; font-weight: 300; letter-spacing: -1.5px;">
-                                        <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 30px; line-height: 54px; font-weight: 300; letter-spacing: -1.5px;">Verify your email address</span>
+                                        <span style="font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #1a1a1a; font-size: 30px; line-height: 54px; font-weight: 300; letter-spacing: -1.5px;">` +
+    subject +
+    `</span>
                                         </font>
                                         <div style="height: 21px; line-height: 21px; font-size: 19px;">&nbsp;</div>
                                         <font face="'Source Sans Pro', sans-serif" color="#000000" style="font-size: 20px; line-height: 28px;">
@@ -64,8 +66,8 @@ module.exports = (fname, lname, email, text) => {
                                            <tr>
                                               <td align="center" valign="top">
                                                  <a href="https://www.taskbarter.com/"
-                                                    target="_blank" style="display: block; border: 1px solid #433881; border-radius: 4px; padding: 19px 27px; font-family: 'Source Sans Pro', Arial, Verdana, Tahoma, Geneva, sans-serif; color: #ffffff; font-size: 26px; line-height: 30px; text-decoration: none; white-space: nowrap; font-weight: 600;"> <font face="'Source Sans Pro', sans-serif" color="#ffffff" style="font-size: 26px; line-height: 30px; text-decoration: none; white-space: nowrap; font-weight: 600;">
-                                                 <span style="font-family: 'Source Sans Pro', Arial, Verdana, Tahoma, Geneva, sans-serif; color: #ffffff; font-size: 26px; line-height: 30px; text-decoration: none; white-space: nowrap; font-weight: 600;">View Now</span>
+                                                    target="_blank" style="display: block; border: 1px solid #433881; border-radius: 4px; padding: 19px 27px; font-family: 'Source Sans Pro', Arial, Verdana, Tahoma, Geneva, sans-serif; color: #ffffff; font-size: 26px; line-height: 30px; text-decoration: none; white-space: nowrap; font-weight: 600;"> <font face="'Source Sans Pro', sans-serif" color="#ffffff" style="font-size: 18px; line-height: 25px; text-decoration: none; white-space: nowrap; font-weight: 400;">
+                                                 <span style="font-family: 'Source Sans Pro', Arial, Verdana, Tahoma, Geneva, sans-serif; color: #ffffff; font-size: 18px; line-height: 25px; text-decoration: none; white-space: nowrap; font-weight: 400;">View Now</span>
                                                  </font>
                                                  </a>
                                               </td>
