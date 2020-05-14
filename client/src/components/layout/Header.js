@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { getCurrentProfile } from '../../actions/profileAction';
 import { createConnection, listenForEvents } from '../../actions/socketActions';
+import { getConversations } from '../../actions/messageActions';
 import workspace_icon from '../../style/inc/work.svg';
 import notif_icon from '../../style/inc/notif.svg';
 import msg_icon from '../../style/inc/msg.svg';
@@ -59,6 +60,7 @@ class Header extends Component {
         this.props.createConnection(this.props.auth).then(() => {
           this.props.listenForEvents(this.props.socket_connection);
         });
+        this.props.getConversations();
       });
     }
   }
@@ -139,6 +141,11 @@ class Header extends Component {
                     src={msg_filled_icon}
                     className='svg_icon icon_active'
                   ></img>
+                  {this.props.unseen_messages ? (
+                    <span className='new-notifs-header'></span>
+                  ) : (
+                    ''
+                  )}
                 </span>
                 <p className='nav-item-text'>Messages</p>
               </NavLink>
@@ -275,6 +282,7 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
   socket_connection: state.socket.socket_connection,
   read_flag: state.notifications.read_flag,
+  unseen_messages: state.message.unseen_messages,
 });
 export default withRouter(
   connect(mapStateToProps, {
@@ -283,5 +291,6 @@ export default withRouter(
     createConnection,
     addToast,
     listenForEvents,
+    getConversations,
   })(Header)
 );

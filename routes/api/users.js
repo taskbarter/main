@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const deafult = require('../../config/default');
 // To send Email
-const nodemailer = require('nodemailer');
 // Load input validation
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
@@ -68,44 +67,6 @@ var sendEmailVerification = function (newUser) {
         email_html,
         email_text
       );
-
-      // var transporter = nodemailer.createTransport({
-      //   service: 'gmail',
-      //   tls: {
-      //     rejectUnauthorized: false,
-      //   },
-      //   auth: {
-      //     type: 'OAuth2',
-      //     user: process.env.EMAIL_ADDRESS,
-      //     clientId: process.env.GMAIL_CLIENT_ID,
-      //     clientSecret: process.env.GMAIL_CLIENT_SECRET,
-      //     refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-      //     accessToken: process.env.GMAIL_ACCESS_TOKEN,
-      //   },
-      // });
-
-      // var mailOptions = {
-      //   from: keys.taskBarterGmail,
-      //   to: newUser.email,
-      //   subject: 'Taskbarter | Verify Your Email',
-      //   text:
-      //     'Verify your email address by clicking on this link: https://www.taskbarter.com/confirmation/' +
-      //     token,
-      //   html: htmlForConfirmation(
-      //     newUser.first_name,
-      //     newUser.second_name,
-      //     newUser.email,
-      //     'https://www.taskbarter.com/confirmation/' + token
-      //   ),
-      // };
-
-      // transporter.sendMail(mailOptions, function (error, info) {
-      //   if (error) {
-      //     console.log(error);
-      //   } else {
-      //     console.log('Email sent: ');
-      //   }
-      // });
     }
   );
 };

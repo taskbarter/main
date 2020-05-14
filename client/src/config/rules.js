@@ -1,4 +1,4 @@
-var validate = function(key, val) {
+var validate = function (key, val) {
   var regex = '';
   if (key === 'email') {
     if (val === '') {
@@ -10,7 +10,7 @@ var validate = function(key, val) {
     }
   }
   if (key === 'fname' || key === 'sname') {
-    regex = /^[a-zA-Z]{3,32}$/;
+    regex = /^[a-zA-Z ]{3,64}$/;
     if (!regex.test(val)) {
       return 'First or Last name is not correctly formated';
     }

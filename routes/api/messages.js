@@ -71,7 +71,7 @@ router.post('/conversation', auth, (req, res) => {
 // @desc Get all conversations
 // @access Private
 
-router.get('/conversations', async (req, res) => {
+router.get('/conversations', auth, async (req, res) => {
   //TODO: Do not get information of current user. It is redundant.
 
   try {
@@ -80,10 +80,10 @@ router.get('/conversations', async (req, res) => {
         $match: {
           $or: [
             {
-              user1: new ObjectId(req.query.u),
+              user1: new ObjectId(req.user.id),
             },
             {
-              user2: new ObjectId(req.query.u),
+              user2: new ObjectId(req.user.id),
             },
           ],
         },
@@ -133,7 +133,35 @@ router.get('/conversations', async (req, res) => {
                 $expr: { $eq: ['$conversation_id', '$$conv_id'] },
               },
             },
-            { $sort: { createdAt: -1 } }, // add sort if needed (for example, if you want first 100 comments by creation date)
+            { $sort: { createdAt: -1 } },
+            { $limit: 1 },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: 'messages',
+          // localField: '_id',
+          // foreignField: 'conversation_id',
+          as: 'unseen_message',
+          let: { conv_id: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$conversation_id', '$$conv_id'] },
+                    {
+                      $eq: ['$seen', false],
+                    },
+                    {
+                      $ne: ['$sender', new ObjectId(req.user.id)],
+                    },
+                  ],
+                },
+              },
+            },
+            { $sort: { createdAt: -1 } },
             { $limit: 1 },
           ],
         },
@@ -162,6 +190,7 @@ router.get('/conversations', async (req, res) => {
             name: 1,
           },
           last_message: 1,
+          unseen_message: 1,
         },
       },
     ]);
@@ -207,6 +236,38 @@ router.get('/', async (req, res) => {
         .status(400)
         .json({ msg: 'Could not find messages for this user.' });
     }
+  }
+});
+
+// @route POST api/messages/readall
+// @desc Read all messages in the convo
+// @access Private
+
+//TODO: IMPORTANT! add auth condition in this API.
+router.post('/readall', auth, async (req, res) => {
+  const conv_id = new ObjectId(req.body.conversation);
+  const sender_id = new ObjectId(req.user.id);
+  try {
+    const readAllMessages = await Message.bulkWrite([
+      {
+        updateMany: {
+          filter: {
+            conversation_id: new ObjectId(conv_id),
+            sender: { $ne: new ObjectId(req.user.id) },
+            seen: false,
+          },
+          update: { seen: true },
+        },
+      },
+    ]);
+    res.json({});
+  } catch (e) {
+    new UserActivity({
+      user_id: req.user.id,
+      activity: `User ran into a problem while reading all messages in a convo.`,
+      payload: JSON.stringify(e.message),
+    }).save();
+    console.log(e);
   }
 });
 

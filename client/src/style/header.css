@@ -179,12 +179,20 @@
 .nav-profile .text {
   padding-right: 0.625rem;
   line-height: 0;
+  height: 35px;
 }
 
 .nav-profile .name {
   font-size: 0.875rem;
   color: #29253d;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 22px;
+  white-space: nowrap;
+  max-width: 100px;
+  padding-top: 8px;
+  margin-bottom: 9px;
 }
 
 .nav-profile .name-sub {
@@ -196,6 +204,7 @@
   align-items: center;
   font-size: 0.75rem;
   color: #788699;
+  margin-top: -4px;
 }
 
 .mob-menu-overlay {
@@ -337,8 +346,11 @@
     display: inline-block;
   }
   .nav-profile .text {
-    padding-right: 6rem;
     line-height: 0;
+    height: 35px;
+    padding-left: 5px;
+    margin-right: -15%;
+    min-width: 90%;
   }
   .profile-menu {
     min-width: 14.4rem;
@@ -358,6 +370,9 @@
     background: #1e1e1e;
     opacity: 0.5;
     transition: background ease 0.2s;
+  }
+  .nav-profile .name {
+    max-width: 80%;
   }
 }
 

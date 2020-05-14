@@ -21,7 +21,7 @@ const {
 } = require('../../constants/state');
 const mongoose = require('mongoose');
 const { addNotification } = require('../../functions/notifications');
-
+const { sendEmailUsingNode } = require('../../functions/sendEmail');
 // @route POST api/tasks/add
 // @desc Add new Task
 // @access Private
@@ -803,14 +803,25 @@ router.post('/sendproposal', auth, async (req, res) => {
       ptask.user,
       `/t/${ptask._id}`
     );
-
     res.json(prop);
 
+    //SAVE USER ACTIVITY
     new UserActivity({
       user_id: req.user.id,
       activity: `User sent a new proposal`,
       payload: JSON.stringify(req.body),
     }).save();
+
+    //SENDING EMAIL NOTIFICATION:
+    const task_owner_user = await User.findById(ptask.user);
+    const task_owner_prof = await PersonalDetails.findOne({ user: ptask.user });
+    sendEmailUsingNode(
+      'New Proposal',
+      task_owner_user.email,
+      `You received a proposal from ${prof.first_name} ${prof.second_name} for your task '${ptask.headline}'.`,
+      task_owner_prof.first_name,
+      task_owner_prof.second_name
+    );
   } catch (err) {
     console.error(err);
     new UserActivity({
@@ -897,6 +908,19 @@ router.post(
           `Work for the task '${pTask.headline}' is on its way.`,
           req.user.id,
           `/w/${tempWork._id}`
+        );
+
+        //SENDING EMAIL NOTIFICATION:
+        const task_receiver_user = await User.findById(pros.user);
+        const task_receiver_prof = await PersonalDetails.findOne({
+          user: pros.user,
+        });
+        sendEmailUsingNode(
+          'Proposal Accepted',
+          task_receiver_user.email,
+          `Congrats, your proposal for the task '${pTask.headline}' has been accepted. Start working now!`,
+          task_receiver_prof.first_name,
+          task_receiver_prof.second_name
         );
       }
 

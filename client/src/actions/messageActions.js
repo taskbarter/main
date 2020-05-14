@@ -1,20 +1,34 @@
-import { SET_CONVERSATIONS, SET_MESSAGES, ADD_MESSAGE } from './types';
+import {
+  SET_CONVERSATIONS,
+  SET_MESSAGES,
+  ADD_MESSAGE,
+  SET_UNSEEN_CONVO,
+} from './types';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import socketIOClient from 'socket.io-client';
 
-export const getConversations = (user_id) => async (dispatch) => {
+export const getConversations = () => async (dispatch) => {
   try {
     const mtok = localStorage.jwtToken;
     if (mtok) {
       setAuthToken(mtok);
     }
-    const res = await axios.get('/api/messages/conversations', {
-      params: { u: user_id },
-    });
+    const res = await axios.get('/api/messages/conversations', {});
     dispatch({
       type: SET_CONVERSATIONS,
       payload: res.data,
+    });
+    let areThereUnseenMessages = false;
+    for (let k in res.data) {
+      if (res.data[k].unseen_message.length) {
+        areThereUnseenMessages = true;
+        break;
+      }
+    }
+    dispatch({
+      type: SET_UNSEEN_CONVO,
+      payload: areThereUnseenMessages,
     });
   } catch (err) {
     dispatch({
@@ -108,4 +122,27 @@ export const addMessage = (conv_id, msg) => async (dispatch) => {
     payload: msg,
     conv_id: conv_id,
   });
+};
+
+export const readAllMessages = (conv_id) => async (dispatch) => {
+  try {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const payload = {
+      conversation: conv_id,
+    };
+
+    const res = await axios.post('/api/messages/readall', payload, config);
+    dispatch(getConversations());
+  } catch (err) {
+    console.log('error', err);
+  }
 };

@@ -19,6 +19,7 @@ import {
   sendMessage,
   getMessages,
   addMessage,
+  readAllMessages,
 } from '../../actions/messageActions';
 
 import { createConnection } from '../../actions/socketActions';
@@ -119,6 +120,7 @@ class Messages extends Component {
       async () => {
         await this.assignConvObj(id);
         this.scrollToBottom();
+        this.props.readAllMessages(id);
       }
     );
   };
@@ -309,4 +311,5 @@ export default connect(mapStateToProps, {
   getMessages,
   addMessage,
   createConnection,
+  readAllMessages,
 })(Messages);

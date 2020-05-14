@@ -61,6 +61,11 @@ const UserList = (props) => {
             <div className='personal-info'>
               <div className='name'>
                 {user.first_name} {user.second_name}
+                {conv.unseen_message.length ? (
+                  <span className='unseen-marker'></span>
+                ) : (
+                  ''
+                )}
               </div>
               <div className='lastmsg'>
                 {conv.last_message[0] !== undefined &&
@@ -73,6 +78,8 @@ const UserList = (props) => {
                   <i>no message</i>
                 )}
               </div>
+
+              <span></span>
             </div>
             <div className='date-icon-block'>
               <div className='date'>

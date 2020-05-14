@@ -1,8 +1,14 @@
-import { SET_CONVERSATIONS, SET_MESSAGES, ADD_MESSAGE } from '../actions/types';
+import {
+  SET_CONVERSATIONS,
+  SET_MESSAGES,
+  ADD_MESSAGE,
+  SET_UNSEEN_CONVO,
+} from '../actions/types';
 import update from 'react-addons-update';
 
 const initialState = {
   conversations: [],
+  unseen_messages: false,
 };
 
 export default function (state = initialState, action) {
@@ -22,6 +28,7 @@ export default function (state = initialState, action) {
         ...state,
         [action.conv_id]: [...state[action.conv_id], action.payload],
       };
+
       return update(state, {
         contents: {
           [action.conv_id]: {
@@ -29,6 +36,11 @@ export default function (state = initialState, action) {
           },
         },
       });
+    case SET_UNSEEN_CONVO:
+      return {
+        ...state,
+        unseen_messages: action.payload,
+      };
     default:
       return state;
   }
