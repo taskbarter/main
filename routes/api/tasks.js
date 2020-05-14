@@ -820,7 +820,7 @@ router.post('/sendproposal', auth, async (req, res) => {
       task_owner_user.email,
       `You received a proposal from ${prof.first_name} ${prof.second_name} for your task '${ptask.headline}'.`,
       task_owner_prof.first_name,
-      task_owner_prof.last_name
+      task_owner_prof.second_name
     );
   } catch (err) {
     console.error(err);
@@ -920,7 +920,7 @@ router.post(
           task_receiver_user.email,
           `Congrats, your proposal for the task '${pTask.headline}' has been accepted. Start working now!`,
           task_receiver_prof.first_name,
-          task_receiver_prof.last_name
+          task_receiver_prof.second_name
         );
       }
 
