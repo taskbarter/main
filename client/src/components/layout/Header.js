@@ -139,6 +139,11 @@ class Header extends Component {
                     src={msg_filled_icon}
                     className='svg_icon icon_active'
                   ></img>
+                  {this.props.unseen_messages ? (
+                    <span className='new-notifs-header'></span>
+                  ) : (
+                    ''
+                  )}
                 </span>
                 <p className='nav-item-text'>Messages</p>
               </NavLink>
@@ -275,6 +280,7 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
   socket_connection: state.socket.socket_connection,
   read_flag: state.notifications.read_flag,
+  unseen_messages: state.message.unseen_messages,
 });
 export default withRouter(
   connect(mapStateToProps, {

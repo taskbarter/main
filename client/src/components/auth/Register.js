@@ -140,10 +140,10 @@ class Register extends Component {
       errMsg: '',
     });
     const newUser = {
-      name: this.state.name.toLowerCase(),
-      fname: this.state.fname,
-      sname: this.state.sname,
-      email: this.state.email,
+      name: this.state.name.trim().toLowerCase(),
+      fname: this.state.fname.trim(),
+      sname: this.state.sname.trim(),
+      email: this.state.email.trim(),
       password: this.state.password,
       password2: this.state.password2,
     };

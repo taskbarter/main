@@ -1,6 +1,7 @@
 import { SET_SOCKET_CONNECTION, RESET_SOCKET_CONNECTION } from './types';
 import socketIOClient from 'socket.io-client';
 import { getNotifications } from './notifActions';
+import { getConversations } from './messageActions';
 import { addToast } from './toasterActions';
 import { Link } from 'react-router-dom';
 import React from 'react';
@@ -32,5 +33,10 @@ export const listenForEvents = (socket) => async (dispatch) => {
       )
     );
     dispatch(getNotifications());
+  });
+
+  socket.on('receive_message', (data) => {
+    dispatch(getConversations());
+    dispatch(addToast('You received a new message!'));
   });
 };
