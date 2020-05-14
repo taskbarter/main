@@ -25,8 +25,10 @@ const AddLinks = (props) => {
   var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
   var regex = new RegExp(expression);
 
-  const linkValid = function (url) {
-    if (url.match(regex) || url === '') {
+  const linkValid = function (url, siteLink) {
+    if (url === '') {
+      return 1;
+    } else if (url.includes(siteLink) && url.match(regex)) {
       return 1;
     } else {
       return 0;
@@ -37,26 +39,27 @@ const AddLinks = (props) => {
     e.preventDefault();
     const form = e.target;
 
-    if (!linkValid(form.elements['youtube'].value)) {
+    if (!linkValid(form.elements['youtube'].value, 'youtube.com')) {
       alert('Invalid Youtube Link');
       return;
     }
-    if (!linkValid(form.elements['twitter'].value)) {
-      alert('Invalid Twitter Link');
-      return;
-    }
-    if (!linkValid(form.elements['facebook'].value)) {
-      alert('Invalid Facebook Link');
-      return;
-    }
-    if (!linkValid(form.elements['linkedin'].value)) {
-      alert('Invalid Linkedin Link');
-      return;
-    }
-    if (!linkValid(form.elements['instagram'].value)) {
-      alert('Invalid Instagram Link');
-      return;
-    }
+
+    // if (!linkValid(form.elements['twitter'].value, 'twitter.com')) {
+    //   alert('Invalid Twitter Link');
+    //   return;
+    // }
+    // if (!linkValid(form.elements['facebook'].value, 'facebook.com')) {
+    //   alert('Invalid Facebook Link');
+    //   return;
+    // }
+    // if (!linkValid(form.elements['linkedin'].value, 'linkedin.com')) {
+    //   alert('Invalid Linkedin Link');
+    //   return;
+    // }
+    // if (!linkValid(form.elements['instagram'].value, 'instagram.com')) {
+    //   alert('Invalid Instagram Link');
+    //   return;
+    // }
 
     let data = {
       youtube: form.elements['youtube'].value,
@@ -99,7 +102,7 @@ const AddLinks = (props) => {
               <input
                 className='form-control profile-edit-col fa-search'
                 type='text'
-                placeholder='Twitter Profile Link'
+                placeholder='Twitter Username'
                 id='inputFirstName'
                 name='twitter'
                 defaultValue={profile.social ? profile.social.twitter : ''}
@@ -112,7 +115,7 @@ const AddLinks = (props) => {
               <input
                 className='form-control profile-edit-col fa-search'
                 type='text'
-                placeholder='Linkedin profile Link'
+                placeholder='Linkedin Username'
                 id='inputFirstName'
                 name='linkedin'
                 defaultValue={profile.social ? profile.social.linkedin : ''}
@@ -125,7 +128,7 @@ const AddLinks = (props) => {
               <input
                 className='form-control profile-edit-col fa-search'
                 type='text'
-                placeholder='Facebook profile Link'
+                placeholder='Facebook Username'
                 id='inputFirstName'
                 name='facebook'
                 defaultValue={profile.social ? profile.social.facebook : ''}
@@ -138,7 +141,7 @@ const AddLinks = (props) => {
               <input
                 className='form-control profile-edit-col fa-search'
                 type='text'
-                placeholder='Instagram profile Link'
+                placeholder='Instagram Username'
                 id='inputFirstName'
                 name='instagram'
                 defaultValue={profile.social ? profile.social.instagram : ''}

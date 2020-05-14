@@ -36,7 +36,11 @@ const LinksBlock = (props) => {
 
         {profile.social.twitter !== undefined &&
         profile.social.twitter !== '' ? (
-          <a className='mx-2' href={profile.social.twitter} target='_blank'>
+          <a
+            className='mx-2'
+            href={'https://www.twitter.com/' + profile.social.twitter}
+            target='_blank'
+          >
             <i className='fab fa-twitter'></i>
           </a>
         ) : (
@@ -45,7 +49,11 @@ const LinksBlock = (props) => {
 
         {profile.social.facebook !== undefined &&
         profile.social.facebook !== '' ? (
-          <a className='mx-2' href={profile.social.facebook} target='_blank'>
+          <a
+            className='mx-2'
+            href={'https://www.facebook.com/' + profile.social.facebook}
+            target='_blank'
+          >
             <i className='fab fa-facebook'></i>
           </a>
         ) : (
@@ -53,7 +61,11 @@ const LinksBlock = (props) => {
         )}
         {profile.social.linkedin !== undefined &&
         profile.social.linkedin !== '' ? (
-          <a className='mx-2' href={profile.social.linkedin} target='_blank'>
+          <a
+            className='mx-2'
+            href={'https://www.linkedin.com/in/' + profile.social.linkedin}
+            target='_blank'
+          >
             <i className='fab fa-linkedin'></i>
           </a>
         ) : (
@@ -61,7 +73,11 @@ const LinksBlock = (props) => {
         )}
         {profile.social.instagram !== undefined &&
         profile.social.instagram !== '' ? (
-          <a className='mx-2' href={profile.social.instagram} target='_blank'>
+          <a
+            className='mx-2'
+            href={'https://www.instagram.com/' + profile.social.instagram}
+            target='_blank'
+          >
             <i className='fab fa-instagram-square'></i>
           </a>
         ) : (
