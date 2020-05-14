@@ -38,7 +38,7 @@ const sendEmailUsingNode = async (subject, to_email, text, fname, lname) => {
       },
       auth: {
         type: 'OAuth2',
-        user: process.env.EMAIL_ADDRESS,
+        user: 'taskbarter@gmail.com',
         clientId: process.env.GMAIL_CLIENT_ID,
         clientSecret: process.env.GMAIL_CLIENT_SECRET,
         refreshToken: process.env.GMAIL_REFRESH_TOKEN,
@@ -47,7 +47,7 @@ const sendEmailUsingNode = async (subject, to_email, text, fname, lname) => {
     });
 
     var mailOptions = {
-      from: keys.taskBarterGmail,
+      from: 'taskbarter@gmail.com',
       to: to_email,
       subject: 'Taskbarter | ' + subject,
       text: text,
