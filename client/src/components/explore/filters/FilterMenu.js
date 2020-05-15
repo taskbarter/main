@@ -39,12 +39,12 @@ const FilterMenu = (props) => {
             onApply={props.onCategoryFilterApply}
           />
 
-          <Input disabled={true} type='select' className='sort-dropdown'>
+          {/* <Input disabled={true} type='select' className='sort-dropdown'>
             <option>Newest</option>
             <option>Recommended</option>
             <option>Saved</option>
             <option>Applied</option>
-          </Input>
+          </Input> */}
         </div>
       </div>
     </React.Fragment>
