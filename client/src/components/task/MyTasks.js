@@ -21,6 +21,7 @@ import {
   fetchTask,
   fetchProposals,
   deleteTask,
+  changeProposalState,
 } from '../../actions/taskAction';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
@@ -84,6 +85,7 @@ class MyTasks extends Component {
       {
         task: task,
         loading: true,
+        selected_task: task._id,
       },
       () => {
         if (this.props.auth.user.id === task.user) {
@@ -111,7 +113,7 @@ class MyTasks extends Component {
   };
   deleteTaskFromPopup = () => {
     this.props.deleteTask(this.state.deleteTaskID);
-    this.onTabChange(this.selectedTab);
+    this.onTabChange(this.state.selectedTab);
   };
 
   onChangeProposalState = (prop_id, new_state) => {
@@ -129,6 +131,7 @@ class MyTasks extends Component {
                   task: fetched_task,
                   loading: false,
                 });
+                this.onTabChange(this.state.selectedTab);
               });
           }
         );
@@ -277,4 +280,5 @@ export default connect(mapStateToProps, {
   fetchTask,
   fetchProposals,
   deleteTask,
+  changeProposalState,
 })(MyTasks);

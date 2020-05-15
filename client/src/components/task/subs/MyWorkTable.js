@@ -18,11 +18,7 @@ const MyWorkTable = (props) => {
               </td>
 
               <Link className='clear-a' to={`/w/${task._id}`}>
-                <td>
-                  <a href='#'>
-                    I want someone to {task.taskDetails[0].headline}
-                  </a>
-                </td>
+                <td>I want someone to {task.taskDetails[0].headline}</td>
               </Link>
               <th>{task.taskDetails[0].taskpoints}</th>
               <td>{new Date(task.updatedAt).toDateString()}</td>
