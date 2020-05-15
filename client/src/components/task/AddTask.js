@@ -268,7 +268,7 @@ class AddTask extends Component {
       return false;
     } else {
       const newTask = {
-        headline: this.state.headline,
+        headline: this.state.headline.trim(),
         description: this.state.quillObj.root.innerHTML,
         duration: this.state.duration,
         category: this.state.category,
