@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { fetchTask } from '../../../actions/taskAction';
+import { Link } from 'react-router-dom';
 
 const MsgItem = (props) => {
   const MessageTypeException = (msg) => {
@@ -13,14 +14,17 @@ const MsgItem = (props) => {
       const payload_obj = JSON.parse(msg.content_payload);
       return (
         <div>
-          <div className='task-list-title'>Proposal</div>
-          <div className='task-prop-task'>
-            <span className='task-prop-title'>Task: </span> I want someone to{' '}
-            {payload_obj.task_headline}
-            <br />
-            <span className='task-prop-title'>Points: </span>
-            {payload_obj.task_points}
-          </div>
+          <div className='task-list-title msg-proposal-title'>New Proposal</div>
+          <Link className='clear-a' to={`/t/${payload_obj.task_id}`}>
+            <div className='task-prop-task'>
+              <span className='task-prop-title'>Task: </span> I want someone to{' '}
+              {payload_obj.task_headline}
+              <br />
+              <span className='task-prop-title'>Points: </span>
+              {payload_obj.task_points}
+              <div className='view-task-btn'>View Task</div>
+            </div>
+          </Link>
         </div>
       );
     }

@@ -1,7 +1,8 @@
 .darktheme,
 .darktheme .description-editor .ql-toolbar.ql-snow,
 .darktheme .msg-container,
-.darktheme .ReactModal__Content {
+.darktheme .ReactModal__Content,
+.darktheme .msg-right .msg-proposal-title {
   background: #27292d !important;
   color: white;
 }
@@ -114,7 +115,8 @@
 .darktheme .add-task-btn,
 .darktheme .confirm-button,
 .darktheme .chat-typing-container .chat-send-btn,
-.darktheme .tick-mark-completion {
+.darktheme .tick-mark-completion,
+.darktheme .msg-proposal-title {
   background: #6558b1;
 }
 
