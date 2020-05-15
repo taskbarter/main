@@ -58,6 +58,12 @@ const ProposalForm = (props) => {
           value={props.proposal_text}
           onChange={props.changeProposalText}
         />
+        <div className='mt-3' style={{ opacity: '0.85' }}>
+          <strong>Tips:</strong> Write an introduction to your skills and how
+          they align with the task. You can negotiate the points or the task
+          duration with the task owner. Write some questions if you have
+          confusions.
+        </div>
       </ModalBody>
       <ModalFooter>
         <button
