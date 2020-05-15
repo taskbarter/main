@@ -24,6 +24,7 @@ import 'quill/dist/quill.snow.css';
 import TaskCardSkeleton from '../task/subs/TaskCardSkeleton';
 import FilterInfo from './filters/FilterInfo';
 import cloneDeep from 'lodash/cloneDeep';
+import MetaTags from 'react-meta-tags';
 
 class ExploreTasks extends Component {
   constructor(props) {
@@ -414,6 +415,9 @@ class ExploreTasks extends Component {
           modal={this.state.share_popup_is_open}
           task={this.state.task_payload}
         />{' '}
+        <MetaTags>
+          <title>Explore Tasks | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

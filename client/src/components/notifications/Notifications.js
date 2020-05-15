@@ -14,6 +14,7 @@ import {
   readAllNotifications,
 } from '../../actions/notifActions';
 import TLoader from '../utils/TLoader';
+import MetaTags from 'react-meta-tags';
 
 class Notifications extends Component {
   constructor() {
@@ -62,6 +63,9 @@ class Notifications extends Component {
             })}
           </div>
         </div>
+        <MetaTags>
+          <title>Notifications | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

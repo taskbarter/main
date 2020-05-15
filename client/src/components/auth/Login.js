@@ -6,6 +6,7 @@ import { loginUser, loginUsingToken } from '../../actions/authActions';
 import logo from '../../TaskBarterLogo_Transparent.png';
 import GoogleLogin from './subs/GoogleLogin';
 import FacebookLogin from './subs/FacebookLogin';
+import MetaTags from 'react-meta-tags';
 
 class Login extends Component {
   constructor() {
@@ -206,6 +207,10 @@ class Login extends Component {
             <Link to='/privacy-policy'>Privacy Policy</Link> page.
           </p>
         </form>
+
+        <MetaTags>
+          <title>Login | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

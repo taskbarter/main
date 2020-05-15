@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import MyWorkTabs from './subs/MyWorkTabs';
 import MyWorkTable from './subs/MyWorkTable';
 import ProposalList from './subs/ProposalList';
-import DeleteTask from './subs/DeleteTask';
+import MetaTags from 'react-meta-tags';
 
 class MyWork extends Component {
   constructor() {
@@ -137,6 +137,9 @@ class MyWork extends Component {
           proposals={this.state.proposals}
           onChangeProposalState={this.onChangeProposalState}
         />
+        <MetaTags>
+          <title>My Work | Taskbarter</title>
+        </MetaTags>
       </React.Fragment>
     );
   }

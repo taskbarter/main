@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormGroup, CustomInput } from 'reactstrap';
+import MetaTags from 'react-meta-tags';
 
 class Settings extends Component {
   constructor() {
@@ -91,6 +92,9 @@ class Settings extends Component {
             * Changing this info is not yet available.
           </div>
         </div>
+        <MetaTags>
+          <title>Settings | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

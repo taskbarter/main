@@ -3,7 +3,7 @@ import Footer from '../layout/Footer';
 import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-
+import MetaTags from 'react-meta-tags';
 class PrivacyPolicy extends Component {
   render() {
     return (
@@ -190,6 +190,9 @@ class PrivacyPolicy extends Component {
           </p>
         </div>
         <Footer />
+        <MetaTags>
+          <title>Privacy Policy | Taskbarter</title>
+        </MetaTags>
       </React.Fragment>
     );
   }

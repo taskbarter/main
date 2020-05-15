@@ -29,6 +29,7 @@ import TaskUpdateItem from './subs/TaskUpdateItem';
 import { createConnection } from '../../actions/socketActions';
 import FeedbackForm from './subs/FeedbackForm';
 import FeedbackUpdateCard from './subs/FeedbackUpdateCard';
+import MetaTags from 'react-meta-tags';
 
 class Work extends Component {
   constructor(props) {
@@ -299,6 +300,7 @@ class Work extends Component {
                 onAcceptWork={this.onAcceptWork}
                 isFeedbackAllowed={this.state.is_feedback_allowed}
                 feedback_toggle={this.feedback_toggle}
+                task_points={task.taskpoints}
               />
             </div>
             <div className='col-md-8 order-md-1'>
@@ -308,7 +310,8 @@ class Work extends Component {
                 <div className='dt-added-on'>
                   Posted{' '}
                   <span className='dt-date'>{moment(task.date).fromNow()}</span>{' '}
-                  by {assignee.first_name} {assignee.second_name}
+                  by {assignee.first_name} {assignee.second_name} |{' '}
+                  <strong>{task.taskpoints}</strong> Pts
                 </div>
 
                 <div className='mt-3'>
@@ -388,6 +391,10 @@ class Work extends Component {
           onFeedbackSubmit={this.onFeedbackSubmit}
           feedback_submitting_state={this.state.feedback_submitting_state}
         />
+
+        <MetaTags>
+          <title>Work of '{task.headline}' | Taskbarter</title>
+        </MetaTags>
       </React.Fragment>
     );
   }

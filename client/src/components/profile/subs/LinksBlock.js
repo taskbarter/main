@@ -15,7 +15,7 @@ const LinksBlock = (props) => {
         Links
         <button
           onClick={props.addModal}
-          style={{ marginLeft: '-23px' }}
+          style={{ marginLeft: '-40px' }}
           className='btn notification-btn float-right'
         >
           Edit

@@ -11,6 +11,7 @@ import arrows from '../../style/inc/arrows.png';
 import { connect } from 'react-redux';
 import '../../style/landingv3.css';
 import '../../style/aos.css';
+import MetaTags from 'react-meta-tags';
 
 class Landingv3 extends Component {
   constructor(props) {
@@ -271,6 +272,9 @@ class Landingv3 extends Component {
             </div>
           </div>
         </div>
+        <MetaTags>
+          <title>Taskbarter | Exchange tasks for free!</title>
+        </MetaTags>
       </div>
     );
   }

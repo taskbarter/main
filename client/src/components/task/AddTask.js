@@ -16,6 +16,7 @@ import DescriptionEditor from './subs/DescriptionEditor';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
 import { Link } from 'react-router-dom';
+import MetaTags from 'react-meta-tags';
 
 class AddTask extends Component {
   constructor() {
@@ -543,6 +544,10 @@ class AddTask extends Component {
           </div>
         </main>
         <Footer />
+
+        <MetaTags>
+          <title>Add New Task | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

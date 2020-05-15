@@ -29,6 +29,7 @@ import MyTasksTabs from './subs/MyTasksTabs';
 import MyTasksTable from './subs/MyTasksTable';
 import ProposalList from './subs/ProposalList';
 import DeleteTask from './subs/DeleteTask';
+import MetaTags from 'react-meta-tags';
 
 class MyTasks extends Component {
   constructor() {
@@ -256,6 +257,10 @@ class MyTasks extends Component {
           closeModal={this.closeDeleteTaskPopup}
           deleteTask={this.deleteTaskFromPopup}
         />
+
+        <MetaTags>
+          <title>My Tasks | Taskbarter</title>
+        </MetaTags>
       </React.Fragment>
     );
   }

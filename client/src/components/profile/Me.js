@@ -32,6 +32,7 @@ import AddSkills from './edit/AddSkills';
 import AddLinks from './edit/AddLinks';
 import moment from 'moment';
 import TLoader from '../utils/TLoader';
+import MetaTags from 'react-meta-tags';
 
 class Me extends Component {
   constructor(props) {
@@ -398,6 +399,9 @@ class Me extends Component {
           onFromChanged={this.onFromChanged}
           onToChanged={this.onToChanged}
         />
+        <MetaTags>
+          <title>Your Profile | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

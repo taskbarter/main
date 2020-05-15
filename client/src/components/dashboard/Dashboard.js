@@ -17,6 +17,7 @@ import TasksToDo from './TasksToDo';
 import { getNotifications } from '../../actions/notifActions';
 import Barter from './Barter';
 import { getCurrentProfileRatings } from '../../actions/profileAction';
+import MetaTags from 'react-meta-tags';
 
 class Dashboard extends Component {
   onLogoutClick = (e) => {
@@ -64,6 +65,9 @@ class Dashboard extends Component {
           </div>
         </main>
         <Footer />
+        <MetaTags>
+          <title>Dashboard | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

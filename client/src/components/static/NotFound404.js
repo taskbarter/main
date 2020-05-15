@@ -4,7 +4,7 @@ import HeaderOnlyLogo from '../layout/HeaderOnlyLogo';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import vector_404 from '../../style/inc/vector_404.svg';
-
+import MetaTags from 'react-meta-tags';
 class NotFound404 extends Component {
   render() {
     return (
@@ -20,6 +20,9 @@ class NotFound404 extends Component {
           </Link>
         </div>
         <Footer />
+        <MetaTags>
+          <title>Not Found | Taskbarter</title>
+        </MetaTags>
       </React.Fragment>
     );
   }

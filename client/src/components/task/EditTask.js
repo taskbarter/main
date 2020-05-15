@@ -23,6 +23,7 @@ import find from 'lodash/find';
 import TLoader from '../utils/TLoader';
 import EditTaskAction from './subs/EditTaskAction';
 import { Link } from 'react-router-dom';
+import MetaTags from 'react-meta-tags';
 
 class EditTask extends Component {
   constructor() {
@@ -612,6 +613,9 @@ class EditTask extends Component {
           </div>
         </main>
         <Footer />
+        <MetaTags>
+          <title>Edit Task | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

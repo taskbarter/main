@@ -12,7 +12,7 @@ import UserList from './subs/UserList';
 import ChatHeader from './subs/ChatHeader';
 import ChatTextArea from './subs/ChatTextArea';
 import ChatMessages from './subs/ChatMessages';
-
+import MetaTags from 'react-meta-tags';
 import {
   getConversations,
   createConversation,
@@ -293,6 +293,9 @@ class Messages extends Component {
             onMessageSend={this.onMessageSend}
           />
         </div>
+        <MetaTags>
+          <title>Messages | Taskbarter</title>
+        </MetaTags>
       </div>
     );
   }

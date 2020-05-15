@@ -53,6 +53,8 @@ const WorkAction = (props) => {
     </div>
   );
 
+  const points_card = '';
+
   //if the work is completed.
   if (props.last_status === 3) {
     return (
@@ -75,6 +77,7 @@ const WorkAction = (props) => {
             ''
           )}
         </div>
+        {points_card}
         {user_info}
       </React.Fragment>
     );
@@ -127,7 +130,7 @@ const WorkAction = (props) => {
           </button>
         )}
       </div>
-
+      {points_card}
       {user_info}
     </React.Fragment>
   );
