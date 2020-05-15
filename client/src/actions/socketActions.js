@@ -37,6 +37,8 @@ export const listenForEvents = (socket) => async (dispatch) => {
 
   socket.on('receive_message', (data) => {
     dispatch(getConversations());
-    dispatch(addToast('You received a new message!'));
+
+    if (!window.location.href.includes('/messages'))
+      dispatch(addToast('You received a new message!'));
   });
 };
