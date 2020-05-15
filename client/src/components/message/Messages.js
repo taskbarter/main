@@ -38,6 +38,7 @@ class Messages extends Component {
       search_convos_text: '',
       filtered_convos: [],
       convo_loading: false,
+      sending_state: false,
     };
   }
   componentDidMount() {
@@ -179,39 +180,47 @@ class Messages extends Component {
         : this.state.conv_obj.user1;
 
     if (msg_text !== '') {
-      let data = {
-        text: this.state.current_message,
-        to: other_user,
-        conv_id: this.state.selected_convo,
-        sender: this.props.auth.user.id,
-        createdAt: Date.now(),
-      };
+      this.setState(
+        {
+          sending_state: true,
+        },
+        () => {
+          let data = {
+            text: this.state.current_message,
+            to: other_user,
+            conv_id: this.state.selected_convo,
+            sender: this.props.auth.user.id,
+            createdAt: Date.now(),
+          };
 
-      let payload = {
-        text: this.state.current_message,
-        current_user: this.props.auth.user.id,
-        conv_id: this.state.selected_convo,
-      };
+          let payload = {
+            text: this.state.current_message,
+            current_user: this.props.auth.user.id,
+            conv_id: this.state.selected_convo,
+          };
 
-      let payload2 = {
-        text: this.state.current_message,
-        sender: this.props.auth.user.id,
-        createdAt: Date.now(),
-        conv_id: this.state.selected_convo,
-      };
+          let payload2 = {
+            text: this.state.current_message,
+            sender: this.props.auth.user.id,
+            createdAt: Date.now(),
+            conv_id: this.state.selected_convo,
+          };
 
-      this.props.sendMessage(payload).then(() => {
-        this.props.addMessage(this.state.selected_convo, payload2);
-        this.setState({}, () => {
-          this.setState({
-            current_message: '',
+          this.props.sendMessage(payload).then(() => {
+            this.props.addMessage(this.state.selected_convo, payload2);
+            this.setState({}, () => {
+              this.setState({
+                current_message: '',
+                sending_state: false,
+              });
+              this.scrollToBottom();
+              this.refreshConversations();
+            });
           });
-          this.scrollToBottom();
-          this.refreshConversations();
-        });
-      });
-      if (this.props.socket_connection)
-        this.props.socket_connection.emit('send_message', data);
+          if (this.props.socket_connection)
+            this.props.socket_connection.emit('send_message', data);
+        }
+      );
     }
   };
 
@@ -291,6 +300,7 @@ class Messages extends Component {
             onMessageType={this.onMessageType}
             selected_convo={this.state.selected_convo}
             onMessageSend={this.onMessageSend}
+            sending_state={this.state.sending_state}
           />
         </div>
         <MetaTags>

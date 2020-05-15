@@ -19,13 +19,13 @@ const ChatTextArea = (props) => {
               className='form-control chat-editor'
               placeholder='enter message...'
               rows='2'
-              disabled={props.selected_convo === ''}
+              disabled={props.selected_convo === '' || props.sending_state}
             />
           </div>
           <div className='msg-send-container'>
             <button
               className='btn chat-send-btn'
-              disabled={props.selected_convo === ''}
+              disabled={props.selected_convo === '' || props.sending_state}
               onClick={props.onMessageSend}
             >
               Send
