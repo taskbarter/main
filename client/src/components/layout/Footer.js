@@ -4,7 +4,13 @@ const Footer = (props) => {
   return (
     <div className='footer container row'>
       <span className='footer-copyrights col-md-4'>
-        © 2020 Taskbarter. All Rights Reserved.
+        © 2020 Taskbarter. All Rights Reserved.{' '}
+        <a
+          href='https://docs.taskbarter.com/about-release/changelog'
+          target='_blank'
+        >
+          Alpha v0.1.3
+        </a>
       </span>
       <span className='footer-links col-md-4 ml-auto'>
         <a href='https://docs.taskbarter.com/'>About</a>
