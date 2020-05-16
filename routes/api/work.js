@@ -186,7 +186,9 @@ router.post('/update', auth, async (req, res) => {
 
       //SENDING EMAIL NOTIFICATION:
       const task_owner_user = await User.findById(other_user);
-      const task_owner_prof = pUserDetails;
+      const task_owner_prof = await PersonalDetails.findOne({
+        user: mongoose.Types.ObjectId(other_user),
+      });
       sendEmailUsingNode(
         'Congrats! Work Accepted',
         task_owner_user.email,
@@ -205,7 +207,9 @@ router.post('/update', auth, async (req, res) => {
 
       //SENDING EMAIL NOTIFICATION:
       const task_owner_user = await User.findById(other_user);
-      const task_owner_prof = pUserDetails;
+      const task_owner_prof = await PersonalDetails.findOne({
+        user: mongoose.Types.ObjectId(other_user),
+      });
       sendEmailUsingNode(
         'Oh No! Work Rejected',
         task_owner_user.email,
@@ -224,7 +228,9 @@ router.post('/update', auth, async (req, res) => {
 
       //SENDING EMAIL NOTIFICATION:
       const task_owner_user = await User.findById(other_user);
-      const task_owner_prof = pUserDetails;
+      const task_owner_prof = await PersonalDetails.findOne({
+        user: mongoose.Types.ObjectId(other_user),
+      });
       sendEmailUsingNode(
         'Work Submitted. Please Review',
         task_owner_user.email,
@@ -243,7 +249,9 @@ router.post('/update', auth, async (req, res) => {
 
       //SENDING EMAIL NOTIFICATION:
       const task_owner_user = await User.findById(other_user);
-      const task_owner_prof = pUserDetails;
+      const task_owner_prof = await PersonalDetails.findOne({
+        user: mongoose.Types.ObjectId(other_user),
+      });
       sendEmailUsingNode(
         'New Work Update',
         task_owner_user.email,
