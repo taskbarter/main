@@ -263,6 +263,11 @@ class Header extends Component {
               <span className='navbar-toggler-icon'>
                 <i className='fas fa-bars' />
               </span>
+              {this.props.unseen_messages || !this.props.read_flag ? (
+                <span className='new-notifs-header new-notifs-mobile'></span>
+              ) : (
+                ''
+              )}
             </a>
           </div>
         </header>

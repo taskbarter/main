@@ -695,3 +695,14 @@
   margin-top: -28px;
   margin-left: 22px;
 }
+
+.new-notifs-mobile {
+  margin-top: 2px;
+  margin-left: -19px;
+}
+
+@media only screen and (min-width: 63.9375em) {
+  .new-notifs-mobile {
+    display: none;
+  }
+}
