@@ -40,8 +40,12 @@ router.post('/add', auth, async (req, res) => {
 
   const currentPoints = profile.pointsEarned - profile.pointsSpent;
 
-  if (currentPoints < req.body.points) {
+  if (currentPoints < parseInt(req.body.points)) {
     return res.status(500).send('Insufficient balance.');
+  }
+
+  if (parseInt(req.body.points) < 1) {
+    return res.status(500).send('You cannot add a task with 0 points.');
   }
 
   profile.pointsSpent =
