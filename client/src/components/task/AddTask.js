@@ -29,7 +29,7 @@ class AddTask extends Component {
       duration: '',
       category: '',
       skills: '',
-      points: 0,
+      points: 1,
       errors: {},
       points_for_task: 1,
       error: {
@@ -85,10 +85,21 @@ class AddTask extends Component {
     //   document.getElementById(e.target.id).classList.add('is-valid');
     // }
     this.setState({ [e.target.id]: e.target.value }); // same is req to work
-    if (e.target.id === 'points' && parseInt(e.target.value) < 1) {
-      this.setState({ points_for_task: 1 });
+    if (
+      e.target.id === 'points' &&
+      (parseInt(e.target.value) < 1 || e.target.value === '')
+    ) {
+      this.setState({ points_for_task: 1, points: 1 });
     } else if (e.target.id === 'points' && parseInt(e.target.value) < 40) {
-      this.setState({ points_for_task: parseInt(e.target.value) });
+      this.setState({
+        points_for_task: parseInt(e.target.value),
+        points: parseInt(e.target.value),
+      });
+    } else if (e.target.id === 'points') {
+      this.setState({
+        points_for_task: 40,
+        points: 40,
+      });
     }
 
     if (e.target.id === 'skills') {
@@ -300,6 +311,7 @@ class AddTask extends Component {
                   msg: 'Some error occurred in the backend.',
                   type: 0,
                 },
+                sending_state: false,
               });
             }
           });
