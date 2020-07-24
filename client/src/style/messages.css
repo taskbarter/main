@@ -10,6 +10,7 @@
   flex-flow: row nowrap;
   overflow: hidden;
   height: -webkit-fill-available;
+      max-height: 91vh;
 }
 
 .msg-container .conversations {
