@@ -837,7 +837,7 @@
     position: fixed;
     max-width: 400px;
     right: inherit;
-    left: 61%;
+    left: calc(50vw + 171px);
   }
 }
 
