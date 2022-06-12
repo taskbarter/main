@@ -22,4 +22,4 @@ Fullstack developer responsible for user accounts, profiles and account security
 **Changelog**: [Link](https://docs.taskbarter.com/about-release/changelog)
 
 ### Want to contribute?
-If you want to be a part of our production team, email us at **taskbarter@gmail.com**
+If you want to be a part of our production team, email us at **taskbarter@gmail.com** or [mohsinhayat104@gmail.com](mailto:mohsinhayat104@gmail.com)
