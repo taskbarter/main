@@ -51,7 +51,7 @@
     "passport-jwt": "^4.0.0",
     "react-phone-code": "0.0.4",
     "react-scripts": "^3.3.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.5.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
