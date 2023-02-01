@@ -43,7 +43,7 @@
     "http": "0.0.1-security",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.7.5",
+    "mongoose": "^5.13.15",
     "nodemailer": "^6.2.1",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
